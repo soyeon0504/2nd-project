@@ -1,7 +1,11 @@
 import React from "react";
-
+import Layout from "../../layouts/Layout";
 const PayPage = () => {
-  return <div>PayPage</div>;
+  return (
+    <Layout>
+      <div>PayPage</div>;
+    </Layout>
+  );
 };
 
 export default PayPage;
