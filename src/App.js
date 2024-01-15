@@ -2,7 +2,9 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Loading from "./components/loading/Loading";
 
+const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
+const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
@@ -34,10 +36,26 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/join/"
+          path="/join/1"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinFirstPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/join/2"
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/join/3"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinLastPage />
             </Suspense>
           }
         ></Route>
