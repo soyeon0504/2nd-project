@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import Loading from "./components/loading/Loading";
 
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
