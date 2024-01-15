@@ -4,7 +4,7 @@ import Layout from "../../layouts/Layout";
 const MainPage = () => {
   return (
     <Layout>
-      <h1>MainPage</h1>
+      <h1>똥</h1>
     </Layout>
   );
 };
