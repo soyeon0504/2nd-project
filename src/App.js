@@ -13,6 +13,7 @@ const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
 const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
+const Lazyprod = lazy(() => import("./pages/prod/Products"));
 const App = () => {
   return (
     <BrowserRouter>
@@ -62,6 +63,14 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyPayPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/prod/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Lazyprod />
             </Suspense>
           }
         ></Route>
