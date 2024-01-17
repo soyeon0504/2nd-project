@@ -15,14 +15,17 @@ const LazyAddEditPage = lazy(() => import("./pages/addedit/AddEditPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
+const LazyMainMorePage = lazy(() => import("./pages/main/MainMore"));
+
+const LazyDetailsPage = lazy(() => import("./pages/details/DetailsPage"));
+
 const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
 const Lazyprod = lazy(() => import("./pages/prod/Products"));
+
 const App = () => {
   return (
     <BrowserRouter>
-
-
       <Routes>
         <Route
           path="main"
@@ -32,6 +35,16 @@ const App = () => {
             </Suspense>
           }
         ></Route>
+
+        <Route
+          path="main/more"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMainMorePage />
+            </Suspense>
+          }
+        ></Route>
+
         <Route
           path="/login"
           element={
@@ -45,6 +58,30 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/join/1"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinFirstPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/join/2"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/join/3"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinLastPage />
             </Suspense>
           }
         ></Route>
@@ -80,8 +117,15 @@ const App = () => {
             </Suspense>
           }
         ></Route>
+        <Route
+          path="/details/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyDetailsPage />
+            </Suspense>
+          }
+        ></Route>
       </Routes>
-
     </BrowserRouter>
   );
 };
