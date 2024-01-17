@@ -1,11 +1,17 @@
 import styled from "@emotion/styled";
 import React from "react";
-
+const Wrap = styled.div`
+  width: 1980px;
+  text-align: center;
+  margin: 0 auto;
+`;
 const Header = () => {
   const HeaderStyle = styled.div`
     width: 1300px;
+    text-align: center;
+    margin: 0 auto;
     .header-top {
-      /* margin: 30px auto; */
+      margin: 30px auto;
       display: flex;
       gap: 130px;
     }
@@ -99,7 +105,7 @@ const Header = () => {
     width: 540px;
     height: 310px;
     border: 1px solid #2c39b5;
-    /* display: none; */
+    display: none;
     .main-menu {
       list-style: none;
     }
@@ -138,6 +144,7 @@ const Header = () => {
     width: 150px;
     padding: 20px;
     border: 1px solid #2c39b5;
+    display: none;
     .CategoryTabSub {
       margin-bottom: 20px;
       color: #777;
@@ -149,7 +156,7 @@ const Header = () => {
     }
   `;
   return (
-    <>
+    <Wrap>
       <HeaderStyle>
         <div className="header-top">
           <div className="header-logo"></div>
@@ -239,7 +246,7 @@ const Header = () => {
         <div className="CategoryTabSub">XBOX</div>
         <div className="CategoryTabSub">기타</div>
       </CategoryTab>
-    </>
+    </Wrap>
   );
 };
 
