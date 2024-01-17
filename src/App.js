@@ -21,6 +21,8 @@ const Lazyprod = lazy(() => import("./pages/prod/Products"));
 const App = () => {
   return (
     <BrowserRouter>
+
+
       <Routes>
         <Route
           path="main"
@@ -79,6 +81,7 @@ const App = () => {
           }
         ></Route>
       </Routes>
+
     </BrowserRouter>
   );
 };
