@@ -4,10 +4,10 @@ import styled from "@emotion/styled";
 
 const JoinLastPage = () => {
   const JoinLastPageStyle = styled.div`
-    width: 1980px;
+    width: 1300px;
     text-align: center;
     margin: 0 auto;
-    background: skyblue;
+    /* background: skyblue; */
   `;
   const JoinHeader = styled.div`
     margin-top: 70px;
@@ -60,6 +60,7 @@ const JoinLastPage = () => {
     height: 50px;
     border-radius: 10px;
     background: #2c39b5;
+    border: none;
 
     color: #fff;
     font-family: Inter;
@@ -71,7 +72,7 @@ const JoinLastPage = () => {
     margin-bottom: 160px;
   `;
   return (
-    //<Layout>
+    <Layout>
     <JoinLastPageStyle>
       <JoinHeader>
         <p>회원가입</p>
@@ -84,7 +85,7 @@ const JoinLastPage = () => {
       </WelcomeBox>
       <LoginBt>LOGIN</LoginBt>
     </JoinLastPageStyle>
-    //</Layout>
+    </Layout>
   );
 };
 
