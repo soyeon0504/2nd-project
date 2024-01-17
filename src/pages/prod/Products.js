@@ -1,5 +1,7 @@
-import { DatePicker } from "antd";
+import { DatePicker, List } from "antd";
 import React, { useEffect, useState } from "react";
+import { BtWrap, GoodsWrap, H1p, ListSrc, Red, Star, UlBt } from "../../styles/productsStyle";
+
 
 const initState = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -34,102 +36,127 @@ const Products = () => {
     // 상태 업데이트
     setSelectCate(num);
   };
+
   return (
-    <div>
-      <form>
-        <label htmlFor="picture">
-          <p>사진</p> <p>*</p> <p>0/10</p>
-        </label>
-        <input type="file" accept="jpg,svg" name="picture" id="picture" />
-        {image && (
-          <img src={image} alt="Preview" style={{ maxWidth: "100%" }} />
-        )}
-        <ladel htmlFor="jepum">
-          <p>상품명</p> <p>*</p>
-        </ladel>
-        <input
-          type="text"
-          name="jepum"
-          id="jepum"
-          placeholder="상품을 입력해주세요"
-        />
-        <div>
-          <button type="button" onClick={() => handleButtonClick(0)}>
-            스마트기기
-          </button>
-          <button type="button" onClick={() => handleButtonClick(1)}>
-            pc/노트북
-          </button>
-          <button type="button" onClick={() => handleButtonClick(2)}>
-            영상카메라
-          </button>
-          <button type="button" onClick={() => handleButtonClick(3)}>
-            음향
-          </button>
-          <button type="button" onClick={() => handleButtonClick(4)}>
-            게임 기기
-          </button>
-        </div>
-        <div>
-          <ul>
-            {goods.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <label htmlFor="price">
-          <p>대여가격</p>
-          <p>*</p>
-        </label>
-        <input
-          type="text"
-          placeholder="₩ 대여 가격"
-          name="price"
-          id="price"
-        ></input>
-        <p>상품내용</p>
-        <p>*</p>
-        <input
-          type="text"
-          placeholder="구매시기,브랜드/모델명,제품의 상태(사용감,하자유무를)등 입력 해주세요"
-        ></input>
-        <ladel htmlFor="amount">
-          <p>보증금</p>
-          <p>*</p>
-        </ladel>
-        <input
-          type="text"
-          placeholder="원금의 30~50% / 원금을 적으면 금액선정이 자동으로 됩니다. "
-          name="amount"
-          id="amount"
-        />
-        <ladel htmlFor="days">
-          <p>제품구매일</p>
-          <p>*</p>
-        </ladel>
-        {/* <input
+    <GoodsWrap>
+      <div>기본정보</div>
+      <div>
+        <form>
+          <label htmlFor="picture">
+            <List>사진</List> <Star>*</Star><p>0/10</p>
+          </label>
+          <input type="file" accept="jpg,svg" name="picture" id="picture" />
+          {image && (
+            <img src={image} alt="Preview" style={{ maxWidth: "100%" }} />
+          )}
+          <ladel htmlFor="jepum">
+            <List>상품명</List> <Star>*</Star>
+          </ladel>
+          <input
+            type="text"
+            name="jepum"
+            id="jepum"
+            placeholder="상품을 입력해주세요"
+          />
+          <ListSrc>
+            <BtWrap>
+              <button type="button" onClick={() => handleButtonClick(0)}>
+                스마트기기
+              </button>
+              <button type="button" onClick={() => handleButtonClick(1)}>
+                pc/노트북
+              </button>
+              <button type="button" onClick={() => handleButtonClick(2)}>
+                영상카메라
+              </button>
+              <button type="button" onClick={() => handleButtonClick(3)}>
+                음향
+              </button>
+              <button type="button" onClick={() => handleButtonClick(4)}>
+                게임 기기
+              </button>
+            </BtWrap>
+
+            <UlBt>
+              <ul>
+                {goods.map((item, index) => (
+                  <li key={index}>
+                    <button>{item}</button>
+                  </li>
+                ))}
+              </ul>
+            </UlBt>
+          </ListSrc>
+          <label htmlFor="price">
+            <List>대여가격</List>
+            <Star>*</Star>
+          </label>
+          <input
+            type="text"
+            placeholder="₩ 대여 가격"
+            name="price"
+            id="price"
+          ></input>
+          <List>상품내용</List>
+          <Star>*</Star>
+          <input
+            type="text"
+            placeholder="구매시기,브랜드/모델명,제품의 상태(사용감,하자유무를)등 입력 해주세요"
+          ></input>
+          <ladel htmlFor="amount">
+            <List>보증금</List>
+            <Star>*</Star>
+          </ladel>
+          <input
+            type="text"
+            placeholder="원금의 30~50% / 원금을 적으면 금액선정이 자동으로 됩니다. "
+            name="amount"
+            id="amount"
+          />
+          <input type="radio"></input>
+          <p>50%</p>
+          <input type="radio"></input>
+          <p>60%</p>
+          <input type="radio"></input>
+          <p>70%</p>
+          <input type="radio"></input>
+          <p>80%</p>
+          <input type="radio"></input>
+          <p>80%</p>
+          <input type="radio"></input>
+          <p>90%</p>
+          <ladel htmlFor="days">
+            <List>제품구매일</List>
+            <Star>*</Star>
+          </ladel>
+          {/* <input
           type="date"
           placeholder="제품 구매년도를 입력해주세요.   예) 2017년 12월 / 2015년 6월 19일"
           name="days"
           id="days"
         /> */}
-        <DatePicker
-          dateFormat="yyyy/MM/dd"
-          selected={startDate}
-          onChange={date => setStartDate(date)}
-        />
-        <ladel htmlFor="address">
-          <p>거래가능주소</p>
-          <p>*</p>
-        </ladel>
-        <input
-          type="text"
-          placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
-          name="address"
-          id="addtess"
-        />
-      </form>
-    </div>
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            selected={startDate}
+            onChange={date => setStartDate(date)}
+          />
+          <ladel htmlFor="address">
+            <List>거래가능주소</List>
+            <Star>*</Star>
+          </ladel>
+          <input
+            type="text"
+            placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
+            name="address"
+            id="addtess"
+          />
+          <div>
+            <button>취소</button>
+            <button>저장</button>
+          </div>
+        </form>
+      </div>
+    </GoodsWrap>
   );
 };
 
