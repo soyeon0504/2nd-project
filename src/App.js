@@ -17,7 +17,6 @@ const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
 const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
-
 const Lazyprod = lazy(() => import("./pages/prod/Products"));
 const App = () => {
   return (
