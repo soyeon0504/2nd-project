@@ -72,7 +72,9 @@ const App = () => {
                 <LazyMyPage />
               </Suspense>
             }
-          ></Route>
+          >
+            <Route></Route>
+          </Route>
           <Route
             path="/addedit/"
             element={

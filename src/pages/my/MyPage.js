@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../../layouts/Layout";
 import MyCategory from "../../components/my/MyCategory";
 import Mytitle from "../../components/my/Mytitle";
 import styled from "@emotion/styled";
+import MyRentalList from "./MyRentalList";
+
 const AllWidth = styled.div`
-  width: 1300px;
+  width: 1260px;
   margin: 0 auto;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  > div:nth-of-type(2) {
+    width: 1020px;
+    margin-left: 105px;
+    display: flex;
+    flex-direction: column;
+    gap: 3.3rem;
+  }
 `;
 
 const MyPage = () => {
@@ -16,12 +29,10 @@ const MyPage = () => {
           <div>형작업</div>
           <Mytitle />
         </div>
-        <div>
-          <div>
-            <MyCategory />
-          </div>
-          <div>내용</div>
-        </div>
+        <Flex>
+          <MyCategory />
+          <MyRentalList />
+        </Flex>
       </AllWidth>
     </Layout>
   );
