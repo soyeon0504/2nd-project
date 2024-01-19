@@ -14,7 +14,6 @@ const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
 const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
 
-
 const LazyAddEditPage = lazy(() => import("./pages/addedit/AddEditPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
@@ -39,16 +38,6 @@ const App = () => {
             </Suspense>
           }
         ></Route>
-
-        <Route
-          path="main/more"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyMainMorePage />
-            </Suspense>
-          }
-        ></Route>
-
         <Route
           path="/login"
           element={

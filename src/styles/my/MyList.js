@@ -128,8 +128,6 @@ export const MyListMidLast = styled.div`
     cursor: pointer;
   }
 `;
-
-
 export const MyListBottom = styled.div`
   margin-top: 2.3rem;
   display: flex;
