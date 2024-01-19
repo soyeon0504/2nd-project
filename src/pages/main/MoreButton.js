@@ -3,9 +3,7 @@ import { MoreBt, MoreBtWrap } from "./mainStyle";
 import MainMore from "./MainMore";
 
 const MoreButton = e => {
-  const handleClick = e => {
-    MainMore;
-  };
+  const handleClick = e => {MainMore;};
   return (
     <MoreBtWrap>
       <MoreBt onClick={() => handleClick(e)}>
