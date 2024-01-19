@@ -1,134 +1,19 @@
 import React from "react";
 import Layout from "../../layouts/Layout";
-import styled from "@emotion/styled";
+import { ConfirmBt, JoinAgreement, JoinFirstPageStyle, JoinHeader, JoinMain, RadioBox } from "../../styles/join/JoinFirstPageStyle";
 
 const JoinFirstPage = () => {
-  const JoinFirstPageStyle = styled.div`
-    width: 1300px;
-    text-align: center;
-    margin: 0 auto;
-    /* background: skyblue; */
-  `;
-  const JoinHeader = styled.div`
-    margin-top: 70px;
-    p {
-      color: #000;
-      font-family: Inter;
-      font-size: 23px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
 
-      margin-bottom: 60px;
-    }
-    img {
-      width: 550px;
-      height: 63px;
-      margin-bottom: 70px;
-    }
-  `;
-  const JoinMain = styled.div`
-    width: 980px;
-    text-align: center;
-    margin: 0 auto;
-  `;
-  const Agreement = styled.div`
-    width: 980px;
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid #2c39b5;
-    margin: 0 auto;
-    h1 {
-      color: #777;
-      font-family: Inter;
-      font-size: 22px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
 
-      text-align: start;
-    }
-    h2 {
-      color: #777;
-      font-family: Inter;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      text-align: start;
-    }
-  `;
-  const PersonalInfo = styled.div`
-    width: 980px;
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid #2c39b5;
-    margin: 0 auto;
-    h1 {
-      color: #777;
-      font-family: Inter;
-      font-size: 22px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      text-align: start;
-    }
-    h2 {
-      color: #777;
-      font-family: Inter;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      text-align: start;
-    }
-  `;
-  const RadioBox = styled.div`
-    text-align: start;
-    padding: 15px 0;
-
-    color: #777;
-    font-family: Inter;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    input[type="radio"] {
-      width: 17px;
-      height: 17px;
-      margin-right: 10px;
-    }
-    input[type="radio"] + label {
-      margin-right: 25px;
-    }
-    input[type="radio"]:checked + label {
-      color: #000;
-    }
-  `;
-  const ConfirmBt = styled.button`
-    width: 200px;
-    height: 50px;
-    border-radius: 10px;
-    background: #2c39b5;
-    margin: 100px auto;
-    border: none;
-
-    color: #fff;
-    font-family: Inter;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  `;
   return (
     <Layout>
       <JoinFirstPageStyle>
         <JoinHeader>
           <p>회원가입</p>
-          <img src="../images/join_step1.svg" />
+          <img src="/images/join_step1.svg" />
         </JoinHeader>
         <JoinMain>
-          <Agreement>
+          <JoinAgreement>
             <h1>대여서비스 이용약관</h1>
             <br />
             <h2>
@@ -183,7 +68,7 @@ const JoinFirstPage = () => {
               2. 이용자는 물품을 대여함에 있어 보험 가입 여부를 신중하게
               결정하여야 합니다.
             </h2>
-          </Agreement>
+          </JoinAgreement>
           <RadioBox>
             <input type="radio" id="agreement-agree" name="agreement-radio" />
             <label htmlFor="agreement-agree">동의함</label>
@@ -194,7 +79,7 @@ const JoinFirstPage = () => {
             />
             <label htmlFor="agreement-disagree">동의안함</label>
           </RadioBox>
-          <PersonalInfo>
+          <JoinAgreement>
             <h1>개인정보처리방침</h1>
             <br />
             <h2>
@@ -243,7 +128,7 @@ const JoinFirstPage = () => {
               다만, 아래의 경우에는 예외로 합니다.
               <br />- 이용자 동의가 있는 경우
             </h2>
-          </PersonalInfo>
+          </JoinAgreement>
           <RadioBox>
             <input
               type="radio"
