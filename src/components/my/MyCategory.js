@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 const MyCateDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,35 +24,19 @@ const MyCateUl = styled.ul`
 
 const MyCateLi = styled.li`
   color: ${props => (props.selected ? "#2C39B5" : "#777")};
+  font-weight: ${props => (props.selected ? "500" : "400")};
   font-size: 1.6rem;
   line-height: 1.9;
   padding-left: 1.8rem;
   cursor: pointer;
 `;
 
-const MyCategory = () => {
-  const [selectedItem, setSelectedItem] = useState("대여중");
-  const myCate = [
-    {
-      title: "대여 리스트",
-      list: ["대여중", "대여 완료"],
-    },
-    {
-      title: "관심 상품",
-      list: ["관심 목록"],
-    },
-    {
-      title: "후기 관리",
-      list: ["내 작성 후기", "내 상품 후기"],
-    },
-    {
-      title: "내 정보",
-      list: ["회원정보 수정", "회원탈퇴"],
-    },
-  ];
+const MyCategory = ({selectedItem, setSelectedItem, myCate, onSubItemClick}) => {
+  const navigate = useNavigate();
 
-  const handleChangeColor = item => {
+  const handleChangeColor = (item, path) => {
     setSelectedItem(item);
+    navigate(path); 
   };
 
   return (
@@ -64,7 +49,8 @@ const MyCategory = () => {
               key={subItem}
               selected={selectedItem === subItem}
               onClick={() => {
-                handleChangeColor(subItem);
+                handleChangeColor(subItem, `/my/${item.name}`);
+                onSubItemClick(subItem);
               }}
             >
               {subItem}

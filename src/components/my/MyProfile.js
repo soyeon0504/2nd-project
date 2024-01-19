@@ -71,7 +71,7 @@ const MyProfile = () => {
           <img src="/images/kong.jpg" />
         </ProfileImg>
         <div>
-          <h1>코골고있는콩이</h1>
+          <h1>나는바보다</h1>
         </div>
       </ProfileLeft>
       <ProfileRight>

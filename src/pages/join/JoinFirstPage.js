@@ -55,7 +55,6 @@ const JoinFirstPage = () => {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-
       text-align: start;
     }
   `;
@@ -72,7 +71,6 @@ const JoinFirstPage = () => {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-
       text-align: start;
     }
     h2 {
@@ -82,7 +80,6 @@ const JoinFirstPage = () => {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-
       text-align: start;
     }
   `;

@@ -28,6 +28,7 @@ const JoinLastPage = () => {
     }
   `;
   const WelcomeBox = styled.div`
+    padding-top: 20px;
     width: 980px;
     height: 380px;
     border-radius: 10px;
