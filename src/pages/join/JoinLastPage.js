@@ -8,6 +8,7 @@ import {
 import { JoinHeader } from "../../styles/join/JoinFirstPageStyle";
 
 const JoinLastPage = () => {
+
   return (
     <Layout>
       <JoinLastPageStyle>

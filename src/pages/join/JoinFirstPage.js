@@ -4,6 +4,7 @@ import { ConfirmBt, JoinAgreement, JoinFirstPageStyle, JoinHeader, JoinMain, Rad
 
 const JoinFirstPage = () => {
 
+
   return (
     <Layout>
       <JoinFirstPageStyle>

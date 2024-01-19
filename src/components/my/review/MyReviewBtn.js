@@ -22,7 +22,7 @@ const MyListButton = styled.button`
   cursor: pointer;
 `;
 
-const MyListBtn = ({ activeBtn, setActiveBtn, onButtonClick}) => {
+const MyReviewBtn = ({ activeBtn, setActiveBtn, onButtonClick}) => {
   const handleButtonClick = subItem => {
     setActiveBtn(subItem);
     onButtonClick(subItem); 
@@ -30,18 +30,18 @@ const MyListBtn = ({ activeBtn, setActiveBtn, onButtonClick}) => {
 
   return (
     <MyListBtnDiv>
-      <MyListButton active={activeBtn} onClick={() => handleButtonClick("대여중")}>
-        대여중
+      <MyListButton active={activeBtn} width={"100px"} onClick={() => handleButtonClick("내 작성 후기")}>
+        내 작성 후기
       </MyListButton>
       <MyListButton
         active={!activeBtn}
-        onClick={() => handleButtonClick("대여 완료")}
-        width={"80px"}
+        onClick={() => handleButtonClick("내 상품 후기")}
+        width={"100px"}
       >
-        대여 완료
+        내 상품 후기
       </MyListButton>
     </MyListBtnDiv>
   );
 };
 
-export default MyListBtn;
+export default MyReviewBtn;

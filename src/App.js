@@ -9,7 +9,10 @@ const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
-const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
+const LazyMyRentalPage = lazy(() => import("./pages/my/MyRentalPage"));
+const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
+const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
+const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
 
 const LazyAddEditPage = lazy(() => import("./pages/addedit/AddEditPage"));
 
@@ -86,13 +89,42 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/my/"
+          path="/my"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyMyPage />
+              <LazyMyRentalPage />
             </Suspense>
           }
-        ></Route>
+        >
+        </Route>
+        <Route index
+          path="/my/rental"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMyRentalPage />
+            </Suspense>
+          }
+        >
+        </Route>
+        <Route
+          path="/my/interest"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMyInterestPage />
+            </Suspense>
+          }
+        >
+        </Route>
+        <Route
+          path="/my/review"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMyReviewPage />
+            </Suspense>
+          }
+        >
+        </Route>
+
         <Route
           path="/addedit/"
           element={
