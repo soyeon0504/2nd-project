@@ -1,162 +1,39 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Layout from "../../layouts/Layout";
 import styled from "@emotion/styled";
+import {
+  BtSection,
+  CancelBt,
+  ConfirmBt,
+  ImageInputBt,
+  JoinAddressInput,
+  JoinBox,
+  JoinElement,
+  JoinElementInput,
+  JoinElementTxt,
+  JoinPageStyle,
+  SaveBt,
+} from "../../styles/join/JoinPageStyle";
+import { JoinHeader } from "../../styles/join/JoinFirstPageStyle";
 
 const JoinPage = () => {
-  const fileInputRef = useRef(null);
-
-  const handleImageClick = () => {
-    // 파일 입력(input type="file") 클릭
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+  const [uploadImgBefore, setUploadImgBefore] = useState(
+    `${process.env.PUBLIC_URL}/images/join_img.svg`,
+  );
+  const [fileCount, setFileCount] = useState(0);
+  const [uploadImgBeforeFile, setUploadImgBeforeFile] = useState(null);
+  const handleChangeFileOne = e => {
+    const file = e.target.files[0];
+    if (file) {
+      // 미리보기
+      const tempUrl = URL.createObjectURL(file);
+      setUploadImgBefore(tempUrl); // 미리보기 끝
+      // FB 파일을 보관
+      setUploadImgBeforeFile(file); // 파일 1개 추가 끝
+      setFileCount(prev => prev + 1); // 파일 추가 되었어요.
     }
   };
 
-  const handleFileChange = event => {
-    // 선택된 파일 처리 로직을 여기에 추가
-    const selectedFile = event.target.files[0];
-    console.log("Selected file:", selectedFile);
-  };
-
-  const JoinPageStyle = styled.div`
-    width: 1300px;
-    text-align: center;
-    margin: 0 auto;
-    /* background: skyblue; */
-  `;
-  const JoinHeader = styled.div`
-    margin-top: 70px;
-    p {
-      color: #000;
-      /* font-family: Inter; */
-      font-size: 23px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-
-      margin-bottom: 60px;
-    }
-    img {
-      width: 550px;
-      height: 63px;
-      margin-bottom: 70px;
-    }
-  `;
-  const JoinBox = styled.div`
-    width: 980px;
-    height: 700px;
-    border-radius: 10px;
-    border: 1px solid #2c39b5;
-    margin: 0 auto;
-    padding: 60px 90px 0 90px;
-  `;
-  const JoinElement = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  `;
-  const JoinElementTxt = styled.div`
-    display: flex;
-    p {
-      color: #000;
-
-      /* font-family: Inter; */
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-    span {
-      color: #ff0303;
-
-      /* font-family: Inter; */
-      font-size: 13px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-  `;
-  const JoinElementInput = styled.div`
-    display: flex;
-    justify-content: space-between;
-    /* gap: 40px; */
-    width: 600px;
-    background: pink;
-    input {
-      border-radius: 5px;
-      border: 1px solid #2c39b5;
-    }
-    input[type="file"] {
-      width: 180px;
-      height: 180px;
-    }
-    input[type="image"] {
-      width: 180px;
-      height: 180px;
-    }
-    input[type="text"] {
-      width: ${props => (props.width ? props.width : "600px")};
-      height: 36px;
-      padding-left: 15px;
-
-      color: #777;
-      /* font-family: Inter; */
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-    button {
-      width: 105px;
-      height: 36px;
-      border-radius: 5px;
-      border: 1px solid #2c39b5;
-      background: #fff;
-
-      color: #777;
-      /* font-family: Inter; */
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-  `;
-  const BtSection = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-
-    margin-top: 60px;
-    margin-bottom: 90px;
-  `;
-  const CancelBt = styled.button`
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    background: #f2f2ff;
-    border: none;
-
-    color: #2c39b5;
-    /* font-family: Inter; */
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  `;
-  const LoginBt = styled.button`
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    background: #2c39b5;
-    border: none;
-
-    color: #fff;
-    /* font-family: Inter; */
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  `;
   return (
     <Layout>
       <JoinPageStyle>
@@ -171,18 +48,27 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
+              <label htmlFor="input-file-before">
+                <ImageInputBt
+                  type="button"
+                  onClick={() => {
+                    document.getElementById("input-file-before").click();
+                  }}
+                >
+                  <img src={uploadImgBefore} alt="" />
+                </ImageInputBt>
+              </label>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/png, image/gif, image/jpeg"
+                onClick={() => {
+                  document.getElementById("input-file-before").click();
+                }}
+                onChange={event => {
+                  handleChangeFileOne(event, "before");
+                }}
+                id="input-file-before"
                 style={{ display: "none" }}
-                onChange={handleFileChange}
-                ref={fileInputRef}
-              />
-              <input
-                type="image"
-                src="../images/join_img.svg"
-                alt="Upload Image"
-                onClick={handleImageClick}
               />
             </JoinElementInput>
           </JoinElement>
@@ -192,8 +78,8 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput width="440px">
-              <input type="text" />
-              <button>중복 확인</button>
+              <input type="text" placeholder="15자 이내" />
+              <ConfirmBt>중복 확인</ConfirmBt>
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -202,8 +88,8 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput width="440px">
-              <input type="text" />
-              <button>중복 확인</button>
+              <input type="text" placeholder="15자 이내" />
+              <ConfirmBt>중복 확인</ConfirmBt>
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -212,7 +98,7 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
-              <input type="text" />
+              <input type="text" placeholder="특수문자 포함 8~15자 이내" />
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -221,7 +107,7 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
-              <input type="text" />
+              <input type="text" placeholder="비밀번호 확인" />
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -230,8 +116,8 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput width="440px">
-              <input type="text" />
-              <button>휴대폰 인증</button>
+              <input type="text" placeholder="예) 010-0000-0000" />
+              <ConfirmBt>휴대폰 인증</ConfirmBt>
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -239,10 +125,10 @@ const JoinPage = () => {
               <p>주소</p>
               <span>*</span>
             </JoinElementTxt>
-            <JoinElementInput>
-              <button>주소 검색</button>
-              <input type="text" />
-            </JoinElementInput>
+            <JoinAddressInput>
+              <ConfirmBt>주소 검색</ConfirmBt>
+              <input type="text" placeholder="주소 검색을 해주세요." />
+            </JoinAddressInput>
           </JoinElement>
           <JoinElement>
             <JoinElementTxt>
@@ -250,13 +136,13 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
-              <input type="text" />
+              <input type="text" placeholder="예) a123@naver.com" />
             </JoinElementInput>
           </JoinElement>
         </JoinBox>
         <BtSection>
           <CancelBt>취소</CancelBt>
-          <LoginBt>저장</LoginBt>
+          <SaveBt>저장</SaveBt>
         </BtSection>
       </JoinPageStyle>
     </Layout>

@@ -1,15 +1,20 @@
 import styled from "@emotion/styled";
 import React from "react";
-const Wrap = styled.div`
-  width: 1980px;
-  text-align: center;
-  margin: 0 auto;
-`;
+// const Wrap = styled.div`
+//   width: 1980px;
+//   text-align: center;
+//   margin: 0 auto;
+// `;
 const Header = () => {
   const HeaderStyle = styled.div`
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
     width: 1300px;
     text-align: center;
-    margin: 0 auto;
     .header-top {
       margin: 30px auto;
       display: flex;
@@ -156,10 +161,10 @@ const Header = () => {
     }
   `;
   return (
-    <Wrap>
+    <>
       <HeaderStyle>
         <div className="header-top">
-          <div className="header-logo"></div>
+          <div className="header-logo">로고</div>
           <div className="header-search">
             <form className="search-form">
               <input type="text" className="search-word" />
@@ -246,7 +251,7 @@ const Header = () => {
         <div className="CategoryTabSub">XBOX</div>
         <div className="CategoryTabSub">기타</div>
       </CategoryTab>
-    </Wrap>
+    </>
   );
 };
 
