@@ -7,9 +7,6 @@ export const MainWrap = styled.div`
   width: 1260px;
   margin: 0 auto;
   gap: 130px;
-  .section-1 {
-  }
-
   .title {
     font-size: 45px;
     text-align: center;
@@ -28,6 +25,30 @@ export const MainWrap = styled.div`
   .mySwiper {
     top: 40px;
     width: 1260px;
+    .like {
+      position: absolute;
+      border: none;
+      top: 10px;
+      right: 10px;
+      z-index: 1;
+      width: 30px;
+      height: 30px;
+      background-repeat: no-repeat;
+    &:hover {
+      background-image: url("../images/like_full.svg");
+      cursor: pointer;
+    }
+    button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: transparent;
+    }
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    }
     .desc-wrap {
       line-height: 30px;
       text-align: left;
@@ -58,7 +79,7 @@ export const MainWrap = styled.div`
   .section-2,
   .section-3,
   .section-4 {
-    gap: 1000px;
+    gap: 300px;
   }
 `;
 export const BtWrap = styled.div`
@@ -116,4 +137,9 @@ export const MoreBt = styled.button`
   &:hover img {
     content: url("../images/arrow1.svg");
   }
-`;
+
+  `;
+
+export const Pagination = styled.div`
+  color: #2c39b5;
+`
