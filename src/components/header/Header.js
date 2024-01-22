@@ -5,10 +5,6 @@ import React from "react";
 //   text-align: center;
 //   margin: 0 auto;
 // `;
-
-const HeaderCate = [
-
-]
 const Header = () => {
   const HeaderStyle = styled.div`
     position: fixed;
@@ -110,7 +106,7 @@ const Header = () => {
       line-height: 16px;
     }
   `;
-  
+
   const CategoryTab = styled.div`
     width: 150px;
     padding: 20px;
@@ -159,7 +155,7 @@ const Header = () => {
           </ul>
         </div>
       </HeaderStyle>
-      
+
       <CategoryTab>
         <div className="CategoryTabSub">플레이스테이션</div>
         <div className="CategoryTabSub">닌텐도</div>
