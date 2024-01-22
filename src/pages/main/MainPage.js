@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useRef, useState } from "react";
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Layout from "../../layouts/Layout";
@@ -7,6 +7,7 @@ import 'swiper/css';
 import MoreButton from "./MoreButton";
 import { SideBar } from "../../components/SideBar";
 import { Link, useNavigate } from "react-router-dom";
+import { BtSlideNext, BtSlidePrev, SlideBtWrap } from "./SlideButton";
 
 
 const initData = [{
@@ -65,11 +66,14 @@ const btList2 = ["스마트 워치", "태블릿", "갤럭시", "아이폰"]
 const btList3 = ["플레이스테이션", "닌텐도", "Wii", "XBOX", "기타"]
 const btList4 = ["노트북", "PC", "마우스", "키보드"]
 
+const handleClickLike = {}
+const handleClickBt = { }
 
 const MainPage = () => {
   
+  const swiperRef = useRef();
   // 초기값 세팅
-  const [focus,setFocus] = useState(0);
+  const [focus, setFocus] = useState(0);
 
   // const navigate = useNavigate();
   // navigate(`/main/more/${1}`)
@@ -77,7 +81,7 @@ const MainPage = () => {
   return (
     <>
     <Layout>
-    <SideBar/>
+    <SideBar />
       <MainWrap>
         <div className="section-1">
             <div className="title">영상 / 카메라</div>
@@ -92,12 +96,21 @@ const MainPage = () => {
             spaceBetween={20}
             slidesPerGroup={4}
             navigation={true}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
             className="mySwiper"
             modules={[Navigation]}>
             {initData.map((item, index) => { 
               return (
               <SwiperSlide key={`cameraSlide${index}`}> 
+              <div className="like">
+                <button onClick={() => handleClickLike()}>
+                  <img src="../images/like.svg"/>
+                </button>
+              </div>
               <img src={item.image} alt="" />
+              
               <div className="desc-wrap">
                 <span className="desc-title">{item.title}</span>
                 <hr></hr>
@@ -109,7 +122,20 @@ const MainPage = () => {
               )
             })}
             </Swiper>
-            <div>
+            <SlideBtWrap>
+              <BtSlidePrev onClick={() => {
+            swiperRef.current.slidePrev();
+          }}>
+                <img src="/images/prev.svg" alt="" />
+              </BtSlidePrev>
+              <BtSlideNext onClick={() => {
+            swiperRef.current.slideNext();
+          }}>
+                <img src="/images/next.svg" alt="" />
+              </BtSlideNext>
+            </SlideBtWrap>
+
+            <div >
               <MoreButton />
             </div>
         </div>
