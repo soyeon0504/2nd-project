@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Layout from "../../layouts/Layout";
-import styled from "@emotion/styled";
+import DaumPostcode from "react-daum-postcode";
 import {
   BtSection,
   CancelBt,
@@ -15,6 +15,42 @@ import {
   SaveBt,
 } from "../../styles/join/JoinPageStyle";
 import { JoinHeader } from "../../styles/join/JoinFirstPageStyle";
+
+const Modal = ({ children, handleClose }) => {
+  return (
+    <div style={modalStyle}>
+      <div style={contentStyle}>
+        <span style={closeButtonStyle} onClick={handleClose}>
+          &times;
+        </span>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+const modalStyle = {
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  backgroundColor: "#fefefe",
+  padding: "20px",
+  width: '600px',
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+};
+
+const contentStyle = {
+  position: "relative",
+};
+
+const closeButtonStyle = {
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  fontSize: "20px",
+  cursor: "pointer",
+};
 
 const JoinPage = () => {
   const [uploadImgBefore, setUploadImgBefore] = useState(
@@ -32,6 +68,23 @@ const JoinPage = () => {
       setUploadImgBeforeFile(file); // 파일 1개 추가 끝
       setFileCount(prev => prev + 1); // 파일 추가 되었어요.
     }
+  };
+
+  const [calendarLocation, setCalendarLocation] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleSelectAddress = data => {
+    const { address } = data;
+    setCalendarLocation(address);
+    setModalOpen(false);
+  };
+
+  const handleClickButton = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -126,8 +179,22 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinAddressInput>
-              <ConfirmBt>주소 검색</ConfirmBt>
-              <input type="text" placeholder="주소 검색을 해주세요." />
+              <ConfirmBt onClick={handleClickButton}>주소 검색</ConfirmBt>
+              <input
+                type="text"
+                value={calendarLocation}
+                placeholder="주소 검색을 해주세요."
+                readOnly
+              />
+
+              {modalOpen && (
+                <Modal handleClose={handleCloseModal}>
+                  <DaumPostcode
+                    onComplete={handleSelectAddress}
+                    autoClose={false}
+                  />
+                </Modal>
+              )}
             </JoinAddressInput>
           </JoinElement>
           <JoinElement>
@@ -148,5 +215,4 @@ const JoinPage = () => {
     </Layout>
   );
 };
-
 export default JoinPage;
