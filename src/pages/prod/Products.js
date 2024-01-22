@@ -1,7 +1,21 @@
-import { DatePicker, List } from "antd";
 import React, { useEffect, useState } from "react";
-import { BtWrap, GoodsWrap, H1p, ListSrc, Red, Star, UlBt } from "../../styles/productsStyle";
-
+import {
+  Amounts,
+  BtWrap,
+  BtnColor,
+  BtnColorSub,
+  Detail,
+  Goods,
+  GoodsWrap,
+  ListSrc,
+  PictureS,
+  Price,
+  ProductS,
+  Rla,
+  TransactionS,
+} from "../../styles/productsStyle";
+import RadioButton from "./RadiButton";
+import Api_prod, { AddressSearch } from "../../components/prodapi/Api_prod";
 
 const initState = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -15,6 +29,7 @@ const Products = () => {
   const [listItems, setListItems] = useState(initState);
   const [selectCate, setSelectCate] = useState(0);
   const [goods, setGoods] = useState([]);
+  const [changebtn, setChangeBtn] = useState([0, 1, 2, 3, 4]);
 
   const [startDate, setStartDate] = useState(new Date());
   //이미지 파일이 담을 state
@@ -35,125 +50,233 @@ const Products = () => {
     // const newList = [...listItems, newIem];
     // 상태 업데이트
     setSelectCate(num);
+    // 주메뉴가 눌려지면 항상 서브메뉴들은 초기화 한다.
+    setChangeBtn(null);
   };
 
+  const handleChangeBtn = item => {
+    setChangeBtn(item);
+  };
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const handleRadioChange = event => {
+    setSelectedValue(event.target.value);
+  };
+
+  const radioData = [
+    { id: 1, name: "group1", value: "50%" },
+    { id: 2, name: "group1", value: "60%" },
+    { id: 3, name: "group1", value: "70%" },
+    { id: 4, name: "group1", value: "80%" },
+    { id: 4, name: "group1", value: "90%" },
+    { id: 4, name: "group1", value: "100%" },
+  ];
   return (
     <GoodsWrap>
-      <div>기본정보</div>
+      <Goods>
+        <p>기본정보</p>
+      </Goods>
       <div>
         <form>
-          <label htmlFor="picture">
-            <List>사진</List> <Star>*</Star><p>0/10</p>
-          </label>
-          <input type="file" accept="jpg,svg" name="picture" id="picture" />
-          {image && (
-            <img src={image} alt="Preview" style={{ maxWidth: "100%" }} />
-          )}
-          <ladel htmlFor="jepum">
-            <List>상품명</List> <Star>*</Star>
-          </ladel>
-          <input
-            type="text"
-            name="jepum"
-            id="jepum"
-            placeholder="상품을 입력해주세요"
-          />
-          <ListSrc>
-            <BtWrap>
-              <button type="button" onClick={() => handleButtonClick(0)}>
-                스마트기기
-              </button>
-              <button type="button" onClick={() => handleButtonClick(1)}>
-                pc/노트북
-              </button>
-              <button type="button" onClick={() => handleButtonClick(2)}>
-                영상카메라
-              </button>
-              <button type="button" onClick={() => handleButtonClick(3)}>
-                음향
-              </button>
-              <button type="button" onClick={() => handleButtonClick(4)}>
-                게임 기기
-              </button>
-            </BtWrap>
+          <PictureS>
+            <label htmlFor="picture">
+              <p className="pic">사진</p> <p>*</p>
+            </label>
 
-            <UlBt>
+            <input type="file" accept="jpg,svg" name="picture" id="picture" />
+            {image && (
+              <img src={image} alt="Preview" style={{ maxWidth: "100%" }} />
+            )}
+          </PictureS>
+
+          <ProductS>
+            <ladel htmlFor="product" className="ladelprt">
+              <p className="prd">상품명</p> <p>*</p>
+            </ladel>
+            <input type="text" id="product" placeholder="상품을 입력해주세요" />
+          </ProductS>
+
+          <ListSrc>
+            <ladel className="ladelct">
+              <p className="ct">카테고리</p> <p>*</p>
+            </ladel>
+
+            <BtWrap>
+              <ul>
+                <li>
+                  <BtnColor
+                    type="button"
+                    clickbtn={selectCate === 0}
+                    onClick={() => {
+                      handleButtonClick(0);
+                      // handleChangeBtn(0);
+                    }}
+                  >
+                    스마트기기
+                  </BtnColor>
+                </li>
+                <li>
+                  <BtnColor
+                    type="button"
+                    clickbtn={selectCate === 1}
+                    onClick={() => {
+                      handleButtonClick(1);
+                      // handleChangeBtn(1);
+                    }}
+                  >
+                    pc/노트북
+                  </BtnColor>
+                </li>
+                <li>
+                  <BtnColor
+                    type="button"
+                    clickbtn={selectCate === 2}
+                    onClick={() => {
+                      handleButtonClick(2);
+                      // handleChangeBtn(2);
+                    }}
+                  >
+                    영상카메라
+                  </BtnColor>
+                </li>
+                <li>
+                  <BtnColor
+                    type="button"
+                    clickbtn={selectCate === 3}
+                    onClick={() => {
+                      handleButtonClick(3);
+                      // handleChangeBtn(3);
+                    }}
+                  >
+                    음향
+                  </BtnColor>
+                </li>
+                <li>
+                  <BtnColor
+                    type="button"
+                    clickbtn={selectCate === 4}
+                    onClick={() => {
+                      handleButtonClick(4);
+                      // handleChangeBtn(4);
+                    }}
+                  >
+                    게임 기기
+                  </BtnColor>
+                </li>
+              </ul>
+            </BtWrap>
+            <BtWrap>
               <ul>
                 {goods.map((item, index) => (
                   <li key={index}>
-                    <button>{item}</button>
+                    <BtnColorSub
+                      type="button"
+                      clickbtn={changebtn === item}
+                      onClick={() => {
+                        handleChangeBtn(item);
+                      }}
+                    >
+                      {item}
+                    </BtnColorSub>
                   </li>
                 ))}
               </ul>
-            </UlBt>
+            </BtWrap>
           </ListSrc>
-          <label htmlFor="price">
-            <List>대여가격</List>
-            <Star>*</Star>
-          </label>
-          <input
-            type="text"
-            placeholder="₩ 대여 가격"
-            name="price"
-            id="price"
-          ></input>
-          <List>상품내용</List>
-          <Star>*</Star>
-          <input
-            type="text"
-            placeholder="구매시기,브랜드/모델명,제품의 상태(사용감,하자유무를)등 입력 해주세요"
-          ></input>
-          <ladel htmlFor="amount">
-            <List>보증금</List>
-            <Star>*</Star>
-          </ladel>
-          <input
-            type="text"
-            placeholder="원금의 30~50% / 원금을 적으면 금액선정이 자동으로 됩니다. "
-            name="amount"
-            id="amount"
-          />
-          <input type="radio"></input>
+
+          <Price>
+            <label htmlFor="price" className="LadelPre">
+              <p className="pre">대여가격</p>
+              <p>*</p>
+            </label>
+            <input
+              type="text"
+              placeholder="₩ 대여 가격"
+              name="price"
+              id="price"
+            ></input>
+          </Price>
+
+          <Detail>
+            <label htmlFor="detail" className="LadelDta">
+              <p className="dta">상품내용</p> <p>*</p>
+            </label>
+            <input
+              type="text"
+              name="detail"
+              id="detail"
+              placeholder="구매시기,브랜드/모델명,제품의 상태(사용감,하자유무를)등 입력 해주세요"
+            ></input>
+          </Detail>
+
+          <Amounts>
+            <ladel htmlFor="amounts" className="Ladelamu">
+              <p className="amu">보증금</p> <p>*</p>
+            </ladel>
+            {/* 라디오 버튼은 여러개 중에 오로지 1개만 선택이 가능 함. 같은지 다른지 파악하는 것은 name 속성의 단어가 같은지를 비교 */}
+
+            <input
+              type="text"
+              name="amounts"
+              id="amounts"
+              placeholder="금액을 입력해주세요"
+            />
+            <div className="Sud">
+              {radioData.map(radio => (
+                <RadioButton
+                  key={radio.id}
+                  name={radio.name}
+                  value={radio.value}
+                  checked={selectedValue === radio.value}
+                  onChange={handleRadioChange}
+                  className="small"
+                />
+              ))}
+              <p> 보증금 : {selectedValue}</p>
+            </div>
+          </Amounts>
+          {/* <input type="radio" name="amount" value={50}></input>
           <p>50%</p>
-          <input type="radio"></input>
+          <input type="radio" name="amount" value={60}></input>
           <p>60%</p>
-          <input type="radio"></input>
+          <input type="radio" name="amount" value={70}></input>
           <p>70%</p>
-          <input type="radio"></input>
+          <input type="radio" name="amount" value={80}></input>
           <p>80%</p>
-          <input type="radio"></input>
-          <p>80%</p>
-          <input type="radio"></input>
+          <input type="radio" name="amount" value={90}></input>
           <p>90%</p>
-          <ladel htmlFor="days">
-            <List>제품구매일</List>
-            <Star>*</Star>
-          </ladel>
-          {/* <input
-          type="date"
-          placeholder="제품 구매년도를 입력해주세요.   예) 2017년 12월 / 2015년 6월 19일"
-          name="days"
-          id="days"
-        /> */}
-          <DatePicker
-            dateFormat="yyyy/MM/dd"
-            selected={startDate}
-            onChange={date => setStartDate(date)}
-          />
-          <ladel htmlFor="address">
-            <List>거래가능주소</List>
-            <Star>*</Star>
-          </ladel>
-          <input
-            type="text"
-            placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
-            name="address"
-            id="addtess"
-          />
-          <div>
-            <button>취소</button>
-            <button>저장</button>
-          </div>
+          <input type="radio" name="amount" value={100}></input>
+          <p>100%</p> */}
+
+          <Rla>
+            <ladel htmlFor="rla" className="LadelRa">
+              <p className="ra">제품구매일</p> <p>*</p>
+            </ladel>
+            <input
+              type="date"
+              name="rla"
+              id="rla"
+              placeholder="제품 구매년도를 입력해주세요.   예) 2017년 12월 / 2015년 6월 19일"
+            />
+            {/* <DatePicker
+                dateFormat="yyyy/MM/dd"
+                selected={startDate}
+                onChange={date => setStartDate(date)}
+              /> */}
+          </Rla>
+          <AddressSearch />
+          <TransactionS>
+            <ladel htmlFor="transaction" className="Ladeltst">
+              <p className="tst">거래가능주소</p> <p>*</p>
+            </ladel>
+            {/* <input type="button" value="우편 검색" id="btn" /> */}
+            <input
+              type="text"
+              name="transaction"
+              id="transaction"
+              placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
+            />
+          </TransactionS>
         </form>
       </div>
     </GoodsWrap>
