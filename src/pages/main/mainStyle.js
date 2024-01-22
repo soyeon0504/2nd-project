@@ -139,3 +139,7 @@ export const MoreBt = styled.button`
   }
 
   `;
+
+export const Pagination = styled.div`
+  color: #2c39b5;
+`
