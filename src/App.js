@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Breadcrumb from "./components/breadcrumb/Breadcrumb";
 import Loading from "./components/loading/Loading";
 // import "antd/dist/antd.css";
@@ -10,6 +10,11 @@ const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
+const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
+const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
+const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
+const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"))
+
 
 const LazyAddEditPage = lazy(() => import("./pages/addedit/AddEditPage"));
 
@@ -85,7 +90,41 @@ const App = () => {
               <LazyMyPage />
             </Suspense>
           }
-        ></Route>
+        >
+          <Route
+          path="interest"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMyInterestPage />
+            </Suspense>
+          }
+          ></Route>
+          <Route
+            path="review"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyReviewPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="info/"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyInfoPage />
+              </Suspense>
+            }
+          >
+            <Route
+            path="withdraw"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyWithDrawPage />
+              </Suspense>
+            }
+          ></Route>
+          </Route>
+        </Route>
         <Route
           path="/addedit/"
           element={

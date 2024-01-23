@@ -30,11 +30,11 @@ const MyReviewBtn = ({ activeBtn, setActiveBtn, onButtonClick}) => {
 
   return (
     <MyListBtnDiv>
-      <MyListButton active={activeBtn} width={"100px"} onClick={() => handleButtonClick("내 작성 후기")}>
+      <MyListButton active={activeBtn === "내 작성 후기"} width={"100px"} onClick={() => handleButtonClick("내 작성 후기")}>
         내 작성 후기
       </MyListButton>
       <MyListButton
-        active={!activeBtn}
+        active={activeBtn === "내 상품 후기"}
         onClick={() => handleButtonClick("내 상품 후기")}
         width={"100px"}
       >

@@ -60,7 +60,7 @@ export const JoinElementInput = styled.div`
     height: 36px;
     padding-left: 15px;
 
-    color: #777;
+    color: #000;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -107,9 +107,9 @@ export const BtSection = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
-
-  margin-top: 60px;
-  margin-bottom: 90px;
+  width: ${props => (props.width ? props.width : "")};
+  margin-top: ${props => (props.mgtop ? props.mgtop : "60px")};
+  margin-bottom: ${props => (props.mgbtm ? props.mgbtm : "90px")};
 `;
 export const CancelBt = styled.button`
   width: 150px;

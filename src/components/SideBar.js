@@ -13,9 +13,10 @@ export const SideBar = () => {
                 <Chat>
                     <Link to="/main"></Link>
                 </Chat>
-                <Like>
-                    <Link to="/main"></Link>
-                </Like>
+                <Link to="/my">
+                    <Like>
+                    </Like>
+                </Link>
                 <Profile>
                     <Link to="/main"></Link>
                 </Profile>
