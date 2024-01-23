@@ -7,7 +7,8 @@ margin: 0 auto;
 /* background: skyblue; */
 `;
 export const JoinHeader = styled.div`
-margin-top: 70px;
+margin-top:  ${props => props.mgtop ? props.mgtop : "70px"};
+text-align: center;
 p {
   color: #000;
   font-size: 23px;
@@ -15,7 +16,7 @@ p {
   font-weight: 400;
   line-height: normal;
 
-  margin-bottom: 60px;
+  margin-bottom: ${props => props.mgbtm ? props.mgbtm : "60px"};
 }
 img {
   width: 550px;

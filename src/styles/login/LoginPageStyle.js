@@ -23,7 +23,7 @@ export const LogoBox = styled.div`
   padding-left: 30px;
   p {
     margin-top: 50px;
-    margin-bottom: 160px;
+    margin-bottom: ${props => (props.mgbtm ? props.mgbtm : "160px")};
 
     color: #000;
     font-family: KyivType Sans;

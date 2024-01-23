@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 const MyCateDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,6 +37,9 @@ const MyCategory = ({selectedItem, setSelectedItem, myCate, onSubItemClick}) => 
   const handleChangeColor = (item, path) => {
     setSelectedItem(item);
     navigate(path); 
+    if (item.subItem === "회원탈퇴") {
+      `my/info/withdraw`
+    }
   };
 
   return (

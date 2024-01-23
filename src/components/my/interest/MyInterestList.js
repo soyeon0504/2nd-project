@@ -61,7 +61,7 @@ const MyInterestList = () => {
           </MyListMidTxt>
           <MyListMidLast>
             <button>
-              <img src="/images/heart_hover.svg"/>
+              <img src="/images/main/heart_hover.svg"/>
             </button>
           </MyListMidLast>
         </MyListMid>

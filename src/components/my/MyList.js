@@ -49,7 +49,7 @@ const MyList = ({ activeBtn, setActiveBtn }) => {
   return (
     <MyListDiv>
       <MyListTop>
-        { activeBtn ? <h2>대여중</h2> : <h2>대여완료</h2>}
+        { activeBtn === "대여중" ? <h2>대여중</h2> : <h2>대여완료</h2>}
         <div>
           <MyListTopButton
            selected={activeButton}
@@ -67,7 +67,7 @@ const MyList = ({ activeBtn, setActiveBtn }) => {
       </MyListTop>
       {mylistmid.map((item, index) => (
         <React.Fragment key={index}>
-          { activeBtn ? (
+          { activeBtn === "대여중" ? (
           <MyListMid>
           <MyListMidImg>
             <img src={item.pic} alt={item.title} />
