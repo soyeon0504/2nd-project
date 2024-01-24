@@ -53,27 +53,27 @@ h2 {
   text-align: start;
 }
 `;
-// export const RadioBox = styled.div`
-// text-align: start;
-// padding: 15px 0;
+export const RadioBox = styled.div`
+text-align: start;
+padding: 15px 0;
 
-// color: #777;
-// font-size: 22px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
-// input[type="radio"] {
-//   width: 17px;
-//   height: 17px;
-//   margin-right: 10px;
-// }
-// input[type="radio"] + label {
-//   margin-right: 25px;
-// }
-// input[type="radio"]:checked + label {
-//   color: #000;
-// }
-// `;
+color: #777;
+font-size: 22px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+input[type="radio"] {
+  width: 17px;
+  height: 17px;
+  margin-right: 10px;
+}
+input[type="radio"] + label {
+  margin-right: 25px;
+}
+input[type="radio"]:checked + label {
+  color: #000;
+}
+`;
 export const ConfirmBt = styled.button`
 width: 200px;
 height: 50px;

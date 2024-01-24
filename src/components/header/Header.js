@@ -8,7 +8,7 @@ import React from "react";
 const Header = () => {
   const HeaderStyle = styled.div`
     position: fixed;
-    z-index: 1000;
+    z-index: 100;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -59,7 +59,7 @@ const Header = () => {
       border-radius: 100%;
       flex-shrink: 0;
       border: none;
-      background-image: url("../images/bt_search.svg");
+      background-image: url("/images/header/bt_search.svg");
     }
     .login-state {
       display: flex;
@@ -145,7 +145,7 @@ const Header = () => {
           </div>
         </div>
         <div className="header-menu">
-          <img src="../images/bt_menu.svg" />
+          <img src="/images/header/bt_menu.svg" />
           <ul>
             <li>스마트 기기</li>
             <li>PC / 노트북</li>
