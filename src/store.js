@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import MyPageSlice from "./slices/MyPageSlice";
+import ActiveBtnSlice from "./slices/ActiveBtnSlice";
 export default configureStore({
   reducer: {
-    MyPageSlice: MyPageSlice,
+   activeBtnSlice: ActiveBtnSlice
   },
 });
+
+

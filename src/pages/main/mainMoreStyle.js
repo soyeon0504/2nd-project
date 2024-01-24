@@ -60,4 +60,7 @@ export const MoreWrap = styled.div`
       }
   }
   }
+  .ant-select-show-search {
+    display: none;
+  }
 `;

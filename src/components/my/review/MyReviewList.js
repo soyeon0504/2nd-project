@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { MyListBottom, MyListDiv, MyListMid, MyListMidEnd, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
+import React from "react";
+import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
+import MyMoreButton from "../MyMoreButton";
 
 
-const MyReviewList = ({ activeBtn, setActiveBtn }) => {
-  const [activeButton, setActiveButton] = useState(true);
-
-  const handleButtonClick = buttonType => {
-    setActiveButton(buttonType);
-  };
+const MyReviewList = ({ activeBtn }) => {
 
   const mylistmid = [
     {
@@ -43,13 +39,13 @@ const MyReviewList = ({ activeBtn, setActiveBtn }) => {
   return (
     <MyListDiv>
       <MyListTop>
-        { activeBtn ? <h2>내 작성 후기</h2> : <h2>내 상품 후기</h2>}
+        { activeBtn === "내 작성 후기" ? <h2>내 작성 후기</h2> : <h2>내 상품 후기</h2>}
         <div>
         </div>
       </MyListTop>
       {mylistmid.map((item, index) => (
         <React.Fragment key={index}>
-          { activeBtn ? (
+          { activeBtn === "내 작성 후기" ? (
           <MyListMid>
           <MyListMidImg>
             <img src={item.pic} alt={item.title} />
@@ -94,7 +90,7 @@ const MyReviewList = ({ activeBtn, setActiveBtn }) => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <button>MORE</button>
+        <MyMoreButton />
       </MyListBottom>
     </MyListDiv>
   );

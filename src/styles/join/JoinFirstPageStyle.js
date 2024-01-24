@@ -7,7 +7,8 @@ margin: 0 auto;
 /* background: skyblue; */
 `;
 export const JoinHeader = styled.div`
-margin-top: 70px;
+margin-top:  ${props => props.mgtop ? props.mgtop : "70px"};
+text-align: center;
 p {
   color: #000;
   font-size: 23px;
@@ -15,7 +16,7 @@ p {
   font-weight: 400;
   line-height: normal;
 
-  margin-bottom: 60px;
+  margin-bottom: ${props => props.mgbtm ? props.mgbtm : "60px"};
 }
 img {
   width: 550px;
@@ -53,27 +54,27 @@ h2 {
   text-align: start;
 }
 `;
-// export const RadioBox = styled.div`
-// text-align: start;
-// padding: 15px 0;
+export const RadioBox = styled.div`
+text-align: start;
+padding: 15px 0;
 
-// color: #777;
-// font-size: 22px;
-// font-style: normal;
-// font-weight: 400;
-// line-height: normal;
-// input[type="radio"] {
-//   width: 17px;
-//   height: 17px;
-//   margin-right: 10px;
-// }
-// input[type="radio"] + label {
-//   margin-right: 25px;
-// }
-// input[type="radio"]:checked + label {
-//   color: #000;
-// }
-// `;
+color: #777;
+font-size: 22px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+input[type="radio"] {
+  width: 17px;
+  height: 17px;
+  margin-right: 10px;
+}
+input[type="radio"] + label {
+  margin-right: 25px;
+}
+input[type="radio"]:checked + label {
+  color: #000;
+}
+`;
 export const ConfirmBt = styled.button`
 width: 200px;
 height: 50px;

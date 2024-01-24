@@ -17,7 +17,8 @@ export const JoinBox = styled.div`
 export const JoinElement = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 3px;
 `;
 export const JoinElementTxt = styled.div`
   display: flex;
@@ -50,22 +51,32 @@ export const JoinElementInput = styled.div`
   input {
     border-radius: 5px;
     border: 1px solid #2c39b5;
-  }
-  /* input[type="file"] {
-    width: 180px;
-    height: 180px;
-  } */
-  input[type="text"] {
+
     width: ${props => (props.width ? props.width : "600px")};
     height: 36px;
     padding-left: 15px;
 
-    color: #777;
+    color: #000;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
   }
+  /* input[type="file"] {
+    width: 180px;
+    height: 180px;
+  } */
+  /* input[type="text"] {
+    width: ${props => (props.width ? props.width : "600px")};
+    height: 36px;
+    padding-left: 15px;
+
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  } */
 `;
 export const ImageInputBt = styled.button`
 background: transparent;
@@ -107,9 +118,9 @@ export const BtSection = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
-
-  margin-top: 60px;
-  margin-bottom: 90px;
+  width: ${props => (props.width ? props.width : "")};
+  margin-top: ${props => (props.mgtop ? props.mgtop : "60px")};
+  margin-bottom: ${props => (props.mgbtm ? props.mgbtm : "90px")};
 `;
 export const CancelBt = styled.button`
   width: 150px;
