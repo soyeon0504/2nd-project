@@ -9,7 +9,7 @@ const MoreButton = (e) => {
   return (
     <MoreBtWrap>
         <MoreBt onClick={() => handleClick(e)}>MORE
-            <img src='../images/arrow.svg' alt=''/>
+            <img src='../images/main/arrow.svg' alt=''/>
         </MoreBt>
     </MoreBtWrap>
   )

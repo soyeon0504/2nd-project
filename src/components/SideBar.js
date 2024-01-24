@@ -4,26 +4,26 @@ import { Link } from 'react-router-dom'
 
 export const SideBar = () => {
   return (
-    <div>
+    <Wrap>
         <SideBarWrap>
             <ButtonWrap>
-                <Write>
-                    <Link to="/main"></Link>
-                </Write>
-                <Chat>
-                    <Link to="/main"></Link>
-                </Chat>
-                <Like>
-                    <Link to="/main"></Link>
-                </Like>
-                <Profile>
-                    <Link to="/main"></Link>
-                </Profile>
-                <Call>
-                    <Link to="/main"></Link>
-                </Call>
+                <Link to="/main">
+                    <Write />
+                </Link>
+                <Link to="/main">
+                    <Chat />
+                </Link>
+                <Link to="/main">
+                    <Like />
+                </Link>
+                <Link to="/main">
+                    <Profile />
+                </Link>
+                <Link to="/main">
+                    <Call />
+                </Link>
             </ButtonWrap>
         </SideBarWrap>
-    </div>
+    </Wrap>
   )
 }

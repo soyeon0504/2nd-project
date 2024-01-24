@@ -35,7 +35,7 @@ export const MainWrap = styled.div`
       height: 30px;
       background-repeat: no-repeat;
     &:hover {
-      background-image: url("../images/like_full.svg");
+      background-image: url("../images/main/like_full.svg");
       cursor: pointer;
     }
     button {
@@ -135,7 +135,7 @@ export const MoreBt = styled.button`
             text-align: center; */
   }
   &:hover img {
-    content: url("../images/arrow1.svg");
+    content: url("../images/main/arrow1.svg");
   }
 
   `;
