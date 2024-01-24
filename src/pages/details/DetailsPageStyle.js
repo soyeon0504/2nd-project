@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-
+import { Common } from "../../styles/CommonStyles";
 export const PageWrapper = styled.div`
   max-width: 1260px;
   margin: 0 auto;
@@ -339,7 +339,7 @@ export const PayValue = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-top: 20px;
+  margin-top: 25px;
 `;
 
 export const ReviewFormStyle = styled.div`
@@ -360,4 +360,8 @@ export const ReviewProfile = styled.div`
   height: 100px;
   flex-shrink: 0;
   border-bottom: 1px solid #2c39b5;
+`;
+
+export const TotalPrice = styled.div`
+  border-bottom: 1px solid ${Common.color.primary};
 `;

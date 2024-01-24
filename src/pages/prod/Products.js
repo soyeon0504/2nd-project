@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+
+import Layout from "../../layouts/Layout";
 import {
   Amounts,
   BtWrap,
@@ -15,7 +17,8 @@ import {
   TransactionS,
 } from "../../styles/productsStyle";
 import RadioButton from "./RadiButton";
-import Api_prod, { AddressSearch } from "../../components/prodapi/Api_prod";
+import { DatePicker } from "antd";
+import ImageUpload from "./ImageUpload";
 
 const initState = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -46,8 +49,6 @@ const Products = () => {
 
   //버튼 클릭시 함수 호출
   const handleButtonClick = num => {
-    // const newIem = `아이템 ${listItems.length + 1}`;
-    // const newList = [...listItems, newIem];
     // 상태 업데이트
     setSelectCate(num);
     // 주메뉴가 눌려지면 항상 서브메뉴들은 초기화 한다.
@@ -71,215 +72,211 @@ const Products = () => {
     { id: 4, name: "group1", value: "90%" },
     { id: 4, name: "group1", value: "100%" },
   ];
+  const [uploadImgUrl, setUploadImgUrl] = useState("");
+
+  const onchangeImageUpload = e => {
+    const { files } = e.target;
+    const uploadFile = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(uploadFile);
+    reader.onloadend = () => {
+      setUploadImgUrl(reader.result);
+    };
+  };
   return (
-    <GoodsWrap>
-      <Goods>
-        <p>기본정보</p>
-      </Goods>
-      <div>
-        <form>
-          <PictureS>
-            <label htmlFor="picture">
-              <p className="pic">사진</p> <p>*</p>
-            </label>
+    <Layout>
+      <GoodsWrap>
+        <Goods>
+          <p>기본정보</p>
+        </Goods>
+        <div>
+          <form>
+            <PictureS>
+              <label htmlFor="pictures">
+                <p className="pic">사진</p> <p>*</p>
+              </label>
+              <input type="file" name="picture" id="pictures" />
+              <ImageUpload />
+            </PictureS>
 
-            <input type="file" accept="jpg,svg" name="picture" id="picture" />
-            {image && (
-              <img src={image} alt="Preview" style={{ maxWidth: "100%" }} />
-            )}
-          </PictureS>
+            <ProductS>
+              <ladel htmlFor="product" className="ladelprt">
+                <p className="prd">상품명</p> <p>*</p>
+              </ladel>
+              <input
+                type="text"
+                id="product"
+                placeholder="상품을 입력해주세요"
+              />
+            </ProductS>
 
-          <ProductS>
-            <ladel htmlFor="product" className="ladelprt">
-              <p className="prd">상품명</p> <p>*</p>
-            </ladel>
-            <input type="text" id="product" placeholder="상품을 입력해주세요" />
-          </ProductS>
+            <ListSrc>
+              <ladel className="ladelct">
+                <p className="ct">카테고리</p> <p>*</p>
+              </ladel>
 
-          <ListSrc>
-            <ladel className="ladelct">
-              <p className="ct">카테고리</p> <p>*</p>
-            </ladel>
-
-            <BtWrap>
-              <ul>
-                <li>
-                  <BtnColor
-                    type="button"
-                    clickbtn={selectCate === 0}
-                    onClick={() => {
-                      handleButtonClick(0);
-                      // handleChangeBtn(0);
-                    }}
-                  >
-                    스마트기기
-                  </BtnColor>
-                </li>
-                <li>
-                  <BtnColor
-                    type="button"
-                    clickbtn={selectCate === 1}
-                    onClick={() => {
-                      handleButtonClick(1);
-                      // handleChangeBtn(1);
-                    }}
-                  >
-                    pc/노트북
-                  </BtnColor>
-                </li>
-                <li>
-                  <BtnColor
-                    type="button"
-                    clickbtn={selectCate === 2}
-                    onClick={() => {
-                      handleButtonClick(2);
-                      // handleChangeBtn(2);
-                    }}
-                  >
-                    영상카메라
-                  </BtnColor>
-                </li>
-                <li>
-                  <BtnColor
-                    type="button"
-                    clickbtn={selectCate === 3}
-                    onClick={() => {
-                      handleButtonClick(3);
-                      // handleChangeBtn(3);
-                    }}
-                  >
-                    음향
-                  </BtnColor>
-                </li>
-                <li>
-                  <BtnColor
-                    type="button"
-                    clickbtn={selectCate === 4}
-                    onClick={() => {
-                      handleButtonClick(4);
-                      // handleChangeBtn(4);
-                    }}
-                  >
-                    게임 기기
-                  </BtnColor>
-                </li>
-              </ul>
-            </BtWrap>
-            <BtWrap>
-              <ul>
-                {goods.map((item, index) => (
-                  <li key={index}>
-                    <BtnColorSub
+              <BtWrap>
+                <ul>
+                  <li>
+                    <BtnColor
                       type="button"
-                      clickbtn={changebtn === item}
+                      clickbtn={selectCate === 0}
                       onClick={() => {
-                        handleChangeBtn(item);
+                        handleButtonClick(0);
                       }}
                     >
-                      {item}
-                    </BtnColorSub>
+                      스마트기기
+                    </BtnColor>
                   </li>
+                  <li>
+                    <BtnColor
+                      type="button"
+                      clickbtn={selectCate === 1}
+                      onClick={() => {
+                        handleButtonClick(1);
+                      }}
+                    >
+                      pc/노트북
+                    </BtnColor>
+                  </li>
+                  <li>
+                    <BtnColor
+                      type="button"
+                      clickbtn={selectCate === 2}
+                      onClick={() => {
+                        handleButtonClick(2);
+                        // handleChangeBtn(2);
+                      }}
+                    >
+                      영상카메라
+                    </BtnColor>
+                  </li>
+                  <li>
+                    <BtnColor
+                      type="button"
+                      clickbtn={selectCate === 3}
+                      onClick={() => {
+                        handleButtonClick(3);
+                        // handleChangeBtn(3);
+                      }}
+                    >
+                      음향
+                    </BtnColor>
+                  </li>
+                  <li>
+                    <BtnColor
+                      type="button"
+                      clickbtn={selectCate === 4}
+                      onClick={() => {
+                        handleButtonClick(4);
+                        // handleChangeBtn(4);
+                      }}
+                    >
+                      게임 기기
+                    </BtnColor>
+                  </li>
+                </ul>
+              </BtWrap>
+              <BtWrap>
+                <ul>
+                  {goods.map((item, index) => (
+                    <li key={index}>
+                      <BtnColorSub
+                        type="button"
+                        clickbtn={changebtn === item}
+                        onClick={() => {
+                          handleChangeBtn(item);
+                        }}
+                      >
+                        {item}
+                      </BtnColorSub>
+                    </li>
+                  ))}
+                </ul>
+              </BtWrap>
+            </ListSrc>
+
+            <Price>
+              <label htmlFor="price" className="LadelPre">
+                <p className="pre">대여가격</p>
+                <p>*</p>
+              </label>
+              <input
+                type="text"
+                placeholder="₩ 대여 가격"
+                name="price"
+                id="price"
+              ></input>
+            </Price>
+
+            <Detail>
+              <label htmlFor="detail" className="LadelDta">
+                <p className="dta">상품내용</p> <p>*</p>
+              </label>
+              <textarea
+                name="detail"
+                id="detail"
+                placeholder="구매시기,브랜드/모델명,제품의 상태(사용감,하자유무를)등 입력 해주세요"
+              ></textarea>
+            </Detail>
+
+            <Amounts>
+              <div className="surround">
+                <ladel htmlFor="amounts" className="Ladelamu">
+                  <p className="amu">보증금</p> <p className="pt">*</p>
+                </ladel>
+                {/* 라디오 버튼은 여러개 중에 오로지 1개만 선택이 가능 함. 같은지 다른지 파악하는 것은 name 속성의 단어가 같은지를 비교 */}
+                <input
+                  type="text"
+                  name="amounts"
+                  id="amounts"
+                  placeholder="금액을 입력해주세요"
+                  className="dd"
+                ></input>
+              </div>
+              <div className="smallmap">
+                {radioData.map(radio => (
+                  <RadioButton
+                    key={radio.id}
+                    name={radio.name}
+                    value={radio.value}
+                    checked={selectedValue === radio.value}
+                    onChange={handleRadioChange}
+                    className="small"
+                  />
                 ))}
-              </ul>
-            </BtWrap>
-          </ListSrc>
+                <p className="guarantee"> 보증금 : {selectedValue}</p>
+              </div>
+            </Amounts>
 
-          <Price>
-            <label htmlFor="price" className="LadelPre">
-              <p className="pre">대여가격</p>
-              <p>*</p>
-            </label>
-            <input
-              type="text"
-              placeholder="₩ 대여 가격"
-              name="price"
-              id="price"
-            ></input>
-          </Price>
+            <Rla>
+              <ladel htmlFor="rla" className="LadelRa">
+                <p className="ra">제품구매일</p> <p>*</p>
+              </ladel>
+              <input
+                type="date"
+                name="rla"
+                id="rla"
+                placeholder="제품 구매년도를 입력해주세요.   예) 2017년 12월 / 2015년 6월 19일"
+              />
+            </Rla>
 
-          <Detail>
-            <label htmlFor="detail" className="LadelDta">
-              <p className="dta">상품내용</p> <p>*</p>
-            </label>
-            <input
-              type="text"
-              name="detail"
-              id="detail"
-              placeholder="구매시기,브랜드/모델명,제품의 상태(사용감,하자유무를)등 입력 해주세요"
-            ></input>
-          </Detail>
-
-          <Amounts>
-            <ladel htmlFor="amounts" className="Ladelamu">
-              <p className="amu">보증금</p> <p>*</p>
-            </ladel>
-            {/* 라디오 버튼은 여러개 중에 오로지 1개만 선택이 가능 함. 같은지 다른지 파악하는 것은 name 속성의 단어가 같은지를 비교 */}
-
-            <input
-              type="text"
-              name="amounts"
-              id="amounts"
-              placeholder="금액을 입력해주세요"
-            />
-            <div className="Sud">
-              {radioData.map(radio => (
-                <RadioButton
-                  key={radio.id}
-                  name={radio.name}
-                  value={radio.value}
-                  checked={selectedValue === radio.value}
-                  onChange={handleRadioChange}
-                  className="small"
-                />
-              ))}
-              <p> 보증금 : {selectedValue}</p>
-            </div>
-          </Amounts>
-          {/* <input type="radio" name="amount" value={50}></input>
-          <p>50%</p>
-          <input type="radio" name="amount" value={60}></input>
-          <p>60%</p>
-          <input type="radio" name="amount" value={70}></input>
-          <p>70%</p>
-          <input type="radio" name="amount" value={80}></input>
-          <p>80%</p>
-          <input type="radio" name="amount" value={90}></input>
-          <p>90%</p>
-          <input type="radio" name="amount" value={100}></input>
-          <p>100%</p> */}
-
-          <Rla>
-            <ladel htmlFor="rla" className="LadelRa">
-              <p className="ra">제품구매일</p> <p>*</p>
-            </ladel>
-            <input
-              type="date"
-              name="rla"
-              id="rla"
-              placeholder="제품 구매년도를 입력해주세요.   예) 2017년 12월 / 2015년 6월 19일"
-            />
-            {/* <DatePicker
-                dateFormat="yyyy/MM/dd"
-                selected={startDate}
-                onChange={date => setStartDate(date)}
-              /> */}
-          </Rla>
-          <AddressSearch />
-          <TransactionS>
-            <ladel htmlFor="transaction" className="Ladeltst">
-              <p className="tst">거래가능주소</p> <p>*</p>
-            </ladel>
-            {/* <input type="button" value="우편 검색" id="btn" /> */}
-            <input
-              type="text"
-              name="transaction"
-              id="transaction"
-              placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
-            />
-          </TransactionS>
-        </form>
-      </div>
-    </GoodsWrap>
+            <TransactionS>
+              <ladel htmlFor="transaction" className="Ladeltst">
+                <p className="tst">거래가능주소</p> <p>*</p>
+              </ladel>
+              <input type="button" value="우편 검색" id="btn" />
+              <input
+                type="text"
+                name="transaction"
+                id="transaction"
+                placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
+              />
+            </TransactionS>
+          </form>
+        </div>
+      </GoodsWrap>
+    </Layout>
   );
 };
 

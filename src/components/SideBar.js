@@ -7,21 +7,24 @@ export const SideBar = () => {
     <Wrap>
         <SideBarWrap>
             <ButtonWrap>
-                <Link to="/main">
-                    <Write />
+
+                <Write>
+                    <Link to="/main"></Link>
+                </Write>
+                <Chat>
+                    <Link to="/main"></Link>
+                </Chat>
+                <Link to="/my">
+                    <Like>
+                    </Like>
                 </Link>
-                <Link to="/main">
-                    <Chat />
-                </Link>
-                <Link to="/main">
-                    <Like />
-                </Link>
-                <Link to="/main">
-                    <Profile />
-                </Link>
-                <Link to="/main">
-                    <Call />
-                </Link>
+                <Profile>
+                    <Link to="/main"></Link>
+                </Profile>
+                <Call>
+                    <Link to="/main"></Link>
+                </Call>
+
             </ButtonWrap>
         </SideBarWrap>
     </Wrap>

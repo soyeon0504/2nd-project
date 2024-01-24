@@ -121,8 +121,10 @@ export const MoreWrap = styled.div`
   .ant-select-show-search {
     display: none;
   }
+
   .pagination {
     padding-top: 80px;
     padding-bottom: 80px;
   }
+
 `;

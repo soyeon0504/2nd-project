@@ -30,11 +30,11 @@ const MyListBtn = ({ activeBtn, setActiveBtn, onButtonClick}) => {
 
   return (
     <MyListBtnDiv>
-      <MyListButton active={activeBtn} onClick={() => handleButtonClick("대여중")}>
+      <MyListButton active={activeBtn === "대여중"} onClick={() => handleButtonClick("대여중")}>
         대여중
       </MyListButton>
       <MyListButton
-        active={!activeBtn}
+        active={activeBtn === "대여 완료"}
         onClick={() => handleButtonClick("대여 완료")}
         width={"80px"}
       >
