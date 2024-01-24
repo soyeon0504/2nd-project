@@ -53,6 +53,7 @@ const closeButtonStyle = {
 };
 
 const JoinPage = () => {
+  // 
   const [uploadImgBefore, setUploadImgBefore] = useState(
     `${process.env.PUBLIC_URL}/images/join_img.svg`,
   );
