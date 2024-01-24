@@ -4,6 +4,7 @@ import MyMap from "./MyMap";
 import Calendar from "./Calendar";
 import Profile from "./Profile";
 import Pay from "./Pay";
+import Like from "./Like";
 
 import {
   SubContainer,
@@ -45,7 +46,7 @@ import {
   PayRow,
   PayLabel,
   PayValue,
-  WishlistImage,
+  TotalPrice,
   ReviewFormStyle,
   ReviewProfile,
 } from "./DetailsPageStyle";
@@ -85,7 +86,8 @@ const DetailsPage = () => {
               </InfoContainer>
             </AddressContainer>
             <Container>
-              <WishlistImage src="/images/dibs.jpg" alt="이미지" />
+              <Like />
+
               <BtnChat>채팅하기</BtnChat>
               <BtnPay>결제하기</BtnPay>
             </Container>
@@ -99,7 +101,10 @@ const DetailsPage = () => {
             <CautionContent>
               <CautionText>
                 <HeaderText>
-                  <CautionImage src="/images/caution.svg" alt="경고창 이미지" />
+                  <CautionImage
+                    src="/images/details/caution.svg"
+                    alt="경고창 이미지"
+                  />
                   거래 전 주의사항 안내
                 </HeaderText>
                 <BodyText>
@@ -128,6 +133,7 @@ const DetailsPage = () => {
               <PayLabel>보증금</PayLabel>
               <PayValue>50,000 원</PayValue>
             </PayRow>
+            <TotalPrice />
             <PayRow>
               <PayLabel>총 합계</PayLabel>
               <PayValue>260,000 원</PayValue>
