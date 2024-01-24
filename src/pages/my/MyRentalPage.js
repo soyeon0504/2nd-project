@@ -12,7 +12,7 @@ const MyRentalPage = ({activeBtn, setActiveBtn, handleSubItemClick}) => {
       activeBtn={activeBtn} 
       setActiveBtn={setActiveBtn} 
       onButtonClick={handleSubItemClick} />
-      <MyList activeBtn={activeBtn} setActiveBtn={setActiveBtn} onButtonClick={handleSubItemClick}/>
+      <MyList activeBtn={activeBtn} setActiveBtn={setActiveBtn}/>
     </>
   );
 };

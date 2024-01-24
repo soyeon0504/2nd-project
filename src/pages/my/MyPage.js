@@ -8,6 +8,7 @@ import MyReviewPage from './MyReviewPage';
 import MyInterestPage from './MyInterestPage';
 import MyInfoPage from './MyInfoPage';
 import MyWithDrawPage from './MyWithDrawPage';
+import { unstable_HistoryRouter, useLocation, useNavigate } from 'react-router-dom';
 
 const AllWidth = styled.div`
   width: 1260px;
@@ -52,14 +53,23 @@ const MyPage = () => {
     },
   ];
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // console.log(selectedItem);
+    const params = new URLSearchParams(location.search);
+    const item = params.get('item');
+    if (item && item !== selectedItem) {
+      setSelectedItem(item);
+      setActiveBtn(item);
+    }
   }, [selectedItem]);
 
   const handleSubItemClick = (subItem) => {
     setSelectedItem(subItem);
     setActiveBtn(subItem);
-  }
+    navigate(`?item=${subItem}`);
+  };
 
   return (
     <Layout>
@@ -68,9 +78,9 @@ const MyPage = () => {
         <Mytitle />
       </div>
       <Flex>
-        <MyCategory myCate={myCate} selectedItem={selectedItem} setSelectedItem={setSelectedItem} onSubItemClick={handleSubItemClick}/>
+        <MyCategory myCate={myCate} selectedItem={selectedItem} onSubItemClick={handleSubItemClick}/>
         <div>
-        {activeBtn === "대여중" || activeBtn === "대여 완료" || selectedItem === "대여중" ?  
+        {activeBtn === "대여중" || activeBtn === "대여 완료" ?  
             ( <MyRentalPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
         {activeBtn === "관심 목록" && ( <MyInterestPage /> )}
         {activeBtn === "내 작성 후기" || activeBtn === "내 상품 후기" ? 

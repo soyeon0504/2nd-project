@@ -10,7 +10,7 @@ const MyReviewPage = ({activeBtn, setActiveBtn, handleSubItemClick}) => {
         activeBtn={activeBtn} 
         setActiveBtn={setActiveBtn} 
         onButtonClick={handleSubItemClick} />
-      <MyReviewList activeBtn={activeBtn} setActiveBtn={setActiveBtn} onButtonClick={handleSubItemClick}/>
+      <MyReviewList activeBtn={activeBtn} />
     </>
   );
 };

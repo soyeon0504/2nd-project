@@ -1,5 +1,6 @@
 import React from "react";
 import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
+import MyMoreButton from "../MyMoreButton";
 
 
 const MyInterestList = () => {
@@ -68,7 +69,7 @@ const MyInterestList = () => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <button>MORE</button>
+        <MyMoreButton />
       </MyListBottom>
     </MyListDiv>
   );

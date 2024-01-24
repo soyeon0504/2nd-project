@@ -203,7 +203,7 @@ const MyInfoPage = () => {
             </JoinElementInput>
           </JoinElement>
         </JoinBox>
-        <BtSection>
+        <BtSection mgtop={"10px"} mgbtm={"20px"}>
           <CancelBt>취소</CancelBt>
           <SaveBt>저장</SaveBt>
         </BtSection>
