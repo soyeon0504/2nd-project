@@ -42,9 +42,9 @@ const Footer = () => {
           <h2>SOCIAL</h2>
           <br />
           <br />
-          <img src="/images/gitHub.svg" />
-          <img src="/images/notion.svg" />
-          <img src="/images/figma.svg" />
+          <img src="/images/footer/gitHub.svg" />
+          <img src="/images/footer/notion.svg" />
+          <img src="/images/footer/figma.svg" />
         </div>
       </FooterMain>
       <FooterBottom>

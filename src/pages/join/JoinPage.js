@@ -15,46 +15,13 @@ import {
   SaveBt,
 } from "../../styles/join/JoinPageStyle";
 import { JoinHeader } from "../../styles/join/JoinFirstPageStyle";
-
-const Modal = ({ children, handleClose }) => {
-  return (
-    <div style={modalStyle}>
-      <div style={contentStyle}>
-        <span style={closeButtonStyle} onClick={handleClose}>
-          &times;
-        </span>
-        {children}
-      </div>
-    </div>
-  );
-};
-
-const modalStyle = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "#fefefe",
-  padding: "20px",
-  width: '600px',
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-};
-
-const contentStyle = {
-  position: "relative",
-};
-
-const closeButtonStyle = {
-  position: "absolute",
-  top: "10px",
-  right: "10px",
-  fontSize: "20px",
-  cursor: "pointer",
-};
+import { useNavigate } from "react-router-dom";
+import { Modal } from "../../components/address/Address";
 
 const JoinPage = () => {
+  // 이미지 등록
   const [uploadImgBefore, setUploadImgBefore] = useState(
-    `${process.env.PUBLIC_URL}/images/join_img.svg`,
+    `${process.env.PUBLIC_URL}/images/join/join_img.svg`,
   );
   const [fileCount, setFileCount] = useState(0);
   const [uploadImgBeforeFile, setUploadImgBeforeFile] = useState(null);
@@ -70,6 +37,18 @@ const JoinPage = () => {
     }
   };
 
+  // 비밀번호 보이기/감추기
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(prev => !prev);
+  };
+  const handleTogglePasswordConfirm = () => {
+    setShowPasswordConfirm (prev => !prev);
+  };
+
+  // 주소 검색 모달창
   const [calendarLocation, setCalendarLocation] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -78,13 +57,20 @@ const JoinPage = () => {
     setCalendarLocation(address);
     setModalOpen(false);
   };
-
   const handleClickButton = () => {
     setModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  // 취소 & 저장 버튼
+  const navigate = useNavigate();
+  const handleCancel = () => {
+    navigate(`/login`);
+  };
+  const handleConfirm = () => {
+    navigate(`/join/3`);
   };
 
   return (
@@ -92,7 +78,7 @@ const JoinPage = () => {
       <JoinPageStyle>
         <JoinHeader>
           <p>회원가입</p>
-          <img src="../images/join_step2.svg" />
+          <img src="/images/join/join_step2.svg" />
         </JoinHeader>
         <JoinBox>
           <JoinElement>
@@ -151,7 +137,42 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
-              <input type="text" placeholder="특수문자 포함 8~15자 이내" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="특수문자 포함 8~15자 이내"
+              />
+              <button
+                type="button"
+                style={{
+                  background: "transparent",
+                  border: `none`,
+                  width: `0px`,
+                  height: `0px`,
+                }}
+                onClick={handleTogglePassword}
+              >
+                {showPassword ? (
+                  <img
+                    src="/images/join/eye_open.png"
+                    style={{
+                      width: `20px`,
+                      height: `20px`,
+                      border: `none`,
+                      transform: "translate(-150%, 40%)",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="/images/join/eye_close.png"
+                    style={{
+                      width: `20px`,
+                      height: `20px`,
+                      border: `none`,
+                      transform: "translate(-150%, 40%)",
+                    }}
+                  />
+                )}
+              </button>
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -160,7 +181,42 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
-              <input type="text" placeholder="비밀번호 확인" />
+              <input
+                type={showPasswordConfirm ? "text" : "password"}
+                placeholder="비밀번호 확인"
+              />
+              <button
+                type="button"
+                style={{
+                  background: "transparent",
+                  border: `none`,
+                  width: `0px`,
+                  height: `0px`,
+                }}
+                onClick={handleTogglePasswordConfirm}
+              >
+                {showPasswordConfirm ? (
+                  <img
+                    src="/images/join/eye_open.png"
+                    style={{
+                      width: `20px`,
+                      height: `20px`,
+                      border: `none`,
+                      transform: "translate(-150%, 40%)",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="/images/join/eye_close.png"
+                    style={{
+                      width: `20px`,
+                      height: `20px`,
+                      border: `none`,
+                      transform: "translate(-150%, 40%)",
+                    }}
+                  />
+                )}
+              </button>
             </JoinElementInput>
           </JoinElement>
           <JoinElement>
@@ -203,13 +259,13 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInput>
-              <input type="text" placeholder="예) a123@naver.com" />
+              <input type="email" placeholder="예) a123@naver.com" />
             </JoinElementInput>
           </JoinElement>
         </JoinBox>
         <BtSection>
-          <CancelBt>취소</CancelBt>
-          <SaveBt>저장</SaveBt>
+          <CancelBt onClick={handleCancel}>취소</CancelBt>
+          <SaveBt onClick={handleConfirm}>저장</SaveBt>
         </BtSection>
       </JoinPageStyle>
     </Layout>
