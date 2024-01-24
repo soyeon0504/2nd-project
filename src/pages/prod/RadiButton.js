@@ -1,17 +1,21 @@
-import React from 'react';
+import React from "react";
+import { LadelButton } from "../../styles/productsStyle";
 
 const RadioButton = ({ name, value, checked, onChange }) => {
   return (
-    <label>
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      {value}
-    </label>
+    <LadelButton>
+      <label>
+        <input
+          type="radio"
+          name={name}
+          value={value}
+          checked={checked}
+          onChange={onChange}
+        />
+
+        {value}
+      </label>
+    </LadelButton>
   );
 };
 

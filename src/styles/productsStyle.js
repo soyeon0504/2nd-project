@@ -23,7 +23,6 @@ export const Goods = styled.div`
 export const PictureS = styled.div`
   width: 1260px;
   height: 240px;
-  background-color: antiquewhite;
   display: flex;
   padding-left: 450px;
   padding-right: 450px;
@@ -31,7 +30,7 @@ export const PictureS = styled.div`
   margin-right: 172px;
   label {
     display: flex;
-    margin-right: 30px;
+    margin-right: 130px;
     p {
       color: #ff0303;
       font-size: 8px;
@@ -44,19 +43,25 @@ export const PictureS = styled.div`
       font-weight: 400;
       line-height: normal;
     }
+    .pictures {
+      width: 180px;
+      height: 180px;
+      border-radius: 5px;
+      border: solid#2c39b5;
+      background: #ff0303;
+    }
   }
 `;
 export const ProductS = styled.div`
   width: auto;
   height: 97px;
-  background-color: bisque;
   display: flex;
   padding-left: 450px;
   padding-right: 40px;
-  margin-right: 172px;
+  margin-right: 157px;
   .ladelprt {
     display: flex;
-    margin-right: 30px;
+    margin-right: 157px;
   }
   input {
     width: 860px;
@@ -82,7 +87,6 @@ export const ProductS = styled.div`
 export const Price = styled.div`
   width: 1700px;
   height: 100px;
-  background-color: bisque;
   padding-left: 450px;
   display: flex;
   p {
@@ -91,7 +95,7 @@ export const Price = styled.div`
   }
   .LadelPre {
     display: flex;
-    margin-right: 30px;
+    margin-right: 143px;
   }
   .pre {
     color: #000;
@@ -108,7 +112,7 @@ export const Price = styled.div`
     border: 1px solid #2c39b5;
     background: #fff;
     display: flex;
-    margin-right: 30px;
+    margin-right: 133px;
   }
 `;
 
@@ -120,6 +124,7 @@ export const ListSrc = styled.div`
   padding-left: 450px;
   padding-bottom: 60px;
   margin-bottom: 60px;
+  margin-right: 143px;
 
   p {
     display: flex;
@@ -128,7 +133,7 @@ export const ListSrc = styled.div`
   }
   .ladelct {
     display: flex;
-    margin-right: 30px;
+    margin-right: 133px;
   }
   .ct {
     color: #000;
@@ -158,43 +163,51 @@ export const Detail = styled.div`
     font-weight: 400;
     line-height: normal;
   }
-  input {
-    display: flex;
+  textarea {
+    /* display: flex; */
     width: 860px;
-    height: 40px;
+    height: 280px;
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
   }
   .LadelDta {
     display: flex;
-    margin-right: 30px;
+    margin-right: 147px;
   }
 `;
 //보증금
 export const Amounts = styled.div`
-  width: 1200px;
+  width: 100%;
   height: auto;
   margin-right: 450px;
   padding-left: 450px;
   padding-bottom: 60px;
 
-  /* display: flex; */
   p {
+    color: #777;
+  }
+  .guarantee {
+    margin-left: 210px;
+  }
+  .pt {
     color: #ff0303;
+    font-family: Inter;
     font-size: 8px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
   input {
-    width: 860px;
     height: 40px;
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
-    margin-bottom: 13px;
+    margin-right: 5px;
   }
   .Ladelamu {
     display: flex;
-    margin-right: 30px;
+    margin-right: 156px;
   }
   .amu {
     color: #000;
@@ -206,10 +219,27 @@ export const Amounts = styled.div`
   }
   .small {
     display: flex;
+    align-items: center;
+    color: #777;
   }
   .Sud {
     display: flex;
+
     margin-bottom: 63px;
+  }
+  .surround {
+    display: flex;
+  }
+  .smallmap {
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 155px;
+  }
+  .dd {
+    width: 860px;
+    height: 40px;
   }
 `;
 export const Rla = styled.div`
@@ -231,7 +261,7 @@ export const Rla = styled.div`
   }
   .LadelRa {
     display: flex;
-    margin-right: 30px;
+    margin-right: 128px;
   }
   .ra {
     color: #000;
@@ -292,13 +322,31 @@ export const TransactionS = styled.div`
   }
   .Ladeltst {
     display: flex;
-    margin-right: 30px;
+    margin-right: 116px;
   }
   input {
-    width: 860px;
-    height: 40px;
+    width: 725px;
+    height: 39px;
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
+  }
+  #btn {
+    width: 105px;
+    height: 39px;
+    border-radius: 5px;
+    border: 1px solid #2c39b5;
+    background: #fff;
+    margin-right: 15px;
+  }
+`;
+export const LadelButton = styled.div`
+  display: flex;
+  align-items: center;
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-left: 55px;
   }
 `;

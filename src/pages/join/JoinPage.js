@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "../../components/address/Address";
 
 const JoinPage = () => {
-  // 이미지 등록
+
   const [uploadImgBefore, setUploadImgBefore] = useState(
     `${process.env.PUBLIC_URL}/images/join/join_img.svg`,
   );
