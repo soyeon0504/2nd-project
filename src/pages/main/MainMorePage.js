@@ -6,112 +6,112 @@ import Layout from "../../layouts/Layout";
 
 const initData = [
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
     view: 10,
   },
   {
-    image: "../images/camera.jpeg",
+    image: "../images/main/camera.jpeg",
     title: "인스탁스 미니12 폴라로이드 즉석 카메라",
     price: "150,000 원",
     address: "대구광역시 달서구 상인동",
@@ -152,10 +152,13 @@ const MainMorePage = () => {
           </div>
           <div>
             <div className="bt-wrap">
-              <button>최신순</button>
-              <img src="../images/line.svg" />
-              <button>조회순</button>
-              <div className="area-wrap">
+              <div>
+                <button>최신순</button>
+                <img src="../images/main/line.svg" />
+                <button>조회순</button>
+              </div>
+            </div>
+            <div className="area-wrap">
                 <select>
                   <option>서울특별시</option>
                   <option>부산광역시</option>
@@ -166,10 +169,13 @@ const MainMorePage = () => {
                   <option>울산광역시</option>
                 </select>
                 <select>
-                  <option></option>
+                  <option>수성구</option>
+                  <option>중구</option>
+                  <option>북구</option>
+                  <option>서구</option>
+                  <option>달서구</option>
                 </select>
               </div>
-            </div>
           </div>
         </div>
         <div className="main-wrap">
@@ -179,7 +185,7 @@ const MainMorePage = () => {
                 <img src={item.image} alt="" />
                 <div className="like">
                   <button>
-                    <img src="../images/like.svg" />
+                    <img src="../images/main/like.svg" />
                   </button>
                 </div>
                 <div className="desc-wrap">
@@ -193,8 +199,9 @@ const MainMorePage = () => {
             );
           })}
         </div>
-
-        <Pagination current={current} onChange={onChange} total={100} />
+        <div className="pagination">
+          <Pagination current={current} onChange={onChange} total={100} />
+        </div>
       </MoreWrap>
     </Layout>
   );

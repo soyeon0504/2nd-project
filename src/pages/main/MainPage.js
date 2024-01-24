@@ -11,49 +11,49 @@ import { BtSlideNext, BtSlidePrev, SlideBtWrap } from "./SlideButton";
 
 
 const initData = [{
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
   view: 10
 },
 {
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
   view: 10
 },
 {
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
   view: 10
 },
 {
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
   view: 10
 },
 {
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
   view: 10
 },
 {
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
   view: 10
 },
 {
-  image: "../images/camera.jpeg",
+  image: "../images/main/camera.jpeg",
   title: "인스탁스 미니12 폴라로이드 즉석 카메라",
   price: "150,000 원",
   address:"대구광역시 달서구 상인동",
@@ -75,8 +75,8 @@ const MainPage = () => {
   // 초기값 세팅
   const [focus, setFocus] = useState(0);
 
-  // const navigate = useNavigate();
-  // navigate(`/main/more/${1}`)
+  const navigate = useNavigate();
+  navigate(`/main/more`)
 
   return (
     <>
@@ -106,7 +106,7 @@ const MainPage = () => {
               <SwiperSlide key={`cameraSlide${index}`}> 
               <div className="like">
                 <button onClick={() => handleClickLike()}>
-                  <img src="../images/like.svg"/>
+                  <img src="../images/main/like.svg"/>
                 </button>
               </div>
               <img src={item.image} alt="" />
@@ -126,12 +126,12 @@ const MainPage = () => {
               <BtSlidePrev onClick={() => {
             swiperRef.current.slidePrev();
           }}>
-                <img src="/images/prev.svg" alt="" />
+                <img src="../images/main/prev.svg" alt="" />
               </BtSlidePrev>
               <BtSlideNext onClick={() => {
             swiperRef.current.slideNext();
           }}>
-                <img src="/images/next.svg" alt="" />
+                <img src="../images/main/next.svg" alt="" />
               </BtSlideNext>
             </SlideBtWrap>
 

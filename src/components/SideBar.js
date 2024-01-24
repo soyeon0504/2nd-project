@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 
 export const SideBar = () => {
   return (
-    <div>
+    <Wrap>
         <SideBarWrap>
             <ButtonWrap>
+
                 <Write>
                     <Link to="/main"></Link>
                 </Write>
@@ -23,8 +24,9 @@ export const SideBar = () => {
                 <Call>
                     <Link to="/main"></Link>
                 </Call>
+
             </ButtonWrap>
         </SideBarWrap>
-    </div>
+    </Wrap>
   )
 }
