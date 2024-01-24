@@ -84,7 +84,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/my/"
+          path="/my"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMyPage />
@@ -108,7 +108,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="info/"
+            path="info"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMyInfoPage />

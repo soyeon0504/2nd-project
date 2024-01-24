@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { MyListBottom, MyListDiv, MyListMid, MyListMidEnd, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
+import React from "react";
+import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
+import MyMoreButton from "../MyMoreButton";
 
 
-const MyReviewList = ({ activeBtn, setActiveBtn }) => {
-  const [activeButton, setActiveButton] = useState(true);
-
-  const handleButtonClick = btnName => {
-    setActiveButton(btnName);
-  };
+const MyReviewList = ({ activeBtn }) => {
 
   const mylistmid = [
     {
@@ -94,7 +90,7 @@ const MyReviewList = ({ activeBtn, setActiveBtn }) => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <button>MORE</button>
+        <MyMoreButton />
       </MyListBottom>
     </MyListDiv>
   );

@@ -25,7 +25,7 @@
     "react-modal": "^3.16.1",
     "react-redux": "^9.1.0",
     "react-router": "^6.21.1",
-    "react-router-dom": "^6.21.1",
+    "react-router-dom": "^6.21.3",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "redux": "^5.0.1",
@@ -61,5 +61,6 @@
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2"
-  }
+  },
+  "proxy": "http://112.222.157.156:5225"
 }

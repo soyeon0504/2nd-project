@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const MyListDiv = styled.div`
-  height: 55rem;
+  height: 57rem;
   background: #f2f2ff;
   border-radius: 1rem;
   padding: 2rem;

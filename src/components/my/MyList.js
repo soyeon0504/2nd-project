@@ -10,8 +10,9 @@ import {
   MyListTop,
   MyListTopButton,
 } from "../../styles/my/MyList";
+import MyMoreButton from "./MyMoreButton";
 
-const MyList = ({ activeBtn, setActiveBtn }) => {
+const MyList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
 
   const handleButtonClick = buttonType => {
@@ -112,7 +113,7 @@ const MyList = ({ activeBtn, setActiveBtn }) => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <button>MORE</button>
+        <MyMoreButton />
       </MyListBottom>
     </MyListDiv>
   );

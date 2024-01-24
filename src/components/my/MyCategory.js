@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
 const MyCateDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,16 +31,7 @@ const MyCateLi = styled.li`
   cursor: pointer;
 `;
 
-const MyCategory = ({selectedItem, setSelectedItem, myCate, onSubItemClick}) => {
-  const navigate = useNavigate();
-
-  const handleChangeColor = (item, path) => {
-    setSelectedItem(item);
-    navigate(path); 
-    if (item.subItem === "회원탈퇴") {
-      `my/info/withdraw`
-    }
-  };
+const MyCategory = ({selectedItem, myCate, onSubItemClick}) => {
 
   return (
     <MyCateDiv>
@@ -52,7 +43,6 @@ const MyCategory = ({selectedItem, setSelectedItem, myCate, onSubItemClick}) => 
               key={subItem}
               selected={selectedItem === subItem}
               onClick={() => {
-                handleChangeColor(subItem, `/my/${item.name}`);
                 onSubItemClick(subItem);
               }}
             >
