@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { Common } from "../../styles/CommonStyles";
 
 const ProfileDiv = styled.div`
   display: flex;
   align-items: center;
   height: 180px;
-  border: 1px solid #e4e7ff;
+  border: 1px solid ${Common.color.p400};
   padding: 2rem;
   border-radius: 5px;
 `;
@@ -15,7 +16,7 @@ const ProfileLeft = styled.div`
   width: 412px;
   height: 140px;
   align-items: center;
-  border-right: 1px solid #f2f2ff;
+  border-right: 1px solid ${Common.color.p500};
   h1 {
     font-weight: 400;
     margin-left: 2rem;
@@ -43,7 +44,7 @@ const ProfileRight = styled.div`
     height: 80px;
     color: #777;
     text-align: center;
-    border-right: 1px solid #f2f2ff;
+    border-right: 1px solid ${Common.color.p500};
     :first-of-type {
       margin-left: 4.3rem;
     }

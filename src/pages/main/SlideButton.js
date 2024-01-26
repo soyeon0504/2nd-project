@@ -26,6 +26,10 @@ height: 70px;
   width: 10px;
   height: 18px;
 }
+&.bt-slide-prev.swiper-button-disabled {
+  display: none;
+}
+  
 `;
 
 // 슬라이드 우측 이동 버튼
@@ -51,4 +55,8 @@ height: 70px;
   display: block;
   margin: 0 auto;
 }
+
+&.bt-slide-next.swiper-button-disabled {
+    display: none;
+  }
 `;

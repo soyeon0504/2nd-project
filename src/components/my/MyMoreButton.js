@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
 import React from 'react'
+import { Common } from '../../styles/CommonStyles'
 
 const MyMoreBtWrap = styled.div`
     display: flex;
@@ -15,15 +16,15 @@ const MyMoreBtn = styled.button`
     border-radius: 3.5rem;
     width: 130px;
     height: 50px;
-    color: #2c39b5;
-    border: 2px solid #2c39b5;
+    color: ${Common.color.primary};
+    border: 2px solid ${Common.color.primary};
     img {
         width: 14px;
         height: 20px;
     }
     &:hover {
         color: #fff;
-        background-color: #2c39b5;
+        background-color: ${Common.color.primary};
         img {
             content: url("/images/main/arrow1.svg");
         }

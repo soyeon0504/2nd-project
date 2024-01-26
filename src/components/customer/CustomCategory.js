@@ -24,7 +24,7 @@ const MyCateUl = styled.ul`
 `;
 
 const MyCateLi = styled.li`
-  color: ${props => (props.selected ? Common.color.primary : Common.color.p300)};
+  color: ${props => (props.selected ? "#2C39B5" : "#777")};
   font-weight: ${props => (props.selected ? "500" : "400")};
   font-size: 1.6rem;
   line-height: 1.9;
@@ -32,17 +32,37 @@ const MyCateLi = styled.li`
   cursor: pointer;
 `;
 
-const MyCategory = ({selectedItem, myCate, onSubItemClick}) => {
+const CustomCall = styled.div`
+  margin-top: 3rem;
+  border-top: 1px solid ${Common.color.primary};
+  padding: 1rem;
+  p {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  span {
+    display: block;
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+`
+
+const CustomerCategory = ({selectedState, custCate, onSubItemClick}) => {
 
   return (
     <MyCateDiv>
-      {myCate.map(item => (
+      {custCate.map(item => (
         <MyCateUl key={item.title}>
           <p>{item.title}</p>
           {item.list.map(subItem => (
             <MyCateLi
               key={subItem}
-              selected={selectedItem === subItem}
+              selected={selectedState === subItem}
               onClick={() => {
                 onSubItemClick(subItem);
               }}
@@ -52,8 +72,17 @@ const MyCategory = ({selectedItem, myCate, onSubItemClick}) => {
           ))}
         </MyCateUl>
       ))}
+      <CustomCall>
+        <p>000 고객센터</p>
+        <h1>1803 - 3124</h1>
+        <span>
+          월 ~ 금요일 <br />
+          09:00 ~ 18:00 <br />
+          주말, 공휴일 휴무
+        </span>
+      </CustomCall>
     </MyCateDiv>
   );
 };
 
-export default MyCategory;
+export default CustomerCategory;

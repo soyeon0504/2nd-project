@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { Common } from "../../styles/CommonStyles";
 
 const MyListBtnDiv = styled.div`
   height: 42px;
-  border-top: 1px solid #f2f2ff;
-  border-bottom: 1px solid #f2f2ff;
+  border-top: 1px solid ${Common.color.p500};
+  border-bottom: 1px solid ${Common.color.p500};
   padding: 4px 10px 4px 0;
   display: flex;
   justify-content: flex-end;
@@ -13,8 +14,8 @@ const MyListBtnDiv = styled.div`
 
 const MyListButton = styled.button`
   border-radius: 5px;
-  background: ${props => (props.active ? "#2C39B5" : "#fff")};
-  color: ${props => (props.active ? "#fff" : "#777")};
+  background: ${props => (props.active ? Common.color.primary : Common.color.p600)};
+  color: ${props => (props.active ? Common.color.p600 : Common.color.p300)};
   width: ${props => (props.width ? props.width : "65px")};
   height: 32px;
   text-align: center;

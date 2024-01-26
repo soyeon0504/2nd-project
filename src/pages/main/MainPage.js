@@ -95,7 +95,10 @@ const MainPage = () => {
             slidesPerView={4}
             spaceBetween={20}
             slidesPerGroup={4}
-            navigation={true}
+            navigation={{
+              nextEl: ".bt-slide-next",
+              prevEl: ".bt-slide-prev",
+            }}
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
             }}
@@ -123,12 +126,12 @@ const MainPage = () => {
             })}
             </Swiper>
             <SlideBtWrap>
-              <BtSlidePrev onClick={() => {
+              <BtSlidePrev className="bt-slide-prev" onClick={() => {
             swiperRef.current.slidePrev();
           }}>
                 <img src="../images/main/prev.svg" alt="" />
               </BtSlidePrev>
-              <BtSlideNext onClick={() => {
+              <BtSlideNext className="bt-slide-next" onClick={() => {
             swiperRef.current.slideNext();
           }}>
                 <img src="../images/main/next.svg" alt="" />

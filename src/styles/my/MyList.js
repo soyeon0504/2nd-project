@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
+import { Common } from "../CommonStyles";
 
 export const MyListDiv = styled.div`
-  height: 57rem;
-  background: #f2f2ff;
+  background: ${Common.color.p500};
   border-radius: 1rem;
   padding: 2rem;
 `;
@@ -25,9 +25,9 @@ export const MyListTop = styled.div`
 
 export const MyListTopButton = styled.button`
   border-radius: 3px;
-  border: 1px solid #2c39b5;
-  background: ${props => (props.selected ? "#2C39B5" : "#f2f2ff")};
-  color: ${props => (props.selected ? "#fff" : "#2C39B5")};
+  border: 1px solid ${Common.color.primary};
+  background: ${props => (props.selected ? Common.color.primary : Common.color.p500)};
+  color: ${props => (props.selected ? Common.color.p600 : Common.color.primary)};
   width: 5rem;
   height: 2.5rem;
   text-align: center;
@@ -40,7 +40,7 @@ export const MyListMid = styled.div`
   gap: 1rem;
   color: #000;
   padding: 1rem;
-  border: 1px solid #2c39b5;
+  border: 1px solid ${Common.color.primary};
   border-radius: 1rem;
   margin-top: 2.3rem;
   height: 12rem;
@@ -53,7 +53,7 @@ export const MyListMidEnd = styled.div`
   gap: 1rem;
   color: #000;
   padding: 1rem;
-  border: 1px solid #2c39b5;
+  border: 1px solid ${Common.color.primary};
   border-radius: 1rem;
   margin-top: 2.3rem;
   background: rgba(0, 0, 0, 0.15);
