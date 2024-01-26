@@ -8,10 +8,12 @@ const Layout = ({ children }) => {
       <header>
         <Header />
       </header>
-      <main style={{ marginTop: '250px' }}>{children}</main>
+      <div style={{ position: 'absolute', top: '250px', left: '0', width: '100%' }}>
+      <main>{children}</main>
       <footer>
         <Footer />
       </footer>
+      </div>
     </div>
   );
 };

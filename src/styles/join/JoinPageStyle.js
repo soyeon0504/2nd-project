@@ -6,7 +6,7 @@ export const JoinPageStyle = styled.div`
   margin: 0 auto;
   /* background: skyblue; */
 `;
-export const JoinBox = styled.div`
+export const JoinBox = styled.form`
   width: 980px;
   /* height: 700px; */
   border-radius: 10px;
@@ -94,7 +94,7 @@ export const JoinAddressInput = styled.div`
     padding-left: 15px;
     margin-top: 10px;
 
-    color: #777;
+    color: #000;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -106,14 +106,27 @@ export const ConfirmBt = styled.button`
   height: 36px;
   border-radius: 5px;
   border: 1px solid #2c39b5;
-  background: #fff;
+  background: #2C39B5;
 
-  color: #777;
+  color: #fff;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
+// export const AddressBt = styled.button`
+//   width: 105px;
+//   height: 36px;
+//   border-radius: 5px;
+//   border: 1px solid #2c39b5;
+//   background: #fff;
+
+//   color: #777;
+//   font-size: 16px;
+//   font-style: normal;
+//   font-weight: 400;
+//   line-height: normal;
+// `;
 export const BtSection = styled.div`
   display: flex;
   justify-content: center;

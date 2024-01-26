@@ -7,7 +7,7 @@ margin: 0 auto;
 /* background: skyblue; */
 `;
 export const JoinHeader = styled.div`
-margin-top:  ${props => props.mgtop ? props.mgtop : "70px"};
+margin-top:  ${props => props.mgtop ? props.mgtop : "0px"};
 text-align: center;
 p {
   color: #000;
