@@ -17,8 +17,44 @@ import {
   TransactionS,
 } from "../../styles/productsStyle";
 import RadioButton from "./RadiButton";
-import { DatePicker } from "antd";
+import { DatePicker, Space } from "antd";
 import ImageUpload from "./ImageUpload";
+import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
+import { useNavigate } from "react-router";
+import MyDatePicker from "./MyDatePicker";
+import { useForm } from "react-hook-form";
+import FormComponent from "./FormComponent";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+// 엑시오스 기본데이터
+const initSample = {
+  mainPic: "",
+  pics: [""],
+  dto: {
+    title: "",
+    contents: "",
+    addr: "",
+    restAddr: "",
+    price: 0,
+    rentalPrice: 0,
+    depositPer: 0,
+    buyDate: "2024-01-26",
+    rentalStartDate: "2024-01-26",
+    rentalEndDate: "2024-01-26",
+    icategory: 1,
+    inventory: 1,
+  },
+};
+// 엽 초기값
+const BasicSetting = {
+  mainPic: "사진",
+  title: "상품명",
+  icategory: "카테고리숫자",
+  contents: "상품내용",
+  buyDate: "구매날짜",
+};
 
 const initState = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -83,6 +119,48 @@ const Products = () => {
       setUploadImgUrl(reader.result);
     };
   };
+  // 저장 취소
+  const navigate = useNavigate();
+  const handleCancel = () => {
+    navigate(`interest`);
+  };
+  const handleConfirm = () => {
+    navigate(`/my`);
+  };
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  console.log("리랜더링");
+
+  // yup 검증 코드 수정요망
+  const validationSchema = yup.object({
+    title: yup
+      .string("상품명을 입역해주세요.")
+      .required("상품명은 필수입니다."),
+    contents: yup
+      .string("내용을 입력하세요.")
+      .min(5, "5자 이상 입력하세요.")
+      .max(6, "6자까지만 입력하세요 "),
+    dateInput: yup
+      .string("날짜를 입력하세요.")
+      .required("상품등록날은 필수입니다.")
+      .email("이메일 형식에 맞지 않습니다"),
+    usermemo: yup.string("내용을 입력하세요.").required("메모 필수입니다."),
+  });
+
+  // 1. useForm 을 활용
+  // register 는 폼의 name 값 셋팅 및 읽기기능
+  // handleSubmit 은 폼의 상태 변화 및 완료시 실행이 됩니다.
+  const { register, handleSubmit, formState } = useForm({
+    defaultValues: BasicSetting,
+    resolver: yupResolver(validationSchema),
+    mode: "onChange",
+  });
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
+    console.log(data);
+  };
+
   return (
     <Layout>
       <GoodsWrap>
@@ -90,7 +168,7 @@ const Products = () => {
           <p>기본정보</p>
         </Goods>
         <div>
-          <form>
+          <form onSubmit={handleSubmit(handleSubmitMy)}>
             <PictureS>
               <label htmlFor="pictures">
                 <p className="pic">사진</p> <p>*</p>
@@ -107,6 +185,7 @@ const Products = () => {
                 type="text"
                 id="product"
                 placeholder="상품을 입력해주세요"
+                {...register("title")}
               />
             </ProductS>
 
@@ -202,7 +281,7 @@ const Products = () => {
                 <p>*</p>
               </label>
               <input
-                type="text"
+                type="number"
                 placeholder="₩ 대여 가격"
                 name="price"
                 id="price"
@@ -250,15 +329,11 @@ const Products = () => {
             </Amounts>
 
             <Rla>
-              <ladel htmlFor="rla" className="LadelRa">
-                <p className="ra">제품구매일</p> <p>*</p>
+              <ladel htmlFor="oldmail" className="LadelRa">
+                <p className="black">제품구매일</p> <p>*</p>
               </ladel>
-              <input
-                type="date"
-                name="rla"
-                id="rla"
-                placeholder="제품 구매년도를 입력해주세요.   예) 2017년 12월 / 2015년 6월 19일"
-              />
+
+              <MyDatePicker />
             </Rla>
 
             <TransactionS>
@@ -269,10 +344,26 @@ const Products = () => {
               <input
                 type="text"
                 name="transaction"
-                id="transaction"
-                placeholder="거래 가능 주소를 입력해주세요.   예) 대구광역시 달서구 월성동"
+                id="readOnlyInput"
+                readOnly
+                value="우편주소를 검색해주세요"
               />
             </TransactionS>
+            <BtSection>
+              <CancelBt type="button" onClick={handleCancel}>
+                취소
+              </CancelBt>
+              <SaveBt type="button" onClick={handleConfirm}>
+                저장
+              </SaveBt>
+            </BtSection>
+
+            {/* 확인 버튼 */}
+            <div>
+              모든 검증을 통과했는지 파악 : {formState.isValid ? "OK" : "NO"}
+            </div>
+
+            <FormComponent />
           </form>
         </div>
       </GoodsWrap>

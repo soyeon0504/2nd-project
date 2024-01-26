@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-
-
+import "../../styles/imageUpload.css";
 
 const ImageUpload = () => {
-    //기본 값이 변경될떄마다
+  //기본 값이 변경될떄마다
   const [fileList, setFileList] = useState([
     {
       uid: "-1",
@@ -40,7 +39,7 @@ const ImageUpload = () => {
         fileList={fileList}
         onChange={onChange}
         onPreview={onPreview}
-        style={{display:"flex",width:"966px",height:"200px"}}
+        style={{ display: "flex", width: "966px", height: "200px" }}
       >
         {fileList.length < 10 && "+ Upload"}
       </Upload>

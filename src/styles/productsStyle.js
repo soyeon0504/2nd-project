@@ -31,6 +31,7 @@ export const PictureS = styled.div`
   label {
     display: flex;
     margin-right: 130px;
+
     p {
       color: #ff0303;
       font-size: 8px;
@@ -49,6 +50,9 @@ export const PictureS = styled.div`
       border-radius: 5px;
       border: solid#2c39b5;
       background: #ff0303;
+    }
+    #product{
+      tab-size: 16px;
     }
   }
 `;
@@ -69,6 +73,9 @@ export const ProductS = styled.div`
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
+    padding: 6px;
+    padding-left: 11px;
+    padding-right: 11px;
   }
   p {
     color: #ff0303;
@@ -113,6 +120,9 @@ export const Price = styled.div`
     background: #fff;
     display: flex;
     margin-right: 133px;
+    padding: 6px;
+    padding-left: 11px;
+    padding-right: 11px;
   }
 `;
 
@@ -170,6 +180,7 @@ export const Detail = styled.div`
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
+    padding: 15px;
   }
   .LadelDta {
     display: flex;
@@ -204,6 +215,9 @@ export const Amounts = styled.div`
     border: 1px solid #2c39b5;
     background: #fff;
     margin-right: 5px;
+    padding: 6px;
+    padding-left: 11px;
+    padding-right: 11px;
   }
   .Ladelamu {
     display: flex;
@@ -258,12 +272,15 @@ export const Rla = styled.div`
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .LadelRa {
     display: flex;
     margin-right: 128px;
   }
-  .ra {
+  .black {
     color: #000;
     font-family: Inter;
     font-size: 16px;
@@ -330,6 +347,9 @@ export const TransactionS = styled.div`
     border-radius: 5px;
     border: 1px solid #2c39b5;
     background: #fff;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   #btn {
     width: 105px;
