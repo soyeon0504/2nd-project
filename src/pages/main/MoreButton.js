@@ -13,7 +13,7 @@ const MoreButton = (e) => {
             <img src='../images/main/arrow.svg' alt=''/>
 
         </MoreBt>
-    </MoreBtWrap>x
+    </MoreBtWrap>
   )
 }
 

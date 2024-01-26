@@ -8,7 +8,7 @@ export const LoginPageStyle = styled.div`
   padding-bottom: 120px;
 `;
 export const Logo = styled.div`
-  margin: 170px auto 40px auto;
+  margin: 0px auto 40px auto;
   width: 200px;
   height: 40px;
   background-color: #d9d9d9;
