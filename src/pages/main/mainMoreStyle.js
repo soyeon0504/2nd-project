@@ -11,10 +11,14 @@ export const MoreWrap = styled.div`
     display: flex;
     justify-content: space-between;
     /* background-color: lightblue; */
+    padding-bottom: 30px;
     
 
   .header-cate-wrap {
     display: flex;
+    justify-content: space-between;
+    width: 150px;
+    height: 30px;
     /* max-width: 1260px; */
     /* padding-bottom: 80px; */
     font-size: 20px;
@@ -67,7 +71,7 @@ export const MoreWrap = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    grid-gap: 20px;
+    grid-gap: 30px;
 
     .desc-wrap {
       line-height: 30px;

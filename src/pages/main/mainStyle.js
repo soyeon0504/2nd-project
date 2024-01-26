@@ -4,6 +4,7 @@ export const MainWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-bottom: 100px;
   width: 1260px;
   margin: 0 auto;
   gap: 130px;

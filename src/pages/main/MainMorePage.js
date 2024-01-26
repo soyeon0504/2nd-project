@@ -169,6 +169,7 @@ const MainMorePage = () => {
                   <option>울산광역시</option>
                 </select>
                 <select>
+                  {}
                   <option>수성구</option>
                   <option>중구</option>
                   <option>북구</option>
