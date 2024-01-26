@@ -16,8 +16,6 @@ const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
 const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"))
 
 
-const LazyAddEditPage = lazy(() => import("./pages/addedit/AddEditPage"));
-
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
 const LazyMainMorePage = lazy(() => import("./pages/main/MainMorePage"));
@@ -26,6 +24,9 @@ const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
 const LazyDetailsPage = lazy(() => import("./pages/details/DetailsPage"));
 
+const LazyCustomerPage = lazy(()=> import("./pages/Customer/CustomerServicePage"));
+const LazyErrorPage = lazy(() => import("./pages/ErrorPage"))
+
 const Lazyprod = lazy(() => import("./pages/prod/Products"));
 
 const App = () => {
@@ -33,14 +34,13 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route
-          path="*"
+          path="/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMainPage />
             </Suspense>
           }
         ></Route>
-
         <Route
           path="/main/more"
           element={
@@ -123,16 +123,8 @@ const App = () => {
               </Suspense>
             }
           ></Route>
-          </Route>
         </Route>
-        <Route
-          path="/addedit/"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyAddEditPage />
-            </Suspense>
-          }
-        ></Route>
+        </Route>
         <Route
           path="/pay/"
           element={
@@ -154,6 +146,22 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyDetailsPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/customer"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyCustomerPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyErrorPage />
             </Suspense>
           }
         ></Route>

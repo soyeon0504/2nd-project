@@ -9,6 +9,7 @@ import MyInterestPage from './MyInterestPage';
 import MyInfoPage from './MyInfoPage';
 import MyWithDrawPage from './MyWithDrawPage';
 import { unstable_HistoryRouter, useLocation, useNavigate } from 'react-router-dom';
+import { SideBar } from '../../components/SideBar';
 
 const AllWidth = styled.div`
   width: 1260px;
@@ -56,26 +57,35 @@ const MyPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const item = params.get('item');
-    if (item && item !== selectedItem) {
+ useEffect(() => {
+    // localStorage에서 selectedItem 값을 가져와 초기화
+    const storedItem = sessionStorage.getItem('selectedItem');
+    if (storedItem && storedItem !== selectedItem) {
+      setSelectedItem(storedItem);
+      setActiveBtn(storedItem);
+    } else {
+      // localStorage에 값이 없을 때 초기값 설정
+      const params = new URLSearchParams(location.search);
+      const item = params.get('item') || selectedItem;
       setSelectedItem(item);
       setActiveBtn(item);
     }
-  }, [selectedItem]);
+  }, [location.search, selectedItem]);
 
   const handleSubItemClick = (subItem) => {
     setSelectedItem(subItem);
     setActiveBtn(subItem);
-    navigate(`?item=${subItem}`);
+    navigate(`.`, { state: { selectedItem: subItem } });
+    // localStorage에 selectedItem 값을 저장
+    sessionStorage.setItem('selectedItem', subItem);
   };
 
   return (
     <Layout>
+    <SideBar />
     <AllWidth>
       <div>
-        <Mytitle />
+        <Mytitle title={"마이 페이지"}/>
       </div>
       <Flex>
         <MyCategory myCate={myCate} selectedItem={selectedItem} onSubItemClick={handleSubItemClick}/>

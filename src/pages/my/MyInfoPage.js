@@ -134,16 +134,6 @@ const MyInfoPage = () => {
           </JoinElement>
           <JoinElement>
             <JoinElementTxt>
-              <p>아이디</p>
-              <span>*</span>
-            </JoinElementTxt>
-            <JoinElementInput width="440px">
-              <input type="text" placeholder="15자 이내" />
-              <ConfirmBt>중복 확인</ConfirmBt>
-            </JoinElementInput>
-          </JoinElement>
-          <JoinElement>
-            <JoinElementTxt>
               <p>비밀번호</p>
               <span>*</span>
             </JoinElementTxt>

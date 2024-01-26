@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { Common } from "../../styles/CommonStyles";
 
 const MyH1Div = styled.div`
   width: 1260px;
   padding-bottom: 1.7rem;
-  border-bottom: 1px solid #2c39b5;
+  border-bottom: 1px solid ${Common.color.primary};
   margin-bottom: 3.3rem;
   h1 {
     font-size: 2.4rem;
@@ -12,10 +13,11 @@ const MyH1Div = styled.div`
   }
 `;
 
-const Mytitle = () => {
+const Mytitle = (props) => {
+
   return (
     <MyH1Div>
-      <h1>마이 페이지</h1>
+      <h1>{props.title}</h1>
     </MyH1Div>
   );
 };
