@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import { Common } from "../../styles/CommonStyles";
@@ -15,7 +15,6 @@ const Box = styled.div`
 
 const SubBox = styled.div`
   padding: 20px;
-
   width: 470px;
   max-height: 380px;
   display: flex;
@@ -63,11 +62,11 @@ const PriceLabel = styled.div`
   height: 14px;
 
   color: #000;
-  font-family: Inter;
+
   font-size: 13px;
-  font-style: normal;
+
   font-weight: 400;
-  line-height: normal;
+
   margin-bottom: 18px;
 `;
 
@@ -119,7 +118,7 @@ const BtnCancel = styled.div`
   margin-top: 45px;
   font-family: Inter;
   font-size: 16px;
-  font-style: normal;
+
   font-weight: 400;
   line-height: normal;
   display: flex;
@@ -138,38 +137,52 @@ export const BtnPay = styled(BtnCancel)`
   margin-left: 20px;
 `;
 
-const Pay = ({ productImage, productName, rentalPeriod, price, deposit }) => {
+const Pay = () => {
+  const [paymentData, setPaymentData] = useState({
+    productImage: "/images/kong.jpg",
+    productName: "애플워치 스페이스 닉네임",
+    rentalPeriod: 30,
+    price: 7000,
+    deposit: 50000,
+  });
+
   return (
     <>
       <Box>
-        <Image src={productImage} alt="제품 이미지" />
+        <Image src={paymentData.productImage} alt="제품 이미지" />
         <TextContainer>
-          <Title>{productName}</Title>
-          <Duration>대여기간 : {rentalPeriod}</Duration>
+          <Title>{paymentData.productName}</Title>
+          <Duration>대여기간 : {paymentData.rentalPeriod}일</Duration>
 
           <PriceRow>
             <PriceLabel>
-              {price} x {rentalPeriod}일
+              {paymentData.price} x {paymentData.rentalPeriod}일
             </PriceLabel>
-            <PriceValue>{price * rentalPeriod} 원</PriceValue>
+            <PriceValue>
+              {paymentData.price * paymentData.rentalPeriod} 원
+            </PriceValue>
           </PriceRow>
 
           <PriceRow>
             <PriceLabel> 보증금 </PriceLabel>
-            <PriceValue>{deposit} 원</PriceValue>
+            <PriceValue>{paymentData.deposit} 원</PriceValue>
           </PriceRow>
           <TotalPrice />
 
           <PriceRow>
             <PriceLabel> 총 합계 </PriceLabel>
-            <PriceValue>{price * rentalPeriod + deposit} 원</PriceValue>
+            <PriceValue>
+              {paymentData.price * paymentData.rentalPeriod +
+                paymentData.deposit}{" "}
+              원
+            </PriceValue>
           </PriceRow>
         </TextContainer>
       </Box>
       <SubBox>
         <BtnCard>신용·체크카드</BtnCard>
         <BtnPayList>
-          <img src="images/details/네이버pay.svg" alt="네이버페이" />
+          <img src="images/details/naverpay.svg" alt="네이버페이" />
         </BtnPayList>
         <BtnPayList>
           <img src="images/details/payco.svg" alt="페이코" />

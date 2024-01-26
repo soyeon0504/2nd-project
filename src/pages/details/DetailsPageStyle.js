@@ -190,11 +190,15 @@ export const BtnChat = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  &:hover {
+    background: #2c39b5;
+    color: #fff;
+  }
 `;
 
 export const BtnPay = styled(BtnChat)`
-  background: #2c39b5;
-  color: #fff;
+  color: #2c39b5;
 `;
 
 export const Container = styled.div`

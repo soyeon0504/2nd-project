@@ -1,5 +1,11 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 import Breadcrumb from "./components/breadcrumb/Breadcrumb";
 import Loading from "./components/loading/Loading";
 // import "antd/dist/antd.css";
@@ -13,8 +19,7 @@ const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
 const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
-const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"))
-
+const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
@@ -23,9 +28,12 @@ const LazyMainMorePage = lazy(() => import("./pages/main/MainMorePage"));
 const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
 const LazyDetailsPage = lazy(() => import("./pages/details/DetailsPage"));
+const LazyChatPage = lazy(() => import("./pages/chat/ChatPage"));
 
-const LazyCustomerPage = lazy(()=> import("./pages/Customer/CustomerServicePage"));
-const LazyErrorPage = lazy(() => import("./pages/ErrorPage"))
+const LazyCustomerPage = lazy(() =>
+  import("./pages/Customer/CustomerServicePage"),
+);
+const LazyErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 const Lazyprod = lazy(() => import("./pages/prod/Products"));
 
@@ -92,12 +100,12 @@ const App = () => {
           }
         >
           <Route
-          path="interest"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyMyInterestPage />
-            </Suspense>
-          }
+            path="interest"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyInterestPage />
+              </Suspense>
+            }
           ></Route>
           <Route
             path="review"
@@ -116,14 +124,14 @@ const App = () => {
             }
           >
             <Route
-            path="withdraw"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyMyWithDrawPage />
-              </Suspense>
-            }
-          ></Route>
-        </Route>
+              path="withdraw"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <LazyMyWithDrawPage />
+                </Suspense>
+              }
+            ></Route>
+          </Route>
         </Route>
         <Route
           path="/pay/"
@@ -146,6 +154,14 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyDetailsPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/chat/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyChatPage />
             </Suspense>
           }
         ></Route>

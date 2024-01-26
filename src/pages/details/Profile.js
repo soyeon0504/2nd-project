@@ -1,9 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+const ProfileContainer = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+
+  gap: 1rem;
+`;
+
 const ProfileImg = styled.div`
-  width: 7rem;
-  height: 7rem;
+  width: 70px;
+  height: 70px;
   box-sizing: border-box;
   border-radius: 45px;
   overflow: hidden;
@@ -12,15 +20,26 @@ const ProfileImg = styled.div`
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
+`;
+
+const ProfileName = styled.div`
+  width: 150px;
+  height: 20px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 400;
 `;
 
 const Profile = () => {
   return (
-    <ProfileImg>
-      <img src="/images/kong.jpg" />
-    </ProfileImg>
+    <ProfileContainer>
+      <ProfileImg>
+        <img src="/images/kong.jpg" alt="Profile Image" />
+      </ProfileImg>
+
+      <ProfileName>판매자 이름</ProfileName>
+    </ProfileContainer>
   );
 };
 

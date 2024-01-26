@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../layouts/Layout";
 import MyMap from "./MyMap";
 import Calendar from "./Calendar";
@@ -52,49 +52,74 @@ import {
 } from "./DetailsPageStyle";
 
 const DetailsPage = () => {
+  const [productData, setProductData] = useState({
+    pic: "/images/kong.jpg",
+    title: "애플워치 스페이스 닉네임",
+    price: "7,000 원",
+    rentalDuration: "일일대여가",
+    viewCount: 20,
+    address: "대구광역시 달서구 월성동",
+    purchaseDate: "2017년 5월 10일",
+    deposit: "보증금",
+    depositDetail: "원가의 30% 50,000원",
+    content: "상품내용",
+  });
+
+  const [detailContent, setDetailContent] = useState("상품 내용 입력 부분");
+
+  const [paymentData, setPaymentData] = useState({
+    rentPrice: 7000,
+    rentalDays: 30,
+    deposit: 50000,
+  });
+
   return (
     <Layout>
       <PageWrapper>
         <SubContainer>
           <BoxImg>
-            <ProductImage src="/images/kong.jpg" alt="제품 이미지" />
+            <ProductImage src={productData.pic} alt="제품 이미지" />
           </BoxImg>
           <Box>
             <Title>
-              <ContentWrapper>애플워치 스페이스 닉네임</ContentWrapper>
-              <Profile />
+              <ContentWrapper>{productData.title}</ContentWrapper>
+              {/* <Profile /> */}
             </Title>
+
             <PriceContainer>
-              <Price>7,000 원</Price>
-              <RentalText>일일대여가</RentalText>
+              <Price>{productData.price}</Price>
+              <RentalText>{productData.rentalDuration}</RentalText>
             </PriceContainer>
-            <ViewCount>조회수 20</ViewCount>
+            <ViewCount>조회수 {productData.viewCount}</ViewCount>
             <AddressContainer>
               <InfoContainer>
                 <Address>
                   주소
-                  <DetailedAddress>대구광역시 달서구 월성동</DetailedAddress>
+                  <DetailedAddress>{productData.address}</DetailedAddress>
                 </Address>
                 <InfoLine>
                   <InfoText>제품구매일 </InfoText>
-                  <PurchaseDateText>2017년 5월 10일</PurchaseDateText>
+                  <PurchaseDateText>
+                    {productData.purchaseDate}
+                  </PurchaseDateText>
                 </InfoLine>
                 <div>
-                  <DepositText>보증금</DepositText>
-                  <DepositDetailText>원가의 30% 50,000원</DepositDetailText>
+                  <DepositText>{productData.deposit}</DepositText>
+                  <DepositDetailText>
+                    {productData.depositDetail}
+                  </DepositDetailText>
                 </div>
               </InfoContainer>
             </AddressContainer>
             <Container>
               <Like />
-
               <BtnChat>채팅하기</BtnChat>
               <BtnPay>결제하기</BtnPay>
             </Container>
           </Box>
         </SubContainer>
         <MainContainer>
-          <ProductContent>상품내용</ProductContent> 결제정보
+          <ProductContent>{productData.content}</ProductContent>
         </MainContainer>
         <MiniContainer>
           <Caution>
@@ -120,29 +145,34 @@ const DetailsPage = () => {
               </CautionText>
             </CautionContent>
           </Caution>
-          <Detail>
-            내용 입력내용 입력내용 입력내용 입력내용 입력내용 입력내용 입력내용
-          </Detail>
+          <Detail>{detailContent}</Detail>
           <PayContainer>
             <Calendar />
             <PayRow>
-              <PayLabel>7,000 x 30일</PayLabel>
-              <PayValue>210,000 원</PayValue>
+              <PayLabel>
+                {productData.price} x {paymentData.rentalDays}일
+              </PayLabel>
+              <PayValue>
+                {productData.price * paymentData.rentalDays} 원
+              </PayValue>
             </PayRow>
             <PayRow>
               <PayLabel>보증금</PayLabel>
-              <PayValue>50,000 원</PayValue>
+              <PayValue>{paymentData.deposit} 원</PayValue>
             </PayRow>
             <TotalPrice />
             <PayRow>
               <PayLabel>총 합계</PayLabel>
-              <PayValue>260,000 원</PayValue>
+              <PayValue>
+                {productData.price * paymentData.rentalDays +
+                  paymentData.deposit}{" "}
+                원
+              </PayValue>
             </PayRow>
           </PayContainer>
         </MiniContainer>
         <MyMap />
         <ReviewFormStyle>
-          후기
           <ReviewProfile>
             <Profile />
           </ReviewProfile>

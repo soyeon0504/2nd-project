@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 
+
 export const SlideBtWrap = styled.div`
 display: block;
 position: relative;
@@ -12,24 +13,18 @@ left: -100px;
 border: none;
 cursor: pointer;
 background: transparent;
-/* visibility: hidden; */
 
 
 img {
 width: 70px;
 height: 70px;
 }
+&.c-slide-prev.swiper-button-disabled {
+    display: none;
+}
 
-&::before {
-  content: "";
-  position: relative;
-  width: 10px;
-  height: 18px;
-}
-&.bt-slide-prev.swiper-button-disabled {
-  display: none;
-}
-  
+
+
 `;
 
 // 슬라이드 우측 이동 버튼
@@ -45,18 +40,8 @@ img {
 width: 70px;
 height: 70px;
 }
-
-
-&::before {
-  content: "";
-  position: relative;
-  width: 10px;
-  height: 18px;
-  display: block;
-  margin: 0 auto;
-}
-
-&.bt-slide-next.swiper-button-disabled {
+&.c-slide-next.swiper-button-disabled {
     display: none;
-  }
+} 
+
 `;
