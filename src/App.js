@@ -42,7 +42,7 @@ const App = () => {
         ></Route>
 
         <Route
-          path="main/more"
+          path="/main/more"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMainMorePage />
