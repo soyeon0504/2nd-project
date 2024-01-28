@@ -92,6 +92,10 @@ const Header = () => {
   };
 
   return (
+
+    <div>
+      <HeaderStyle>
+
     <div style={{ width: "1300px", margin: `0 auto` }}>
       <HeaderStyle
         style={
@@ -100,6 +104,7 @@ const Header = () => {
             : { boxShadow: `0 2px 4px #777777` }
         }
       >
+
         <HeaderTop>
           <HeaderLogo onClick={handleLogo}>로고</HeaderLogo>
           <div className="header-search">
