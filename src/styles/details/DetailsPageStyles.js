@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Common } from "../../styles/CommonStyles";
+import { Common } from "../CommonStyles";
 export const PageWrapper = styled.div`
   max-width: 1260px;
   margin: 0 auto;
@@ -38,22 +38,19 @@ export const BoxImg = styled.div`
 `;
 
 export const Title = styled.div`
-  display: flex;
-  align-items: center;
-  width: 660px;
+  width: 360px;
   height: 77px;
-  flex-shrink: 0;
+  display: flex;
   color: #4b4b4b;
-  font-family: Inter;
+
   font-size: 25px;
-  font-style: normal;
+
   font-weight: 400;
-  line-height: normal;
+
   margin-bottom: 15.32px;
-  white-space: pre-line;
 `;
 export const ContentWrapper = styled.div`
-  margin-right: 300px; /* 원하는 간격 설정 */
+  display: flex;
 `;
 
 export const Price = styled.div`
@@ -181,7 +178,7 @@ export const BtnChat = styled.div`
   border: 1px solid #2c39b5;
   color: #2c39b5;
   margin-top: 54px;
-  margin-left: 40px;
+  margin-left: 45px;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
@@ -190,6 +187,7 @@ export const BtnChat = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   cursor: pointer;
   &:hover {
     background: #2c39b5;
@@ -344,26 +342,6 @@ export const PayValue = styled.span`
   font-weight: 400;
   line-height: normal;
   margin-top: 25px;
-`;
-
-export const ReviewFormStyle = styled.div`
-  width: 1260px;
-  height: 380px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  border: 1px solid #2c39b5;
-  padding-left: 20px;
-  padding-top: 15px;
-  font-size: 16px;
-`;
-
-export const ReviewProfile = styled.div`
-  margin-top: 35px;
-
-  width: 1220px;
-  height: 100px;
-  flex-shrink: 0;
-  border-bottom: 1px solid #2c39b5;
 `;
 
 export const TotalPrice = styled.div`

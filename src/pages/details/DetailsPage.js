@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Layout from "../../layouts/Layout";
-import MyMap from "./MyMap";
-import Calendar from "./Calendar";
-import Profile from "./Profile";
-import Pay from "./Pay";
-import Like from "./Like";
-
+import MyMap from "../../components/details/MyMap";
+import Calendar from "../../components/details/Calendar";
+import Profile from "../../components/details/Profile";
+import Pay from "../../components/details/Pay";
+import Like from "../../components/details/Like";
+import SellerProfile from "../../components/details/SellerProfile";
 import {
   SubContainer,
   PageWrapper,
@@ -47,14 +47,12 @@ import {
   PayLabel,
   PayValue,
   TotalPrice,
-  ReviewFormStyle,
-  ReviewProfile,
-} from "./DetailsPageStyle";
+} from "../../styles/details/DetailsPageStyles";
 
 const DetailsPage = () => {
   const [productData, setProductData] = useState({
     pic: "/images/kong.jpg",
-    title: "애플워치 스페이스 닉네임",
+    title: " 애플 워치 SE - 40mm GPS 스페이스 그레이 알루미늄  ",
     price: "7,000 원",
     rentalDuration: "일일대여가",
     viewCount: 20,
@@ -63,9 +61,13 @@ const DetailsPage = () => {
     deposit: "보증금",
     depositDetail: "원가의 30% 50,000원",
     content: "상품내용",
+    sellerName: "닉네임",
+    profileImage: "../../images/kong.jpg",
   });
 
-  const [detailContent, setDetailContent] = useState("상품 내용 입력 부분");
+  const [detailContent, setDetailContent] = useState(
+    "상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분",
+  );
 
   const [paymentData, setPaymentData] = useState({
     rentPrice: 7000,
@@ -83,7 +85,10 @@ const DetailsPage = () => {
           <Box>
             <Title>
               <ContentWrapper>{productData.title}</ContentWrapper>
-              {/* <Profile /> */}
+              <SellerProfile
+                sellerName={productData.sellerName}
+                profileImage={productData.profileImage}
+              />
             </Title>
 
             <PriceContainer>
@@ -165,18 +170,16 @@ const DetailsPage = () => {
               <PayLabel>총 합계</PayLabel>
               <PayValue>
                 {productData.price * paymentData.rentalDays +
-                  paymentData.deposit}{" "}
+                  paymentData.deposit}
                 원
               </PayValue>
             </PayRow>
           </PayContainer>
         </MiniContainer>
         <MyMap />
-        <ReviewFormStyle>
-          <ReviewProfile>
-            <Profile />
-          </ReviewProfile>
-        </ReviewFormStyle>
+
+        <Profile />
+
         <Pay />
       </PageWrapper>
     </Layout>

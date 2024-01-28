@@ -55,6 +55,8 @@ const Header = () => {
   const toggleMenu = () => {
     setMenuVisible(prev => !prev);
   };
+
+
   useEffect(() => {
     const clickOutside = e => {
       if (menuVisible && !inSection.current.contains(e.target)) {
@@ -68,6 +70,7 @@ const Header = () => {
       document.removeEventListener("mousedown", clickOutside);
     };
   }, [menuVisible]);
+
 
   // 카테고리 hover시 메뉴창 나오기
   const [activeCategory, setActiveCategory] = useState(null);
@@ -128,6 +131,8 @@ const Header = () => {
           )}
         </HeaderTop>
         <HeaderMenu>
+
+
           <HeaderMainMenu ref={inSection}>
             {menuVisible === true ? (
               <img src="/images/header/bt_cancel.svg" onClick={toggleMenu} />
@@ -136,6 +141,7 @@ const Header = () => {
             )}
             {menuVisible && <MenuTab></MenuTab>}
           </HeaderMainMenu>
+
           <ul>
             <li
               onMouseEnter={() => handleCategoryHover("스마트 기기")}

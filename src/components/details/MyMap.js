@@ -30,7 +30,7 @@ const MyMap = () => {
     width: "100%",
     height: "400px",
     position: "relative",
-    border: "1px solid #000000",
+    border: "1px solid #2c39b5",
     borderRadius: "10px",
   };
 

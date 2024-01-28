@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled";
-
-const StyledButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  img {
-    width: 40px;
-    height: 35px;
-    margin-top: 54px;
-    margin-right: 110px;
-  }
-`;
+import { StyledButton } from "../../styles/details/DetailsComponentStyles";
 
 function Like() {
   const [liked, setLiked] = useState(false);
