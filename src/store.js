@@ -1,9 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ActiveBtnSlice from "./slices/ActiveBtnSlice";
+import loginSlice from "./slices/loginSlice";
 export default configureStore({
   reducer: {
-   activeBtnSlice: ActiveBtnSlice
+    loginSlice: loginSlice,
   },
 });
-
-
