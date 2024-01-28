@@ -56,7 +56,6 @@ const Header = () => {
     setMenuVisible(prev => !prev);
   };
 
-
   useEffect(() => {
     const clickOutside = e => {
       if (menuVisible && !inSection.current.contains(e.target)) {
@@ -70,7 +69,6 @@ const Header = () => {
       document.removeEventListener("mousedown", clickOutside);
     };
   }, [menuVisible]);
-
 
   // 카테고리 hover시 메뉴창 나오기
   const [activeCategory, setActiveCategory] = useState(null);
@@ -95,10 +93,6 @@ const Header = () => {
   };
 
   return (
-
-    <div>
-      <HeaderStyle>
-
     <div style={{ width: "1300px", margin: `0 auto` }}>
       <HeaderStyle
         style={
@@ -107,7 +101,6 @@ const Header = () => {
             : { boxShadow: `0 2px 4px #777777` }
         }
       >
-
         <HeaderTop>
           <HeaderLogo onClick={handleLogo}>로고</HeaderLogo>
           <div className="header-search">
@@ -131,8 +124,6 @@ const Header = () => {
           )}
         </HeaderTop>
         <HeaderMenu>
-
-
           <HeaderMainMenu ref={inSection}>
             {menuVisible === true ? (
               <img src="/images/header/bt_cancel.svg" onClick={toggleMenu} />
