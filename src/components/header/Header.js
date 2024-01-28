@@ -1,43 +1,73 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   CategoryTab,
   CategoryTabSub,
   HeaderLogo,
+  HeaderMainMenu,
   HeaderMenu,
   HeaderStyle,
   HeaderTop,
   LoginState,
-  MainMenu,
-  MainMenuLi,
-  MenuTab,
   SearchBt,
   SearchForm,
   SearchWord,
-  SubMenu,
 } from "../../styles/header/HeaderStyle";
 import { DivisionLine } from "../../styles/login/LoginPageStyle";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../slices/loginSlice";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import MenuTab from "./MenuTab";
 
 const Header = () => {
   // 페이지 이동
   const navigate = useNavigate();
   const handleLogo = () => {
     navigate(`/`);
-  }
+  };
   const handleLogin = () => {
     navigate(`/login`);
   };
   const handleJoin = () => {
     navigate(`/join/1`);
   };
+  const handleMy = () => {
+    navigate(`/my`);
+  };
+
+  // 스크롤 시 그림자 생성
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", updateScroll);
+    return () => {
+      window.removeEventListener("scroll", updateScroll);
+    };
+  }, []);
 
   // 메뉴 click시 메뉴창 나오기
   const [menuVisible, setMenuVisible] = useState(false);
-
+  const inSection = useRef();
   const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
+    setMenuVisible(prev => !prev);
   };
-  
+  useEffect(() => {
+    const clickOutside = e => {
+      if (menuVisible && !inSection.current.contains(e.target)) {
+        setMenuVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [menuVisible]);
 
   // 카테고리 hover시 메뉴창 나오기
   const [activeCategory, setActiveCategory] = useState(null);
@@ -50,9 +80,31 @@ const Header = () => {
     setActiveCategory(null);
   };
 
+  // 로그인 & 로그아웃
+  const loginState = useSelector(state => state.loginSlice);
+  console.log(loginState);
+  const { moveToPath, isLogin, doLogout } = useCustomLogin();
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    doLogout();
+    moveToPath("/");
+  };
+
   return (
+
     <div>
       <HeaderStyle>
+
+    <div style={{ width: "1300px", margin: `0 auto` }}>
+      <HeaderStyle
+        style={
+          scrollPosition < 100
+            ? { boxShadow: `none` }
+            : { boxShadow: `0 2px 4px #777777` }
+        }
+      >
+
         <HeaderTop>
           <HeaderLogo onClick={handleLogo}>로고</HeaderLogo>
           <div className="header-search">
@@ -61,20 +113,37 @@ const Header = () => {
               <SearchBt type="button" />
             </SearchForm>
           </div>
-          <LoginState>
-            <button onClick={handleLogin}>로그인</button>
-            <DivisionLine></DivisionLine>
-            <button onClick={handleJoin}>회원가입</button>
-          </LoginState>
+          {isLogin ? (
+            <LoginState>
+              <button onClick={handleLogout}>로그아웃</button>
+              <DivisionLine></DivisionLine>
+              <button onClick={handleMy}>마이페이지</button>
+            </LoginState>
+          ) : (
+            <LoginState>
+              <button onClick={handleLogin}>로그인</button>
+              <DivisionLine></DivisionLine>
+              <button onClick={handleJoin}>회원가입</button>
+            </LoginState>
+          )}
         </HeaderTop>
         <HeaderMenu>
-          { menuVisible === true ? <img src="/images/header/bt_cancel.svg" onClick={toggleMenu} /> : <img src="/images/header/bt_menu.svg" onClick={toggleMenu} /> }
-          {/* <img src="/images/header/bt_menu.svg" onClick={toggleMenu} /> */}
+          <HeaderMainMenu ref={inSection}>
+            {menuVisible === true ? (
+              <img src="/images/header/bt_cancel.svg" onClick={toggleMenu} />
+            ) : (
+              <img src="/images/header/bt_menu.svg" onClick={toggleMenu} />
+            )}
+            {menuVisible && <MenuTab></MenuTab>}
+          </HeaderMainMenu>
           <ul>
             <li
               onMouseEnter={() => handleCategoryHover("스마트 기기")}
               onMouseLeave={handleCategoryLeave}
-              style={{ background: activeCategory === "스마트 기기" ? "#ddd" : "transparent" }}
+              style={{
+                background:
+                  activeCategory === "스마트 기기" ? "#ddd" : "transparent",
+              }}
             >
               스마트 기기
             </li>
@@ -86,59 +155,7 @@ const Header = () => {
         </HeaderMenu>
       </HeaderStyle>
 
-      {menuVisible && (
-        <MenuTab>
-          <MainMenu>
-            <li>
-              <MainMenuLi>스마트 기기</MainMenuLi>
-              <SubMenu>
-                <li>스마트 워치</li>
-                <li>태블릿</li>
-                <li>갤럭시</li>
-                <li>아이폰</li>
-              </SubMenu>
-            </li>
-            <li>
-              <MainMenuLi>PC / 노트북</MainMenuLi>
-              <SubMenu>
-                <li>노트북</li>
-                <li>PC</li>
-                <li>마우스</li>
-                <li>키보드</li>
-              </SubMenu>
-            </li>
-            <li>
-              <MainMenuLi>영상 / 카메라</MainMenuLi>
-              <SubMenu>
-                <li>빔프로젝터</li>
-                <li>셋톱박스</li>
-                <li>카메라</li>
-                <li>캠코더</li>
-                <li>DSLR</li>
-              </SubMenu>
-            </li>
-            <li>
-              <MainMenuLi>음향</MainMenuLi>
-              <SubMenu>
-                <li>스피커</li>
-                <li>이어폰</li>
-                <li>헤드폰</li>
-                <li>마이크</li>
-              </SubMenu>
-            </li>
-            <li>
-              <MainMenuLi>게임 기기</MainMenuLi>
-              <SubMenu>
-                <li>플레이스테이션</li>
-                <li>닌텐도</li>
-                <li>Wii</li>
-                <li>XBOX</li>
-                <li>기타</li>
-              </SubMenu>
-            </li>
-          </MainMenu>
-        </MenuTab>
-      )}
+      {/* {menuVisible && <MenuTab></MenuTab>} */}
 
       {activeCategory && (
         <CategoryTab onMouseLeave={handleCategoryLeave}>

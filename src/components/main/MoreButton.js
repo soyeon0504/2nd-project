@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { MoreBt, MoreBtWrap } from '../../pages/main/mainStyle';
+import { MoreBt, MoreBtWrap } from '../../styles/main/mainStyle';
 
 
 const MoreButton = (e) => {

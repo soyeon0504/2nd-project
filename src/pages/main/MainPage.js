@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "swiper/css";
 import { SideBar } from "../../components/SideBar";
 import ProductSlide from "../../components/main/ProductSlide";
 import Layout from "../../layouts/Layout";
-import { MainWrap } from "./mainStyle";
+import { MainWrap } from "../../styles/main/mainStyle";
+import { getProduct } from "../../api/main/main_api";
 
 const initData = [
   {
@@ -83,20 +84,22 @@ const sectionTitle = [
   },
 ];
 
-const handleClickLike = {};
-const handleClickBt = {};
-
 const MainPage = () => {
-  const swiperRefs = useRef(
-    [ 
-      useRef(1), 
-      useRef(2), 
-      useRef(3),
-      useRef(4)
-    ]);
 
-  // 초기값 세팅
-  const [focus, setFocus] = useState(0);
+  const [product, setProduct] = useState();
+
+  const getSlideData = async () => {
+    try {
+      const response = await getProduct()
+      setProduct(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getSlideData()
+  }, [])
 
   return (
     <>

@@ -1,59 +1,27 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
-import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
 
-const failPostDatas = () => {
-  const navigate = useNavigate();
-  navigate("/");
-};
+const path = `${SERVER_URL}/api/user`;
 
-export const getProduct = async () => {
+export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
+    const header = { headers: { "Content-Type": "application/json" } };
+    const data = {
+      uid: loginParam.uid,
+      upw: loginParam.upw,
+    };
 
-export const postProduct = async () => {
-  try {
-    const res = await axios.post(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
+    const res = await axios.post(`${path}`, data, header);
+    const status = res.status.toString();
 
-export const putProduct = async () => {
-  try {
-    const res = await axios.put(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
 
-export const patchProduct = async () => {
-  try {
-    const res = await axios.patch(`${path}`);
-    return res;
+      return res.data;
+    } else {
+      failFn("로그인에 실패하였습니다. 다시 시도해주세요.");
+    }
   } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const deleteProduct = async () => {
-  try {
-    const res = await axios.delete(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
+    errorFn("로그인에 실패하였습니다. 서버가 불안정합니다. 다시 시도해주세요.");
   }
 };
