@@ -122,32 +122,12 @@ const JoinPage = () => {
   };
 
   // 휴대폰 번호 확인 버튼
-  const [okModal, setOkModal] = useState(false);
-  const [noModal, setNoModal] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   const phoneNumberConfirm = () => {
-    try {
-      validationSchema.fields.phoneNumber.validateSync(validationSchema.phoneNumber, {
-        abortEarly: false,
-      });
-      // 유효성 검사 오류가 없으면 phoneNumber는 유효합니다.
-      setOkModal(true);
-    } catch (error) {
-      // 유효성 검사 오류가 있으면 phoneNumber는 유효하지 않습니다.
-      setNoModal(true);
-    }
+    setShowModal(true);
   };
-
-  // const phoneNumberConfirm = () => {
-  //   if (validationSchema.fields.phoneNumber.isValid) {
-  //     setOkModal(true);
-  //   } else {
-  //     setNoModal(true);
-  //   }
-  // };
   const closeModal = () => {
-    setOkModal(false);
-    setNoModal(false);
+    setShowModal(false);
   };
 
   // 취소 & 저장 버튼
@@ -343,32 +323,20 @@ const JoinPage = () => {
                 placeholder="예) 010-0000-0000"
               />
               <ConfirmBt onClick={phoneNumberConfirm}>휴대폰 인증</ConfirmBt>
-              {okModal && (
+              {showModal && (
                 <>
-                  <JoinPopUp
+                  {formState.errors.phoneNumber ? (
+                    <JoinPopUp
+                      txt="휴대폰 인증에 실패하셨습니다."
+                      onConfirm={closeModal}
+                    />
+                  ) : (
+                    <JoinPopUp
                     txt="휴대폰 인증이 완료되었습니다."
-                    onConfirm={closeModal}
-                  />
-                  <div
-                    style={{
-                      position: "fixed",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      background: "rgba(0, 0, 0, 0.5)",
-                      zIndex: 999,
-                    }}
-                  ></div>
-                </>
-              )}
+                      onConfirm={closeModal}
+                    />
+                  )}
 
-              {noModal && (
-                <>
-                  <JoinPopUp
-                    txt="휴대폰 인증에 실패하셨습니다."
-                    onConfirm={closeModal}
-                  />
                   <div
                     style={{
                       position: "fixed",
