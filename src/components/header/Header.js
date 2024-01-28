@@ -51,7 +51,7 @@ const Header = () => {
   };
 
   return (
-    <div style={{ width: "1300px", margin: `0 auto` }}>
+    <div>
       <HeaderStyle>
         <HeaderTop>
           <HeaderLogo onClick={handleLogo}>로고</HeaderLogo>
