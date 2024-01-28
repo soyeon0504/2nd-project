@@ -23,7 +23,7 @@ const Header = () => {
   const navigate = useNavigate();
   const handleLogo = () => {
     navigate(`/`);
-  }
+  };
   const handleLogin = () => {
     navigate(`/login`);
   };
@@ -37,7 +37,6 @@ const Header = () => {
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
-  
 
   // 카테고리 hover시 메뉴창 나오기
   const [activeCategory, setActiveCategory] = useState(null);
@@ -68,13 +67,20 @@ const Header = () => {
           </LoginState>
         </HeaderTop>
         <HeaderMenu>
-          { menuVisible === true ? <img src="/images/header/bt_cancel.svg" onClick={toggleMenu} /> : <img src="/images/header/bt_menu.svg" onClick={toggleMenu} /> }
+          {menuVisible === true ? (
+            <img src="/images/header/bt_cancel.svg" onClick={toggleMenu} />
+          ) : (
+            <img src="/images/header/bt_menu.svg" onClick={toggleMenu} />
+          )}
           {/* <img src="/images/header/bt_menu.svg" onClick={toggleMenu} /> */}
           <ul>
             <li
               onMouseEnter={() => handleCategoryHover("스마트 기기")}
               onMouseLeave={handleCategoryLeave}
-              style={{ background: activeCategory === "스마트 기기" ? "#ddd" : "transparent" }}
+              style={{
+                background:
+                  activeCategory === "스마트 기기" ? "#ddd" : "transparent",
+              }}
             >
               스마트 기기
             </li>
