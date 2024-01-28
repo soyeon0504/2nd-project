@@ -95,51 +95,10 @@ export const HeaderMenu = styled.div`
     line-height: 16px;
   }
 `;
+export const HeaderMainMenu = styled.div`
+display: block;
+`;
 
-// 메인 메뉴창
-export const MenuTab = styled.div`
-  position: fixed;
-  z-index: 100;
-  top: 160px;
-  width: 540px;
-  height: 310px;
-  border: 1px solid #2c39b5;
-  background: #fff;
-  padding: 30px 20px;
-`;
-export const MainMenu = styled.ul`
-  list-style: none;
-  li {
-    display: flex;
-    margin-bottom: 20px;
-  }
-`;
-export const MainMenuLi = styled.div`
-  width: 130px;
-  height: 34px;
-  background: #f2f2ff;
-
-  color: #4b4b4b;
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px;
-  text-align: center;
-`;
-export const SubMenu = styled.ul`
-  display: flex;
-  /* list-style: none; */
-  gap: 20px;
-  li {
-    color: #777;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-  }
-`;
 
 // 카테고리 메뉴창
 export const CategoryTab = styled.div`

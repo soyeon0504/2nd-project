@@ -57,7 +57,7 @@ export const IdBox = styled.input`
   border: 1px solid #2c39b5;
   padding-left: 20px;
 
-  color: #777;
+  color: #000;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

@@ -1,17 +1,20 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
+const path = `${SERVER_URL}/api/mypage`;
 
 const failPostDatas = () => {
   const navigate = useNavigate();
   navigate("/");
 };
 
-export const getProduct = async () => {
+
+
+export const getMyRental = async (page,role,fn) => {
   try {
-    const res = await axios.get(`${path}`);
-    return res;
+    const url = `${path}/prod?page=${page}&role=${role}`;
+    const res = await axios.get(url);
+    fn(res.data);
   } catch (error) {
     console.log(error);
     failPostDatas("/");

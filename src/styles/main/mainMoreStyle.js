@@ -51,7 +51,7 @@ export const MoreWrap = styled.div`
       background-color: #fff;
     }
   }
-  .area-wrap {
+  .region-wrap {
       width: 310px;
       display: flex;
       justify-content: space-between;

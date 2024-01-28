@@ -1,16 +1,18 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
+const path = `${SERVER_URL}/api`;
 
 const failPostDatas = () => {
-  const navigate = useNavigate();
-  navigate("/");
+  // const navigate = useNavigate();
+  // navigate("/");
 };
 
 export const getProduct = async () => {
   try {
-    const res = await axios.get(`${path}`);
+    const url = `${path}/prod/main?c=1,2,3,4`
+    const res = await axios.get(url);
+    console.log(res)
     return res;
   } catch (error) {
     console.log(error);
