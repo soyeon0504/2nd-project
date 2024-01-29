@@ -2,14 +2,16 @@ import styled from "@emotion/styled";
 
 export const PageWrapper = styled.div`
   max-width: 1280px;
+  height: 900px;
   margin: 0 auto;
   display: flex;
+  margin-top: 20px;
 `;
 
 export const ChatBox = styled.div`
   width: 630px;
   height: auto;
-  max-height: 900px;
+  max-height: 850px;
   flex-shrink: 0;
   padding-left: 20px;
   padding-top: 15px;

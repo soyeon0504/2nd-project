@@ -10,7 +10,7 @@ export const HeaderStyle = styled.div`
   background: #fff;
   width: 100vw;
   text-align: center;
-  padding-bottom: 25px;
+  padding-bottom: 15px;
 `;
 export const HeaderTop = styled.div`
   margin: 30px auto;
@@ -102,22 +102,22 @@ display: block;
 
 
 // 카테고리 메뉴창
-export const CategoryTab = styled.div`
-position: fixed;
-z-index: 100;
-top: 160px;
-  width: 150px;
-  padding: 20px;
-  border: 1px solid #2c39b5;
-  background: #fff;
-  /* display: none; */
-`;
-export const CategoryTabSub = styled.div`
-  margin-bottom: 20px;
-  color: #777;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px;
-`;
+// export const CategoryTab = styled.div`
+// position: fixed;
+// z-index: 100;
+// top: 160px;
+//   width: 150px;
+//   padding: 20px;
+//   border: 1px solid #2c39b5;
+//   background: #fff;
+//   /* display: none; */
+// `;
+// export const CategoryTabSub = styled.div`
+//   margin-bottom: 20px;
+//   color: #777;
+//   font-family: Inter;
+//   font-size: 12px;
+//   font-style: normal;
+//   font-weight: 400;
+//   line-height: 16px;
+// `;

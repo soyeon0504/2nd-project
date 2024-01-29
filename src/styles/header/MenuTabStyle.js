@@ -5,45 +5,37 @@ export const MenuTabStyle = styled.div`
   position: fixed;
   display: block;
   z-index: 100;
-  top: 160px;
+  top: 151px;
   width: 540px;
   height: 310px;
   border: 1px solid #2c39b5;
   background: #fff;
   padding: 30px 20px;
 `;
-export const MainMenu = styled.ul`
-  display: block;
-  list-style: none;
-  li {
-    display: flex;
-    margin-bottom: 20px;
-  }
-`;
-export const MainMenuList = styled.div`
-
+export const MainMenu = styled.div`
+  display: flex;
+  margin-bottom: 20px;
   color: #4b4b4b;
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 16px;
   text-align: center;
 `;
-export const MainMenuLi = styled.li`
-width: 130px;
-height: 34px;
-background: #f2f2ff;
-text-align: center;
-
+export const MainMenuList = styled.div`
+  width: 130px;
+  height: 34px;
+  background: #f2f2ff;
+  padding-top: 9px;
 `;
-export const SubMenu = styled.div`
+
+export const SubMenuList = styled.div`
   display: flex;
-  /* list-style: none; */
+  margin-left: 20px;
+  margin-top: 9px;
   gap: 20px;
   li {
     color: #777;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;

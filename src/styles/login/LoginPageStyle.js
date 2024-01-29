@@ -13,11 +13,12 @@ export const Logo = styled.div`
   height: 40px;
   background-color: #d9d9d9;
 `;
-export const LogoBox = styled.div`
+export const LoginBox = styled.div`
   margin: 0 auto;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   width: 450px;
-  height: 540px;
+  height: ${props => (props.height ? props.height : "540px")};
+  /* height: 540px; */
   border-radius: 10px;
   border: 1px solid #2c39b5;
   padding-left: 30px;
@@ -32,15 +33,9 @@ export const LogoBox = styled.div`
     font-weight: 350;
     line-height: normal;
   }
-  ul {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    margin-left: 106px;
-  }
   li {
     position: relative;
-    /* cursor: pointer; */
+    cursor: pointer;
 
     color: #000;
     font-family: KyivType Sans;
@@ -49,9 +44,10 @@ export const LogoBox = styled.div`
     font-weight: 400;
     line-height: normal;
   }
+  
 `;
 export const IdBox = styled.input`
-  width: 380px;
+  width: 390px;
   height: 50px;
   border-radius: 10px;
   border: 1px solid #2c39b5;
@@ -69,7 +65,7 @@ export const PwBox = styled(IdBox)`
   margin-bottom: 30px;
 `;
 export const LoginBt = styled.button`
-  width: 380px;
+  width: 390px;
   height: 50px;
   border-radius: 10px;
   background: #2c39b5;
