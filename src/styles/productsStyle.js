@@ -51,7 +51,7 @@ export const PictureS = styled.div`
       border: solid#2c39b5;
       background: #ff0303;
     }
-    #product{
+    #product {
       tab-size: 16px;
     }
   }
@@ -194,12 +194,32 @@ export const Amounts = styled.div`
   margin-right: 450px;
   padding-left: 450px;
   padding-bottom: 60px;
-
+  .deposit {
+    margin-top: 10px;
+    margin-left: 158px;
+    color: #000;
+  }
   p {
     color: #777;
   }
+  .ones {
+    width: 32px;
+    height: 34px;
+    color: #000;
+    font-size: 24px;
+    font-weight: 400;
+  }
   .guarantee {
     margin-left: 210px;
+    width: 218px;
+    height: 19px;
+    color: #777;
+
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
   .pt {
     color: #ff0303;
@@ -218,6 +238,7 @@ export const Amounts = styled.div`
     padding: 6px;
     padding-left: 11px;
     padding-right: 11px;
+    margin-left: 93px;
   }
   .Ladelamu {
     display: flex;
@@ -231,11 +252,7 @@ export const Amounts = styled.div`
     font-weight: 400;
     line-height: normal;
   }
-  .small {
-    display: flex;
-    align-items: center;
-    color: #777;
-  }
+
   .Sud {
     display: flex;
 
@@ -251,11 +268,60 @@ export const Amounts = styled.div`
     gap: 10px;
     padding-left: 155px;
   }
-  .dd {
+`;
+export const Possession = styled.div`
+  width: 100%;
+  height: auto;
+  margin-right: 450px;
+  padding-left: 450px;
+  padding-bottom: 60px;
+  display: flex;
+  .possession {
+    display: flex;
+  }
+  .quantity {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .Ladlpossession {
+    color: #ff0303;
+    font-family: Inter;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 150px;
+    display: flex;
+  }
+  .quantitys {
+    display: flex;
     width: 860px;
     height: 40px;
+    border-radius: 5px;
+    border: 1px solid #2c39b5;
+    background: #fff;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .psion {
+    display: flex;
+    border-radius: 5px;
+    border: 1px solid #2c39b5;
+    background: #fff;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 206.173px;
+    height: 40px;
+  
   }
 `;
+
 export const Rla = styled.div`
   margin-right: 450px;
   padding-left: 450px;
@@ -278,7 +344,7 @@ export const Rla = styled.div`
   }
   .LadelRa {
     display: flex;
-    margin-right: 128px;
+    margin-right: 140px;
   }
   .black {
     color: #000;
@@ -287,6 +353,11 @@ export const Rla = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+  .one {
+    display: flex;
+    width: 120px;
+    height: 150px;
   }
 `;
 
@@ -322,7 +393,7 @@ export const BtnColorSub = styled.button`
 
 export const TransactionS = styled.div`
   padding-left: 450px;
-  display: flex;
+
   margin-right: 450px;
   display: flex;
   p {

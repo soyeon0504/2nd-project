@@ -11,6 +11,7 @@ import {
   GoodsWrap,
   ListSrc,
   PictureS,
+  Possession,
   Price,
   ProductS,
   Rla,
@@ -305,7 +306,7 @@ const Products = () => {
                   <p className="amu">보증금</p> <p className="pt">*</p>
                 </ladel>
                 {/* 라디오 버튼은 여러개 중에 오로지 1개만 선택이 가능 함. 같은지 다른지 파악하는 것은 name 속성의 단어가 같은지를 비교 */}
-                <input
+                {/* <input
                   type="text"
                   name="amounts"
                   id="amounts"
@@ -324,9 +325,48 @@ const Products = () => {
                     className="small"
                   />
                 ))}
-                <p className="guarantee"> 보증금 : {selectedValue}</p>
+                <p className="guarantee"> 보증금 : {selectedValue}</p> */}
+                <div className="one" style={{ display: "flex" }}>
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      <input type="number" />
+                      <p className="ones">원</p>
+                    </div>
+                    <p className="deposit">제품의 가격을 입력해주세요</p>
+                  </div>
+
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      <input type="number" />
+                      <p className="ones">%</p>
+                    </div>
+                    <p className="deposit">50 ~ 10% 보증금</p>
+                  </div>
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      <input type="number" />
+                      <p className="ones">원</p>
+                    </div>
+
+                    <p className="deposit">1일 대여가격</p>
+                  </div>
+                </div>
               </div>
             </Amounts>
+
+            <Possession>
+              <div className="possession">
+                <ladel htmlFor="possessionS" className="Ladlpossession">
+                  <p className="quantity">소유 수량</p>
+                  <p className="star">*</p>
+                </ladel>
+              </div>
+              <input
+                type="number"
+                className="psion"
+                placeholder="제품소유 수량을 입력해주세요"
+              />
+            </Possession>
 
             <Rla>
               <ladel htmlFor="oldmail" className="LadelRa">
@@ -349,6 +389,14 @@ const Products = () => {
                 value="우편주소를 검색해주세요"
               />
             </TransactionS>
+            <div>
+              <div>
+                <ladel htmlFor="transaction" className="Ladeltst">
+                  <p className="tst">대여 기한 성정</p> <p>*</p>
+                </ladel>
+                {/* 준서형 달력 떙겨오기 */}
+              </div>
+            </div>
             <BtSection>
               <CancelBt type="button" onClick={handleCancel}>
                 취소
