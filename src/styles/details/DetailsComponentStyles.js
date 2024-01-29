@@ -33,6 +33,7 @@ export const SubBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  z-index: 100;
 `;
 
 export const Image = styled.img`

@@ -85,8 +85,22 @@ const sectionTitle = [
 ];
 
 const MainPage = () => {
+  const [product, setProduct] = useState(null);
 
-  
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await getProduct();
+  //       setProduct(res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
 
   return (
     <>

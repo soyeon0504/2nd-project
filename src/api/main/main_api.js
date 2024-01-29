@@ -11,11 +11,13 @@ const failPostDatas = () => {
 
 export const getProduct = async ( path, setProduct, failPostDatas ) => {
   try {
+
     const url = `${path}/prod/main?c=1&c=2&c=3&c=44`
     const res = await jwtAxios.get(url);
     setProduct(res.data)
     console.log(res.data)
     return res.data;
+
   } catch (error) {
     console.log(error);
     failPostDatas("/");
