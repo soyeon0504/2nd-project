@@ -90,8 +90,8 @@ const MainPage = () => {
 
   const getSlideData = async () => {
     try {
-      const response = await getProduct()
-      setProduct(response)
+      const res = await getProduct()
+      setProduct(res)
     } catch (error) {
       console.log(error)
     }
