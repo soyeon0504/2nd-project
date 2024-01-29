@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie, setCookie } from "./cookieUtil";
 import { SERVER_URL } from "../api/config";
 
-const jwtAxios = axios.create();
+export const jwtAxios = axios.create();
 
 const beforeReq = config => {
   console.log("1. 요청전 전달", config);

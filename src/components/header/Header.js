@@ -83,7 +83,7 @@ const Header = () => {
 
   // 로그인 & 로그아웃
   const loginState = useSelector(state => state.loginSlice);
-  console.log(loginState);
+  // console.log(loginState);
   const { moveToPath, isLogin, doLogout } = useCustomLogin();
 
   const dispatch = useDispatch();
@@ -98,7 +98,7 @@ const Header = () => {
         style={
           scrollPosition < 100
             ? { boxShadow: `none` }
-            : { boxShadow: `0 2px 4px #777777` }
+            : { boxShadow: `0px 2px 5px 0px rgba(0, 0, 0, 0.25)` }
         }
       >
         <HeaderTop>

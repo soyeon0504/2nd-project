@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Common } from "../../styles/CommonStyles";
+import { getMyRental } from "../../api/my/my_api";
 
 const ProfileDiv = styled.div`
   display: flex;
@@ -65,24 +66,44 @@ const ProfileRight = styled.div`
 `;
 
 const MyProfile = () => {
+  const [result, setResult] = useState([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let result = await getMyRental(1, 1);
+        const rentalData1 = await getMyRental(1, 1);
+        const rentalData2 = await getMyRental(1, 2);
+        setResult(result);
+        setData([rentalData1.length, rentalData2.length]);
+      } catch (error) {
+        console.error("Error fetching rental data:", error);
+        // 에러 처리 로직 추가
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <ProfileDiv>
       <ProfileLeft>
         <ProfileImg>
-          <img src="/images/kong.jpg" />
+          <img src={result[0]?.userStoredPic} />
         </ProfileImg>
         <div>
-          <h1>나는바보다</h1>
+          <h1>{result[0]?.targetNick}</h1>
         </div>
       </ProfileLeft>
       <ProfileRight>
         <div>
           <p>대여중</p>
-          <span>{Array.length}</span>
+          <span>{data[0]}</span>
         </div>
         <div>
           <p>대여완료</p>
-          <span>{Array.length}</span>
+          <span>{data[1]}</span>
         </div>
         <div>
           <p>작성후기</p>

@@ -1,7 +1,9 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import { jwtAxios } from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api/mypage`;
+const path2 = `${SERVER_URL}/api`
 
 const failPostDatas = () => {
   const navigate = useNavigate();
@@ -10,11 +12,33 @@ const failPostDatas = () => {
 
 
 
-export const getMyRental = async (page,role,fn) => {
+export const getMyRental = async (page,role) => {
   try {
     const url = `${path}/prod?page=${page}&role=${role}`;
-    const res = await axios.get(url);
-    fn(res.data);
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
+export const getMyInterest = async (page) => {
+  try {
+    const url = `${path}/fav?page=${page}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
+export const getMyBuySell = async (role,page) => {
+  try {
+    const url = `${path2}/pay?role=${role}&page=${page}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
   } catch (error) {
     console.log(error);
     failPostDatas("/");
