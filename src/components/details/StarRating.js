@@ -3,19 +3,9 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-const StarContainer = styled.div`
-  display: inline-block;
-  margin-left: 90px;
-`;
 
-const StarIcon = styled.span`
-  font-size: 20px;
 
-  color: ${({ filled }) => (filled ? "#FFD700" : "#ccc")};
-  cursor: pointer;
-`;
-
-const StarRating = ({ totalStars }) => {
+const StarRating = ({ totalStars, dislay, marginleft }) => {
   const [rating, setRating] = useState(0);
 
   const handleClick = index => {
@@ -26,6 +16,18 @@ const StarRating = ({ totalStars }) => {
       setRating(index + 1);
     }
   };
+
+  const StarContainer = styled.div`
+  display: ${dislay ? dislay : "inline-block"};
+  margin-left: ${marginleft ? marginleft : "90px"};
+  `;
+
+  const StarIcon = styled.span`
+  font-size: 20px;
+
+  color: ${({ filled }) => (filled ? "#FFD700" : "#ccc")};
+  cursor: pointer;
+  `;
 
   return (
     <StarContainer>

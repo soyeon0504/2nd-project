@@ -31,10 +31,10 @@ const MyMoreBtn = styled.button`
     }
 `
 
-const MyMoreButton = () => {
+const MyMoreButton = ({handleLoadMore}) => {
   return (
     <MyMoreBtWrap>
-        <MyMoreBtn onClick={() => {}}>MORE
+        <MyMoreBtn onClick={handleLoadMore}>MORE
             <img src='/images/main/arrow.svg' alt=''/>
         </MyMoreBtn>
     </MyMoreBtWrap>
