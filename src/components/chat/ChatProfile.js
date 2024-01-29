@@ -54,7 +54,11 @@ const ChatProfile = ({ onProfileSelect }) => {
   return (
     <>
       {allDummyData.map(data => (
-        <ChatProfileBox key={data.id} onClick={() => handleProfileSelect(data)}>
+        <ChatProfileBox
+          key={data.id}
+          onClick={() => handleProfileSelect(data)}
+          selected={selectedProfile && selectedProfile.id === data.id}
+        >
           <ProfileContainer>
             <ProfileImg>
               <img src={data.profileImage} alt="Profile Image" />

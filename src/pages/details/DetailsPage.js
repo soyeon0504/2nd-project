@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../layouts/Layout";
 import MyMap from "../../components/details/MyMap";
 import Calendar from "../../components/details/Calendar";
 import Profile from "../../components/details/Profile";
-import Pay from "../../components/details/Pay";
 import Like from "../../components/details/Like";
 import SellerProfile from "../../components/details/SellerProfile";
+import Pay from "../../components/details/Pay";
 import {
   SubContainer,
   PageWrapper,
@@ -42,71 +42,72 @@ import {
   RedText,
   BlackText,
   Detail,
-  PayContainer,
   PayRow,
   PayLabel,
   PayValue,
   TotalPrice,
+  PayContainer,
 } from "../../styles/details/DetailsPageStyles";
+import { getProduct } from "../../api/details/details_api";
 
 const DetailsPage = () => {
-  const [productData, setProductData] = useState({
-    pic: "/images/kong.jpg",
-    title: " 애플 워치 SE - 40mm GPS 스페이스 그레이 알루미늄  ",
-    price: "7,000 원",
-    rentalDuration: "일일대여가",
-    viewCount: 20,
-    address: "대구광역시 달서구 월성동",
-    purchaseDate: "2017년 5월 10일",
-    deposit: "보증금",
-    depositDetail: "원가의 30% 50,000원",
-    content: "상품내용",
-    sellerName: "닉네임",
-    profileImage: "../../images/kong.jpg",
-  });
+  const [productData, setProductData] = useState(null);
+  const [paymentData, setPaymentData] = useState(null);
 
-  const [detailContent, setDetailContent] = useState(
-    "상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분",
-  );
+  const togglePayModal = () => setShowPayModal(!showPayModal);
 
-  const [paymentData, setPaymentData] = useState({
-    rentPrice: 7000,
-    rentalDays: 30,
-    deposit: 50000,
-  });
+  useEffect(() => {
+    // getProduct 함수를 호출하여 상품 데이터 가져오기
+    const fetchData = async () => {
+      try {
+        const response = await getProduct(1, 25);
+        setProductData(response.data); // API 응답에서 데이터 추출하여 상태 업데이트
+      } catch (error) {
+        console.error("Error fetching product data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [showPayModal, setShowPayModal] = useState(false);
+  if (!productData || !paymentData) {
+    return <div>Loading...</div>; // Loading state
+  }
 
   return (
     <Layout>
       <PageWrapper>
         <SubContainer>
           <BoxImg>
-            <ProductImage src={productData.pic} alt="제품 이미지" />
+            <ProductImage
+              src={`/images/${productData.prodMainPic}`}
+              alt="제품 이미지"
+            />
           </BoxImg>
           <Box>
             <Title>
               <ContentWrapper>{productData.title}</ContentWrapper>
               <SellerProfile
-                sellerName={productData.sellerName}
-                profileImage={productData.profileImage}
+                sellerName={productData.nick}
+                profileImage={`/images/${productData.userPic}`}
               />
             </Title>
 
             <PriceContainer>
-              <Price>{productData.price}</Price>
-              <RentalText>{productData.rentalDuration}</RentalText>
+              <Price>{productData.price.toLocaleString()} 원</Price>
+              <RentalText>{productData.rentalPrice}</RentalText>
             </PriceContainer>
-            <ViewCount>조회수 {productData.viewCount}</ViewCount>
+            <ViewCount>조회수 {productData.view}</ViewCount>
             <AddressContainer>
               <InfoContainer>
                 <Address>
                   주소
-                  <DetailedAddress>{productData.address}</DetailedAddress>
+                  <DetailedAddress>{productData.addr}</DetailedAddress>
                 </Address>
                 <InfoLine>
                   <InfoText>제품구매일 </InfoText>
-                  <PurchaseDateText>
-                    {productData.purchaseDate}
-                  </PurchaseDateText>
+                  <PurchaseDateText>{productData.buyDate}</PurchaseDateText>
                 </InfoLine>
                 <div>
                   <DepositText>{productData.deposit}</DepositText>
@@ -119,12 +120,19 @@ const DetailsPage = () => {
             <Container>
               <Like />
               <BtnChat>채팅하기</BtnChat>
-              <BtnPay>결제하기</BtnPay>
+              <BtnPay onClick={togglePayModal}>결제하기</BtnPay>{" "}
             </Container>
+            {showPayModal && (
+              <Pay
+                productData={productData}
+                paymentData={paymentData}
+                onClose={togglePayModal}
+              />
+            )}
           </Box>
         </SubContainer>
         <MainContainer>
-          <ProductContent>{productData.content}</ProductContent>
+          <ProductContent>{productData.contents}</ProductContent>
         </MainContainer>
         <MiniContainer>
           <Caution>
@@ -150,37 +158,38 @@ const DetailsPage = () => {
               </CautionText>
             </CautionContent>
           </Caution>
-          <Detail>{detailContent}</Detail>
+          <Detail>디테일 내용</Detail>
           <PayContainer>
             <Calendar />
             <PayRow>
               <PayLabel>
-                {productData.price} x {paymentData.rentalDays}일
+                {productData.price.toLocaleString()} x {paymentData.rentalDays}
+                일
               </PayLabel>
               <PayValue>
-                {productData.price * paymentData.rentalDays} 원
+                {(productData.price * paymentData.rentalDays).toLocaleString()}{" "}
+                원
               </PayValue>
             </PayRow>
             <PayRow>
               <PayLabel>보증금</PayLabel>
-              <PayValue>{paymentData.deposit} 원</PayValue>
+              <PayValue>{paymentData.deposit.toLocaleString()} 원</PayValue>
             </PayRow>
             <TotalPrice />
             <PayRow>
               <PayLabel>총 합계</PayLabel>
               <PayValue>
-                {productData.price * paymentData.rentalDays +
-                  paymentData.deposit}
+                {(
+                  productData.price * paymentData.rentalDays +
+                  paymentData.deposit
+                ).toLocaleString()}{" "}
                 원
               </PayValue>
             </PayRow>
           </PayContainer>
         </MiniContainer>
         <MyMap />
-
         <Profile />
-
-        <Pay />
       </PageWrapper>
     </Layout>
   );

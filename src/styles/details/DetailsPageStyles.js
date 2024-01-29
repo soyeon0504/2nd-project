@@ -54,12 +54,13 @@ export const ContentWrapper = styled.div`
 `;
 
 export const Price = styled.div`
-  width: 154px;
+  width: auto;
+  max-width: 450px;
   height: 57.5px;
   flex-shrink: 0;
   color: #4b4b4b;
   font-family: Inter;
-  font-size: 40px;
+  font-size: 35px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -194,6 +195,28 @@ export const BtnChat = styled.div`
     color: #fff;
   }
 `;
+
+// export const PayModal = styled.div`
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: 9999;
+//   background-color: white;
+//   padding: 20px;
+//   border-radius: 8px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+// `;
+
+// export const ModalBackdrop = styled.div`
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   z-index: 9998;
+// `;
 
 export const BtnPay = styled(BtnChat)`
   color: #2c39b5;

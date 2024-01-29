@@ -1,16 +1,19 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
+import { jwtAxios } from "../../util/jwtUtil";
+const path = `${SERVER_URL}/api/prod`;
 
 const failPostDatas = () => {
   const navigate = useNavigate();
   navigate("/");
 };
 
-export const getProduct = async () => {
+export const getProduct = async (icategory, iproduct) => {
   try {
-    const res = await axios.get(`${path}`);
+    const url = `${path}/${icategory}/${iproduct}`;
+    const res = await jwtAxios.get(url);
+
     return res;
   } catch (error) {
     console.log(error);
