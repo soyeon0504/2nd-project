@@ -87,6 +87,7 @@ const sectionTitle = [
 const MainPage = () => {
   const [product, setProduct] = useState(null);
 
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -99,6 +100,7 @@ const MainPage = () => {
 
   //   fetchData();
   // }, []);
+
 
   return (
     <>

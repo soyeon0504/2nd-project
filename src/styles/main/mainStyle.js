@@ -29,16 +29,16 @@ export const MainWrap = styled.div`
     .like {
       position: absolute;
       border: none;
-      top: 10px;
-      right: 10px;
+      right: 15px;
+      top: -40px;
       z-index: 1;
       width: 30px;
       height: 30px;
       background-repeat: no-repeat;
-    &:hover {
+    /* &:hover {
       background-image: url("../images/main/like_full.svg");
       cursor: pointer;
-    }
+    } */
     button {
       width: 30px;
       height: 30px;
@@ -67,7 +67,7 @@ export const MainWrap = styled.div`
         font-weight: 500;
         font-size: 20px;
       }
-      .desc-ad {
+      .desc-address {
         color: #777;
         font-size: 14px;
       }

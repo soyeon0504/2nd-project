@@ -227,6 +227,11 @@ const MainMorePage = () => {
     // setData(res)
   };
 
+  const handleRegionChange = (e) => {
+    const regionIndex = region.findIndex(item => item.title === e.target.value);
+    setRegionListNum(regionIndex);
+  };
+
   //추후 초기 값 세팅 필요
   useEffect(() => {}, []);
 
@@ -248,9 +253,7 @@ const MainMorePage = () => {
               </div>
             </div>
             <div className="region-wrap">
-              <select onChange={(e) => {
-                console.log(e.target.value)
-              }}>
+              <select onChange={handleRegionChange}>
                 {region.map((item, index) => {
                   return (
                   <option
@@ -269,7 +272,6 @@ const MainMorePage = () => {
                     </option>
                   )
                 })}
-                <option>수성구</option>
               </select>
             </div>
           </div>
