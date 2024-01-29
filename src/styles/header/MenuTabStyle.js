@@ -5,7 +5,7 @@ export const MenuTabStyle = styled.div`
   position: fixed;
   display: block;
   z-index: 100;
-  top: 151px;
+  top: 155px;
   width: 540px;
   height: 310px;
   border: 1px solid #2c39b5;
