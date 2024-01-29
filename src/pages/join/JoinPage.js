@@ -361,7 +361,7 @@ const JoinPage = () => {
               <span>*</span>
             </JoinElementTxt>
             <JoinAddressInput>
-              <ConfirmBt onClick={handleClickButton}>주소 검색</ConfirmBt>
+              <ConfirmBt onClick={handleClickButton} type="button">주소 검색</ConfirmBt>
               <input
                 type="text"
                 {...register("address")}
@@ -370,7 +370,7 @@ const JoinPage = () => {
                 // onClick={handleClickButton}
                 readOnly
               />
-              <input placeholder="상세 주소를 입력해주세요." />
+              {/* <input placeholder="상세 주소를 입력해주세요." /> */}
 
               {modalOpen && (
                 <Modal handleClose={handleCloseModal}>
