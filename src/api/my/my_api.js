@@ -56,6 +56,16 @@ export const getMyReview = async (page) => {
   }
 };
 
+export const getMyProdReview = async (iuser,page) => {
+  try {
+    const url = `${path2}/list?iuser=${iuser}&page=${page}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
 
 export const putProduct = async () => {
   try {
