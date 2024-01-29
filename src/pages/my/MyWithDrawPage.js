@@ -1,6 +1,6 @@
 import React from 'react'
 import { JoinHeader } from '../../styles/join/JoinFirstPageStyle'
-import { IdBox, LogoBox, PwBox } from '../../styles/login/LoginPageStyle'
+import { IdBox, LoginBox, PwBox } from '../../styles/login/LoginPageStyle'
 import { BtSection, CancelBt, SaveBt } from '../../styles/join/JoinPageStyle'
 
 const MyWithDrawPage = () => {
@@ -9,7 +9,7 @@ const MyWithDrawPage = () => {
         <JoinHeader mgtop={"0"} mgbtm={"0"}>
           <p>회원탈퇴</p>
         </JoinHeader>
-        <LogoBox mgbtm={"80px"}>
+        <LoginBox mgbtm={"80px"}>
           <p>
           ※ 탈퇴한 아이디로는 다시 가입할 수 없습니다.
           <br />
@@ -24,7 +24,7 @@ const MyWithDrawPage = () => {
                 <CancelBt>취소</CancelBt>
                 <SaveBt>탈퇴</SaveBt>
             </BtSection>
-        </LogoBox>
+        </LoginBox>
     </>
   )
 }
