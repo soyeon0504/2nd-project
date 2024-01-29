@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,6 +9,7 @@ import {
   SlideBtWrap,
 } from "../../styles/main/SlideButton";
 import { BtWrap } from "../../styles/main/mainStyle";
+
 import { getProduct } from "../../api/main/main_api"; // API 호출 함수 import
 
 const ProductSlide = ({ btList, title, desc, id }) => {
@@ -30,6 +31,67 @@ const ProductSlide = ({ btList, title, desc, id }) => {
     fetchData(); // 함수 호출
   }, []);
 
+
+const ProductSlide = ({ btList, data, title, desc, swiperId }) => {
+  const productData = [
+    {
+      iuser: 7,
+      nick: "감자7",
+      userPic: "user\\7\\cfbf8730-7ce0-40bb-9a80-4e8987fe8866.jpg",
+      iauth: 1,
+      iproduct: 25,
+      title: "갤럭시워치6 47mm 로렉스 커스텀 대여합니다",
+      prodMainPic: "prod\\25\\c5162906-2cb1-4a6c-a738-f675b20a67a4.jpg",
+      price: 500000,
+      rentalPrice: 20000,
+      deposit: 400000,
+      rentalStartDate: "2024-01-18",
+      rentalEndDate: "2024-06-18",
+      addr: "대구 달서구 와룡로22길 32 와룡로22길 32",
+      prodLike: 4,
+      istatus: 0,
+      isLiked: 1,
+      view: 0,
+    },
+    {
+      iuser: 1,
+      nick: "바보현빈",
+      userPic: "user\\1\\5dd05f9e-12f3-42ae-a53f-727f9c76d40f.jpg",
+      iauth: 1,
+      iproduct: 11,
+      title: "2번갤럭시S24플러스 빌려가세요",
+      prodMainPic: "prod\\11\\297ff48c-4c7f-4efa-a1a8-8c6c67909c46.jpg",
+      price: 1500000,
+      rentalPrice: 50000,
+      deposit: 1200000,
+      rentalStartDate: "2024-01-18",
+      rentalEndDate: "2024-03-18",
+      addr: "대구 달서구 와룡로22길 32 와룡로22길 32",
+      prodLike: 5,
+      istatus: 0,
+      isLiked: 0,
+      view: 2,
+    },
+    {
+      iuser: 1,
+      nick: "바보현빈",
+      userPic: "user\\1\\5dd05f9e-12f3-42ae-a53f-727f9c76d40f.jpg",
+      iauth: 1,
+      iproduct: 10,
+      title: "1번갤럭시S24울트라 빌려가세요",
+      prodMainPic: "prod\\10\\1cf0e47e-d5e8-4402-af6f-528ff4845be5.jpg",
+      price: 1500000,
+      rentalPrice: 50000,
+      deposit: 1200000,
+      rentalStartDate: "2024-01-18",
+      rentalEndDate: "2024-03-18",
+      addr: "대구 달서구 와룡로22길 32 와룡로22길 32",
+      prodLike: 4,
+      istatus: 0,
+      isLiked: 0,
+      view: 1,
+    },
+  ];
   // 초기값 세팅
   const [focus, setFocus] = useState(0);
 
@@ -72,6 +134,7 @@ const ProductSlide = ({ btList, title, desc, id }) => {
           className="mySwiper"
           modules={[Navigation]}
         >
+
           {productData && productData.map((item, index) => (
             <SwiperSlide key={`cameraSlide${index}`}>
               <div className="like">
@@ -81,15 +144,17 @@ const ProductSlide = ({ btList, title, desc, id }) => {
               </div>
               <img src={item.prodMainPic} alt="" />
 
-              <div className="desc-wrap">
-                <span className="desc-title">{item.title}</span>
-                <hr></hr>
-                <div className="desc-price">{item.price}</div>
-                <div className="desc-ad">{item.addr}</div>
-                <div className="view">조회수{item.view}</div>
-              </div>
-            </SwiperSlide>
-          ))}
+
+                <div className="desc-wrap">
+                  <span className="desc-title">{productData.title}</span>
+                  <hr></hr>
+                  <div className="desc-price">{item.price}</div>
+                  <div className="desc-ad">{item.address}</div>
+                  <div className="view">조회수{item.view}</div>
+                </div>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
         <SlideBtWrap>
           <BtSlidePrev
@@ -98,7 +163,7 @@ const ProductSlide = ({ btList, title, desc, id }) => {
               swiperRefs.current[id];
             }}
           >
-            <img src="../images/main/prev.svg" alt="prev" />
+            <img src="../images/main/prev.svg" alt="" />
           </BtSlidePrev>
           <BtSlideNext
             className={`slide-next-bt-${id} c-slide-next`}
@@ -106,7 +171,7 @@ const ProductSlide = ({ btList, title, desc, id }) => {
               swiperRefs.current[id];
             }}
           >
-            <img src="../images/main/next.svg" alt="next" />
+            <img src="../images/main/next.svg" alt="" />
           </BtSlideNext>
         </SlideBtWrap>
 

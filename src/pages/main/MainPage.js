@@ -109,6 +109,9 @@ const sectionTitle = [
 const MainPage = () => {
   const [product, setProduct] = useState(null);
 
+
+
+
   return (
     <>
       <Layout>
