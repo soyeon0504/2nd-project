@@ -9,14 +9,17 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getProduct = async (id) => {
+export const getProduct = async ( path, setProduct, failPostDatas ) => {
   try {
-    const url = `${path}/prod/main?c=${id + 1}`
+    const url = `${path}/prod//1?page=22`
     const res = await jwtAxios.get(url);
-    return res.data;
+    setProduct(res)
+    console.log(res)
+    return res;
+
   } catch (error) {
     console.log(error);
-    // failPostDatas("/");
+    failPostDatas("/");
   }
 };
 

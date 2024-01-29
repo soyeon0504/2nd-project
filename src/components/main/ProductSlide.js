@@ -11,15 +11,17 @@ import {
 import { BtWrap } from "../../styles/main/mainStyle";
 import { getProduct } from "../../api/main/main_api"; // API 호출 함수 import
 
-const ProductSlide = ({ btList, title, desc, swiperId }) => {
+const ProductSlide = ({ btList, title, desc, id }) => {
   const [productData, setProductData] = useState([]); // 상품 데이터 상태 추가
+
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 API 호출하여 상품 데이터 가져오기
     const fetchData = async () => {
       try {
-        const res = await getProduct(); // API 호출
-        setProductData(res.data); // 데이터 설정
+        const res = await getProduct(id); // API 호출
+        console.log(res)
+        setProductData(res); // 데이터 설정
       } catch (error) {
         console.log(error);
       }
@@ -48,9 +50,10 @@ const ProductSlide = ({ btList, title, desc, swiperId }) => {
                 className={focus === index ? "focus" : ""}
                 onClick={() => {
                   setFocus(index);
+                  btList
                 }}
               >
-                {item}
+                {item.title}
               </button>
             );
           })}
@@ -60,8 +63,8 @@ const ProductSlide = ({ btList, title, desc, swiperId }) => {
           spaceBetween={20}
           slidesPerGroup={4}
           navigation={{
-            nextEl: `.slide-next-bt-${swiperId}`,
-            prevEl: `.slide-prev-bt-${swiperId}`,
+            nextEl: `.slide-next-bt-${id}`,
+            prevEl: `.slide-prev-bt-${id}`,
           }}
           onSwiper={swiper => {
             swiperRefs.current = swiper;
@@ -69,7 +72,7 @@ const ProductSlide = ({ btList, title, desc, swiperId }) => {
           className="mySwiper"
           modules={[Navigation]}
         >
-          {productData.map((item, index) => (
+          {productData && productData.map((item, index) => (
             <SwiperSlide key={`cameraSlide${index}`}>
               <div className="like">
                 <button onClick={() => handleClickLike()}>
@@ -90,17 +93,17 @@ const ProductSlide = ({ btList, title, desc, swiperId }) => {
         </Swiper>
         <SlideBtWrap>
           <BtSlidePrev
-            className={`slide-prev-bt-${swiperId} c-slide-prev`}
+            className={`slide-prev-bt-${id} c-slide-prev`}
             onClick={() => {
-              swiperRefs.current[swiperId];
+              swiperRefs.current[id];
             }}
           >
             <img src="../images/main/prev.svg" alt="prev" />
           </BtSlidePrev>
           <BtSlideNext
-            className={`slide-next-bt-${swiperId} c-slide-next`}
+            className={`slide-next-bt-${id} c-slide-next`}
             onClick={() => {
-              swiperRefs.current[swiperId];
+              swiperRefs.current[id];
             }}
           >
             <img src="../images/main/next.svg" alt="next" />
