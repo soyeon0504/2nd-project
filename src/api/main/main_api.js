@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import { jwtAxios } from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api`;
 
 const failPostDatas = () => {
@@ -10,9 +11,9 @@ const failPostDatas = () => {
 
 export const getProduct = async () => {
   try {
-    const url = `${path}/prod/main?c=1,2,3,4`
-    const res = await axios.get(url);
-    console.log(res)
+    const url = `${path}/prod/main?c=1,2,3,4`;
+    const res = await jwtAxios.get(url);
+    console.log(res);
     return res;
   } catch (error) {
     console.log(error);

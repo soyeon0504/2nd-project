@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
 import Layout from "../../layouts/Layout";
 import MyMap from "../../components/details/MyMap";
 import Calendar from "../../components/details/Calendar";
@@ -48,66 +49,77 @@ import {
   TotalPrice,
   PayContainer,
 } from "../../styles/details/DetailsPageStyles";
-import { getProduct } from "../../api/details/details_api";
 
 const DetailsPage = () => {
-  const [productData, setProductData] = useState(null);
-  const [paymentData, setPaymentData] = useState(null);
+  const [showPayModal, setShowPayModal] = useState(false); // 모달 표시 여부를 나타내는 상태
 
-  const togglePayModal = () => setShowPayModal(!showPayModal);
+  const togglePayModal = () => {
+    setShowPayModal(!showPayModal);
+    // Pay 모달을 띄울 때, 모달이 나타날 때만 body에 ModalBackdrop 클래스를 추가하여 배경을 어둡게 만듦
+    if (!showPayModal) {
+      document.body.classList.add("ModalBackdrop");
+    } else {
+      document.body.classList.remove("ModalBackdrop");
+    }
+  };
 
-  useEffect(() => {
-    // getProduct 함수를 호출하여 상품 데이터 가져오기
-    const fetchData = async () => {
-      try {
-        const response = await getProduct(1, 25);
-        setProductData(response.data); // API 응답에서 데이터 추출하여 상태 업데이트
-      } catch (error) {
-        console.error("Error fetching product data: ", error);
-      }
-    };
+  const [productData, setProductData] = useState({
+    pic: "/images/kong.jpg",
+    title: " 애플 워치 SE - 40mm GPS 스페이스 그레이 알루미늄  ",
+    price: "7,000 원",
+    rentalDuration: "일일대여가",
+    viewCount: 20,
+    address: "대구광역시 달서구 월성동",
+    purchaseDate: "2017년 5월 10일",
+    deposit: "보증금",
+    depositDetail: "원가의 30% 50,000원",
+    content: "상품내용",
+    sellerName: "닉네임",
+    profileImage: "../../images/kong.jpg",
+  });
 
-    fetchData();
-  }, []);
+  const [detailContent, setDetailContent] = useState(
+    "상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분",
+  );
 
-  const [showPayModal, setShowPayModal] = useState(false);
-  if (!productData || !paymentData) {
-    return <div>Loading...</div>; // Loading state
-  }
+  const [paymentData, setPaymentData] = useState({
+    rentPrice: 7000,
+    rentalDays: 30,
+    deposit: 50000,
+  });
 
   return (
     <Layout>
       <PageWrapper>
         <SubContainer>
           <BoxImg>
-            <ProductImage
-              src={`/images/${productData.prodMainPic}`}
-              alt="제품 이미지"
-            />
+            <ProductImage src={productData.pic} alt="제품 이미지" />
           </BoxImg>
           <Box>
             <Title>
               <ContentWrapper>{productData.title}</ContentWrapper>
               <SellerProfile
-                sellerName={productData.nick}
-                profileImage={`/images/${productData.userPic}`}
+                sellerName={productData.sellerName}
+                profileImage={productData.profileImage}
               />
             </Title>
 
             <PriceContainer>
-              <Price>{productData.price.toLocaleString()} 원</Price>
-              <RentalText>{productData.rentalPrice}</RentalText>
+              <Price>{productData.price}</Price>
+              <RentalText>{productData.rentalDuration}</RentalText>
             </PriceContainer>
-            <ViewCount>조회수 {productData.view}</ViewCount>
+            <ViewCount>조회수 {productData.viewCount}</ViewCount>
             <AddressContainer>
               <InfoContainer>
                 <Address>
                   주소
-                  <DetailedAddress>{productData.addr}</DetailedAddress>
+                  <DetailedAddress>{productData.address}</DetailedAddress>
                 </Address>
                 <InfoLine>
                   <InfoText>제품구매일 </InfoText>
-                  <PurchaseDateText>{productData.buyDate}</PurchaseDateText>
+                  <PurchaseDateText>
+                    {productData.purchaseDate}
+                  </PurchaseDateText>
                 </InfoLine>
                 <div>
                   <DepositText>{productData.deposit}</DepositText>
@@ -122,17 +134,17 @@ const DetailsPage = () => {
               <BtnChat>채팅하기</BtnChat>
               <BtnPay onClick={togglePayModal}>결제하기</BtnPay>{" "}
             </Container>
-            {showPayModal && (
+            {showPayModal && ( // showPayModal 상태가 true일 때만 Pay 컴포넌트가 렌더링됨
               <Pay
                 productData={productData}
                 paymentData={paymentData}
-                onClose={togglePayModal}
+                onClose={togglePayModal} // Pay 컴포넌트에 onClose 이벤트 핸들러 전달
               />
             )}
           </Box>
         </SubContainer>
         <MainContainer>
-          <ProductContent>{productData.contents}</ProductContent>
+          <ProductContent>{productData.content}</ProductContent>
         </MainContainer>
         <MiniContainer>
           <Caution>
@@ -158,37 +170,35 @@ const DetailsPage = () => {
               </CautionText>
             </CautionContent>
           </Caution>
-          <Detail>디테일 내용</Detail>
+          <Detail>{detailContent}</Detail>
           <PayContainer>
             <Calendar />
             <PayRow>
               <PayLabel>
-                {productData.price.toLocaleString()} x {paymentData.rentalDays}
-                일
+                {productData.price} x {paymentData.rentalDays}일
               </PayLabel>
               <PayValue>
-                {(productData.price * paymentData.rentalDays).toLocaleString()}{" "}
-                원
+                {productData.price * paymentData.rentalDays} 원
               </PayValue>
             </PayRow>
             <PayRow>
               <PayLabel>보증금</PayLabel>
-              <PayValue>{paymentData.deposit.toLocaleString()} 원</PayValue>
+              <PayValue>{paymentData.deposit} 원</PayValue>
             </PayRow>
             <TotalPrice />
             <PayRow>
               <PayLabel>총 합계</PayLabel>
               <PayValue>
-                {(
-                  productData.price * paymentData.rentalDays +
-                  paymentData.deposit
-                ).toLocaleString()}{" "}
+                {productData.price * paymentData.rentalDays +
+                  paymentData.deposit}
                 원
               </PayValue>
             </PayRow>
           </PayContainer>
         </MiniContainer>
+
         <MyMap />
+
         <Profile />
       </PageWrapper>
     </Layout>
