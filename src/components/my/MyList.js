@@ -7,6 +7,7 @@ import {
   MyListMidImg,
   MyListMidLast,
   MyListMidTxt,
+  MyListProfileImg,
   MyListTop,
   MyListTopButton,
 } from "../../styles/my/MyList";
@@ -16,9 +17,14 @@ import { getMyBuySell, getMyRental } from "../../api/my/my_api";
 const MyList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
   const [data, setData] = useState([]);
+  const [viewMore, setViewMore] = useState(3);
 
   const handleButtonClick = buttonType => {
     setActiveButton(buttonType);
+  };
+
+  const handleLoadMore = () => {
+    setViewMore((prevViewMore) => prevViewMore + 3);
   };
 
   useEffect(() => {
@@ -62,7 +68,7 @@ const MyList = ({ activeBtn }) => {
             </MyListTopButton>
           </div> 
       </MyListTop>
-      {data && data.map((item, index) => (
+      {data && data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
           { activeBtn === "대여중" ? (
           <MyListMid>
@@ -92,7 +98,7 @@ const MyList = ({ activeBtn }) => {
             </MyListMidImg>
             <MyListMidTxt>
               <div>
-                <h2>{item.nick}</h2>
+                <h2>{item.title}</h2>
               </div>
               <div>
                 <p>{item.price} 원 </p>
@@ -101,15 +107,19 @@ const MyList = ({ activeBtn }) => {
               <span>대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate} ({item.rentalDuration}일)</span>
               </div>
             </MyListMidTxt>
-            <MyListMidLast>
-              <p>더보기</p>
+            <MyListMidLast location={"center"} size={"1.2rem"}>
+              <p>거래자</p>
+              <MyListProfileImg>
+                <img src={item.userPic}/>
+              </MyListProfileImg>
+              <span>{item.nick}</span>
             </MyListMidLast>
           </MyListMidEnd>
          )}
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <MyMoreButton />
+        <MyMoreButton handleLoadMore={handleLoadMore} />
       </MyListBottom>
     </MyListDiv>
   );

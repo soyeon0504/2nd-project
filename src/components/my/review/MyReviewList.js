@@ -1,9 +1,33 @@
-import React from "react";
-import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
+import React, { useEffect, useState } from "react";
+import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton, MyStarDiv } from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
+import { getMyReview } from "../../../api/my/my_api";
+import StarRating from "../../details/StarRating";
+import styled from "@emotion/styled";
 
 
 const MyReviewList = ({ activeBtn }) => {
+  const [data, setData] = useState([]);
+  const [viewMore, setViewMore] = useState(3);
+
+  const handleLoadMore = () => {
+    setViewMore((prevViewMore) => prevViewMore + 3);
+  };
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        let result;
+        if (activeBtn === "내 작성 후기") {
+          result = await getMyReview(1);
+        } 
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  },[activeBtn])
 
   const mylistmid = [
     {
@@ -43,23 +67,23 @@ const MyReviewList = ({ activeBtn }) => {
         <div>
         </div>
       </MyListTop>
-      {mylistmid.map((item, index) => (
+      {data && data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
           { activeBtn === "내 작성 후기" ? (
           <MyListMid>
           <MyListMidImg>
-            <img src={item.pic} alt={item.title} />
+            <img src={item.prodPic} alt={item.title} />
           </MyListMidImg>
           <MyListMidTxt>
             <div>
               <h2>{item.title}</h2>
             </div>
             <div>
-              <p>{item.price}</p>
-            </div>
-            <div>
               <span>{item.contents}</span>
             </div>
+            <MyStarDiv>
+              <StarRating totalStars={5} marginleft={"10px"}/>
+            </MyStarDiv>
           </MyListMidTxt>
           <MyListMidLast>
             <p>{item.rentalStartDate}</p>
@@ -90,7 +114,7 @@ const MyReviewList = ({ activeBtn }) => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <MyMoreButton />
+        <MyMoreButton handleLoadMore={handleLoadMore} display={"flex"} marginleft={"2px"}/>
       </MyListBottom>
     </MyListDiv>
   );

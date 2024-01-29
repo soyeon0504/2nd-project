@@ -45,15 +45,17 @@ export const getMyBuySell = async (role,page) => {
   }
 };
 
-export const postProduct = async () => {
+export const getMyReview = async (page) => {
   try {
-    const res = await axios.post(`${path}`);
-    return res;
+    const url = `${path}/review?page=${page}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
   } catch (error) {
     console.log(error);
     failPostDatas("/");
   }
 };
+
 
 export const putProduct = async () => {
   try {

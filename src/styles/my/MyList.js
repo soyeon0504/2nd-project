@@ -121,15 +121,43 @@ export const MyListMidLast = styled.div`
   bottom: 1rem;
   right: 1rem;
   p {
-    font-size: 1.4rem;
+    font-size:  ${props => props.size ? props.size : "1.4rem"};
   }
+  
   button {
     border: 0;
     cursor: pointer;
   }
+  span {
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1.2rem;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
+
+export const MyListProfileImg = styled.div`
+  width: 6rem;
+  height: 6rem;
+  box-sizing: border-box;
+  border-radius: 4.5rem;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`
+
 export const MyListBottom = styled.div`
   margin-top: 2.3rem;
   display: flex;
   justify-content: center;
 `;
+
+export const MyStarDiv = styled.div`
+  display: flex;
+  
+`

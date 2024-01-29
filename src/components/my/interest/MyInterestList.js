@@ -6,6 +6,7 @@ import { getMyInterest } from "../../../api/my/my_api";
 
 const MyInterestList = () => {
   const [data, setData] = useState([]);
+  const [viewMore, setViewMore] = useState(3);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +21,10 @@ const MyInterestList = () => {
     fetchData();
   }, []);
 
+  const handleLoadMore = () => {
+    setViewMore((prevViewMore) => prevViewMore + 3);
+  };
+
   return (
     <MyListDiv>
       <MyListTop>
@@ -31,7 +36,7 @@ const MyInterestList = () => {
         <React.Fragment key={index}>
           <MyListMid>
           <MyListMidImg>
-            <img src={item.prodPic} alt={item.title} />
+            <img src={`/pic/${item.prodPic}`}alt={item.title} />
           </MyListMidImg>
           <MyListMidTxt>
             <div>
@@ -53,7 +58,7 @@ const MyInterestList = () => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <MyMoreButton />
+        <MyMoreButton handleLoadMore={handleLoadMore}/>
       </MyListBottom>
     </MyListDiv>
   );

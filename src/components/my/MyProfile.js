@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { Common } from "../../styles/CommonStyles";
-import { getMyRental } from "../../api/my/my_api";
+import { getMyBuySell, getMyRental } from "../../api/my/my_api";
 
 const ProfileDiv = styled.div`
   display: flex;
@@ -73,10 +73,11 @@ const MyProfile = () => {
     const fetchData = async () => {
       try {
         let result = await getMyRental(1, 1);
-        const rentalData1 = await getMyRental(1, 1);
+        const buyData = await getMyBuySell(1, 1);
+        const sellData = await getMyBuySell(2,1);
         const rentalData2 = await getMyRental(1, 2);
         setResult(result);
-        setData([rentalData1.length, rentalData2.length]);
+        setData([buyData.length, sellData.length, rentalData2.length]);
       } catch (error) {
         console.error("Error fetching rental data:", error);
         // 에러 처리 로직 추가
@@ -98,16 +99,16 @@ const MyProfile = () => {
       </ProfileLeft>
       <ProfileRight>
         <div>
-          <p>대여중</p>
+          <p>대여중 (구매)</p>
           <span>{data[0]}</span>
         </div>
         <div>
-          <p>대여완료</p>
+          <p>대여중 (판매)</p>
           <span>{data[1]}</span>
         </div>
         <div>
-          <p>작성후기</p>
-          <span>{Array.length}</span>
+          <p>대여완료</p>
+          <span>{data[2]}</span>
         </div>
       </ProfileRight>
     </ProfileDiv>
