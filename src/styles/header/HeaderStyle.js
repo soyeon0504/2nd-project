@@ -8,7 +8,7 @@ export const HeaderStyle = styled.div`
   left: 50%;
   transform: translateX(-50%);
   background: #fff;
-  width: 1300px;
+  width: 100vw;
   text-align: center;
   padding-bottom: 15px;
 `;
@@ -16,6 +16,7 @@ export const HeaderTop = styled.div`
   margin: 30px auto;
   display: flex;
   gap: 130px;
+  width: 1300px;
 `;
 export const HeaderLogo = styled.div`
   width: 200px;
@@ -77,8 +78,8 @@ export const LoginState = styled.div`
   }
 `;
 export const HeaderMenu = styled.div`
-  /* margin: 0 auto; */
-  /* width: 1300px; */
+  margin: 0 auto;
+  width: 1300px;
   display: flex;
   gap: 40px;
   ul {

@@ -62,6 +62,20 @@ export const JoinElementInput = styled.div`
     font-weight: 400;
     line-height: normal;
   }
+  div {
+    border-radius: 5px;
+    border: 1px solid #2c39b5;
+
+    width: ${props => (props.width ? props.width : "600px")};
+    height: 36px;
+    padding-left: 15px;
+
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
   /* input[type="file"] {
     width: 180px;
     height: 180px;

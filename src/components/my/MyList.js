@@ -11,7 +11,7 @@ import {
   MyListTopButton,
 } from "../../styles/my/MyList";
 import MyMoreButton from "./MyMoreButton";
-import { getMyRental } from "../../api/my/my_api";
+import { getMyBuySell, getMyRental } from "../../api/my/my_api";
 
 const MyList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
@@ -24,10 +24,16 @@ const MyList = ({ activeBtn }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result =
-          activeBtn === "대여중"
-            ? await getMyRental(1, 1, setData)
-            : await getMyRental(1, 2, setData);
+        let result;
+        if (activeBtn === "대여중" && activeButton === true) {
+          result = await getMyRental(1, 1);
+        } else if (activeBtn === "대여중" && activeButton === false) {
+          result = await getMyRental(1, 2);
+        } else if (activeBtn === "대여 완료" && activeButton === true) {
+          result = await getMyBuySell(1,1);
+        } else if (activeBtn === "대여 완료" && activeButton === false) {
+          result = await getMyBuySell(2,1);
+        }
         setData(result);
       } catch (error) {
         console.error(error);
@@ -35,28 +41,28 @@ const MyList = ({ activeBtn }) => {
     };
 
     fetchData();
-  }, [activeBtn]);
+  }, [activeButton, activeBtn]);
 
   return (
     <MyListDiv>
       <MyListTop>
         { activeBtn === "대여중" ? <h2>대여중</h2> : <h2>대여완료</h2>}
-        <div>
-          <MyListTopButton
-           selected={activeButton}
-            onClick={() => handleButtonClick(true)}
-          >
-            구매
-          </MyListTopButton>
-          <MyListTopButton
-            selected={!activeButton}
-            onClick={() => handleButtonClick(false)}
-          >
-            판매
-          </MyListTopButton>
-        </div>
+          <div>
+            <MyListTopButton
+            selected={activeButton}
+              onClick={() => handleButtonClick(true)}
+            >
+              구매
+            </MyListTopButton>
+            <MyListTopButton
+              selected={!activeButton}
+              onClick={() => handleButtonClick(false)}
+            >
+              판매
+            </MyListTopButton>
+          </div> 
       </MyListTop>
-      {data.map((item, index) => (
+      {data && data.map((item, index) => (
         <React.Fragment key={index}>
           { activeBtn === "대여중" ? (
           <MyListMid>
@@ -68,10 +74,10 @@ const MyList = ({ activeBtn }) => {
               <h2>{item.title}</h2>
             </div>
             <div>
-              <p>{item.price}</p>
+              <p>{item.price} 원</p>
             </div>
             <div>
-              <span>대여기간 : {item.rentalDuration}</span>
+              <span>대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate} ({item.rentalDuration}일)</span>
             </div>
           </MyListMidTxt>
           <MyListMidLast>
@@ -82,17 +88,17 @@ const MyList = ({ activeBtn }) => {
           <MyListMidEnd>
             <h2>반 납 완 료</h2>
             <MyListMidImg>
-              <img src={item.pic} alt={item.title} />
+              <img src={item.prodMainPic} alt={item.ipayment} />
             </MyListMidImg>
             <MyListMidTxt>
               <div>
-                <h2>{item.title}</h2>
+                <h2>{item.nick}</h2>
               </div>
               <div>
-                <p>{item.price}</p>
+                <p>{item.price} 원 </p>
               </div>
               <div>
-                <span>{item.rentalDuration}</span>
+              <span>대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate} ({item.rentalDuration}일)</span>
               </div>
             </MyListMidTxt>
             <MyListMidLast>
