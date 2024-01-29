@@ -158,6 +158,5 @@ export const MyListBottom = styled.div`
 `;
 
 export const MyStarDiv = styled.div`
-  display: flex;
-  
+  height: 2rem;
 `

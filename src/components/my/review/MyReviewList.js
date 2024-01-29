@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton, MyStarDiv } from "../../../styles/my/MyList";
+import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListProfileImg, MyListTop, MyListTopButton, MyStarDiv } from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
 import { getMyReview } from "../../../api/my/my_api";
-import StarRating from "../../details/StarRating";
+import StarRatined from "../StarRatined";
 import styled from "@emotion/styled";
+import { get } from "react-hook-form";
 
 
 const MyReviewList = ({ activeBtn }) => {
@@ -20,7 +21,9 @@ const MyReviewList = ({ activeBtn }) => {
         let result;
         if (activeBtn === "내 작성 후기") {
           result = await getMyReview(1);
-        } 
+        } else if (activeBtn === "내 상품 후기") {
+          result = await getMyReview(1,1)
+        }
         setData(result);
       } catch (error) {
         console.error(error);
@@ -28,37 +31,6 @@ const MyReviewList = ({ activeBtn }) => {
     }
     fetchData();
   },[activeBtn])
-
-  const mylistmid = [
-    {
-      pic: "/images/kong.jpg",
-      title: "갤럭시 워치 4 골프 에디션 4 - 44mm 블루투스 (블랙 에디션)",
-      price: "260,000 원",
-      rentalDuration: "대여 기간 : 2024-01-11 ~ 2024-01-31 (21일)",
-      contents:
-        "친절하게 구매 물품 확인해 주셨습니다. 안전하게 포장하여 당일 배송해 주셨습니다. 신뢰할 수 있는 판매자입니다...",
-      deposit: "대구광역시 달서구 대곡동",
-      rentalStartDate: "2024-01-05"
-    },
-    {
-      pic: "/images/kong.jpg",
-      title: "다른 상품 제목",
-      price: "200,000 원",
-      rentalDuration: "대여 기간 : 2024-02-01 ~ 2024-02-15 (15일)",
-      contents: "다른 사용자의 후기 및 내용",
-      deposit: "다른 지역의 예치 장소",
-      rentalStartDate: "2024-01-13"
-    },
-    {
-      pic: "/images/kong.jpg",
-      title: "또 다른 상품 제목",
-      price: "450,000 원",
-      rentalDuration: "대여 기간 : 2024-02-16 ~ 2024-02-28 (13일)",
-      contents: "다른 사용자의 후기 및 내용",
-      deposit: "다른 지역의 예치 장소",
-      rentalStartDate: "2024-01-24"
-    },
-  ];
 
   return (
     <MyListDiv>
@@ -78,17 +50,20 @@ const MyReviewList = ({ activeBtn }) => {
             <div>
               <h2>{item.title}</h2>
             </div>
+            <MyStarDiv>
+              <StarRatined totalStars={item.raiting}/>
+            </MyStarDiv>
             <div>
               <span>{item.contents}</span>
             </div>
-            <MyStarDiv>
-              <StarRating totalStars={5} marginleft={"10px"}/>
-            </MyStarDiv>
           </MyListMidTxt>
-          <MyListMidLast>
-            <p>{item.rentalStartDate}</p>
-            <p>더보기</p>
-          </MyListMidLast>
+          <MyListMidLast location={"center"} size={"1.2rem"}>
+              <p>작성자</p>
+              <MyListProfileImg>
+                <img src={item.userPic}/>
+              </MyListProfileImg>
+              <span>{item.nick}</span>
+            </MyListMidLast>
         </MyListMid>
          ) : (
           <MyListMid>
@@ -114,7 +89,7 @@ const MyReviewList = ({ activeBtn }) => {
         </React.Fragment> 
       ))}
       <MyListBottom>
-        <MyMoreButton handleLoadMore={handleLoadMore} display={"flex"} marginleft={"2px"}/>
+        <MyMoreButton handleLoadMore={handleLoadMore} display={"flex"} marginleft={"0px"}/>
       </MyListBottom>
     </MyListDiv>
   );
