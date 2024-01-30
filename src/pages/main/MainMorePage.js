@@ -3,6 +3,7 @@ import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
+import { getMoreProduct } from "../../api/main/mainMore_api";
 
 const initData = [
   {
@@ -211,7 +212,26 @@ const region = [
   },
 ];
 
-const MainMorePage = () => {
+const MainMorePage = ({id}) => {
+  const [moreProductData, setMoreProductData] = useState([]); // 상품 데이터 상태 추가
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 API 호출하여 상품 데이터 가져오기
+    const fetchData = async () => {
+      try {
+        const res = await getMoreProduct(id); // API 호출
+        console.log(res);
+        setMoreProductData(res); // 데이터 설정
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData(); // 함수 호출
+  }, []);
+
+
+
   // 페이지넘버(페이지네이션)
   const [current, setCurrent] = useState(3);
 

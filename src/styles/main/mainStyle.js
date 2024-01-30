@@ -97,6 +97,10 @@ export const BtWrap = styled.div`
     border: 1px solid #777;
     border-radius: 25px;
     background: #fff;
+    cursor: pointer;
+    &:hover {
+      
+    }
     &.focus {
       color: #fff;
       background-color: #2c39b5;
