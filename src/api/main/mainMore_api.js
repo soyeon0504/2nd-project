@@ -9,11 +9,11 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getProduct = async ( path, setProduct, failPostDatas ) => {
+export const getMoreProduct = async ( path, setMoreProduct, failPostDatas ) => {
   try {
-    const url = `${path}/prod//1?page=22`
+    const url = `${path}/prod/1?page=22`
     const res = await jwtAxios.get(url);
-    setProduct(res)
+    setMoreProduct(res)
     console.log(res)
     return res;
 
