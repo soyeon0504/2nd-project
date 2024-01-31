@@ -5,6 +5,7 @@ export const MoreWrap = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
+  
 
   .header-wrap {
     width: 1260px;
@@ -103,7 +104,7 @@ export const MoreWrap = styled.div`
   .item-wrap {
     position: relative;
     img {
-      /* width: 100%; */
+      width: 100%;
       border: none;
       border-radius: 4px;
     }

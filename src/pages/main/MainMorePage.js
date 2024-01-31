@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
@@ -212,28 +213,43 @@ const region = [
   },
 ];
 
-const MainMorePage = ({id}) => {
-  const [moreProductData, setMoreProductData] = useState([]); // 상품 데이터 상태 추가
+const MainMorePage = ({id, btList}) => {
+   const [moreProductData, setMoreProductData] = useState([btList]); // 상품 데이터 상태 추가
+   const [datas, setDatas] = useState([])
+
+  // 페이지 넘버
+  const [pageNum, setPageNum] = useState(1);
+  const params = useParams();
+  console.log(params.id)
+
+
+   // 자주 호출하는 함수는 외부로 코드 위치 정리필요
+   // 각 카테고리별 내용을 출력하는 목록을 갱신하는 용도
+  
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 API 호출하여 상품 데이터 가져오기
+    // if(params.id){
+    //   fetchData(params.id)
+    // }
     const fetchData = async () => {
       try {
-        const res = await getMoreProduct(id); // API 호출
+        const res = await getMoreProduct(params.id, pageNum); // API 호출
+        console.log(pageNum);
         console.log(res);
-        setMoreProductData(res); // 데이터 설정
+        // setMoreProductData(res); // 데이터 설정
+        setDatas(res)
       } catch (error) {
         console.log(error);
       }
+  
     };
-
-    fetchData(); // 함수 호출
+    fetchData()
   }, []);
 
 
 
   // 페이지넘버(페이지네이션)
-  const [current, setCurrent] = useState(3);
+  const [current, setCurrent] = useState(0);
 
   const [data, setData] = useState([]);
 
@@ -253,7 +269,7 @@ const MainMorePage = ({id}) => {
   };
 
   //추후 초기 값 세팅 필요
-  useEffect(() => {}, []);
+  useEffect(() => {},[]);
 
   return (
     <Layout>
@@ -268,7 +284,7 @@ const MainMorePage = ({id}) => {
             <div className="bt-wrap">
               <div>
                 <button>최신순</button>
-                <img src="../images/main/line.svg" />
+                <img src="/images/main/line.svg" />
                 <button>조회순</button>
               </div>
             </div>
@@ -297,20 +313,20 @@ const MainMorePage = ({id}) => {
           </div>
         </div>
         <div className="main-wrap">
-          {initData.map((item, index) => {
+          {datas && datas.map((item, index) => {
             return (
               <div className="item-wrap" key={`MainMore-item-${index}`}>
-                <img src={item.image} alt="" />
+                <img src={`/pic/${item.prodMainPic}`} alt="" />
                 <div className="like">
                   <button>
-                    <img src="../images/main/like.svg" />
+                    <img src="/images/main/like.svg" />
                   </button>
                 </div>
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>
                   <div className="desc-price">{item.price}</div>
-                  <div className="desc-ad">{item.address}</div>
+                  <div className="desc-addr">{item.addr}</div>
                   <div className="view">조회수{item.view}</div>
                 </div>
               </div>
@@ -318,7 +334,7 @@ const MainMorePage = ({id}) => {
           })}
         </div>
         <div className="pagination">
-          <Pagination current={current} onChange={onChange} total={100} />
+          <Pagination current={current} onChange={onChange} total={50} />
         </div>
       </MoreWrap>
     </Layout>

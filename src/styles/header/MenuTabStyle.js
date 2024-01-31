@@ -40,5 +40,6 @@ export const SubMenuList = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
+    cursor: pointer;
   }
 `;

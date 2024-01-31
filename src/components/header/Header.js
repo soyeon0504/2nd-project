@@ -36,6 +36,9 @@ const Header = () => {
   const handleMy = () => {
     navigate(`/my`);
   };
+  const handleCate = () => {
+    navigate(`/main/more`);
+  };
 
   // 스크롤 시 그림자 생성
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -71,13 +74,7 @@ const Header = () => {
     };
   }, [menuVisible]);
 
-  // 카테고리 hover/click시 메뉴창 나오기
-  const [activeTitle, setActiveTitle] = useState("");
-  const inSectionCate = useRef();
-  const handleTitleClick = title => {
-    setActiveTitle(title); // 선택된 title을 상태에 저장
-  };
-
+  // 카테고리 hover시 메뉴창 나오기
   const [activeCategory, setActiveCategory] = useState(null);
   const handleCategoryHover = category => {
     setActiveCategory(category); // 마우스가 hover되었음을 상태에 저장
@@ -86,18 +83,14 @@ const Header = () => {
     setActiveCategory(null); // 마우스가 hover되지 않았음을 상태에 저장
   };
 
-  useEffect(() => {
-    const clickCateOutside = e => {
-      if (activeTitle && !inSectionCate.current.contains(e.target)) {
-        setActiveTitle(false);
-      }
-    };
-    document.addEventListener("mousedown", clickCateOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", clickCateOutside);
-    };
-  }, [activeTitle]);
+  // 서브카테 hover시 색상 변경
+  const [activeSubCate, setActiveSubCate] = useState(null);
+  const handleSubCateHover = category => {
+    setActiveSubCate(category);
+  };
+  const handleSubCateLeave = () => {
+    setActiveSubCate(null);
+  };
 
   // 로그인 & 로그아웃
   const loginState = useSelector(state => state.loginSlice);
@@ -150,33 +143,40 @@ const Header = () => {
           {menuVisible && <MenuTab></MenuTab>}
         </HeaderMainMenu>
 
-        <CategoryTab ref={inSectionCate}>
+        <CategoryTab>
           {menuCate.map(item => (
             <MainCate
               key={item.title}
-              onClick={() => handleTitleClick(item.title)}
+              // onClick={() => handleTitleClick(item.title)}
               onMouseEnter={() => handleCategoryHover(item.title)}
               onMouseLeave={() => handleCategoryLeave(item.title)}
-              className={
-                activeTitle === item.title || activeCategory === item.title
-                  ? "active"
-                  : ""
-              }
+              className={activeCategory === item.title ? "active" : ""}
             >
               <MainCateTitle
                 style={
-                  activeTitle === item.title || activeCategory === item.title
+                  activeCategory === item.title
                     ? { color: "#2C39B5", fontWeight: "500", fontSize: "13px" }
                     : { color: "#777" }
                 }
               >
                 {item.title}
               </MainCateTitle>
-              {(activeTitle === item.title ||
-                activeCategory === item.title) && (
+              {activeCategory === item.title && (
                 <SubCate>
                   {item.list.map(listItem => (
-                    <li key={listItem}>{listItem}</li>
+                    <li
+                      key={listItem.id}
+                      onClick={handleCate}
+                      onMouseEnter={() => handleSubCateHover(listItem.cate)}
+                      onMouseLeave={handleSubCateLeave}
+                      style={
+                        activeSubCate === listItem.cate
+                          ? { color: "#2C39B5", fontWeight: "500", background: "#F2F2FF" }
+                          : {}
+                      }
+                    >
+                      {listItem.cate}
+                    </li>
                   ))}
                 </SubCate>
               )}

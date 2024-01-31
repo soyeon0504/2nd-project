@@ -29,8 +29,7 @@ body {
   word-break: keep-all;
   color: #000000;
 }
-
-.ant-picker-input >input::placeholder {
+.ant-picker-input > input::placeholder {
   color: #777 !important;
 }
 

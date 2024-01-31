@@ -11,7 +11,7 @@ export const JoinBox = styled.form`
   /* height: 700px; */
   border-radius: 10px;
   border: 1px solid #2c39b5;
-  margin: 0 auto;
+  margin: 0 auto 100px;
   padding: 60px 90px;
 `;
 export const JoinElement = styled.div`
@@ -36,6 +36,10 @@ export const JoinElementTxt = styled.div`
     font-weight: 400;
     line-height: normal;
   }
+`;
+export const JoinElementInputBox = styled.div`
+  display: block;
+  text-align: start;
 `;
 export const JoinElementInput = styled.div`
   display: flex;
@@ -92,10 +96,14 @@ export const JoinElementInput = styled.div`
     line-height: normal;
   } */
 `;
+export const InputValid = styled.div`
+  color: red;
+  font-size: 15px;
+`;
 export const ImageInputBt = styled.button`
-background: transparent;
-border: none;
-`
+  background: transparent;
+  border: none;
+`;
 export const JoinAddressInput = styled.div`
   display: block;
   width: 600px;
@@ -120,7 +128,7 @@ export const ConfirmBt = styled.button`
   height: 36px;
   border-radius: 5px;
   border: 1px solid #2c39b5;
-  background: #2C39B5;
+  background: #2c39b5;
 
   color: #fff;
   font-size: 16px;

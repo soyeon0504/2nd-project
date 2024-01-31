@@ -30,7 +30,7 @@ export const MainWrap = styled.div`
       position: absolute;
       border: none;
       right: 15px;
-      top: -40px;
+      top: 10px;
       z-index: 1;
       width: 30px;
       height: 30px;
@@ -98,9 +98,11 @@ export const BtWrap = styled.div`
     border-radius: 25px;
     background: #fff;
     cursor: pointer;
-    &:hover {
-      
-    }
+    /* &:hover {
+      color: #fff;
+    background-color: #2c39b5;
+    border: 3px solid #2c39b5;
+    } */
     &.focus {
       color: #fff;
       background-color: #2c39b5;

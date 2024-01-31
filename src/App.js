@@ -36,7 +36,7 @@ const LazyCustomerPage = lazy(() =>
 const LazyErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 const LazyWrite = lazy(() => import("./pages/prod/Write"));
-const LazyModify = lazy(() => import("./pages/prod/Modify"))
+const LazyModify = lazy(() => import("./pages/prod/Modify"));
 
 const App = () => {
   return (
@@ -51,7 +51,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/main/more"
+          path="/main/more/:id"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMainMorePage />
