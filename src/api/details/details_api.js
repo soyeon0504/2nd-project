@@ -10,9 +10,9 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getProduct = async (icategory, iproduct) => {
+export const getProduct = async (mainicategory, subicategory, iproduct) => {
   try {
-    const url = `${path}/${icategory}/${iproduct}`;
+    const url = `${path}/${mainicategory}/${subicategory}/{iproduct}?iproduct=${iproduct}`;
     const res = await jwtAxios.get(url);
 
     return res;

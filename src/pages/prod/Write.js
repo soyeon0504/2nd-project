@@ -81,7 +81,7 @@ const Write = () => {
     if (file && imageBefore.length < 10) {
       // 미리보기
       const tempUrl = URL.createObjectURL(file);
-      setUploadImgBefore(tempUrl);
+      // setUploadImgBefore(tempUrl);
       // FB 파일을 보관
       setUploadImgBeforeFile(file); // 파일 1개 추가 끝
       setImageBefore(prevImages => [...prevImages, tempUrl]);
@@ -204,6 +204,8 @@ const Write = () => {
   //     .email("이메일 형식이 올바르지 않습니다.")
   //     .required("이메일은 필수 입력 사항입니다."),
   // });
+
+    
 
   return (
     <Layout>
@@ -329,142 +331,226 @@ const Write = () => {
                           handleButtonClick(4);
                           // handleChangeBtn(4);
                         }}
-                      >
-                        게임 기기
-                      </BtnColor>
-                    </li>
-                  </ul>
-                </BtWrap>
-                <BtWrap>
-                  <ul>
-                    {btData.map((item, index) => (
-                      <li key={index}>
-                        <BtnColorSub
-                          type="button"
-                          clickbtn={changebtn === item}
-                          onClick={() => {
-                            handleChangeBtn(item);
-                          }}
-                        >
-                          {item}
-                        </BtnColorSub>
-                      </li>
-                    ))}
-                  </ul>
-                </BtWrap>
-              </div>
-            </ListDiv>
-            <ListDiv>
-              <label htmlFor="price">
-                <p>대여가격</p> <p>*</p>
-              </label>
-              <div>
-                <input
-                  type="number"
-                  id="price"
-                  placeholder="₩ 대여 가격을 입력해주세요"
-                />
-              </div>
-            </ListDiv>
-            <ListDiv direction={"column"}>
-              <label htmlFor="detail">
-                <p>상품내용</p> <p>*</p>
-              </label>
-              <div>
-                <textarea
-                  id="detail"
-                  placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감,하자 유무) 등을 입력해 주세요."
-                  value={textareaValue}
-                  onChange={e => {
-                    handleTextareaChange(e);
-                    handleInputAction(e);
-                  }}
-                />
-                <h2>({textareaValue.length}/1500)</h2>
-              </div>
-            </ListDiv>
-            <ListDiv>
-              <label>
-                <p>가격</p> <p>*</p>
-              </label>
-              <PriceDiv>
-                <div>
-                  <div>
-                    <input type="number" placeholder="숫자만 입력" />
-                    <span>원</span>
-                  </div>
-                  <p>제품의 가격을 입력해주세요</p>
-                </div>
-                <div>
-                  <div>
-                    <input
-                      type="number"
-                      value={value}
-                      onChange={handleChange}
-                      min="50"
-                      max="100"
-                      step="10"
-                      placeholder="숫자만 입력"
-                    />
-                    <button onClick={handleIncrease}>증가</button>
-                    <button onClick={handleDecrease}>감소</button>
-                    <span>%</span>
-                  </div>
-                  <p>50 ~ 100% 보증금</p>
-                </div>
-                <div>
-                  <div>
-                    <input type="number" placeholder="숫자만 입력" />
-                    <span>원</span>
-                  </div>
-                  <p>1일 대여가격</p>
-                </div>
-              </PriceDiv>
-            </ListDiv>
-            <ListDiv>
-              <label htmlFor="quantity">
-                <p>소유수량</p> <p>*</p>
-              </label>
-              <div>
-                <input
-                  className="showSpinner"
-                  type="number"
-                  id="quantity"
-                  placeholder="숫자만 입력"
-                />
-              </div>
-            </ListDiv>
-            <ListDiv>
-              <label htmlFor="dateInput">
-                <p>제품 구매일</p> <p>*</p>
-              </label>
-              <div>
-                <MyDatePicker />
-              </div>
-            </ListDiv>
-            <ListDiv>
-              <label htmlFor="rentalday">
-                <p>거래 가능 날짜</p> <p>*</p>
-              </label>
-              <div>
-                <Calendar marginBottom={"0"} />
-              </div>
-            </ListDiv>
-            <ListDiv direction={"column"}>
-              <label htmlFor="adress">
-                <p>주소</p> <p>*</p>
-              </label>
-              <div>
-                <input
-                  type="text"
-                  {...register("address")}
-                  value={calendarLocation}
-                  placeholder="주소 검색을 해주세요."
-                  onClick={handleClickButton}
-                  id="adress"
-                  readOnly
-                />
-                <input placeholder="상세 주소를 입력해주세요." />
+holder="상세 주소를 입력해주세요." />
+
+                        id="img"
+                        style={{ display: "none" }}
+                        />
+                    </div>
+                    <ProductImgMap>
+                      {imageBefore.map((item, index) => (
+                      <div key={index}>
+                          <img src={item} alt="" />
+                      </div>
+                      ))}
+                  </ProductImgMap>
+                </ListDiv>
+                <ListDiv>
+                    <label htmlFor="product">
+                        <p>상품명</p> <p>*</p>
+                    </label>
+                    <div>
+                        <input
+                            type="text"
+                            id="product"
+                            placeholder="상품을 입력해주세요"
+                        />
+                    </div>
+                </ListDiv>
+                <ListDiv>
+                    <label>
+                        <p>카테고리</p> <p>*</p>
+                    </label>
+                    <div>
+                    <BtWrap>
+                        <ul>
+                            <li>
+                                <BtnColor
+                                type="button"
+                                clickbtn={selectCate === 0}
+                                onClick={() => {
+                                    handleButtonClick(0);
+                                }}
+                                >
+                                스마트기기
+                                </BtnColor>
+                            </li>
+                            <li>
+                                <BtnColor
+                                type="button"
+                                clickbtn={selectCate === 1}
+                                onClick={() => {
+                                    handleButtonClick(1);
+                                }}
+                                >
+                                pc/노트북
+                                </BtnColor>
+                            </li>
+                            <li>
+                                <BtnColor
+                                type="button"
+                                clickbtn={selectCate === 2}
+                                onClick={() => {
+                                    handleButtonClick(2);
+                                    // handleChangeBtn(2);
+                                }}
+                                >
+                                영상카메라
+                                </BtnColor>
+                            </li>
+                            <li>
+                                <BtnColor
+                                type="button"
+                                clickbtn={selectCate === 3}
+                                onClick={() => {
+                                    handleButtonClick(3);
+                                    // handleChangeBtn(3);
+                                }}
+                                >
+                                음향
+                                </BtnColor>
+                            </li>
+                            <li>
+                                <BtnColor
+                                type="button"
+                                clickbtn={selectCate === 4}
+                                onClick={() => {
+                                    handleButtonClick(4);
+                                    // handleChangeBtn(4);
+                                }}
+                                >
+                                게임 기기
+                                </BtnColor>
+                            </li>
+                        </ul>
+                    </BtWrap>
+                    <BtWrap>
+                        <ul>
+                          {btData.map((item, index) => (
+                              <li key={index}>
+                              <BtnColorSub
+                                  type="button"
+                                  clickbtn={changebtn === item}
+                                  onClick={() => {
+                                  handleChangeBtn(item);
+                                  }}
+                              >
+                                  {item}
+                              </BtnColorSub>
+                              </li>
+                          ))}
+                        </ul>
+                    </BtWrap>
+                    </div>
+                </ListDiv>
+                <ListDiv>
+                    <label htmlFor="price">
+                        <p>대여가격</p> <p>*</p>
+                    </label>
+                    <div>
+                        <input
+                            type="number"
+                            id="price"
+                            placeholder="₩ 대여 가격을 입력해주세요"
+                        />
+                    </div>
+                </ListDiv>
+                <ListDiv direction={"column"}>
+                    <label htmlFor="detail">
+                        <p>상품내용</p> <p>*</p>
+                    </label>
+                    <div>
+                        <textarea
+                            id="detail"
+                            placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감,하자 유무) 등을 입력해 주세요."
+                            value={textareaValue}
+                            onChange={handleTextareaChange}
+                        />
+                        <h2>({textareaValue.length}/1500)</h2>
+                    </div>
+                </ListDiv>
+                <ListDiv>
+                    <label>
+                        <p>가격</p> <p>*</p>
+                    </label>
+                    <PriceDiv>
+                        <div>
+                           <div>
+                            <input
+                                type="number"
+                                placeholder="숫자만 입력"
+                            />
+                            <span>원</span>
+                           </div>
+                            <p>제품의 가격을 입력해주세요</p>
+                        </div>
+                        <div>
+                        <div>
+                            <input
+                                type="number"
+                                placeholder="숫자만 입력"
+                            />
+                            <span>%</span>
+                           </div>
+                            <p>50 ~ 100% 보증금</p>
+                        </div>
+                        <div>
+                        <div>
+                            <input
+                                type="number"
+                                placeholder="숫자만 입력"
+                            />
+                            <span>원</span>
+                           </div>
+                            <p>1일 대여가격</p>
+                        </div>
+                    </PriceDiv>
+                </ListDiv>
+                <ListDiv>
+                    <label htmlFor="quantity">
+                        <p>소유수량</p> <p>*</p>
+                    </label>
+                    <div>
+                        <input
+                            className='showSpinner'
+                            type="number"
+                            id="quantity"
+                            placeholder="숫자만 입력"
+                        />
+                    </div>
+                </ListDiv>
+                <ListDiv>
+                    <label htmlFor="dateInput">
+                        <p>제품 구매일</p> <p>*</p>
+                    </label>
+                    <div>
+                        <MyDatePicker />
+                    </div>
+                </ListDiv>
+                <ListDiv>
+                    <label htmlFor="rentalday">
+                        <p>거래 가능 날짜</p> <p>*</p>
+                    </label>
+                    <div>
+                        <Calendar marginBottom={"0"} />
+                    </div>
+                </ListDiv>
+                <ListDiv direction={"column"}>
+                    <label htmlFor="adress">
+                        <p>주소</p> <p>*</p>
+                    </label>
+                    <div>
+                        <input
+                            type="text"
+                            {...register("address")}
+                            value={calendarLocation}
+                            placeholder="주소 검색을 해주세요."
+                            onClick={handleClickButton}
+                            id='adress'
+                            readOnly
+                        />
+                        <input placeholder="상세 주소를 입력해주세요." />
+
 
                 {modalOpen && (
                   <Modal handleClose={handleCloseModal}>
