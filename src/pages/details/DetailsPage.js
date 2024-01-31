@@ -8,7 +8,7 @@ import { getProduct } from "../../api/details/details_api";
 import Calendar from "../../components/details/Calendar";
 import Like from "../../components/details/Like";
 import SellerProfile from "../../components/details/SellerProfile";
-import { Modal } from "antd"; // Ant Design 모달 컴포넌트 추가
+
 import Pay from "../../components/details/Pay";
 import {
   SubContainer,
@@ -86,9 +86,14 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const icategory = "1";
+        const mainicategory = "2";
+        const subicategory = "1";
         const iproduct = "25";
-        const response = await getProduct(icategory, iproduct);
+        const response = await getProduct(
+          mainicategory,
+          subicategory,
+          iproduct,
+        );
         setProductData(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);

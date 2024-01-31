@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DaumPostcode from "react-daum-postcode";
 import {
   BtSection,
@@ -12,15 +12,18 @@ import {
   JoinElementTxt,
   SaveBt,
 } from "../../styles/join/JoinPageStyle";
-import * as yup from "yup";
 import { JoinHeader } from "../../styles/join/JoinFirstPageStyle";
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
-import { yupResolver } from '@hookform/resolvers/yup';
-import JoinPopUp from '../../components/joinpopup/JoinPopUp';
 import { Modal } from '../../components/address/Address';
+import { getMyUer } from '../../api/my/my_api';
 
 const MyInfoPage = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(()=> {
+
+  },[])
+
  // 이미지 업로드
  const [uploadImgBefore, setUploadImgBefore] = useState(
   `${process.env.PUBLIC_URL}/images/join/join_img.svg`,
@@ -67,59 +70,6 @@ const handleCloseModal = () => {
   setModalOpen(false);
 };
 
-// 양식 검증(yup)
-const [formData, setFormData] = useState({
-  photo: "",
-  nickname: "",
-  userId: "",
-  password: "",
-  confirmPassword: "",
-  phoneNumber: "",
-  address: "",
-  email: "",
-});
-const phoneRegExp = /^(\d{3})-(\d{4})-(\d{4})$/;
-const validationSchema = yup.object().shape({
-  photo: yup.string().required("사진은 필수 입력 사항입니다."),
-  nickname: yup
-    .string()
-    .max(15, "15자까지만 입력하세요 ")
-    .required("닉네임은 필수 입력 사항입니다."),
-  password: yup
-    .string()
-    .required("비밀번호는 필수 입력 사항입니다.")
-    .min(8, "8자 이상 입력하세요.")
-    .max(15, "15자까지만 입력하세요 "),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "비밀번호가 일치하지 않습니다.")
-    .required("비밀번호 확인은 필수 입력 사항입니다."),
-    phoneNumber: yup
-      .string()
-      .matches(phoneRegExp, "전화번호가 올바르지 않습니다.")
-      .required("휴대폰 번호는 필수 입력 사항입니다."),
-  address: yup.string().required("주소는 필수 입력 사항입니다."),
-});
-
-const { register, handleSubmit, formState } = useForm({
-  defaultValues: formData,
-  resolver: yupResolver(validationSchema),
-  mode: "onChange",
-});
-// 확인 버튼 선택시 실행
-const handleSubmitJoin = data => {
-  console.log(data);
-};
-
-
-  // 휴대폰 번호 확인 버튼
-  const [showModal, setShowModal] = useState(false);
-  const phoneNumberConfirm = () => {
-    setShowModal(true);
-  };
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
 // 취소 & 저장 버튼
 const navigate = useNavigate();
@@ -133,7 +83,7 @@ const handleConfirm = () => {
         <JoinHeader mgtop={"0"} mgbtm={"0"}>
           <p>회원정보 수정</p>
         </JoinHeader>
-        <JoinBox onSubmit={handleSubmit(handleSubmitJoin)}>
+        <JoinBox>
           <JoinElement>
             <JoinElementTxt>
               <p>사진</p>
@@ -152,7 +102,6 @@ const handleConfirm = () => {
               </label>
               <input
                 type="file"
-                {...register("photo")}
                 accept="image/png, image/gif, image/jpeg"
                 onClick={() => {
                   document.getElementById("input-file-before").click();
@@ -165,9 +114,6 @@ const handleConfirm = () => {
               />
             </JoinElementInput>
           </JoinElement>
-          <div style={{ color: "red", fontSize: "13px" }}>
-            {formState.errors.photo?.message}
-          </div>
           <JoinElement>
             <JoinElementTxt>
               <p>닉네임</p>
@@ -176,15 +122,11 @@ const handleConfirm = () => {
             <JoinElementInput width="440px">
               <input
                 type="text"
-                {...register("nickname")}
                 placeholder="15자 이내"
               />
               <ConfirmBt>중복 확인</ConfirmBt>
             </JoinElementInput>
           </JoinElement>
-          <div style={{ color: "red", fontSize: "13px" }}>
-            {formState.errors.nickname?.message}
-          </div>
           <JoinElement>
             <JoinElementTxt>
               <p>아이디</p>
@@ -192,7 +134,6 @@ const handleConfirm = () => {
             </JoinElementTxt>
             <JoinElementInput>
               <div
-                {...register("userId")}
               ></div>
             </JoinElementInput>
           </JoinElement>
@@ -204,7 +145,6 @@ const handleConfirm = () => {
             <JoinElementInput>
               <input
                 type={showPassword ? "text" : "password"}
-                {...register("password")}
                 placeholder="특수문자 포함 8~15자 이내"
               />
               <button
@@ -241,9 +181,6 @@ const handleConfirm = () => {
               </button>
             </JoinElementInput>
           </JoinElement>
-          <div style={{ color: "red", fontSize: "13px" }}>
-            {formState.errors.password?.message}
-          </div>
           <JoinElement>
             <JoinElementTxt>
               <p>비밀번호 확인</p>
@@ -252,7 +189,6 @@ const handleConfirm = () => {
             <JoinElementInput>
               <input
                 type={showPasswordConfirm ? "text" : "password"}
-                {...register("confirmPassword")}
                 placeholder="비밀번호 확인"
               />
               <button
@@ -290,7 +226,6 @@ const handleConfirm = () => {
             </JoinElementInput>
           </JoinElement>
           <div style={{ color: "red", fontSize: "13px" }}>
-            {formState.errors.confirmPassword?.message}
           </div>
           <JoinElement>
             <JoinElementTxt>
@@ -300,42 +235,10 @@ const handleConfirm = () => {
             <JoinElementInput width="440px">
               <input
                 type="text"
-                {...register("phoneNumber")}
                 placeholder="예) 010-0000-0000"
               />
-              <ConfirmBt onClick={phoneNumberConfirm}>휴대폰 인증</ConfirmBt>
-              {showModal && (
-                <>
-                  {formState.errors.phoneNumber ? (
-                    <JoinPopUp
-                      txt="휴대폰 인증에 실패하셨습니다."
-                      onConfirm={closeModal}
-                    />
-                  ) : (
-                    <JoinPopUp
-                    txt="휴대폰 인증이 완료되었습니다."
-                      onConfirm={closeModal}
-                    />
-                  )}
-
-                  <div
-                    style={{
-                      position: "fixed",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      background: "rgba(0, 0, 0, 0.5)",
-                      zIndex: 999,
-                    }}
-                  ></div>
-                </>
-              )}
             </JoinElementInput>
           </JoinElement>
-          <div style={{ color: "red", fontSize: "13px" }}>
-            {formState.errors.phoneNumber?.message}
-          </div>
           <JoinElement>
             <JoinElementTxt>
               <p>주소</p>
@@ -345,7 +248,6 @@ const handleConfirm = () => {
               <ConfirmBt onClick={handleClickButton}>주소 검색</ConfirmBt>
               <input
                 type="text"
-                {...register("address")}
                 value={calendarLocation}
                 placeholder="주소 검색을 해주세요."
                 // onClick={handleClickButton}
@@ -364,7 +266,6 @@ const handleConfirm = () => {
             </JoinAddressInput>
           </JoinElement>
           <div style={{ color: "red", fontSize: "13px" }}>
-            {formState.errors.address?.message}
           </div>
           <JoinElement>
             <JoinElementTxt>
@@ -373,18 +274,13 @@ const handleConfirm = () => {
             </JoinElementTxt>
             <JoinElementInput>
               <div
-                {...register("email")}
               ></div>
             </JoinElementInput>
           </JoinElement>
         </JoinBox>
         <BtSection>
           <CancelBt onClick={handleCancel}>취소</CancelBt>
-          {formState.isValid ? (
-            <SaveBt onClick={handleConfirm}>저장</SaveBt>
-          ) : (
-            <SaveBt>취소</SaveBt>
-          )}
+          <SaveBt onClick={handleConfirm}>저장</SaveBt>
         </BtSection>
     </>
   )

@@ -43,6 +43,7 @@ const Calendar = ({ productData, paymentData, onDateSelect, marginBottom }) => {
       <DatePicker.RangePicker
         onChange={handleDateRangeChange}
         value={selectedDateRange}
+        format="YYYY/MM/DD"
         style={inputStyle}
         placeholder={["시작일", "종료일"]}
         suffixIcon={<CalendarOutlined style={{ color: "#2C39B5" }} />}

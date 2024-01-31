@@ -58,7 +58,7 @@ const handleTogglePassword = () => {
     try {
       let result = await patchWithdraw(id, password, phone);
       console.log(result);
-      // setData(result);
+      setData(result);
       // 탈퇴 후 필요한 다른 동작을 수행할 수 있습니다.
     } catch (error) {
       console.error(error);
@@ -66,7 +66,7 @@ const handleTogglePassword = () => {
   };
 
   useEffect(() => {
-    
+    // patchWithdraw(data)
   }, []);
 
   return (

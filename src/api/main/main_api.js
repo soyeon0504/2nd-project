@@ -34,9 +34,11 @@ export const getProduct = async (mainCategoryId, subCategoryId) => {
 
 export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
   try {
+
     // api/prod/3/2?page=1
     const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
     const res = await axios.get(url);
+
     return res.data;
   } catch (error) {
     console.log(error);
