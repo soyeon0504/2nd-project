@@ -113,7 +113,6 @@ export const InfoLine = styled.div`
 `;
 
 export const InfoText = styled.span`
-  width: 90px;
   height: 80px;
   flex-shrink: 0;
   color: #777;
@@ -298,7 +297,7 @@ export const RedText = styled.span`
   margin-left: 40px;
   color: #ff2f2f;
   font-family: Inter;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
 `;
 
