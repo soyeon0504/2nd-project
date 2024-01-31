@@ -9,12 +9,22 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-
-export const getProduct = async (id) => {
+export const getProduct = async id => {
   try {
-    const url = `${path}/prod/main?c=${id + 1}`
+    const url = `${path}/prod/main?c=${id + 1}`;
     const res = await jwtAxios.get(url);
 
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    // failPostDatas("/");
+  }
+};
+
+export const getMoreProduct = async (categoryId, pageNum) => {
+  try {
+    const url = `${path}/prod/${categoryId}?page=${pageNum}`;
+    const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {
     console.log(error);
