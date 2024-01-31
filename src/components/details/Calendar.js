@@ -3,13 +3,16 @@ import { DatePicker } from "antd";
 import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
 
-const Calendar = ({ productData, paymentData, onDateSelect, marginBottom }) => {
+const Calendar = ({ onDateSelect, marginBottom }) => {
   const [selectedDateRange, setSelectedDateRange] = useState([]);
   const calendarContainerRef = useRef(null);
 
-  const handleDateRangeChange = dates => {
+  const handleDateRangeChange = (dates, dateStrings) => {
     setSelectedDateRange(dates);
-    onDateSelect(dates[0], dates[1]); // 선택된 날짜 범위를 부모 컴포넌트로 전달
+
+    if (typeof onDateSelect === "function") {
+      onDateSelect(dateStrings[0], dateStrings[1]);
+    }
   };
 
   const inputStyle = {

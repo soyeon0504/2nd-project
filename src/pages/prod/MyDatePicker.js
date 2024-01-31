@@ -14,6 +14,7 @@ const MyDatePicker = () => (
   <div>
     <DatePicker style={inputStyle} 
     placeholder={["구매일"]}
+    format="YYYY/MM/DD"
     suffixIcon={<CalendarOutlined style={{ color: "#2C39B5" }} />} 
     
     />

@@ -1,16 +1,17 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
+import { jwtAxios } from "../../util/jwtUtil";
+const path = `${SERVER_URL}/api/prod`;
 
 const failPostDatas = () => {
   const navigate = useNavigate();
   navigate("/");
 };
 
-export const getProduct = async () => {
+export const postprod = async () => {
   try {
-    const res = await axios.get(`${path}`);
+    const res = await jwtAxios.post(`${path}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -18,39 +19,9 @@ export const getProduct = async () => {
   }
 };
 
-export const postProduct = async () => {
+export const putProd = async () => {
   try {
-    const res = await axios.post(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const putProduct = async () => {
-  try {
-    const res = await axios.put(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const patchProduct = async () => {
-  try {
-    const res = await axios.patch(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const deleteProduct = async () => {
-  try {
-    const res = await axios.delete(`${path}`);
+    const res = await jwtAxios.put(`${path}`);
     return res;
   } catch (error) {
     console.log(error);
