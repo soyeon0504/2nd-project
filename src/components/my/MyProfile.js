@@ -91,7 +91,7 @@ const MyProfile = () => {
     <ProfileDiv>
       <ProfileLeft>
         <ProfileImg>
-          <img src={result[0]?.userStoredPic} />
+          <img src={`/pic/${result[0]?.userStoredPic}`} />
         </ProfileImg>
         <div>
           <h1>{result[0]?.targetNick}</h1>

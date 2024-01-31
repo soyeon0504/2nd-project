@@ -73,7 +73,7 @@ const MyList = ({ activeBtn }) => {
           { activeBtn === "대여중" ? (
           <MyListMid>
           <MyListMidImg>
-            <img src={item.productStoredPic} alt={item.title} />
+            <img src={`/pic/${item.productStoredPic}`} alt={item.title} />
           </MyListMidImg>
           <MyListMidTxt>
             <div>
@@ -91,10 +91,11 @@ const MyList = ({ activeBtn }) => {
           </MyListMidLast>
         </MyListMid>
          ) : (
-          <MyListMidEnd>
+          <MyListMid>
+            <MyListMidEnd />
             <h2>반 납 완 료</h2>
             <MyListMidImg>
-              <img src={item.prodMainPic} alt={item.ipayment} />
+              <img src={`/pic/${item.prodMainPic}`} alt={item.ipayment} />
             </MyListMidImg>
             <MyListMidTxt>
               <div>
@@ -110,11 +111,11 @@ const MyList = ({ activeBtn }) => {
             <MyListMidLast location={"center"} size={"1.2rem"}>
               <p>거래자</p>
               <MyListProfileImg>
-                <img src={item.userPic}/>
+                <img src={`/pic/${item.userPic}`}/>
               </MyListProfileImg>
               <span>{item.nick}</span>
             </MyListMidLast>
-          </MyListMidEnd>
+            </MyListMid>
          )}
         </React.Fragment> 
       ))}

@@ -97,7 +97,7 @@ const MyPage = () => {
 
   return (
     <Layout>
-    <SideBar setActiveBtn={setActiveBtn} setSelectedItem={setSelectedItem}/>
+    <SideBar />
     <AllWidth>
       <div>
         <Mytitle title={"마이 페이지"}/>

@@ -35,7 +35,8 @@ const LazyCustomerPage = lazy(() =>
 );
 const LazyErrorPage = lazy(() => import("./pages/ErrorPage"));
 
-const Lazyprod = lazy(() => import("./pages/prod/Products"));
+const LazyWrite = lazy(() => import("./pages/prod/Write"));
+const LazyModify = lazy(() => import("./pages/prod/Modify"));
 
 const App = () => {
   return (
@@ -142,10 +143,18 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/prod/"
+          path="/write/"
           element={
             <Suspense fallback={<Loading />}>
-              <Lazyprod />
+              <LazyWrite />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/modify"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyModify />
             </Suspense>
           }
         ></Route>

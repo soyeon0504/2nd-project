@@ -1,364 +1,83 @@
 import styled from "@emotion/styled";
+import { Common } from "./CommonStyles";
 
-export const GoodsWrap = styled.div`
-  width: 1980px;
-  height: 1798px;
-`;
-export const Goods = styled.div`
+export const AllWidth = styled.div`
   width: 1260px;
-  height: 47px;
-
-  border-bottom: #2c39b5;
-
-  p {
-    color: #000;
-    font-family: Inter;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin-left: 350px;
-  }
+  margin: 0 auto;
 `;
-export const PictureS = styled.div`
-  width: 1260px;
-  height: 240px;
-  display: flex;
-  padding-left: 450px;
-  padding-right: 450px;
-  padding-bottom: 60px;
-  margin-right: 172px;
-  label {
-    display: flex;
-    margin-right: 130px;
 
+export const PriceDiv = styled.div`
+    justify-content: space-between;
+    width: 86rem;
+    input {
+        width: 20rem !important;
+    }
+    span {
+        margin-left: 5px;
+        font-size: 1.8rem;
+    }
     p {
-      color: #ff0303;
-      font-size: 8px;
+        display: block;
+        padding-top: 5px;
+        width: 20rem;
+        text-align: center;
+        font-size: 1.4rem;
     }
-    .pic {
-      color: #000;
-      font-family: Inter;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
+`
+
+export const ListDiv = styled.div`
+    display: flex;
+    margin-top: 6rem;
+    :nth-of-type(1) {
+        margin-top: 0;
     }
-    .pictures {
-      width: 180px;
-      height: 180px;
-      border-radius: 5px;
-      border: solid#2c39b5;
-      background: #ff0303;
+    label {
+        display: flex;
+        width: 12rem;
+        p {
+            font-size: 1.6rem;
+            :nth-of-type(2) {
+                color: #ff0303;
+            }
+        }
+        span {
+            margin-left: 5px;
+            font-size: 1.6rem;
+        }
     }
-    #product {
-      tab-size: 16px;
+    >div {
+        display: flex;
+        margin-left: 15rem;
+        flex-direction: ${props => props.direction ? props.direction : "none"};
+        gap: 1rem;
+        input {
+        width: 86rem;
+        padding-left: 15px;
+        height: 4rem;
+        border-radius: 5px;
+        border: 1px solid ${Common.color.primary};
+        color: #000;
+        font-size: 1.6rem;
+        }
+        input.showSpinner {
+            width: 20rem;
+        }
     }
-  }
-`;
-export const ProductS = styled.div`
-  width: auto;
-  height: 97px;
-  display: flex;
-  padding-left: 450px;
-  padding-right: 40px;
-  margin-right: 157px;
-  .ladelprt {
-    display: flex;
-    margin-right: 157px;
-  }
-  input {
-    width: 860px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    padding: 6px;
-    padding-left: 11px;
-    padding-right: 11px;
-  }
-  p {
-    color: #ff0303;
-    font-size: 8px;
-  }
-  .prd {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-`;
-
-export const Price = styled.div`
-  width: 1700px;
-  height: 100px;
-  padding-left: 450px;
-  display: flex;
-  p {
-    color: #ff0303;
-    font-size: 8px;
-  }
-  .LadelPre {
-    display: flex;
-    margin-right: 143px;
-  }
-  .pre {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  input {
-    width: 860px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    display: flex;
-    margin-right: 133px;
-    padding: 6px;
-    padding-left: 11px;
-    padding-right: 11px;
-  }
-`;
-
-export const ListSrc = styled.div`
-  width: 510px;
-  height: 230px;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 450px;
-  padding-bottom: 60px;
-  margin-bottom: 60px;
-  margin-right: 143px;
-
-  p {
-    display: flex;
-    color: #ff0303;
-    font-size: 8px;
-  }
-  .ladelct {
-    display: flex;
-    margin-right: 133px;
-  }
-  .ct {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-`;
-
-export const Detail = styled.div`
-  margin-right: 450px;
-  padding-left: 450px;
-  display: flex;
-  padding-bottom: 60px;
-  p {
-    display: flex;
-    color: #ff0303;
-    font-size: 8px;
-  }
-  .dta {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  textarea {
-    /* display: flex; */
-    width: 860px;
-    height: 280px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    padding: 15px;
-  }
-  .LadelDta {
-    display: flex;
-    margin-right: 147px;
-  }
-`;
-//보증금
-export const Amounts = styled.div`
-  width: 100%;
-  height: auto;
-  margin-right: 450px;
-  padding-left: 450px;
-  padding-bottom: 60px;
-  .deposit {
-    margin-top: 10px;
-    margin-left: 158px;
-    color: #000;
-  }
-  p {
-    color: #777;
-  }
-  .ones {
-    width: 32px;
-    height: 34px;
-    color: #000;
-    font-size: 24px;
-    font-weight: 400;
-  }
-  .guarantee {
-    margin-left: 210px;
-    width: 218px;
-    height: 19px;
-    color: #777;
-
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  .pt {
-    color: #ff0303;
-    font-family: Inter;
-    font-size: 8px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  input {
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    margin-right: 5px;
-    padding: 6px;
-    padding-left: 11px;
-    padding-right: 11px;
-    margin-left: 93px;
-  }
-  .Ladelamu {
-    display: flex;
-    margin-right: 156px;
-  }
-  .amu {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .Sud {
-    display: flex;
-
-    margin-bottom: 63px;
-  }
-  .surround {
-    display: flex;
-  }
-  .smallmap {
-    width: 1000px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-left: 155px;
-  }
-`;
-export const Possession = styled.div`
-  width: 100%;
-  height: auto;
-  margin-right: 450px;
-  padding-left: 450px;
-  padding-bottom: 60px;
-  display: flex;
-  .possession {
-    display: flex;
-  }
-  .quantity {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  .Ladlpossession {
-    color: #ff0303;
-    font-family: Inter;
-    font-size: 8px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin-right: 150px;
-    display: flex;
-  }
-  .quantitys {
-    display: flex;
-    width: 860px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    padding: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .psion {
-    display: flex;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    padding: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 206.173px;
-    height: 40px;
-  }
-`;
-
-export const Rla = styled.div`
-  margin-right: 450px;
-  padding-left: 450px;
-  padding-bottom: 60px;
-  display: flex;
-  p {
-    color: #ff0303;
-    font-size: 8px;
-  }
-  input {
-    display: flex;
-    width: 860px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    padding: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .LadelRa {
-    display: flex;
-    margin-right: 140px;
-  }
-  .black {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  .one {
-    display: flex;
-    width: 120px;
-    height: 150px;
-  }
-`;
+    textarea {
+        width: 86rem;
+        height: 28rem;
+         border-radius: 5px;
+        border: 1px solid ${Common.color.primary};
+        padding: 15px;
+        color: #000;
+        font-size: 1.6rem;
+    }
+    h2 {
+        font-size: 1.6rem;
+        font-weight: 400;
+        text-align: end;
+    }
+`
 
 export const BtWrap = styled.div`
   display: flex;
@@ -366,86 +85,50 @@ export const BtWrap = styled.div`
   width: 250px;
   height: 230px;
   cursor: pointer;
-  color: #2c39b5;
+  color: ${Common.color.primary};
   font-size: 16px;
   font-weight: 400;
   border-radius: 5px;
-  border: 1px solid #2c39b5;
-  margin-left: 10px;
+  border: 1px solid ${Common.color.primary};
 `;
 // 주 카테고리
 export const BtnColor = styled.button`
-  width: 245px;
+  width: 24.5rem;
   border: 0;
-  background: ${props => (props.clickbtn ? "#f2f2ff" : "0")};
-  height: 36px;
-  color: ${props => (props.clickbtn ? "#2c39b5" : "#777")};
+  background: ${props => (props.clickbtn ? Common.color.p500 : "0")};
+  height: 3.6rem;
+  color: ${props => (props.clickbtn ? Common.color.primary : Common.color.p300)};
 `;
 // 서브카테고리
 export const BtnColorSub = styled.button`
-  width: 245px;
+  width: 24.5rem;
   border: 0;
-  background: ${props => (props.clickbtn ? "#f2f2ff" : "0")};
-  height: 36px;
-  color: ${props => (props.clickbtn ? "#2c39b5" : "#777")};
+  background: ${props => (props.clickbtn ? Common.color.p500 : "0")};
+  height: 3.6rem;
+  color: ${props => (props.clickbtn ? Common.color.primary : Common.color.p300)};
 `;
 
-export const TransactionS = styled.div`
-  padding-left: 450px;
-  margin-right: 450px;
-  display: flex;
-  p {
-    color: #ff0303;
-    font-size: 8px;
-  }
-  .tst {
-    color: #000;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  .Ladeltst {
+export const ProductImgBt = styled.button`
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    img {
+        width: 18rem;
+        height: 18rem;
+        border: 1px solid ${Common.color.primary};
+        border-radius: 5px;
+        object-fit: cover;
+    }
+`
+export const ProductImgMap = styled.div`
     display: flex;
-    margin-right: 129px;
-  }
-  input {
-    width: 725px;
-    height: 39px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    padding: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: #777
-  }
-  #btn {
-    width: 105px;
-    height: 39px;
-    border-radius: 5px;
-    border: 1px solid #2c39b5;
-    background: #fff;
-    margin-right: 15px;
-    color: #777;
-  }
-`;
-export const LadelButton = styled.div`
-  display: flex;
-  align-items: center;
-
-  label {
-    display: flex;
-    align-items: center;
-    margin-left: 55px;
-  }
-`;
-
-export const Deadline = styled.div`
-  margin-right: 450px;
-  padding-left: 450px;
-  padding-bottom: 60px;
-  display: flex;
-
+    flex-wrap: wrap !important;
+    width: 500px;
+    img {
+        width: 9rem;
+        height: 9rem;
+        border: 1px solid ${Common.color.primary};
+        border-radius: 5px;
+        object-fit: cover;
+    }
 `
