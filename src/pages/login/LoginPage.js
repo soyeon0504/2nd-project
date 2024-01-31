@@ -70,6 +70,9 @@ const LoginPage = () => {
   const closeIdFindModal = () => {
     setIdFindModal(false);
   };
+  // const ConfirmIdFindModal = _userNum => {
+  //   console.log("확인", _userNum)
+  // }
 
   // 비밀번호 변경 버튼 클릭
   const [pwFindModal, setPwFindModal] = useState(false);
@@ -135,14 +138,15 @@ const LoginPage = () => {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-around",
+              justifyContent: "center",
+              gap: "50px",
               paddingRight: "30px",
             }}
           >
             <li onClick={handleIdFind}>아이디 찾기</li>
             {idFindModal && (
               <>
-                <IdFind closeModal={closeIdFindModal} />
+                <IdFind closeModal={closeIdFindModal}  />
                 <div
               style={{
                 position: "fixed",
@@ -157,7 +161,7 @@ const LoginPage = () => {
               </>
             )}
             <DivisionLine></DivisionLine>
-            <li onClick={handlePwFind}>비밀번호 변경</li>
+            {/* <li onClick={handlePwFind}>비밀번호 변경</li>
             {pwFindModal && (
               <>
                 <PwFind closeModal={closePwFindModal} />
@@ -174,7 +178,7 @@ const LoginPage = () => {
             ></div>
               </>
             )}
-            <DivisionLine></DivisionLine>
+            <DivisionLine></DivisionLine> */}
             <li onClick={handleJoin}>회원가입</li>
           </div>
         </LoginBox>

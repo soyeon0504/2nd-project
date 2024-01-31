@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MainMenu,
   MainMenuList,
@@ -6,57 +6,94 @@ import {
   SubMenuList,
 } from "../../styles/header/MenuTabStyle";
 import { useNavigate } from "react-router-dom";
-
 export const menuCate = [
   {
     title: "스마트 기기",
-    list: ["스마트 워치", "태블릿", "갤럭시", "아이폰"],
+    list: [
+      { id: 101, cate: "스마트 워치" },
+      { id: 102, cate: "태블릿" },
+      { id: 103, cate: "갤럭시" },
+      { id: 104, cate: "아이폰" },
+    ],
   },
   {
     title: "PC / 노트북",
-    list: ["노트북", "PC", "마우스", "키보드"],
+    list: [
+      { id: 201, cate: "노트북" },
+      { id: 202, cate: "PC" },
+      { id: 203, cate: "마우스" },
+      { id: 204, cate: "키보드" },
+    ],
   },
   {
     title: "영상 / 카메라",
-    list: ["빔프로젝터", "셋톱박스", "카메라", "캠코더", "DSLR"],
+    list: [
+      { id: 301, cate: "빔프로젝터" },
+      { id: 302, cate: "셋톱박스" },
+      { id: 303, cate: "카메라" },
+      { id: 304, cate: "캠코더" },
+      { id: 305, cate: "DSLR" },
+    ],
   },
   {
     title: "음향",
-    list: ["스피커", "이어폰", "헤드폰", "마이크"],
+    list: [
+      { id: 401, cate: "스피커" },
+      { id: 402, cate: "이어폰" },
+      { id: 403, cate: "헤드폰" },
+      { id: 404, cate: "마이크" },
+    ],
   },
   {
     title: "게임 기기",
-    list: ["플레이스테이션", "닌텐도", "Wii", "XBOX", "기타"],
+    list: [
+      { id: 501, cate: "플레이스테이션" },
+      { id: 502, cate: "닌텐도" },
+      { id: 503, cate: "Wii" },
+      { id: 504, cate: "XBOX" },
+      { id: 505, cate: "기타" },
+    ],
   },
 ];
-
 const MenuTab = () => {
+  // hover시 배경색 변경
+  const [activeCategory, setActiveCategory] = useState(null);
+  const handleCategoryHover = category => {
+    setActiveCategory(category); // 마우스가 hover되었음을 상태에 저장
+  };
+  const handleCategoryLeave = () => {
+    setActiveCategory(null); // 마우스가 hover되지 않았음을 상태에 저장
+  };
   // 페이지 이동
   const navigate = useNavigate();
   const handleClickCate = () => {
     navigate(`/main/more`);
   };
-  // 카테고리
-
-
   return (
     <MenuTabStyle>
       {menuCate.map(item => (
         <MainMenu key={item.title}>
           <MainMenuList>{item.title}</MainMenuList>
-
           <SubMenuList>
             {item.list.map(listItem => (
-              <li key={listItem} onClick={handleClickCate}>
-                {listItem}
+              <li
+                key={listItem.id}
+                onClick={handleClickCate}
+                onMouseEnter={() => handleCategoryHover(listItem.cate)}
+                onMouseLeave={handleCategoryLeave}
+                style={
+                  activeCategory === listItem.cate
+                    ? { color: "#2C39B5", fontWeight: "500" }
+                    : {}
+                }
+              >
+                {listItem.cate}
               </li>
             ))}
           </SubMenuList>
-          
         </MainMenu>
       ))}
     </MenuTabStyle>
   );
 };
-
 export default MenuTab;

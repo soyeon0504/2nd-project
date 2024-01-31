@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 // 헤더
 export const HeaderStyle = styled.div`
   position: fixed;
@@ -23,6 +22,7 @@ export const HeaderLogo = styled.div`
   width: 200px;
   height: 40px;
   background-color: #d9d9d9;
+  cursor: pointer;
 `;
 export const SearchForm = styled.form`
   display: flex;
@@ -44,7 +44,6 @@ export const SearchWord = styled.input`
   justify-content: center;
   flex-shrink: 0;
   border: none;
-
   color: rgb(0, 0, 0);
   font-family: Roboto;
   font-size: 30px;
@@ -59,6 +58,7 @@ export const SearchBt = styled.input`
   flex-shrink: 0;
   border: none;
   background-image: url("/images/header/bt_search.svg");
+  cursor: pointer;
 `;
 export const LoginState = styled.div`
   display: flex;
@@ -68,14 +68,12 @@ export const LoginState = styled.div`
     width: 100%;
     background: transparent;
     border: none;
-
     color: #777;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
     cursor: pointer;
-    
   }
 `;
 export const HeaderMenu = styled.div`
@@ -97,35 +95,40 @@ export const HeaderMenu = styled.div`
   }
 `;
 export const HeaderMainMenu = styled.div`
-display: block;
-img{
-  padding: 7px;
-}
+  display: block;
+  width: 35px;
+  height: 35px;
+  img {
+    padding: 7px;
+    cursor: pointer;
+  }
 `;
-
 
 // 카테고리 메뉴창
 export const CategoryTab = styled.div`
-display: flex;
-gap: 5px;
+  display: flex;
+  gap: 5px;
 `;
-export const MainCate = styled.li`
+export const MainCate = styled.div`
 width: 100px;
 `;
 export const MainCateTitle = styled.li`
-height: 30px;
-width: 85px;
-margin: 0 auto 5px;
-padding-top: 6px;
+  height: 30px;
+  width: 85px;
+  margin: 0 auto 5px;
+  padding-top: 6px;
+  cursor: pointer;
 `;
 export const SubCate = styled.div`
-display: block;
-border: 1px solid #2c39b5;
-width: 100px;
-padding-top: 20px;
-background: #fff;
-li{
-  margin-bottom: 20px;
-  color: #777;
-}
+  display: block;
+  border: 1px solid #2c39b5;
+  width: 100px;
+  padding-top: 10px;
+  background: #fff;
+  li {
+    margin-bottom: 10px;
+    padding: 7px 0;
+    color: #777;
+    cursor: pointer;
+  }
 `;
