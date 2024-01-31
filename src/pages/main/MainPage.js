@@ -59,7 +59,9 @@ const initData = [
 ];
 
 const btList = [
-  [ 
+
+  [
+
     { id: 1, title: "빔프로젝터" },
     { id: 2, title: "셋톱박스" },
     { id: 3, title: "카메라" },
@@ -114,7 +116,6 @@ const MainPage = () => {
       <Layout>
         <SideBar />
         <MainWrap>
-        
           {btList.map((item, index) => {
             return (
               <ProductSlide

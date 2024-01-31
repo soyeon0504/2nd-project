@@ -12,7 +12,7 @@ const failPostDatas = () => {
 export const getMoreProduct = async (categoryId, pageNum) => {
     try {
       const url = `${path}/prod/${categoryId}?page=${pageNum}`;
-      const res = await jwtAxios.get(url);
+      const res = await axios.get(url);
       return res.data;
     } catch (error) {
       console.log(error);
