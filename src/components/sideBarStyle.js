@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Common } from "../styles/CommonStyles";
 
 export const Wrap = styled.div`
     z-index: 3;
@@ -8,22 +9,30 @@ export const Wrap = styled.div`
 `
 
 export const SideBarWrap = styled.div`
-    width: 65px;
-    height: 400px;
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
+    height: 440px;
     background-color: #eeeef1;
     border-radius: 30px;
 `
 
 export const ButtonWrap = styled.div`
-    top: 10px;
-    bottom: 20px;
-    position: relative;
-    align-items: center;
     display: flex;
     flex-direction: column;
+    gap: 25px;
+    padding: 10px;
+    div {     
+    display: flex;
     align-items: center;
-    gap: 40px;
-    padding: 10px 20px;
+    justify-content: center;
+    flex-direction: column;
+        p {
+            padding-top: 3px;
+            font-size: 1.4rem;
+            color: ${Common.color.p300};
+        }
+    } 
 `
 export const Write = styled.button`
     width: 40px;

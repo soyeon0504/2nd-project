@@ -23,8 +23,9 @@ const StarRating = ({ totalStars }) => {
   `;
 
   const StarIcon = styled.span`
+  width: 15px !important;
   font-size: 20px;
-  color: ${({ filled }) => (filled ? "#FFD700" : "#FFD700")};
+  color: #FFD700;
   cursor: pointer;
   `;
 
@@ -33,7 +34,6 @@ const StarRating = ({ totalStars }) => {
       {[...Array(totalStars)].map((_, index) => (
         <StarIcon
           key={index}
-          filled={index < rating}
           onClick={() => handleClick(index)}
         >
           &#9733;

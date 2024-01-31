@@ -54,18 +54,18 @@ export const getMyReview = async (page) => {
     console.log(error);
     failPostDatas("/");
   }
-};
+}
 
-export const getMyProdReview = async (iuser,page) => {
+export const getProdReview = async () => {
   try {
-    const url = `${path2}/list?iuser=${iuser}&page=${page}`;
+    const url = `${path}/prod/review`;
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {
     console.log(error);
     failPostDatas("/");
   }
-};
+}
 
 export const putProduct = async () => {
   try {
@@ -77,10 +77,11 @@ export const putProduct = async () => {
   }
 };
 
-export const patchProduct = async () => {
+export const patchWithdraw = async (uid,upw,phone) => {
   try {
-    const res = await axios.patch(`${path}`);
-    return res;
+    const url = `${path2}/user?uid=${uid}&upw=${upw}&phone=${phone}`
+    const res = await jwtAxios.patch(url);
+    return res.data;
   } catch (error) {
     console.log(error);
     failPostDatas("/");

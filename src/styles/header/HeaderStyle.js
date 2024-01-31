@@ -109,7 +109,7 @@ export const CategoryTab = styled.div`
 display: flex;
 gap: 5px;
 `;
-export const MainCate = styled.li`
+export const MainCate = styled.div`
 width: 100px;
 `;
 export const MainCateTitle = styled.li`

@@ -3,7 +3,7 @@ import { DatePicker } from "antd";
 import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
 
-const Calendar = () => {
+const Calendar = ({marginBottom}) => {
   const [selectedDateRange, setSelectedDateRange] = useState([]);
   const calendarContainerRef = useRef(null);
 
@@ -17,7 +17,7 @@ const Calendar = () => {
     borderRadius: "10px",
     border: "1px solid #2C39B5",
     flexShrink: 0,
-    marginBottom: "40px",
+    marginBottom: marginBottom ? marginBottom : "40px",
   };
 
   const calendarPopupStyle = {

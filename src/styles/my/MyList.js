@@ -37,26 +37,13 @@ export const MyListTopButton = styled.button`
 export const MyListMid = styled.div`
   display: flex;
   position: relative;
-  gap: 1rem;
+  overflow: hidden;
+  gap: 2rem;
   color: #000;
   padding: 1rem;
   border: 1px solid ${Common.color.primary};
   border-radius: 1rem;
   margin-top: 2.3rem;
-  height: 12rem;
-  width: 98rem;
-`;
-
-export const MyListMidEnd = styled.div`
-  display: flex;
-  position: relative;
-  gap: 1rem;
-  color: #000;
-  padding: 1rem;
-  border: 1px solid ${Common.color.primary};
-  border-radius: 1rem;
-  margin-top: 2.3rem;
-  background: rgba(0, 0, 0, 0.15);
   height: 12rem;
   width: 98rem;
   > h2 {
@@ -67,6 +54,17 @@ export const MyListMidEnd = styled.div`
     font-weight: 600;
     color: #8f8f8f;
   }
+`;
+
+export const MyListMidEnd = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 98rem;
+  height: 12rem;
+  background: rgba(0,0,0,.15);
+  z-index: 3;
+  border-radius: 1rem;
 `;
 
 export const MyListMidImg = styled.div`
@@ -84,7 +82,7 @@ export const MyListMidImg = styled.div`
 export const MyListMidTxt = styled.div`
   display: flex;
   flex-direction: column;
-  width: 35rem;
+  width: 60rem;
   height: 10rem;
   gap: 1rem;
   h2 {
@@ -99,7 +97,7 @@ export const MyListMidTxt = styled.div`
   }
   span {
     display: block;
-    width: 35rem;
+    width: 60rem;
     height: 2rem;
     line-height: 2rem;
     font-size: 1.4rem;
@@ -159,4 +157,23 @@ export const MyListBottom = styled.div`
 
 export const MyStarDiv = styled.div`
   height: 2rem;
+`
+
+export const MyProfileDiv = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 6rem;
+  height: 100%;
+  gap: 2px;
+  p {
+    display: block;
+    font-size: 1.4rem;
+    margin: 0 auto;
+    margin-bottom: 2px;
+  }
+  span {
+    font-size: 1.2rem;
+    margin: 0 auto;
+  }
 `

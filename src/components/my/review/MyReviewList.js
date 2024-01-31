@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListProfileImg, MyListTop, MyListTopButton, MyStarDiv } from "../../../styles/my/MyList";
+import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListProfileImg, MyListTop, MyListTopButton, MyProfileDiv, MyStarDiv } from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
-import { getMyReview } from "../../../api/my/my_api";
+import { getMyReview, getProdReview } from "../../../api/my/my_api";
 import StarRatined from "../StarRatined";
 import styled from "@emotion/styled";
 import { get } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 
 const MyReviewList = ({ activeBtn }) => {
@@ -22,7 +23,7 @@ const MyReviewList = ({ activeBtn }) => {
         if (activeBtn === "내 작성 후기") {
           result = await getMyReview(1);
         } else if (activeBtn === "내 상품 후기") {
-          result = await getMyReview(1,1)
+          result = await getProdReview()
         }
         setData(result);
       } catch (error) {
@@ -44,7 +45,7 @@ const MyReviewList = ({ activeBtn }) => {
           { activeBtn === "내 작성 후기" ? (
           <MyListMid>
           <MyListMidImg>
-            <img src={item.prodPic} alt={item.title} />
+            <img src={`/pic/${item.prodPic}`} alt={item.title} />
           </MyListMidImg>
           <MyListMidTxt>
             <div>
@@ -60,29 +61,32 @@ const MyReviewList = ({ activeBtn }) => {
           <MyListMidLast location={"center"} size={"1.2rem"}>
               <p>작성자</p>
               <MyListProfileImg>
-                <img src={item.userPic}/>
+                <img src={`/pic/${item.loginedUserPic}`}/>
               </MyListProfileImg>
               <span>{item.nick}</span>
             </MyListMidLast>
         </MyListMid>
          ) : (
           <MyListMid>
-            <MyListMidImg>
-              <img src={item.pic} alt={item.title} />
-            </MyListMidImg>
+            <MyProfileDiv>
+              <p>작성자</p>
+              <MyListProfileImg>
+                <img src={`/pic/${item.userProfPic}`}/>
+              </MyListProfileImg>
+              <span>{item.nick}</span>
+            </MyProfileDiv>
             <MyListMidTxt>
-              <div>
-                <h2>{item.title}</h2>
-              </div>
-              <div>
-              <p>{item.price}</p>
-              </div>
+              <MyStarDiv>
+              <StarRatined totalStars={item.rating}/>
+              </MyStarDiv>
               <div>
                 <span>{item.contents}</span>
               </div>
             </MyListMidTxt>
             <MyListMidLast>
-              <p>더보기</p>
+              <Link to={"/"}>
+                <p>내 상품 바로가기</p>
+              </Link>
             </MyListMidLast>
           </MyListMid>
          )}

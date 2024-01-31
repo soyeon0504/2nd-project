@@ -76,10 +76,10 @@ const ProductSlide = ({ btList, title, desc, id }) => {
               <SwiperSlide key={`cameraSlide${index}`}>
                 <div className="like">
                   <button onClick={() => handleClickLike()}>
-                    <img src="../images/main/like.svg" alt="like" />
+                    <img src="/images/main/like.svg" alt="like" />
                   </button>
                 </div>
-                <img src={item.prodMainPic} alt="" />
+                <img src={`/pic/${item.prodMainPic}`} alt="" />
 
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
