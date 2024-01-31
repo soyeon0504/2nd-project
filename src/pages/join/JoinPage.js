@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../layouts/Layout";
 import DaumPostcode from "react-daum-postcode";
 import {
@@ -23,23 +23,42 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import JoinPopUp from "../../components/joinpopup/JoinPopUp";
+import { joinPost } from "../../api/join/join_api";
 
 const JoinPage = () => {
+  // 데이터 연동
+  const JoinAction = () => {
+    const obj = {
+      addr: address,
+      restAddr: restAddress,
+      uid: userId,
+      upw: password,
+      nick: nickname,
+      pic: photo,
+      phone: phoneNumber,
+      email: email,
+    };
+    joinPost(obj);
+  };
+
+  const JoinSave = e => {
+    e.preventDefault();
+  };
   // 이미지 업로드
-  const [uploadImgBefore, setUploadImgBefore] = useState(
+  const [uploadImg, setUploadImg] = useState(
     `${process.env.PUBLIC_URL}/images/join/join_img.svg`,
   );
-  const [fileCount, setFileCount] = useState(0);
-  const [uploadImgBeforeFile, setUploadImgBeforeFile] = useState(null);
+  // const [fileCount, setFileCount] = useState(0);
+  const [uploadImgFile, setUploadImgFile] = useState(null);
+
   const handleChangeFileOne = e => {
     const file = e.target.files[0];
     if (file) {
       // 미리보기
       const tempUrl = URL.createObjectURL(file);
-      setUploadImgBefore(tempUrl); // 미리보기 끝
+      setUploadImg(tempUrl); // 미리보기 끝
       // FB 파일을 보관
-      setUploadImgBeforeFile(file); // 파일 1개 추가 끝
-      setFileCount(prev => prev + 1); // 파일 추가 되었어요.
+      setUploadImgFile(file); // 파일 1개 추가 끝
     }
   };
 
@@ -78,8 +97,9 @@ const JoinPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [restAddress, setRestAddress] = useState("");
   const [email, setEmail] = useState("");
 
   const handleChangeNickname = e => {
@@ -94,11 +114,14 @@ const JoinPage = () => {
   const handleChangeConfirmPassword = e => {
     setConfirmPassword(e.target.value);
   };
-  const handleChangePhoneNumber = e => {
-    setPhoneNumber(e.target.value);
-  };
+  // const handleChangePhoneNumber = e => {
+  //   setPhoneNumber(e.target.value);
+  // };
   const handleChangeAddress = e => {
     setAddress(e.target.value);
+  };
+  const handleChangeRestAddress = e => {
+    setRestAddress(e.target.value);
   };
   const handleChangeEmail = e => {
     setEmail(e.target.value);
@@ -107,7 +130,7 @@ const JoinPage = () => {
   const [catchErr, setCatchErr] = useState(false);
   const handleConfirm = e => {
     e.preventDefault();
-    if (uploadImgBeforeFile === null || address === "" || !formState.isValid) {
+    if (uploadImgFile === null || address === "" || !formState.isValid) {
       setCatchErr(true);
     } else {
       navigate(`/join/3`);
@@ -157,12 +180,11 @@ const JoinPage = () => {
       .required("이메일은 필수 입력 사항입니다."),
   });
 
-  const { register, handleSubmit, formState } = useForm({
-    // defaultValues: initState,
+  const { register, handleSubmit, formState, watch } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
-
+  const phoneNumber = watch("phoneNumber");
   // 확인 버튼 선택시 실행
   const handleSubmitJoin = data => {
     console.log("최종 데이터 : ", data);
@@ -210,31 +232,31 @@ const JoinPage = () => {
             </JoinElementTxt>
             <JoinElementInputBox>
               <JoinElementInput>
-                <label htmlFor="input-file-before">
+                <label htmlFor="img">
                   <ImageInputBt
                     type="button"
                     onClick={() => {
-                      document.getElementById("input-file-before").click();
+                      document.getElementById("img").click();
                     }}
                   >
-                    <img src={uploadImgBefore} alt="" />
+                    <img src={uploadImg} alt="" />
                   </ImageInputBt>
                 </label>
                 <input
                   type="file"
                   {...register("photo")}
-                  accept="image/png, image/gif, image/jpeg"
+                  accept="image/*"
                   onClick={() => {
-                    document.getElementById("input-file-before").click();
+                    document.getElementById("img").click();
                   }}
                   onChange={event => {
                     handleChangeFileOne(event, "before");
                   }}
-                  id="input-file-before"
+                  id="img"
                   style={{ display: "none" }}
                 />
               </JoinElementInput>{" "}
-              {!fileCount && catchErr ? (
+              {uploadImgFile === null && catchErr ? (
                 <InputValid>사진을 선택해주세요.</InputValid>
               ) : (
                 ""
@@ -284,7 +306,9 @@ const JoinPage = () => {
                 />
                 <ConfirmBt>중복 확인</ConfirmBt>
               </JoinElementInput>
-              <InputValid>{formState.errors.userId?.message}</InputValid>
+              {catchErr && formState.errors.userId && (
+                <InputValid>{formState.errors.userId?.message}</InputValid>
+              )}
             </JoinElementInputBox>
           </JoinElement>
 
@@ -413,13 +437,15 @@ const JoinPage = () => {
                   // onChange={handleChangePhoneNumber}
                   {...register("phoneNumber")}
                 />
-                <ConfirmBt onClick={phoneNumberConfirm} type="button">휴대폰 인증</ConfirmBt>
+                <ConfirmBt onClick={phoneNumberConfirm} type="button">
+                  휴대폰 인증
+                </ConfirmBt>
               </JoinElementInput>
               <InputValid>{formState.errors.phoneNumber?.message}</InputValid>
             </JoinElementInputBox>
             {showModal && (
               <>
-                {formState.errors.phoneNumber ? (
+                {formState.errors.phoneNumber || phoneNumber === "" ? (
                   <JoinPopUp
                     txt="휴대폰 인증에 실패하셨습니다."
                     onConfirm={closeModal}
@@ -464,7 +490,13 @@ const JoinPage = () => {
                   onChange={handleChangeAddress}
                   // {...register("address")}
                 />
-                <input placeholder="상세 주소를 입력해주세요." />
+                <input
+                  type="text"
+                  value={restAddress}
+                  placeholder="상세 주소를 입력해주세요."
+                  name="restAddress"
+                  onChange={handleChangeRestAddress}
+                />
 
                 {modalOpen && (
                   <Modal handleClose={handleCloseModal}>
@@ -475,7 +507,9 @@ const JoinPage = () => {
                   </Modal>
                 )}
               </JoinAddressInput>
-              <InputValid>{formState.errors.address?.message}</InputValid>
+              {catchErr && address === "" && (
+                <InputValid>주소를 검색해주세요.</InputValid>
+              )}
             </JoinElementInputBox>
           </JoinElement>
 
@@ -495,18 +529,20 @@ const JoinPage = () => {
                   {...register("email")}
                 />
               </JoinElementInput>
-              <InputValid>{formState.errors.email?.message}</InputValid>
+              {catchErr && formState.errors.email && (
+                <InputValid>{formState.errors.email?.message}</InputValid>
+              )}
             </JoinElementInputBox>
           </JoinElement>
           <BtSection mgtop="90px" mgbtm="0px">
             <CancelBt onClick={handleCancel}>취소</CancelBt>
             {/* <SaveBt onClick={handleConfirm}>저장</SaveBt> */}
-            {formState.isValid && fileCount ? (
+            {formState.isValid && uploadImgFile !== null &&  address ? (
               <SaveBt onClick={handleConfirm} type="button">
                 저장
               </SaveBt>
             ) : (
-              <SaveBt onClick={handleNotValid}>취소</SaveBt>
+              <SaveBt onClick={handleNotValid}>저장</SaveBt>
             )}
           </BtSection>
         </JoinBox>

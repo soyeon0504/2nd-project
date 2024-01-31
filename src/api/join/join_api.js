@@ -1,59 +1,18 @@
-import axios from "axios";
-import { SERVER_URL } from "../config";
-import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
+import axios from "axios"
+import { SERVER_URL } from "../config"
 
-const failPostDatas = () => {
-  const navigate = useNavigate();
-  navigate("/");
-};
-
-export const getProduct = async () => {
+// 회원가입
+export const joinPost = async(obj, postSuccess, postFail)=> {
   try {
-    const res = await axios.get(`${path}`);
-    return res;
+    const res = await axios.post(`${SERVER_URL}/api/user/signup`, obj);
+    const resStatus = res.status.toString();
+    if(resStatus.charAt(0) === "2") {
+      console.log(res.data)
+    } else {
+      alert("데이터 전송에 실패했습니다.")
+    }
   } catch (error) {
-    console.log(error);
-    failPostDatas("/");
+    console.log(error)
+    postFail()
   }
-};
-
-export const postProduct = async () => {
-  try {
-    const res = await axios.post(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const putProduct = async () => {
-  try {
-    const res = await axios.put(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const patchProduct = async () => {
-  try {
-    const res = await axios.patch(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const deleteProduct = async () => {
-  try {
-    const res = await axios.delete(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
+}

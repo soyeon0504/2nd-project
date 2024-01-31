@@ -38,7 +38,7 @@ const Write = () => {
     if (file&& imageBefore.length < 10) {
       // 미리보기
       const tempUrl = URL.createObjectURL(file);
-      setUploadImgBefore(tempUrl);
+      // setUploadImgBefore(tempUrl);
       // FB 파일을 보관
       setUploadImgBeforeFile(file); // 파일 1개 추가 끝
       setImageBefore((prevImages) => [...prevImages, tempUrl]);
