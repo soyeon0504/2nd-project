@@ -4,7 +4,7 @@ import { SideBar } from "../../components/SideBar";
 import ProductSlide from "../../components/main/ProductSlide";
 import Layout from "../../layouts/Layout";
 import { MainWrap } from "../../styles/main/mainStyle";
-import { getProduct } from "../../api/main/main_api";
+import { getMoreProduct, getProduct } from "../../api/main/main_api";
 
 const initData = [
   // {
@@ -107,16 +107,14 @@ const sectionTitle = [
 ];
 
 const MainPage = () => {
-  const [product, setProduct] = useState(null);
-
-
-
+  // const [product, setProduct] = useState(null);
 
   return (
     <>
       <Layout>
         <SideBar />
         <MainWrap>
+        
           {btList.map((item, index) => {
             return (
               <ProductSlide
