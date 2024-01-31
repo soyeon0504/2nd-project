@@ -98,6 +98,8 @@ const Write = () => {
         console.log(data);
     };
 
+    
+
   return (
     <Layout>
     <SideBar />
@@ -328,7 +330,7 @@ const Write = () => {
                         <p>거래 가능 날짜</p> <p>*</p>
                     </label>
                     <div>
-                        <Calendar marginBottom={"0"}/>
+                        <Calendar marginBottom={"0"} />
                     </div>
                 </ListDiv>
                 <ListDiv direction={"column"}>

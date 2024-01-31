@@ -67,6 +67,17 @@ export const getProdReview = async () => {
   }
 }
 
+export const getMyUer = async (iauth) => {
+  try {
+    const url = `${path2}/user?tar=${iauth}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+}
+
 export const putProduct = async () => {
   try {
     const res = await axios.put(`${path}`);
@@ -77,7 +88,7 @@ export const putProduct = async () => {
   }
 };
 
-export const patchWithdraw = async (uid,upw,phone) => {
+export const patchWithdraw = async ({uid,upw,phone}) => {
   try {
     const url = `${path2}/user?uid=${uid}&upw=${upw}&phone=${phone}`
     const res = await jwtAxios.patch(url);
