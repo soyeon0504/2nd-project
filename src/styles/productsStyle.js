@@ -7,77 +7,80 @@ export const AllWidth = styled.div`
 `;
 
 export const PriceDiv = styled.div`
-    justify-content: space-between;
-    width: 86rem;
-    input {
-        width: 20rem !important;
-    }
-    span {
-        margin-left: 5px;
-        font-size: 1.8rem;
-    }
-    p {
-        display: block;
-        padding-top: 5px;
-        width: 20rem;
-        text-align: center;
-        font-size: 1.4rem;
-    }
-`
+  justify-content: space-between;
+  width: 86rem;
+  input {
+    width: 20rem !important;
+  }
+  span {
+    margin-left: 5px;
+    font-size: 1.8rem;
+  }
+  p {
+    display: block;
+    padding-top: 5px;
+    width: 20rem;
+    text-align: center;
+    font-size: 1.4rem;
+  }
+`;
 
 export const ListDiv = styled.div`
+  display: flex;
+  margin-top: 6rem;
+
+  :nth-of-type(1) {
+    margin-top: 0;
+  }
+  label {
     display: flex;
-    margin-top: 6rem;
-    :nth-of-type(1) {
-        margin-top: 0;
+    width: 12rem;
+    p {
+      font-size: 1.6rem;
+      :nth-of-type(2) {
+        color: #ff0303;
+      }
     }
-    label {
-        display: flex;
-        width: 12rem;
-        p {
-            font-size: 1.6rem;
-            :nth-of-type(2) {
-                color: #ff0303;
-            }
-        }
-        span {
-            margin-left: 5px;
-            font-size: 1.6rem;
-        }
+    span {
+      margin-left: 5px;
+      font-size: 1.6rem;
     }
-    >div {
-        display: flex;
-        margin-left: 15rem;
-        flex-direction: ${props => props.direction ? props.direction : "none"};
-        gap: 1rem;
-        input {
-        width: 86rem;
-        padding-left: 15px;
-        height: 4rem;
-        border-radius: 5px;
-        border: 1px solid ${Common.color.primary};
-        color: #000;
-        font-size: 1.6rem;
-        }
-        input.showSpinner {
-            width: 20rem;
-        }
+  }
+  > div {
+    display: flex;
+
+    flex-direction: ${props => (props.direction ? props.direction : "none")};
+    gap: 1rem;
+
+    input {
+      width: 86rem;
+      padding-left: 15px;
+      height: 4rem;
+      border-radius: 5px;
+      border: 1px solid ${Common.color.primary};
+      color: #000;
+      font-size: 1.6rem;
+    
     }
-    textarea {
-        width: 86rem;
-        height: 28rem;
-         border-radius: 5px;
-        border: 1px solid ${Common.color.primary};
-        padding: 15px;
-        color: #000;
-        font-size: 1.6rem;
+    input.showSpinner {
+      width: 20rem;
     }
-    h2 {
-        font-size: 1.6rem;
-        font-weight: 400;
-        text-align: end;
-    }
-`
+  }
+  textarea {
+    width: 86rem;
+    height: 28rem;
+    border-radius: 5px;
+    border: 1px solid ${Common.color.primary};
+    padding: 15px;
+    color: #000;
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    text-align: end;
+  }
+`;
 
 export const BtWrap = styled.div`
   display: flex;
@@ -97,7 +100,8 @@ export const BtnColor = styled.button`
   border: 0;
   background: ${props => (props.clickbtn ? Common.color.p500 : "0")};
   height: 3.6rem;
-  color: ${props => (props.clickbtn ? Common.color.primary : Common.color.p300)};
+  color: ${props =>
+    props.clickbtn ? Common.color.primary : Common.color.p300};
 `;
 // 서브카테고리
 export const BtnColorSub = styled.button`
@@ -105,30 +109,31 @@ export const BtnColorSub = styled.button`
   border: 0;
   background: ${props => (props.clickbtn ? Common.color.p500 : "0")};
   height: 3.6rem;
-  color: ${props => (props.clickbtn ? Common.color.primary : Common.color.p300)};
+  color: ${props =>
+    props.clickbtn ? Common.color.primary : Common.color.p300};
 `;
 
 export const ProductImgBt = styled.button`
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    img {
-        width: 18rem;
-        height: 18rem;
-        border: 1px solid ${Common.color.primary};
-        border-radius: 5px;
-        object-fit: cover;
-    }
-`
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  img {
+    width: 18rem;
+    height: 18rem;
+    border: 1px solid ${Common.color.primary};
+    border-radius: 5px;
+    object-fit: cover;
+  }
+`;
 export const ProductImgMap = styled.div`
-    display: flex;
-    flex-wrap: wrap !important;
-    width: 500px;
-    img {
-        width: 9rem;
-        height: 9rem;
-        border: 1px solid ${Common.color.primary};
-        border-radius: 5px;
-        object-fit: cover;
-    }
-`
+  display: flex;
+  flex-wrap: wrap !important;
+  width: 500px;
+  img {
+    width: 9rem;
+    height: 9rem;
+    border: 1px solid ${Common.color.primary};
+    border-radius: 5px;
+    object-fit: cover;
+  }
+`;
