@@ -9,9 +9,13 @@ import {
   SlideBtWrap,
 } from "../../styles/main/SlideButton";
 import { BtWrap } from "../../styles/main/mainStyle";
-import { getMoreProduct, getProduct } from "../../api/main/main_api"; // API 호출 함수 import
+import {
+  getMoreProduct,
+  getProduct,
+  getProductWow,
+} from "../../api/main/main_api"; // API 호출 함수 import
 
-const ProductSlide = ({ btList, title, desc, id }) => {
+const ProductSlide = ({ btList, title, desc, id, subId }) => {
   const [productData, setProductData] = useState([]); // 상품 데이터 상태 추가
 
   // 최초 각 카테고별 목록을 출력함.
@@ -19,8 +23,22 @@ const ProductSlide = ({ btList, title, desc, id }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getProduct(id); // API 호출
-        // console.log(res);
+        const res = await getProductWow(); // API 호출
+        console.log(res);
+        setProductData(res); // 데이터 설정
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData(); // 함수 호출
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getProduct(id,subId); // API 호출
+        console.log(res.data);
         setProductData(res); // 데이터 설정
       } catch (error) {
         console.log(error);
@@ -34,7 +52,7 @@ const ProductSlide = ({ btList, title, desc, id }) => {
 
   // 게시물 클릭 시 detail 페이지로 이동
   // const navigate = useNavigate(`/details/`);
-  
+
   // 초기값 세팅
   const [focus, setFocus] = useState(0);
 
@@ -42,10 +60,9 @@ const ProductSlide = ({ btList, title, desc, id }) => {
 
   const swiperRefs = useRef([useRef(1), useRef(2), useRef(3), useRef(4)]);
 
-
-  const handleClickList = async categoryId => {
+  const handleClickList = async (categoryId, subCategoryId) => {
     try {
-      const res = await getMoreProduct(categoryId, pageNum);
+      const res = await getMoreProduct(categoryId, subCategoryId, pageNum);
       console.log("res : ", res);
       setProductData(res);
     } catch (error) {
@@ -74,7 +91,7 @@ const ProductSlide = ({ btList, title, desc, id }) => {
             );
           })}
         </BtWrap>
-        
+
         <Swiper
           slidesPerView={4}
           spaceBetween={20}
@@ -89,23 +106,24 @@ const ProductSlide = ({ btList, title, desc, id }) => {
           className="mySwiper"
           modules={[Navigation]}
         >
-          {productData && productData.map((item, index) => (
-            <SwiperSlide key={`cameraSlide${index}`}>
-              <div className="like">
-                <button onClick={() => handleClickLike()}>
-                  <img src="/images/details/like.svg" alt="like" />
-                </button>
-              </div>
-              <img src = {`/pic/${item.prodMainPic}`} alt="" />
-              <div className="desc-wrap">
-                <span className="desc-title">{item.title}</span>
-                <hr></hr>
-                <div className="desc-price">{item.price}</div>
-                <div className="desc-ad">{item.addr}</div>
-                <div className="view">조회수{item.view}</div>
-              </div>
-            </SwiperSlide>
-          ))}
+          {productData &&
+            productData.map((item, index) => (
+              <SwiperSlide key={`cameraSlide${index}`}>
+                <div className="like">
+                  <button onClick={() => handleClickLike()}>
+                    <img src="/images/details/like.svg" alt="like" />
+                  </button>
+                </div>
+                <img src={`/pic/${item.prodMainPic}`} alt="" />
+                <div className="desc-wrap">
+                  <span className="desc-title">{item.title}</span>
+                  <hr></hr>
+                  <div className="desc-price">{item.price}</div>
+                  <div className="desc-ad">{item.addr}</div>
+                  <div className="view">조회수{item.view}</div>
+                </div>
+              </SwiperSlide>
+            ))}
         </Swiper>
         <SlideBtWrap>
           <BtSlidePrev

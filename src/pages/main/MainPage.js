@@ -60,11 +60,11 @@ const initData = [
 
 const btList = [
   [
-    { id: 9, title: "빔프로젝터" },
-    { id: 10, title: "셋톱박스" },
-    { id: 11, title: "카메라" },
-    { id: 12, title: "캠코더" },
-    { id: 13, title: "DSLR" },
+    { id: 1, title: "빔프로젝터" },
+    { id: 2, title: "셋톱박스" },
+    { id: 3, title: "카메라" },
+    { id: 4, title: "캠코더" },
+    { id: 5, title: "DSLR" },
   ],
   [
     { id: 1, title: "스마트 워치" },
@@ -73,17 +73,17 @@ const btList = [
     { id: 4, title: "아이폰" },
   ],
   [
-    { id: 18, title: "플레이스테이션" },
-    { id: 19, title: "닌텐도" },
-    { id: 20, title: "Wii" },
-    { id: 21, title: "XBOX" },
-    { id: 22, title: "기타" },
+    { id: 1, title: "플레이스테이션" },
+    { id: 2, title: "닌텐도" },
+    { id: 3, title: "Wii" },
+    { id: 4, title: "XBOX" },
+    { id: 5, title: "기타" },
   ],
   [
-    { id: 5, title: "노트북" },
-    { id: 6, title: "PC" },
-    { id: 7, title: "마우스" },
-    { id: 8, title: "키보드" },
+    { id: 1, title: "노트북" },
+    { id: 2, title: "PC" },
+    { id: 3, title: "마우스" },
+    { id: 4, title: "키보드" },
   ],
 ];
 
@@ -114,7 +114,6 @@ const MainPage = () => {
       <Layout>
         <SideBar />
         <MainWrap>
-        
           {btList.map((item, index) => {
             return (
               <ProductSlide
