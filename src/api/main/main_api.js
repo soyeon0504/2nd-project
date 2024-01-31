@@ -21,9 +21,9 @@ export const getProduct = async id => {
   }
 };
 
-export const getMoreProduct = async (categoryId, pageNum) => {
+export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
   try {
-    const url = `${path}/prod/${categoryId}?page=${pageNum}`;
+    const url = `${path}/prod/${categoryId}/${subCategoryId}}?page=${pageNum}`;
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {

@@ -43,9 +43,9 @@ const ProductSlide = ({ btList, title, desc, id }) => {
   const swiperRefs = useRef([useRef(1), useRef(2), useRef(3), useRef(4)]);
 
 
-  const handleClickList = async categoryId => {
+  const handleClickList = async (categoryId, subCategoryId) => {
     try {
-      const res = await getMoreProduct(categoryId, pageNum);
+      const res = await getMoreProduct(categoryId, subCategoryId, pageNum);
       console.log("res : ", res);
       setProductData(res);
     } catch (error) {
