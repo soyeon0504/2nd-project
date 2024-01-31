@@ -76,6 +76,7 @@ export const LoginBt = styled.button`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  cursor: pointer;
 `;
 export const DivisionLine = styled.div`
   width: 1px;

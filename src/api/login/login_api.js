@@ -35,7 +35,7 @@ export const idPost = async(obj, setUserList) => {
     
     const resStatus = res.status.toString();
     if(resStatus.charAt(0) === "2" ){
-      setUserList([...res.data])
+      setUserList({ ...res.data })
     } else{
       alert("데이터 전송에 실패했습니다.")
     }

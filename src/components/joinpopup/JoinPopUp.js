@@ -3,11 +3,11 @@ import React from "react";
 
 const JoinPopUp = ({ txt, onConfirm }) => {
   const JoinPopUp = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-Index: 1000;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 
     width: 300px;
     height: 180px;
