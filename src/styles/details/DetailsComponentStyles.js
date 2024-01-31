@@ -16,6 +16,25 @@ export const StyledButton = styled.button`
 `;
 
 // Pay styles
+export const Overlay = styled.div`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const ModalContainer = styled.div`
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+`;
+
 export const Box = styled.div`
   padding: 22px;
   width: 470px;
@@ -24,6 +43,13 @@ export const Box = styled.div`
   align-items: flex-start;
 
   border-bottom: 1px solid ${Common.color.primary};
+  /* 모달이 상단에 위치하도록 수정 */
+  position: fixed;
+  top: 200px; /* 원하는 높이로 수정 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background-color: #fff;
 `;
 
 export const SubBox = styled.div`
@@ -33,7 +59,13 @@ export const SubBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+
+  position: fixed;
+  top: 440px; /* 원하는 높이로 수정 */
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 100;
+  background-color: #fff;
 `;
 
 export const Image = styled.img`
@@ -72,7 +104,7 @@ export const PriceRow = styled.div`
 `;
 
 export const PriceLabel = styled.div`
-  width: 70px;
+  width: auto;
   height: 14px;
 
   color: #000;

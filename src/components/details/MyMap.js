@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-const MyMap = () => {
-  const [position, setPosition] = useState({ lat: 33.450701, lng: 126.570667 });
+const MyMap = ({ x, y }) => {
+  const [position, setPosition] = useState({ lat: x, lng: y });
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          setPosition({ lat: coords.latitude, lng: coords.longitude });
-        },
-        error => {
-          console.error(error);
-        },
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
+    if (x !== null && y !== null) {
+      setPosition({ lat: Number(x), lng: Number(y) });
     }
-  }, []);
+  }, [x, y]);
 
   const containerStyle = {
     width: "100%",
@@ -42,7 +33,7 @@ const MyMap = () => {
         style={mapStyle}
         apiKey="0a7b875855336bf31181760c0e9ea9b1"
       >
-        <MapMarker position={position} />
+        {x !== null && y !== null && <MapMarker position={position} />}
       </Map>
     </div>
   );

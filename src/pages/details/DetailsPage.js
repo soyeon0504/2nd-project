@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+// DetailsPage.js
 
+import React, { useState, useEffect } from "react";
 import Layout from "../../layouts/Layout";
 import MyMap from "../../components/details/MyMap";
-import Calendar from "../../components/details/Calendar";
 import Profile from "../../components/details/Profile";
+import { getProduct } from "../../api/details/details_api";
+import Calendar from "../../components/details/Calendar";
 import Like from "../../components/details/Like";
 import SellerProfile from "../../components/details/SellerProfile";
+import { Modal } from "antd"; // Ant Design 모달 컴포넌트 추가
 import Pay from "../../components/details/Pay";
 import {
   SubContainer,
@@ -51,80 +54,94 @@ import {
 } from "../../styles/details/DetailsPageStyles";
 
 const DetailsPage = () => {
-  const [showPayModal, setShowPayModal] = useState(false); // 모달 표시 여부를 나타내는 상태
+  const [showPayModal, setShowPayModal] = useState(false);
+  const [productData, setProductData] = useState(null);
+  const [detailContent, setDetailContent] = useState("");
+  const [rentalDays, setRentalDays] = useState(0);
+  const [paymentData, setPaymentData] = useState({
+    rentPrice: 0,
+    rentalDays: 0,
+    deposit: 0,
+  });
 
   const togglePayModal = () => {
     setShowPayModal(!showPayModal);
-    // Pay 모달을 띄울 때, 모달이 나타날 때만 body에 ModalBackdrop 클래스를 추가하여 배경을 어둡게 만듦
-    if (!showPayModal) {
-      document.body.classList.add("ModalBackdrop");
-    } else {
-      document.body.classList.remove("ModalBackdrop");
-    }
   };
 
-  const [productData, setProductData] = useState({
-    pic: "/images/kong.jpg",
-    title: " 애플 워치 SE - 40mm GPS 스페이스 그레이 알루미늄  ",
-    price: "7,000 원",
-    rentalDuration: "일일대여가",
-    viewCount: 20,
-    address: "대구광역시 달서구 월성동",
-    purchaseDate: "2017년 5월 10일",
-    deposit: "보증금",
-    depositDetail: "원가의 30% 50,000원",
-    content: "상품내용",
-    sellerName: "닉네임",
-    profileImage: "../../images/kong.jpg",
-  });
+  const handleDateSelect = (startDate, endDate) => {
+    const timeDiff = Math.abs(endDate - startDate);
+    const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    setRentalDays(days);
 
-  const [detailContent, setDetailContent] = useState(
-    "상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분상품 내용 입력 부분",
-  );
+    const rentPrice = productData.rentalPrice || 0;
+    const totalRentPrice = rentPrice * days;
 
-  const [paymentData, setPaymentData] = useState({
-    rentPrice: 7000,
-    rentalDays: 30,
-    deposit: 50000,
-  });
+    setPaymentData({
+      ...paymentData,
+      rentPrice: totalRentPrice,
+      rentalDays: days,
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const icategory = "1";
+        const iproduct = "25";
+        const response = await getProduct(icategory, iproduct);
+        setProductData(response.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!productData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout>
       <PageWrapper>
         <SubContainer>
           <BoxImg>
-            <ProductImage src={productData.pic} alt="제품 이미지" />
+            <ProductImage
+              src={`/pic/${productData.prodMainPic}`}
+              alt="제품 이미지"
+            />
           </BoxImg>
           <Box>
             <Title>
               <ContentWrapper>{productData.title}</ContentWrapper>
               <SellerProfile
-                sellerName={productData.sellerName}
-                profileImage={productData.profileImage}
+                sellerName={productData.nick}
+                profileImage={`/pic/${productData.userPic}`}
+                iuser={productData.iuser}
+                iauth={productData.iauth}
               />
             </Title>
 
             <PriceContainer>
-              <Price>{productData.price}</Price>
+              <Price>{productData.price.toLocaleString()} 원</Price>
               <RentalText>{productData.rentalDuration}</RentalText>
             </PriceContainer>
-            <ViewCount>조회수 {productData.viewCount}</ViewCount>
+            <ViewCount>조회수 {productData.view.toLocaleString()}</ViewCount>
             <AddressContainer>
               <InfoContainer>
                 <Address>
                   주소
-                  <DetailedAddress>{productData.address}</DetailedAddress>
+                  <DetailedAddress>{productData.addr}</DetailedAddress>
                 </Address>
                 <InfoLine>
                   <InfoText>제품구매일 </InfoText>
-                  <PurchaseDateText>
-                    {productData.purchaseDate}
-                  </PurchaseDateText>
+                  <PurchaseDateText>{productData.buyDate}</PurchaseDateText>
                 </InfoLine>
                 <div>
-                  <DepositText>{productData.deposit}</DepositText>
+                  <DepositText>보증금</DepositText>
                   <DepositDetailText>
-                    {productData.depositDetail}
+                    {productData.deposit.toLocaleString()} 원
                   </DepositDetailText>
                 </div>
               </InfoContainer>
@@ -132,19 +149,21 @@ const DetailsPage = () => {
             <Container>
               <Like />
               <BtnChat>채팅하기</BtnChat>
-              <BtnPay onClick={togglePayModal}>결제하기</BtnPay>{" "}
+              <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
             </Container>
-            {showPayModal && ( // showPayModal 상태가 true일 때만 Pay 컴포넌트가 렌더링됨
-              <Pay
-                productData={productData}
-                paymentData={paymentData}
-                onClose={togglePayModal} // Pay 컴포넌트에 onClose 이벤트 핸들러 전달
-              />
+            {showPayModal && (
+              <Box visible={showPayModal} onCancel={togglePayModal}>
+                <Pay
+                  productData={productData}
+                  paymentData={paymentData}
+                  onClose={togglePayModal}
+                />
+              </Box>
             )}
           </Box>
         </SubContainer>
         <MainContainer>
-          <ProductContent>{productData.content}</ProductContent>
+          <ProductContent>상품내용</ProductContent>
         </MainContainer>
         <MiniContainer>
           <Caution>
@@ -170,36 +189,44 @@ const DetailsPage = () => {
               </CautionText>
             </CautionContent>
           </Caution>
-          <Detail>{detailContent}</Detail>
+          <Detail>{productData.contents}</Detail>
           <PayContainer>
-            <Calendar />
+            <Calendar onDateSelect={handleDateSelect} />
             <PayRow>
               <PayLabel>
-                {productData.price} x {paymentData.rentalDays}일
+                {productData.rentalPrice.toLocaleString()} 원 x{" "}
+                {paymentData.rentalDays}일
               </PayLabel>
               <PayValue>
-                {productData.price * paymentData.rentalDays} 원
+                {(
+                  productData.rentalPrice * paymentData.rentalDays
+                ).toLocaleString()}{" "}
+                원
               </PayValue>
             </PayRow>
             <PayRow>
               <PayLabel>보증금</PayLabel>
-              <PayValue>{paymentData.deposit} 원</PayValue>
+              <PayValue>{productData.deposit.toLocaleString()} 원</PayValue>
             </PayRow>
             <TotalPrice />
             <PayRow>
               <PayLabel>총 합계</PayLabel>
               <PayValue>
-                {productData.price * paymentData.rentalDays +
-                  paymentData.deposit}
+                {(
+                  productData.rentalPrice * paymentData.rentalDays +
+                  productData.deposit
+                ).toLocaleString()}{" "}
                 원
               </PayValue>
             </PayRow>
           </PayContainer>
         </MiniContainer>
 
-        <MyMap />
+        {productData.x && productData.y && (
+          <MyMap x={productData.x} y={productData.y} />
+        )}
 
-        <Profile />
+        <Profile reviews={productData.reviews} starCount={productData.rating} />
       </PageWrapper>
     </Layout>
   );
