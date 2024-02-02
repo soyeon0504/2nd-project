@@ -22,6 +22,19 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import MenuTab, { menuCate } from "./MenuTab";
 
 const Header = () => {
+  // 검색 데이터 연동
+  const [search, setSearch] = useState("");
+  const [click, setClick] = useState(false)
+  const [page, setPage] = useState(1);
+  const handleChangeSearch = e => {
+    setSearch(e.target.value);
+  };
+  const onClickSearch = () => {
+    setClick(true)
+  }
+
+  const headerSearch = () => {};
+
   // 페이지 이동
   const navigate = useNavigate();
   const handleLogo = () => {
@@ -115,8 +128,13 @@ const Header = () => {
         <HeaderLogo onClick={handleLogo}>로고</HeaderLogo>
         <div className="header-search">
           <SearchForm>
-            <SearchWord type="text" />
-            <SearchBt type="button" />
+            <SearchWord
+              onChange={handleChangeSearch}
+              type="text"
+              placeholder="검색어를 입력해주세요."
+              min={2}
+            />
+            <SearchBt onClick={onClickSearch} type="button" />
           </SearchForm>
         </div>
         {isLogin ? (
@@ -171,7 +189,11 @@ const Header = () => {
                       onMouseLeave={handleSubCateLeave}
                       style={
                         activeSubCate === listItem.cate
-                          ? { color: "#2C39B5", fontWeight: "500", background: "#F2F2FF" }
+                          ? {
+                              color: "#2C39B5",
+                              fontWeight: "500",
+                              background: "#F2F2FF",
+                            }
                           : {}
                       }
                     >

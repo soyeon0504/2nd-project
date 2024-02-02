@@ -1,59 +1,16 @@
-import axios from "axios";
-import { SERVER_URL } from "../config";
-import { useNavigate } from "react-router-dom";
-const path = `${SERVER_URL}/api/product`;
+import axios from "axios"
+import { SERVER_URL } from "../config"
 
-const failPostDatas = () => {
-  const navigate = useNavigate();
-  navigate("/");
-};
-
-export const getProduct = async () => {
+export const searchGet = async(search, page,searchGetSuccess) => {
   try {
-    const res = await axios.get(`${path}`);
-    return res;
+    const url = `${SERVER_URL}/api/prod?search=${search}&page=${page}`
+    const res = await axios.get(url)
+    const resStatus = res.status.toString();
+    
+    if (resStatus.charAt(0) === "2") {
+      searchGetSuccess([...res.data])
+    }
   } catch (error) {
-    console.log(error);
-    failPostDatas("/");
+    console.log(error)
   }
-};
-
-export const postProduct = async () => {
-  try {
-    const res = await axios.post(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const putProduct = async () => {
-  try {
-    const res = await axios.put(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const patchProduct = async () => {
-  try {
-    const res = await axios.patch(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const deleteProduct = async () => {
-  try {
-    const res = await axios.delete(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
+}
