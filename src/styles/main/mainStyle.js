@@ -26,6 +26,9 @@ export const MainWrap = styled.div`
   .mySwiper {
     top: 40px;
     width: 1260px;
+    >div {
+      cursor: pointer;
+    }
     .like {
       position: absolute;
       border: none;

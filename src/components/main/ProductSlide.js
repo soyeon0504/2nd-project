@@ -47,8 +47,6 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
     console.log(serverData);
     const res = getProductDetail(serverData);
     navigate(url);
-
-    // const res = getProductDetail(serverData);
     console.log(res);
 
     // 02-01 소연 팀장 전달
@@ -109,7 +107,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
                     <span className="desc-title">{item.title}</span>
                     <hr></hr>
                     <div className="desc-price">
-                      {item.price.toLocaleString()}
+                      {item.rentalPrice.toLocaleString()}
                     </div>
                     <div className="desc-ad">{item.addr}</div>
                     <div className="view">조회수{item.view}</div>
