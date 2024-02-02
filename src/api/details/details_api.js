@@ -34,6 +34,18 @@ export const getUserInfo = async userpk => {
   }
 };
 
+export const getFav = async iproduct => {
+  try {
+    const url = `${path}/fav/${iproduct}`;
+    const res = await jwtAxios.get(url);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
 export const postProduct = async () => {
   try {
     const res = await axios.post(`${path}`);

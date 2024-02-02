@@ -9,16 +9,16 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getMoreProduct = async (categoryId, pageNum) => {
-    try {
-      const url = `${path}/prod/${categoryId}?page=${pageNum}`;
-      const res = await axios.get(url);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      // failPostDatas("/");
-    }
-  };
+export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
+  try {
+    const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    // failPostDatas("/");
+  }
+};
 
 
 
