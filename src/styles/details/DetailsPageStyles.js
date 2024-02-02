@@ -19,7 +19,7 @@ export const SubContainer = styled(MainContainer)`
 
 export const ProductContent = styled.div`
   margin-left: 10px;
-  margin-right: 620px;
+  margin-right: 635px;
 `;
 
 export const MiniContainer = styled.div`

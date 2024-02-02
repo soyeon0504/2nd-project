@@ -1,6 +1,5 @@
-// Profile.js
-
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import ReviewForm from "./ReviewForm";
 import {
   ProfileContainer,
   ProfileImg,
@@ -8,19 +7,25 @@ import {
   ReviewFormStyle,
   ReviewProfile,
   CurrentDate,
-  ReviewButton,
+  tntnReivew,
   ReviewText,
+  BtnStyles,
   ReviewProfileLine,
+  BtnReivew,
 } from "../../styles/details/DetailsComponentStyles";
+
 import StarRating from "./StarRating";
 
 const Profile = ({ reviews }) => {
   const [showAllProfiles, setShowAllProfiles] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [profileReviews, setProfileReviews] = useState(reviews);
+  const [containerHeight, setContainerHeight] = useState(400);
 
   const initialProfileCount = 2;
   const visibleProfiles = showAllProfiles
-    ? reviews
-    : reviews.slice(0, initialProfileCount);
+    ? profileReviews
+    : profileReviews.slice(0, initialProfileCount);
 
   const handleShowMore = () => {
     setShowAllProfiles(true);
@@ -30,31 +35,77 @@ const Profile = ({ reviews }) => {
     setShowAllProfiles(false);
   };
 
+  const handleOpenModal = () => {
+    setShowReviewModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowReviewModal(false);
+  };
+
+  const handleSubmitReview = data => {
+    const newReviews = [...profileReviews, data];
+    setProfileReviews(newReviews);
+    setShowReviewModal(false);
+  };
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerHeight(containerRef.current.scrollHeight);
+    }
+  }, [visibleProfiles]);
+
   return (
     <ReviewFormStyle
-      style={{ height: showAllProfiles ? "auto" : "420px", overflow: "hidden" }}
+      ref={containerRef}
+      style={{
+        height: containerHeight + "px",
+        overflow: "hidden",
+        padding: "20px",
+        borderRadius: "10px",
+        position: "relative", // ReviewFormStyle에 position 속성 추가
+      }}
     >
-      후기
-      {visibleProfiles.map(review => (
-        <ReviewProfile key={review.ireview}>
+      상품리뷰
+      <ReviewForm
+        isOpen={showReviewModal}
+        onRequestClose={handleCloseModal}
+        onSubmit={handleSubmitReview}
+      />
+      <BtnReivew
+        onClick={handleOpenModal}
+        style={{ position: "absolute", right: "-40px", top: "30px" }} // 버튼을 오른쪽 상단에 배치
+      >
+        등록하기
+      </BtnReivew>
+      {visibleProfiles.map((review, index) => (
+        <ReviewProfile key={index}>
           <ProfileContainer>
             <ProfileImg>
               <img src={`/pic/${review.userProfPic}`} alt="Profile Image" />
             </ProfileImg>
-            <ProfileName>{review.nick}</ProfileName>
+            <ProfileName>작성자:{review.nick}</ProfileName>
           </ProfileContainer>
-          {/* 별점 표시 - rating props 전달 */}
-          <StarRating totalStars={5} rating={review.rating} />
+          <StarRating
+            totalStars={5}
+            rating={review.rating}
+            onRate={review.setRating}
+            clickable={true}
+          />
           <ReviewText>{review.contents}</ReviewText>
           <ReviewProfileLine />
         </ReviewProfile>
       ))}
-      {!showAllProfiles ? (
-        <ReviewButton onClick={handleShowMore}>더 보기</ReviewButton>
-      ) : (
-        <ReviewButton onClick={handleCancel} style={{ marginBottom: "25px" }}>
+      {/* 리뷰가 3개 이상일 때만 보이기 */}
+      {profileReviews.length > initialProfileCount && !showAllProfiles && (
+        <BtnStyles onClick={handleShowMore}>더 보기</BtnStyles>
+      )}
+      {showAllProfiles && (
+        <BtnStyles onClick={handleCancel} style={{ marginTop: "15px" }}>
           취소
-        </ReviewButton>
+        </BtnStyles>
       )}
     </ReviewFormStyle>
   );

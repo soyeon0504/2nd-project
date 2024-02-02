@@ -2,8 +2,7 @@ import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { jwtAxios } from "../../util/jwtUtil";
-const path = `${SERVER_URL}/api/prod`;
-const path2 = `${SERVER_URL}/api/user`;
+const path = `${SERVER_URL}/api`;
 
 const failPostDatas = () => {
   // const navigate = useNavigate();
@@ -12,7 +11,7 @@ const failPostDatas = () => {
 
 export const getProduct = async (mainicategory, subicategory, iproduct) => {
   try {
-    const url = `${path}/${mainicategory}/${subicategory}/{iproduct}?iproduct=${iproduct}`;
+    const url = `${path}/prod/${mainicategory}/${subicategory}/{iproduct}?iproduct=${iproduct}`;
     const res = await jwtAxios.get(url);
 
     return res;
@@ -24,7 +23,7 @@ export const getProduct = async (mainicategory, subicategory, iproduct) => {
 
 export const getUserInfo = async userpk => {
   try {
-    const url = `${path2}?=tar${userpk}`;
+    const url = `${path}user?=tar${userpk}`;
     const res = await jwtAxios.get(url);
 
     return res;
@@ -36,7 +35,7 @@ export const getUserInfo = async userpk => {
 
 export const getFav = async iproduct => {
   try {
-    const url = `${path}/fav/${iproduct}`;
+    const url = `${path}/prod/fav/${iproduct}`;
     const res = await jwtAxios.get(url);
 
     return res;
@@ -46,9 +45,21 @@ export const getFav = async iproduct => {
   }
 };
 
-export const postProduct = async () => {
+export const postProduct = async (
+  iproduct,
+  paymentMethod,
+  rentalStartDate,
+  rentalEndDate,
+) => {
   try {
-    const res = await axios.post(`${path}`);
+    const url = `${path}/pay`;
+    const data = {
+      iproduct,
+      paymentMethod,
+      rentalStartDate,
+      rentalEndDate,
+    };
+    const res = await jwtAxios.post(url, data); // 요청 시 필수값인 data를 함께 전달
     return res;
   } catch (error) {
     console.log(error);

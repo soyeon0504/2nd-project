@@ -117,7 +117,7 @@ export const PriceLabel = styled.div`
 `;
 
 export const PriceValue = styled(PriceLabel)`
-  width: 65px;
+  width: 75px;
   text-align: right;
 `;
 
@@ -263,15 +263,17 @@ export const CurrentDate = styled.div`
   margin-left: auto;
 `;
 
-export const ReviewButton = styled.button`
+export const BtnStyles = styled.button`
   display: flex;
   width: 103px;
   height: 36px;
+
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   margin: auto;
-  margin-top: 25px;
+  margin-top: 10px;
+
   background-color: #fff;
   border-radius: 50px;
   border: 1px solid #2c39b5;
@@ -280,6 +282,12 @@ export const ReviewButton = styled.button`
     background: #2c39b5;
     color: #fff;
   }
+`;
+
+export const BtnReivew = styled(BtnStyles)`
+  width: 79px;
+  margin-right: 60px;
+  margin-top: -20px;
 `;
 
 export const ReviewText = styled.div`
