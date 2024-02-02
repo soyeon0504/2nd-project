@@ -21,17 +21,16 @@ import { logout } from "../../slices/loginSlice";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import MenuTab, { menuCate } from "./MenuTab";
 
-const Header = () => {
+const Header = ({searchName, pageNum}) => {
   // 검색 데이터 연동
   const [search, setSearch] = useState("");
-  const [click, setClick] = useState(false)
   const [page, setPage] = useState(1);
   const handleChangeSearch = e => {
     setSearch(e.target.value);
   };
   const onClickSearch = () => {
-    setClick(true)
-  }
+    navigate(`/more/${searchName}/${pageNum}`)
+  };
 
   const headerSearch = () => {};
 
