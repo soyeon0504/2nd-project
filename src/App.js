@@ -58,6 +58,14 @@ const App = () => {
             </Suspense>
           }
         ></Route>
+        {/* <Route
+          path="/more/:id/:subid/:page"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMainMorePage />
+            </Suspense>
+          }
+        ></Route> */}
 
         <Route
           path="/login"
