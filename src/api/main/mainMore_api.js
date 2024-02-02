@@ -9,9 +9,11 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
+export const getMoreProduct = async (pageNum, categoryId, subCategoryId) => {
   try {
-    const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
+    // const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
+    const url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    // /api/prod?page=1&mc=2&sc=1
     const res = await axios.get(url);
     return res.data;
   } catch (error) {

@@ -41,8 +41,9 @@ export const getProductDetail = async serverData => {
     // };
     // http://localhost:3000/api/prod/1/1/75?iproduct=75
     // http://112.222.157.156:5225/api/prod/1/1/%7Biproduct%7D?iproduct=75
-    const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/${serverData.iproduct}`;
+    // const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/${serverData.iproduct}`;
     // const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/${serverData.iproduct}?iproduct=${serverData.iproduct}`;
+    const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/{iproduct}?iproduct=${serverData.iproduct}`;
     const res = await axios.get(url);
     return res.data;
   } catch (error) {

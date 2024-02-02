@@ -14,7 +14,8 @@ import Like from "../details/Like";
 import MoreButton from "./MoreButton";
 
 const ProductSlide = ({ btList, title, desc, id, data }) => {
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 가져오기
+  // 게시물 클릭 시 detail 페이지로 이동
+  const navigate = useNavigate(`/details/`); // useNavigate 훅을 사용하여 navigate 함수 가져오기
   // 전달 받은 목록데이터
   const [productData, setProductData] = useState(data); // 상품 데이터 상태 추가
   // 활성화된 중분류 카테고리 버튼 번호 관리
@@ -33,9 +34,10 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
     }
   };
 
-  // 게시물 클릭 시 detail 페이지로 이동
+  
   // const navigate = useNavigate(`/details/`);
   const handlePageChange = _item => {
+    const url = `/details/${id}/${focus+1}/${_item.iproduct}`
     console.log("wowo", _item);
     const serverData = {
       mainCategoryId: id,
@@ -43,10 +45,10 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
       iproduct: _item.iproduct,
     };
     console.log(serverData);
-    // const res = getProductDetail(serverData);
-    // navigate("/details/", { state: { serverData } });
-
     const res = getProductDetail(serverData);
+    navigate(url);
+
+    // const res = getProductDetail(serverData);
     console.log(res);
 
     // 02-01 소연 팀장 전달
