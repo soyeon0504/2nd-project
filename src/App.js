@@ -24,6 +24,9 @@ const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"));
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
 const LazyMainMorePage = lazy(() => import("./pages/main/MainMorePage"));
+const LazyMainSearchPage = lazy(() =>
+  import("./pages/main/MainMoreSearchPage"),
+);
 
 const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
@@ -58,14 +61,14 @@ const App = () => {
             </Suspense>
           }
         ></Route>
-        {/* <Route
-          path="/more/:id/:subid/:page"
+        <Route
+          path="/search"
           element={
             <Suspense fallback={<Loading />}>
-              <LazyMainMorePage />
+              <LazyMainSearchPage />
             </Suspense>
           }
-        ></Route> */}
+        ></Route>
 
         <Route
           path="/login"

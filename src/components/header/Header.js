@@ -20,19 +20,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../slices/loginSlice";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import MenuTab, { menuCate } from "./MenuTab";
+import { searchGet } from "../../api/header/header_api";
 
-const Header = ({searchName, pageNum}) => {
+const Header = ({ searchName, pageNum }) => {
   // 검색 데이터 연동
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
   const handleChangeSearch = e => {
     setSearch(e.target.value);
   };
-  const onClickSearch = () => {
-    navigate(`/more/${searchName}/${pageNum}`)
+  const onClickSearch = e => {
+    e.preventDefault();
+    console.log("검색실행", search);
+    const sendData = {
+      search: search,
+      pageNum: 1,
+    };
+    searchGet({ sendData, successFn, failFn, errFn });
+    // navigate(`/more/${searchName}/${pageNum}`)
+  };
+  const successFn = result => {
+    console.log("검색 성공", result);
+
+    const url = `/search`;
+    navigate(url, { state: { result } });
   };
 
-  const headerSearch = () => {};
+  const failFn = result => {
+    console.log("검색 오류", result);
+  };
+
+  const errFn = result => {
+    console.log("검색 서버에러", result);
+  };
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -128,12 +147,13 @@ const Header = ({searchName, pageNum}) => {
         <div className="header-search">
           <SearchForm>
             <SearchWord
-              onChange={handleChangeSearch}
+              onChange={e => handleChangeSearch(e)}
               type="text"
               placeholder="검색어를 입력해주세요."
               min={2}
+              value={search}
             />
-            <SearchBt onClick={onClickSearch} type="button" />
+            <SearchBt onClick={e => onClickSearch(e)} type="button" />
           </SearchForm>
         </div>
         {isLogin ? (
@@ -164,7 +184,6 @@ const Header = ({searchName, pageNum}) => {
           {menuCate.map(item => (
             <MainCate
               key={item.title}
-              // onClick={() => handleTitleClick(item.title)}
               onMouseEnter={() => handleCategoryHover(item.title)}
               onMouseLeave={() => handleCategoryLeave(item.title)}
               className={activeCategory === item.title ? "active" : ""}
