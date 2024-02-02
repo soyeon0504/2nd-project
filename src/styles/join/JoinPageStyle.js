@@ -11,9 +11,10 @@ export const JoinBox = styled.form`
   /* height: 700px; */
   border-radius: 10px;
   border: 1px solid #2c39b5;
-  margin: 0 auto 100px;
+  margin: ${props => props.margin ? props.margin : "0 auto 100px"};
   padding: 60px 90px;
 `;
+
 export const JoinElement = styled.div`
   display: flex;
   justify-content: space-between;
@@ -78,7 +79,7 @@ export const JoinElementInput = styled.div`
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
+    line-height: ${props => (props.lineHight ? props.lineHight : "normal")};
   }
   /* input[type="file"] {
     width: 180px;

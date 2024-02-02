@@ -33,6 +33,7 @@ const loginSlice = createSlice({
     logout: (state, action) => {
       console.log("logout");
       removeCookie("member", "/");
+      sessionStorage.removeItem('isLogin');
       return { ...initState };
     },
   },
@@ -44,6 +45,8 @@ const loginSlice = createSlice({
         console.log("payload", payload);
         if (!payload.error) {
           setCookie("member", JSON.stringify(payload));
+          sessionStorage.setItem('isLogin', 'true');
+          return {...state, isLogin: true, iuser: payload.iuser }
         }
         return payload;
       })

@@ -36,9 +36,11 @@ const MyList = ({ activeBtn }) => {
         } else if (activeBtn === "대여중" && activeButton === false) {
           result = await getMyRental(1, 2);
         } else if (activeBtn === "대여 완료" && activeButton === true) {
-          result = await getMyBuySell(1,1);
+          result = await getMyRental(1, 1);
+          result = result.filter(item => item.istatus === 1);
         } else if (activeBtn === "대여 완료" && activeButton === false) {
-          result = await getMyBuySell(2,1);
+          result = await getMyRental(1, 2);
+          result = result.filter(item => item.istatus === 1);
         }
         setData(result);
       } catch (error) {
@@ -95,7 +97,7 @@ const MyList = ({ activeBtn }) => {
             <MyListMidEnd />
             <h2>반 납 완 료</h2>
             <MyListMidImg>
-              <img src={`/pic/${item.prodMainPic}`} alt={item.ipayment} />
+              <img src={`/pic/${item.productStoredPic}`} alt={item.ipayment} />
             </MyListMidImg>
             <MyListMidTxt>
               <div>
@@ -111,9 +113,9 @@ const MyList = ({ activeBtn }) => {
             <MyListMidLast location={"center"} size={"1.2rem"}>
               <p>거래자</p>
               <MyListProfileImg>
-                <img src={`/pic/${item.userPic}`}/>
+                <img src={`/pic/${item.userStoredPic}`}/>
               </MyListProfileImg>
-              <span>{item.nick}</span>
+              <span>{item.targetNick}</span>
             </MyListMidLast>
             </MyListMid>
          )}
