@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   createSearchParams,
   useNavigate,
@@ -11,6 +12,7 @@ export const getNum = (value, basic) => {
     }
     return value;
   };
+
 
 const useCustomMove = () => {
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ const useCustomMove = () => {
   const sc = urlSearchParams.get("sc")
     ? parseInt(urlSearchParams.get("sc"))
     : "";
+
 
   // 쿼리스트링 만들기
   const queryStrDefault = createSearchParams({
@@ -85,6 +88,8 @@ const useCustomMove = () => {
   };
 
   return { moveToList, moveToModify, moveToRead, sort, search, page, mc, sc };
+
+ 
 };
 
 export default useCustomMove;

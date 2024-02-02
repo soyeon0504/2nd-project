@@ -61,6 +61,7 @@ const App = () => {
             </Suspense>
           }
         ></Route>
+
         <Route
           path="/search"
           element={
@@ -69,6 +70,7 @@ const App = () => {
             </Suspense>
           }
         ></Route>
+
 
         <Route
           path="/login"

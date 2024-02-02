@@ -22,6 +22,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import MenuTab, { menuCate } from "./MenuTab";
 import { searchGet } from "../../api/header/header_api";
 
+
 const Header = ({ searchName, pageNum }) => {
   // 검색 데이터 연동
   const [search, setSearch] = useState("");
@@ -43,6 +44,7 @@ const Header = ({ searchName, pageNum }) => {
 
     const url = `/search`;
     navigate(url, { state: { result } });
+
   };
 
   const failFn = result => {
