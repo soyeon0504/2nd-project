@@ -34,17 +34,6 @@ export const getMyInterest = async (page) => {
   }
 };
 
-export const getMyBuySell = async (role,page) => {
-  try {
-    const url = `${path2}/pay?role=${role}&page=${page}`;
-    const res = await jwtAxios.get(url);
-    return res.data;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
 export const getMyReview = async (page) => {
   try {
     const url = `${path}/review?page=${page}`;
@@ -67,9 +56,9 @@ export const getProdReview = async () => {
   }
 }
 
-export const getMyUer = async (iauth) => {
+export const getMyUser = async (iuser) => {
   try {
-    const url = `${path2}/user?tar=${iauth}`;
+    const url = `${path2}/user?tar=${iuser}`;
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {
@@ -78,20 +67,23 @@ export const getMyUer = async (iauth) => {
   }
 }
 
-export const putProduct = async () => {
+export const putMyInfo = async ({product}) => {
   try {
-    const res = await axios.put(`${path}`);
-    return res;
+    const header = {headers: {"Content-Type": "multipart/form-data"}};
+    const url = `${path2}/user`
+    const res = await jwtAxios.put(url, product, header);
+    return res.data;
   } catch (error) {
     console.log(error);
     failPostDatas("/");
   }
 };
 
-export const patchWithdraw = async ({uid,upw,phone}) => {
+export const patchWithdraw = async (uid,upw,phone) => {
   try {
     const url = `${path2}/user?uid=${uid}&upw=${upw}&phone=${phone}`
     const res = await jwtAxios.patch(url);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);
