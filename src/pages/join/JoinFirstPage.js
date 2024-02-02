@@ -9,7 +9,9 @@ import {
   RadioBox,
 } from "../../styles/join/JoinFirstPageStyle";
 import { useNavigate } from "react-router-dom";
-import JoinPopUp from "../../components/joinpopup/JoinPopUp";
+import JoinPopUp, {
+  ModalBackground,
+} from "../../components/joinpopup/JoinPopUp";
 
 const JoinFirstPage = () => {
   const navigate = useNavigate();
@@ -181,17 +183,7 @@ const JoinFirstPage = () => {
         {showModal && (
           <>
             <JoinPopUp txt="약관에 동의해주세요." onConfirm={closeModal} />
-            <div
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                background: "rgba(0, 0, 0, 0.5)",
-                zIndex: 999,
-              }}
-            ></div>
+            <ModalBackground></ModalBackground>
           </>
         )}
       </JoinFirstPageStyle>

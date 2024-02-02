@@ -103,6 +103,7 @@ export const InputValid = styled.div`
 export const ImageInputBt = styled.button`
   background: transparent;
   border: none;
+  cursor: pointer;
 `;
 export const JoinAddressInput = styled.div`
   display: block;
@@ -123,12 +124,26 @@ export const JoinAddressInput = styled.div`
     line-height: normal;
   }
 `;
+export const ShowPasswordBt =styled.button`
+background: transparent;
+border: none;
+width: 0px;
+height: 0px;
+`;
+export const ShowPasswordImg = styled.img`
+  width: 20px !important;
+  height: 20px !important;
+  border: none !important;
+  transform: translate(-150%, 40%);
+  cursor: pointer;
+`;
 export const ConfirmBt = styled.button`
   width: 105px;
   height: 36px;
   border-radius: 5px;
   border: 1px solid #2c39b5;
   background: #2c39b5;
+  cursor: pointer;
 
   color: #fff;
   font-size: 16px;
@@ -163,6 +178,7 @@ export const CancelBt = styled.button`
   border-radius: 10px;
   background: #f2f2ff;
   border: none;
+  cursor: pointer;
 
   color: #2c39b5;
   font-size: 22px;
@@ -173,4 +189,5 @@ export const CancelBt = styled.button`
 export const SaveBt = styled(CancelBt)`
   background: #2c39b5;
   color: #fff;
+  cursor: pointer;
 `;
