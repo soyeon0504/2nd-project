@@ -279,7 +279,7 @@ const MainMorePage = () => {
     // setPageNum(page);
     // 페이지 번호 업데이트
     setPageNum(_tempPage);
-    navigate(`/more/${parseMainCategory}/${id}/${_tempPage}`);
+    navigate(`/more/${_tempPage}/${parseMainCategory}/${id}`);
   };
 
   //추후 초기 값 세팅 필요
