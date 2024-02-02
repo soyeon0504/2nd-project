@@ -24,7 +24,7 @@ export const HeaderLogo = styled.div`
   background-color: #d9d9d9;
   cursor: pointer;
 `;
-export const SearchForm = styled.form`
+export const SearchForm = styled.div`
   display: flex;
   width: 640px;
   height: 60px;
@@ -44,7 +44,7 @@ export const SearchWord = styled.input`
   justify-content: center;
   flex-shrink: 0;
   border: none;
-  
+
   color: rgb(0, 0, 0);
   font-size: 25px;
   font-style: normal;
@@ -110,7 +110,7 @@ export const CategoryTab = styled.div`
   gap: 5px;
 `;
 export const MainCate = styled.div`
-width: 100px;
+  width: 100px;
 `;
 export const MainCateTitle = styled.li`
   height: 30px;

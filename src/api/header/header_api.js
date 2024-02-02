@@ -1,17 +1,23 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 
-export const searchGet = async (search, pageNum, searchGetSuccess) => {
+
+export const searchGet = async ({ sendData, successFn, failFn, errFn }) => {
   try {
-    const url = `${SERVER_URL}/api/prod?search=${search}&page=${pageNum}`;
+    // console.log("sendData", sendData);
+    const url = `${SERVER_URL}/api/prod?search=${sendData.search}&page=${sendData.pageNum}`;
+
     const res = await axios.get(url);
     const resStatus = res.status.toString();
 
     if (resStatus.charAt(0) === "2") {
-      // searchGetSuccess([...res.data])
-      return res.data;
+
+      successFn(res.data);
+    } else {
+      failFn(res.data);
     }
   } catch (error) {
-    console.log(error);
+    errFn(error);
+
   }
 };
