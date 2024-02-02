@@ -95,7 +95,8 @@ export const MoreWrap = styled.div`
   .item-wrap {
     position: relative;
     img {
-      width: 100%;
+      width: 300px;
+      height: 300px;
       border: none;
       border-radius: 4px;
     }

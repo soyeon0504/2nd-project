@@ -282,6 +282,8 @@ const MainMorePage = () => {
     navigate(`/more/${_tempPage}/${parseMainCategory}/${id}`);
   };
 
+  
+
   //추후 초기 값 세팅 필요
   useEffect(() => {}, []);
 
@@ -330,7 +332,7 @@ const MainMorePage = () => {
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>
                   <div className="desc-price">
-                    {item.price.toLocaleString()}
+                    {item.rentalPrice.toLocaleString()}
                   </div>
                   <div className="desc-addr">{item.addr}</div>
                   <div className="view">조회수{item.view}</div>

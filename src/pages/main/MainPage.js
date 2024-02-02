@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "swiper/css";
 import { SideBar } from "../../components/SideBar";
 import ProductSlide from "../../components/main/ProductSlide";
