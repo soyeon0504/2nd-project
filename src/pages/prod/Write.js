@@ -23,7 +23,7 @@ import * as yup from "yup";
 
 //서버에서 돌려주는 값
 const initMoreData = {
-  mainPic: "", //메인 사진
+  mainPic: "1", //메인 사진
   pics: [""], //서브 사진
   dto: {
     title: "", //재목(50자 한정)
