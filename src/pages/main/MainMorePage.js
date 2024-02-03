@@ -241,6 +241,9 @@ const MainMorePage = () => {
   // 지역 선택 관리
   const [regionNum, setRegionListNum] = useState(0);
 
+  const [sortType, setSortType] = useState(0);
+
+
   // 02-01 소연
   useEffect(() => {
     // if(params.id){
@@ -248,15 +251,25 @@ const MainMorePage = () => {
     // }
     const fetchData = async () => {
       try {
-        const res = await getMoreProduct(parseMainCategory, id, pageNum); // API 호출
-        // console.log(pageNum);
-        // setMoreProductData(res); // 데이터 설정
+        let res;
+    
+        if (sortType === 1) {
+          // like 순으로 조회
+          res = await getMoreProduct(parseMainCategory, id, pageNum, sortType);
+        } else if (sortType === 2) {
+          // 조회 많은순으로 보기
+          res = await getMoreProduct(parseMainCategory, id, pageNum, sortType);
+        } else {
+          // sort 가 제공되지 않으면 최신순으로 조회
+          res = await getMoreProduct(parseMainCategory, id, pageNum, 1);
+        }
+        setSortType(1)
         console.log(res);
-        // 반드시 API 확인 필요
+    
         if (res) {
           setDatas(res);
         } else {
-          // 샘플진행
+          // 샘플 진행
           setDatas(initData);
         }
       } catch (error) {
@@ -265,7 +278,15 @@ const MainMorePage = () => {
     };
     console.log(datas);
     fetchData();
-  }, [id, pageNum]);
+  }, [id, pageNum, sortType]);
+
+
+  const handleSortChange = (type) => {
+    setSortType(type);
+    setPageNum(1); // 새로운 정렬 기준으로 첫 페이지로 이동
+  };
+
+  
 
   const handleRegionChange = e => {
     const regionIndex = region.findIndex(item => item.title === e.target.value);
@@ -278,8 +299,9 @@ const MainMorePage = () => {
     // 페이지 번호 업데이트
     // setPageNum(page);
     // 페이지 번호 업데이트
+    setCurrent(_tempPage);
     setPageNum(_tempPage);
-    navigate(`/more/${_tempPage}/${parseMainCategory}/${id}`);
+    navigate(`/more/${sortType}/${_tempPage}${parseMainCategory}/${id}`);
   };
 
   
@@ -293,15 +315,15 @@ const MainMorePage = () => {
       <MoreWrap>
         <div className="header-wrap">
           <div className="header-cate-wrap">
-            <div>{state.title}</div>
+            <div>{state && state.title ? state.title : "Default Title"}</div>
             <div>{datas.length}개</div>
           </div>
           <div>
             <div className="bt-wrap">
               <div>
-                <button>최신순</button>
+                <button onClick={() => handleSortChange(0)}>최신순</button>
                 <img src="/images/main/line.svg" />
-                <button>조회순</button>
+                <button onClick={() => handleSortChange(2)}>조회순</button>
               </div>
             </div>
             <div className="region-wrap">

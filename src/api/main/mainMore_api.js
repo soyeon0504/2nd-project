@@ -9,10 +9,11 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getMoreProduct = async (pageNum, categoryId, subCategoryId) => {
+export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sort) => {
   try {
+    // api/prod?sort=2&page=1&mc=1&sc=1
     // const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
-    const url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    const url = `${path}/prod?sort=${sort}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     // /api/prod?page=1&mc=2&sc=1
     const res = await axios.get(url);
     return res.data;
