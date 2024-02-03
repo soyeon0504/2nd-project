@@ -5,7 +5,7 @@ import { getMoreProduct } from "../../api/main/mainMore_api";
 
 const MoreButton = ({ categoryId, subCategoryId, pageNum, title }) => {
   const navigate = useNavigate();
-  console.log( title);
+  console.log(title);
 
   const handleClick = () => {
     navigate(`/more/${categoryId}/${subCategoryId}/${pageNum}`, {

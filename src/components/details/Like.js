@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { StyledButton } from "../../styles/details/DetailsComponentStyles";
 import { getFav } from "../../api/details/details_api";
 
-function Like({ productId }) {
-  const [liked, setLiked] = useState(false);
+function Like({ isLiked, productId }) {
+  const [liked, setLiked] = useState(isLiked);
 
   const toggleLike = async () => {
     try {
@@ -13,22 +13,22 @@ function Like({ productId }) {
       // 찜 상태에 따라 API를 호출하여 찜 기능을 처리합니다.
       if (!liked) {
         await getFav(productId);
-        console.log("Added to favorites");
+        // console.log("Added to favorites");
       } else {
         await getFav(productId);
-        console.log("Added to favorites");
+        // console.log("Removed from favorites");
       }
     } catch (error) {
-      console.error("Error toggling like:", error);
+      // console.error("Error toggling like:", error);
     }
   };
 
   return (
     <StyledButton onClick={toggleLike}>
       {liked ? (
-        <img src="images/details/like_full.svg" alt="풀 하트" />
+        <img src="/images/details/like_full.svg" alt="풀 하트" />
       ) : (
-        <img src="images/details/like.svg" alt="빈 하트" />
+        <img src="/images/details/like.svg" alt="빈 하트" />
       )}
     </StyledButton>
   );

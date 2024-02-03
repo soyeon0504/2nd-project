@@ -86,7 +86,7 @@ const Profile = ({ reviews }) => {
             <ProfileImg>
               <img src={`/pic/${review.userProfPic}`} alt="Profile Image" />
             </ProfileImg>
-            <ProfileName>작성자:{review.nick}</ProfileName>
+            <ProfileName>{review.nick}</ProfileName>
           </ProfileContainer>
           <StarRating
             totalStars={5}

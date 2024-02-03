@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { postProduct } from "../../api/details/details_api";
-
 import {
   Box,
   Image,
@@ -26,7 +25,6 @@ const Pay = ({
   paymentData,
   rentalStartDate,
   rentalEndDate,
-  onDateSelect,
 }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [cardClicked, setCardClicked] = useState(false);
@@ -36,12 +34,11 @@ const Pay = ({
   const [bankTransferClicked, setBankTransferClicked] = useState(false);
   const [bankDepositClicked, setBankDepositClicked] = useState(false);
   const [phoneClicked, setPhoneClicked] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(null); // 결제 상태 추가
 
   // 결제 방법을 선택했을 때의 처리를 담당하는 함수입니다.
-  const handlePaymentMethodClick = (method, rentalEndDate, rentalStartDate) => {
+  const handlePaymentMethodClick = method => {
     setSelectedPaymentMethod(method);
-    setSelectedPaymentMethod(rentalStartDate);
-    setSelectedPaymentMethod(rentalEndDate);
 
     // 선택된 결제 방법에 따라 해당 결제 방법을 강조하기 위해 각각의 결제 방법 상태를 업데이트합니다.
     setCardClicked(method === "credit-card");
@@ -56,20 +53,33 @@ const Pay = ({
   // 결제하기 버튼 클릭 시 호출되는 핸들러
   const handlePayment = async () => {
     try {
-      if (selectedPaymentMethod) {
-        const res = await postProduct(
-          productData.iproduct,
-          selectedPaymentMethod,
-          rentalStartDate,
-          rentalEndDate,
-        );
-        // 여기서 결제 성공 후 처리할 작업을 추가합니다.
+      if (!selectedPaymentMethod) {
+        alert("결제 방법을 선택해주세요.");
+        return;
+      }
+
+      const res = await postProduct(
+        productData.iproduct,
+        selectedPaymentMethod,
+        rentalStartDate,
+        rentalEndDate,
+      );
+
+      if (res.status === 200) {
+        alert("결제가 완료되었습니다.");
+        onClose();
+        // 여기서 결제 성공 후 처리할 작업을 추가할 수 있습니다.
         console.log("결제가 완료되었습니다.", res);
+        setPaymentStatus("success");
       } else {
-        console.error("결제 방법을 선택해주세요.");
+        alert("결제 과정에서 오류가 발생했습니다.");
+        console.error("결제 과정에서 오류가 발생했습니다.", res);
+        setPaymentStatus("failure");
       }
     } catch (error) {
+      alert("결제 과정에서 오류가 발생했습니다.");
       console.error("결제 과정에서 오류가 발생했습니다.", error);
+      setPaymentStatus("failure");
     }
   };
 
@@ -80,7 +90,9 @@ const Pay = ({
           <Image src={`/pic/${productData.prodMainPic}`} alt="제품 이미지" />
           <TextContainer>
             <Title>{productData.title}</Title>
-            <Duration>대여기간 : {paymentData.rentalDays}일</Duration>
+            <Duration>
+              대여기간 : {rentalStartDate} ~ {rentalEndDate}
+            </Duration>
 
             <PriceRow>
               <PriceLabel>
@@ -126,19 +138,19 @@ const Pay = ({
             clicked={naverPayClicked}
             onClick={() => handlePaymentMethodClick("naverPay")}
           >
-            <img src="images/details/naverpay.svg" alt="네이버페이" />
+            <img src="/images/details/naverpay.svg" alt="네이버페이" />
           </BtnPayList>
           <BtnPayList
             clicked={tossPayClicked}
             onClick={() => handlePaymentMethodClick("tossPay")}
           >
-            <img src="images/details/toss-pay.svg" alt="토스페이" />
+            <img src="/images/details/toss-pay.svg" alt="토스페이" />
           </BtnPayList>
           <BtnPayList
             clicked={paycoClicked}
             onClick={() => handlePaymentMethodClick("payco")}
           >
-            <img src="images/details/payco.svg" alt="페이코" />
+            <img src="/images/details/payco.svg" alt="페이코" />
           </BtnPayList>
           <BtnPayList
             clicked={bankTransferClicked}
@@ -160,7 +172,7 @@ const Pay = ({
           </BtnPayList>
 
           <BtnCancel onClick={onClose}>취소하기</BtnCancel>
-          <BtnPay onClick={onDateSelect}>결제하기</BtnPay>
+          <BtnPay onClick={handlePayment}>결제하기</BtnPay>
         </SubBox>
       </Overlay>
     </>

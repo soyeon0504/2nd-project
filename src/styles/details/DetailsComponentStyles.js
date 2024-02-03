@@ -216,7 +216,7 @@ export const ProfileImg = styled.div`
 `;
 
 export const ProfileName = styled.div`
-  width: 100px;
+  width: 120px;
   height: 20px;
   color: #000;
   font-size: 16px;

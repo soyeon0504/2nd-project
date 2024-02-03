@@ -8,7 +8,8 @@ import { getProduct } from "../../api/details/details_api";
 import Calendar from "../../components/details/Calendar";
 import Like from "../../components/details/Like";
 import SellerProfile from "../../components/details/SellerProfile";
-
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Pay from "../../components/details/Pay";
 import {
   SubContainer,
@@ -62,12 +63,20 @@ const DetailsPage = () => {
     rentalDays: 1, // 기본값으로 1일 설정
     deposit: 0,
   });
+  const [rentalStartDate, setRentalStartDate] = useState(null);
+  const [rentalEndDate, setRentalEndDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const { mainCategory, subCategory, productId } = useParams();
 
+  // URL에서 매개변수 추출
   const togglePayModal = () => {
     setShowPayModal(!showPayModal);
   };
 
   const handleDateSelect = (startDate, endDate) => {
+    setRentalStartDate(startDate);
+    setRentalEndDate(endDate);
     const timeDiff = Math.abs(new Date(endDate) - new Date(startDate));
     const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1; // 시작일을 포함하여 계산
     setRentalDays(days);
@@ -85,14 +94,7 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const mainicategory = "2";
-        const subicategory = "1";
-        const iproduct = "137";
-        const response = await getProduct(
-          mainicategory,
-          subicategory,
-          iproduct,
-        );
+        const response = await getProduct(mainCategory, subCategory, productId);
         setProductData(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -100,8 +102,7 @@ const DetailsPage = () => {
     };
 
     fetchData();
-  }, []);
-
+  }, [mainCategory, subCategory, productId]);
   if (!productData) {
     return <div>Loading...</div>;
   }
@@ -152,8 +153,13 @@ const DetailsPage = () => {
               </InfoContainer>
             </AddressContainer>
             <Container>
-              <Like productId={productData.iproduct} />
-              <BtnChat>채팅하기</BtnChat>
+              <Like
+                isLiked={productData.isLiked}
+                productId={productData.iproduct}
+              />
+              <BtnChat as={Link} to={`/chat/${productData.iuser}`}>
+                채팅하기
+              </BtnChat>
               <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
             </Container>
             {showPayModal && (
@@ -161,7 +167,10 @@ const DetailsPage = () => {
                 <Pay
                   productData={productData}
                   paymentData={paymentData}
+                  rentalStartDate={rentalStartDate}
+                  rentalEndDate={rentalEndDate}
                   onClose={togglePayModal}
+                  onDateSelect={handleDateSelect}
                 />
               </Box>
             )}
