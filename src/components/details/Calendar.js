@@ -4,14 +4,15 @@ import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
 
 const Calendar = ({ onDateSelect }) => {
-  const [selectedDateRange, setSelectedDateRange] = useState([]);
+  const [selectedDateRange, setSelectedDateRange] = useState([]); // 선택된 날짜 상태 추가
   const calendarContainerRef = useRef(null);
 
   const handleDateRangeChange = dates => {
-    setSelectedDateRange(dates);
-    const rentalStartDate = dates[0]?.format("YYYY-MM-DD"); // 시작일
-    const rentalEndDate = dates[1]?.format("YYYY-MM-DD"); // 종료일
-    onDateSelect(rentalStartDate, rentalEndDate); // 선택된 날짜 범위를 부모 컴포넌트로 전달
+    setSelectedDateRange(dates); // 선택된 날짜 업데이트
+    onDateSelect(
+      dates[0]?.format("YYYY-MM-DD"),
+      dates[1]?.format("YYYY-MM-DD"),
+    );
   };
 
   const inputStyle = {
@@ -44,7 +45,7 @@ const Calendar = ({ onDateSelect }) => {
     >
       <DatePicker.RangePicker
         onChange={handleDateRangeChange}
-        value={selectedDateRange}
+        value={selectedDateRange} // 선택된 날짜 적용
         style={inputStyle}
         placeholder={["시작일", "종료일"]}
         suffixIcon={<CalendarOutlined style={{ color: "#2C39B5" }} />}

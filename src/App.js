@@ -71,7 +71,6 @@ const App = () => {
           }
         ></Route>
 
-
         <Route
           path="/login"
           element={
@@ -172,7 +171,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/details/"
+          path="/details/:mainCategory/:subCategory/:productId"
           element={
             <Suspense fallback={<Loading />}>
               <LazyDetailsPage />
@@ -180,7 +179,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/chat/"
+          path="/chat/:iuser"
           element={
             <Suspense fallback={<Loading />}>
               <LazyChatPage />
