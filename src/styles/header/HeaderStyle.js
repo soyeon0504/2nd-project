@@ -15,13 +15,13 @@ export const HeaderStyle = styled.div`
 export const HeaderTop = styled.div`
   margin: 30px auto;
   display: flex;
-  gap: 130px;
+  justify-content: space-between;
   width: 1300px;
 `;
-export const HeaderLogo = styled.div`
-  width: 200px;
-  height: 40px;
-  background-color: #d9d9d9;
+export const HeaderLogo = styled.img`
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
   cursor: pointer;
 `;
 export const SearchForm = styled.div`
