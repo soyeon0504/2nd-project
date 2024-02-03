@@ -6,11 +6,12 @@ const Footer = () => {
   return (
     <FooterStyle>
       <FooterTop>
-        <FooterLogo>로고</FooterLogo>
+        <FooterLogo src="/images/logo.png" />
+        {/* <FooterLogo>로고</FooterLogo> */}
       </FooterTop>
       <FooterMain>
         <FooterMainContact>
-          <h1>상호:000</h1>
+          <h1>상호:Billy</h1>
           <h1>팀장:박준서,한상원</h1>
           <br />
           <h1>깃 주소:</h1>
