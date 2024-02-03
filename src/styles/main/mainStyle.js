@@ -34,7 +34,7 @@ export const MainWrap = styled.div`
       border: none;
       right: 20px;
       top: -40px;
-      z-index: 1;
+      z-index: 1000000;
       width: 30px;
       height: 30px;
       background-repeat: no-repeat;

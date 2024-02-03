@@ -8,7 +8,7 @@ const MoreButton = ({ categoryId, subCategoryId, pageNum, title }) => {
   console.log( title);
 
   const handleClick = () => {
-    navigate(`/more/${categoryId}/${subCategoryId}/${pageNum}`, {
+    navigate(`/more/${pageNum}/${categoryId}/${subCategoryId}`, {
       state: { title },
     });
   };
