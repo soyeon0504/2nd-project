@@ -251,6 +251,7 @@ const JoinPage = () => {
     }
     try {
       joinPost({obj: formData});
+      navigate(`/join/3`);
     } catch (error) {
       console.log(error);
     }
