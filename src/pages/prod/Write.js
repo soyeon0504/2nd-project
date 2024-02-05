@@ -51,7 +51,7 @@ import { useNavigate } from "react-router";
 //       mainCategory: 0, //메인카테고리
 //       subCategory: 1, //하위 카테고리
 //     },
-//     inventory: 1, // 재고
+//     inventory: 1, // 제고
 //   },
 // };
 
