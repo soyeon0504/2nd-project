@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
@@ -8,122 +7,20 @@ import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
 
-const initData = [
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-  {
-    image: "../images/main/camera.jpeg",
-    title: "인스탁스 미니12 폴라로이드 즉석 카메라",
-    price: "150,000 원",
-    address: "대구광역시 달서구 상인동",
-    view: 10,
-  },
-];
-
 const region = [
+  {
+    title: "대구광역시",
+    list: [
+      "중구",
+      "동구",
+      "서구",
+      "남구",
+      "북구",
+      "수성구",
+      "달서구",
+      "달성군",
+    ],
+  },
   {
     title: "서울특별시",
     list: [
@@ -176,19 +73,6 @@ const region = [
     ],
   },
   {
-    title: "대구광역시",
-    list: [
-      "중구",
-      "동구",
-      "서구",
-      "남구",
-      "북구",
-      "수성구",
-      "달서구",
-      "달성군",
-    ],
-  },
-  {
     title: "인천광역시",
     list: [
       "중구",
@@ -217,97 +101,60 @@ const region = [
 
 const MainMorePage = () => {
   const location = useLocation();
-  console.log(location);
   const { pathname, state } = location;
   const urlParseArr = pathname.split("/");
-  const parseMainCategory = parseInt(urlParseArr[2]);
-  const parseSubCategory = parseInt(urlParseArr[3]);
-  const parsePageNum = parseInt(urlParseArr[4]);
-  // console.log(" 목록페이지 주소 분리 처리 ===============");
-  // console.log("parseMainCategory : ", parseMainCategory);
-  // console.log("subCategory : ", parseSubCategory);
-  // console.log("parsePageNum : ", parsePageNum);
-  // const [moreProductData, setMoreProductData] = useState([btList]); // 상품 데이터 상태 추가
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 가져오기
-  // 중분류 값
-  const [id, setId] = useState(parseSubCategory);
+  const parseMainCategory = parseInt(urlParseArr[3]);
+  const parseSubCategory = parseInt(urlParseArr[4]);
+
   // 페이지 번호
-  const [pageNum, setPageNum] = useState(parsePageNum);
-  // 페이지넘버(페이지네이션)
-  const [current, setCurrent] = useState(parsePageNum);
-  const [pageSize, setPageSize] = useState(5);
-  // 화면 출력 데이터
-  const [datas, setDatas] = useState([]);
-  // 지역 선택 관리
-  const [regionNum, setRegionListNum] = useState(0);
-
+  const [pageNum, setPageNum] = useState(1);
   const [sortType, setSortType] = useState(0);
+  // 전지역 데이터
+  const [datas, setDatas] = useState([]);
+  // 지역별 시, 구 분류 데이터
+  const [filterData, setFilterData] = useState([]);
+  // 지역 선택 관리
+  const [regionNum, setRegionNum] = useState(0);
+  const [districtNum, setDistrictNum] = useState(0);
 
-
-  // 02-01 소연
-  useEffect(() => {
-    // if(params.id){
-    //   fetchData(params.id)
-    // }
-    const fetchData = async () => {
-      try {
-        let res;
-    
-        if (sortType === 1) {
-          // like 순으로 조회
-          res = await getMoreProduct(parseMainCategory, id, pageNum, sortType);
-        } else if (sortType === 2) {
-          // 조회 많은순으로 보기
-          res = await getMoreProduct(parseMainCategory, id, pageNum, sortType);
-        } else {
-          // sort 가 제공되지 않으면 최신순으로 조회
-          res = await getMoreProduct(parseMainCategory, id, pageNum, 1);
-        }
-        setSortType(1)
-        console.log(res);
-    
-        if (res) {
-          setDatas(res);
-        } else {
-          // 샘플 진행
-          setDatas(initData);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    console.log(datas);
-    fetchData();
-  }, [id, pageNum, sortType]);
-
-
-  const handleSortChange = (type) => {
-    setSortType(type);
-    setPageNum(1); // 새로운 정렬 기준으로 첫 페이지로 이동
+  const fetchData = async (pageNum, _sortType) => {
+    try {
+      const res = await getMoreProduct(pageNum, parseMainCategory, parseSubCategory, _sortType);
+      setDatas(res)
+      console.log(res)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  
 
   const handleRegionChange = e => {
     const regionIndex = region.findIndex(item => item.title === e.target.value);
-    setRegionListNum(regionIndex);
+    setRegionNum(regionIndex)
+    setDistrictNum(0)
+  };
+
+  const regionFilter = (e) => {
+    const selectedRegion = e.target.value;
+    const districtIndex = region[regionNum].list.indexOf(selectedRegion)
+    setDistrictNum(districtIndex)
   };
 
   const handlePageChange = _tempPage => {
-    // 페이지 변경 시 주소값을 업데이트하고 해당 페이지로 이동
-    // navigate(`/more/${id}/${params.id}?page=${params.pageNum}`);
-    // 페이지 번호 업데이트
-    // setPageNum(page);
-    // 페이지 번호 업데이트
-    setCurrent(_tempPage);
     setPageNum(_tempPage);
-    navigate(`/more/${sortType}/${_tempPage}${parseMainCategory}/${id}`);
   };
 
-  
+  // 02-01 소연
+  useEffect(() => {
+    if (sortType !== 0) fetchData(pageNum, sortType);
+    else fetchData(pageNum);
+  }, [pageNum, sortType]);
 
-  //추후 초기 값 세팅 필요
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const regionData = datas.filter((item) => item.addr.includes(region[regionNum].title.slice(0, 2)))
+    const districtData = regionData.filter((item) => item.addr.includes(region[regionNum].list[districtNum]))
+    setFilterData(districtData)
+  }, [districtNum, datas, regionNum])
 
   return (
     <Layout>
@@ -321,9 +168,9 @@ const MainMorePage = () => {
           <div>
             <div className="bt-wrap">
               <div>
-                <button onClick={() => handleSortChange(0)}>최신순</button>
+                <button onClick={() => setSortType(0)}>최신순</button>
                 <img src="/images/main/line.svg" />
-                <button onClick={() => handleSortChange(2)}>조회순</button>
+                <button onClick={() => setSortType(2)}>조회순</button>
               </div>
             </div>
             <div className="region-wrap">
@@ -334,7 +181,7 @@ const MainMorePage = () => {
                   );
                 })}
               </select>
-              <select>
+              <select onChange={(e) => regionFilter(e)} value={region[regionNum].list[districtNum]}>
                 {region[regionNum].list.map((item, index) => {
                   return <option key={`regionList${index}`}>{item}</option>;
                 })}
@@ -343,13 +190,15 @@ const MainMorePage = () => {
           </div>
         </div>
         <div className="main-wrap">
-          {datas &&
-            datas.map((item, index) => (
-              <div className="item-wrap" key={`MainMore-item-${index}`}>
-                <img src={`/pic/${item.prodMainPic}`} alt="" />
-                <div className="like">
-                  <Like productId={item.iproduct} />
-                </div>
+          {filterData &&
+            filterData.map((item, index) => (
+              <div
+                className="item-wrap"
+                key={`MainMore-item-${index}`}
+                onClick={() => handlePageChange(item)}
+              >
+                <img className="item-image" src={`/pic/${item.prodMainPic}`} alt="제품 이미지" />
+                <Like productId={item.iproduct} />
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>
@@ -364,10 +213,10 @@ const MainMorePage = () => {
         </div>
         <div className="pagination">
           <Pagination
-            current={current}
+            current={pageNum}
             onChange={handlePageChange}
-            total={datas.length}
-            pageSize={pageSize}
+            total={Math.floor(filterData.length / 16) + 1}
+            pageSize={10}
           />
         </div>
       </MoreWrap>

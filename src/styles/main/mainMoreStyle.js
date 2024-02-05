@@ -63,7 +63,6 @@ export const MoreWrap = styled.div`
     max-width: 1260px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
     grid-gap: 30px;
 
     .desc-wrap {
@@ -94,26 +93,15 @@ export const MoreWrap = styled.div`
   }
   .item-wrap {
     position: relative;
-    img {
+    cursor: pointer;
+    .item-image {
       width: 300px;
       height: 300px;
       border: none;
       border-radius: 4px;
     }
-    .like {
-      position: absolute;
-      border: none;
-      top: 10px;
-      right: 10px;
-      z-index: 1;
-      width: 30px;
-      height: 30px;
-      background-repeat: no-repeat;
-      button {
-        border: none;
-        background: transparent;
-      }
-  }
+    
+  
   }
   .ant-select-show-search {
     display: none;

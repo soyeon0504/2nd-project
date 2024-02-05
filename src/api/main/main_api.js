@@ -54,7 +54,6 @@ export const getProductDetail = async serverData => {
 
 export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
   try {
-    // api/prod/3/2?page=1
     const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
     const res = await axios.get(url);
 
