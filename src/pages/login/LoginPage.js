@@ -96,11 +96,12 @@ const LoginPage = () => {
     <Layout>
       <LoginPageStyle>
         <LogoZone>
-          <Logo src="/images/logo.png" />
+          <Logo src="/images/logo.svg" />
         </LogoZone>
         <LoginBox>
           <p>
-            Billy에 오신 것을 환영합니다!
+          <img src="/images/Billy.svg" style={{width:"50px"}}/>
+            에 오신 것을 환영합니다!
             <br />
             로그인 하시면 더욱 다양한 상품들을 대여할 수 있습니다.
           </p>

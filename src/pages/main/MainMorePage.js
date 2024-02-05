@@ -11,13 +11,13 @@ const region = [
   {
     title: "대구광역시",
     list: [
+      "달서구",
       "중구",
       "동구",
       "서구",
       "남구",
       "북구",
       "수성구",
-      "달서구",
       "달성군",
     ],
   },
@@ -100,6 +100,8 @@ const region = [
 ];
 
 const MainMorePage = () => {
+  const navigate = useNavigate(`/details/`); // useNavigate 훅을 사용하여 navigate 함수 가져오기
+
   const location = useLocation();
   const { pathname, state } = location;
   const urlParseArr = pathname.split("/");
@@ -146,8 +148,15 @@ const MainMorePage = () => {
     setDistrictNum(districtIndex);
   };
 
-  const handlePageChange = _tempPage => {
-    setPageNum(_tempPage);
+  const handlePageChange = (item, id, focus)=> {
+    const serverData = {
+      mainCategoryId: id,
+      subCategoryId: focus + 1,
+      iproduct: item.iproduct,
+    };
+    const url = `/details/${id}/${focus + 1}/${item.iproduct}`;
+    const res = getProductDetail(serverData);
+    navigate(url);
   };
 
   // 02-01 소연
@@ -189,7 +198,7 @@ const MainMorePage = () => {
         <div className="header-wrap">
           <div className="header-cate-wrap">
             <div>{state && state.title ? state.title : "Default Title"}</div>
-            <div>{datas.length}개</div>
+            {/* <div>{datas.length}개</div> */}
           </div>
           <div>
             <div className="bt-wrap">

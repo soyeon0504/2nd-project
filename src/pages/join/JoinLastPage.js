@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../layouts/Layout";
 import {
   JoinLastPageStyle,
@@ -6,10 +6,20 @@ import {
   WelcomeBox,
 } from "../../styles/join/JoinLastPageStyle";
 import { JoinHeader } from "../../styles/join/JoinFirstPageStyle";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const JoinLastPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    // URL에서 닉네임 매개변수 추출
+    const searchParams = new URLSearchParams(location.search);
+    const nicknameParam = searchParams.get("nick");
+    setNickname(nicknameParam);
+  }, [location]);
+
   const handleLogin = e => {
     navigate(`/login`);
   };
@@ -22,7 +32,7 @@ const JoinLastPage = () => {
           <img src="/images/join/join_step3.svg" />
         </JoinHeader>
         <WelcomeBox>
-          <h1>000 고객님</h1>
+          <h1>{nickname} 고객님</h1>
           <img src="/images/join/welcome.svg" />
           <h2>회원가입을 진심으로 환영합니다!</h2>
         </WelcomeBox>

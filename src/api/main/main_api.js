@@ -9,7 +9,7 @@ const failPostDatas = () => {
   // navigate("/");
 };
 
-export const getProductWow = async () => {
+export const getProductFirst = async () => {
   try {
     const url = `${path}/prod/main?mc=1&mc=2&mc=3&mc=4&mc=5&sc=1&sc=1&sc=1&sc=1&sc=1`;
     const res = await axios.get(url);

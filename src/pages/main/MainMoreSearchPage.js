@@ -102,42 +102,70 @@ const region = [
 ];
 
 const MainMoreSearchPage = () => {
-  console.log("검색어로 진입");
-  const location = useLocation();
-  //   console.log(location);
-  const { state } = location;
-  //   console.log("state : ", state.result);
-
   const navigate = useNavigate();
-  // 중분류 값
-  const [id, setId] = useState(0);
+  const location = useLocation();
+  const { pathname, state } = location;
+  const urlParseArr = pathname.split("/");
+  const parseMainCategory = parseInt(urlParseArr[3]);
+  const parseSubCategory = parseInt(urlParseArr[4]);
+
   // 페이지 번호
-  const [pageNum, setPageNum] = useState(0);
-  // 페이지넘버(페이지네이션)
-  const [current, setCurrent] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
-  // 화면 출력 데이터
+  const [pageNum, setPageNum] = useState(1);
+  const [sortType, setSortType] = useState(0);
+  // 전지역 출력 데이터
   const [datas, setDatas] = useState(state.result);
+  // 지역별 시, 구 분류 데이터
+  const [filterData, setFilterData] = useState([]);
   // 지역 선택 관리
   const [regionNum, setRegionListNum] = useState(0);
+  const [districtNum, setDistrictNum] = useState(0);
 
   const handleRegionChange = e => {
     const regionIndex = region.findIndex(item => item.title === e.target.value);
     setRegionListNum(regionIndex);
+    setDistrictNum(0);
+  };
+
+  const regionFilter = e => {
+    const selectedRegion = e.target.value;
+    const districtIndex = region[regionNum].list.indexOf(selectedRegion);
+    setDistrictNum(districtIndex);
   };
 
   const handlePageChange = _tempPage => {
-    // 페이지 변경 시 주소값을 업데이트하고 해당 페이지로 이동
-    // navigate(`/more/${id}/${params.id}?page=${params.pageNum}`);
-    // 페이지 번호 업데이트
-    // setPageNum(page);
-    // 페이지 번호 업데이트
     setPageNum(_tempPage);
-    // navigate(`/more/${_tempPage}/${parseMainCategory}/${id}`);
   };
 
   //추후 초기 값 세팅 필요
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (sortType !== 0) fetchData(pageNum, sortType);
+    else fetchData(pageNum);
+  }, [pageNum, sortType]);
+
+  useEffect(() => {
+    const regionData = datas.filter(item =>
+      item.addr.includes(region[regionNum].title.slice(0, 2)),
+    );
+    const districtData = regionData.filter(item =>
+      item.addr.includes(region[regionNum].list[districtNum]),
+    );
+    setFilterData(districtData);
+  }, [districtNum, datas, regionNum]);
+
+  const fetchData = async (pageNum, _sortType) => {
+    try {
+      const res = await getMoreProduct(
+        pageNum,
+        parseMainCategory,
+        parseSubCategory,
+        _sortType,
+      );
+      setDatas(res);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // details 페이지로 이동
   const handlePageChangeDetails = _item => {
@@ -160,15 +188,15 @@ const MainMoreSearchPage = () => {
       <MoreWrap>
         <div className="header-wrap">
           <div className="header-cate-wrap">
-            <div>{state.title}</div>
+            <div>{state && state.title ? state.title : "Default Title"}</div>
             <div>{datas.length}개</div>
           </div>
           <div>
             <div className="bt-wrap">
               <div>
-                <button>최신순</button>
+                <button onClick={() => setSortType(0)}>최신순</button>
                 <img src="/images/main/line.svg" />
-                <button>조회순</button>
+                <button onClick={() => setSortType(2)}>조회순</button>
               </div>
             </div>
             <div className="region-wrap">
@@ -179,7 +207,10 @@ const MainMoreSearchPage = () => {
                   );
                 })}
               </select>
-              <select>
+              <select
+                onChange={e => regionFilter(e)}
+                value={region[regionNum].list[districtNum]}
+              >
                 {region[regionNum].list.map((item, index) => {
                   return <option key={`regionList${index}`}>{item}</option>;
                 })}
@@ -197,15 +228,19 @@ const MainMoreSearchPage = () => {
                   handlePageChangeDetails(item);
                 }}
               >
-                <img src={`/pic/${item.prodMainPic}`} alt="" />
-                <div className="like">
+                <img
+                  className="item-image"
+                  src={`/pic/${item.prodMainPic}`}
+                  alt=""
+                />
+                {/* <div className="like">
                   <Like productId={item.iproduct} />
-                </div>
+                </div> */}
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>
                   <div className="desc-price">
-                    {item.price.toLocaleString()}
+                    {item.rentalPrice.toLocaleString()}
                   </div>
                   <div className="desc-addr">{item.addr}</div>
                   <div className="view">조회수{item.view}</div>
@@ -215,10 +250,10 @@ const MainMoreSearchPage = () => {
         </div>
         <div className="pagination">
           <Pagination
-            current={current}
+            current={pageNum}
             onChange={handlePageChange}
-            total={datas.length}
-            pageSize={pageSize}
+            total={Math.floor(filterData.length / 16) + 1}
+            pageSize={10}
           />
         </div>
       </MoreWrap>

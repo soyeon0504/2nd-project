@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <FooterStyle>
       <FooterTop>
-        <FooterLogo src="/images/logo.png" />
+        <FooterLogo src="/images/logo.svg" />
         {/* <FooterLogo>로고</FooterLogo> */}
       </FooterTop>
       <FooterMain>
