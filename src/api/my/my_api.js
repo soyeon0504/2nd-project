@@ -75,7 +75,7 @@ export const putMyInfo = async ({product}) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    // failPostDatas("/");
+    failPostDatas("/");
   }
 };
 
@@ -90,12 +90,3 @@ export const patchWithdraw = async (data) => {
   }
 };
 
-export const deleteProduct = async () => {
-  try {
-    const res = await axios.delete(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};

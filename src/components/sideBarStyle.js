@@ -11,16 +11,17 @@ export const Wrap = styled.div`
 export const SideBarWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 70px;
-  height: 440px;
+  width: 60px;
+  height: 400px;
   background-color: #eeeef1;
   border-radius: 30px;
 `;
 
 export const ButtonWrap = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  gap: 25px;
+  gap: 40px;
   padding: 10px;
   div {
     display: flex;

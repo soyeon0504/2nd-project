@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
@@ -109,6 +108,8 @@ const MainMorePage = () => {
   const parseMainCategory = parseInt(urlParseArr[3]);
   const parseSubCategory = parseInt(urlParseArr[4]);
 
+  const navigate = useNavigate();
+
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
   const [sortType, setSortType] = useState(0);
@@ -174,6 +175,22 @@ const MainMorePage = () => {
     setFilterData(districtData);
   }, [districtNum, datas, regionNum]);
 
+  // details 페이지로 이동
+  const handlePageChangeDetails = _item => {
+    const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+    console.log("wowo", _item);
+    const serverData = {
+      mainCategoryId: _item.categories.mainCategory,
+      subCategoryId: _item.categories.subCategory,
+      iproduct: _item.iproduct,
+    };
+    console.log(serverData);
+    const res = getProductDetail(serverData);
+    navigate(url);
+    console.log(res);
+  };
+
+
   return (
     <Layout>
       <SideBar />
@@ -216,7 +233,7 @@ const MainMorePage = () => {
               <div
                 className="item-wrap"
                 key={`MainMore-item-${index}`}
-                onClick={() => handlePageChange(item)}
+                onClick={() => handlePageChangeDetails(item)}
               >
                 <img
                   className="item-image"
