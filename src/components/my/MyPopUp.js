@@ -33,6 +33,7 @@ const MyPopUp = ({ title,txt, onConfirm }) => {
         font-size: 25px;
     }
     b {
+      padding: 0 20px;
       color: #000;
       text-align: left;
       font-size: 20px;

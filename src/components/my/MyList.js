@@ -13,6 +13,7 @@ import {
 } from "../../styles/my/MyList";
 import MyMoreButton from "./MyMoreButton";
 import { getMyBuySell, getMyRental } from "../../api/my/my_api";
+import { Link } from "react-router-dom";
 
 const MyList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
@@ -69,31 +70,35 @@ const MyList = ({ activeBtn }) => {
               판매
             </MyListTopButton>
           </div> 
+          
       </MyListTop>
       {data && data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
           { activeBtn === "대여중" ? (
-          <MyListMid>
-          <MyListMidImg>
-            <img src={`/pic/${item.productStoredPic}`} alt={item.title} />
-          </MyListMidImg>
-          <MyListMidTxt>
-            <div>
-              <h2>{item.title}</h2>
-            </div>
-            <div>
-              <p>{item.price} 원</p>
-            </div>
-            <div>
-              <span>대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate} ({item.rentalDuration}일)</span>
-            </div>
-          </MyListMidTxt>
-          <MyListMidLast>
-            <p>더보기</p>
-          </MyListMidLast>
-        </MyListMid>
+          <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+            <MyListMid>
+              <MyListMidImg>
+                <img src={`/pic/${item.productStoredPic}`} alt={item.title} />
+              </MyListMidImg>
+              <MyListMidTxt>
+                <div>
+                  <h2>{item.title}</h2>
+                </div>
+                <div>
+                  <p>{item.price} 원</p>
+                </div>
+                <div>
+                  <span>대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate} ({item.rentalDuration}일)</span>
+                </div>
+              </MyListMidTxt>
+              <MyListMidLast>
+                <p>더보기</p>
+              </MyListMidLast>
+            </MyListMid>
+          </Link>
          ) : (
-          <MyListMid>
+          <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+            <MyListMid>
             <MyListMidEnd />
             <h2>반 납 완 료</h2>
             <MyListMidImg>
@@ -118,6 +123,7 @@ const MyList = ({ activeBtn }) => {
               <span>{item.targetNick}</span>
             </MyListMidLast>
             </MyListMid>
+          </Link>
          )}
         </React.Fragment> 
       ))}

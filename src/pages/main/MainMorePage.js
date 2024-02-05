@@ -108,8 +108,6 @@ const MainMorePage = () => {
   const parseMainCategory = parseInt(urlParseArr[3]);
   const parseSubCategory = parseInt(urlParseArr[4]);
 
-  const navigate = useNavigate();
-
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
   const [sortType, setSortType] = useState(0);
@@ -148,15 +146,8 @@ const MainMorePage = () => {
     setDistrictNum(districtIndex);
   };
 
-  const handlePageChange = (item, id, focus)=> {
-    const serverData = {
-      mainCategoryId: id,
-      subCategoryId: focus + 1,
-      iproduct: item.iproduct,
-    };
-    const url = `/details/${id}/${focus + 1}/${item.iproduct}`;
-    const res = getProductDetail(serverData);
-    navigate(url);
+  const handlePageChange = _tempPage => {
+    setPageNum(_tempPage);
   };
 
   // 02-01 소연
