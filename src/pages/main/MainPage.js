@@ -5,7 +5,7 @@ import { SideBar } from "../../components/SideBar";
 import ProductSlide from "../../components/main/ProductSlide";
 import Layout from "../../layouts/Layout";
 import { MainWrap } from "../../styles/main/mainStyle";
-import { getMoreProduct, getProduct, getProductWow } from "../../api/main/main_api";
+import { getMoreProduct, getProduct, getProductFirst } from "../../api/main/main_api";
 
 const initData = [
   // {
@@ -124,7 +124,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getProductWow(); // API 호출
+        const res = await getProductFirst(); // API 호출
         console.log(res);
         const newData = [...new Array(5)].map((item,index)=>{
           const found = res.filter((element)=> element.categories.mainCategory-1 === index);
