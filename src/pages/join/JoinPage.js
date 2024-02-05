@@ -251,7 +251,7 @@ const JoinPage = () => {
     }
     try {
       joinPost({obj: formData});
-      navigate(`/join/3`);
+      navigate(`/join/3?nick=${nickname}`);
     } catch (error) {
       console.log(error);
     }

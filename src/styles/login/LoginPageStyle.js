@@ -12,9 +12,9 @@ width: 100%;
 text-align: center;
 `;
 export const Logo = styled.img`
-  margin: 0px auto 40px auto;
-  width: 50px;
-  height: 50px;
+  margin: 0px auto 30px auto;
+  width: 80px;
+  height: 60px;
   background-color: transparent;
 `;
 export const LoginBox = styled.div`
