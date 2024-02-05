@@ -152,7 +152,7 @@ const Header = ({ searchName, pageNum }) => {
       }
     >
       <HeaderTop>
-      <HeaderLogo src="/images/logo.png" onClick={handleLogo}/>
+      <HeaderLogo src="/images/logo.svg" onClick={handleLogo}/>
         <div className="header-search">
           <SearchForm>
             <SearchWord

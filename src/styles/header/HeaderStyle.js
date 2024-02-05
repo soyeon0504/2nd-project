@@ -10,17 +10,18 @@ export const HeaderStyle = styled.div`
   width: 100vw;
   text-align: center;
   padding-bottom: 15px;
-  height: 155px;
+  height: 180px;
 `;
 export const HeaderTop = styled.div`
   margin: 30px auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 1300px;
 `;
 export const HeaderLogo = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 80px;
   background-color: transparent;
   cursor: pointer;
 `;

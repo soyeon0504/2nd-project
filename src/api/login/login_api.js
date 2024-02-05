@@ -24,6 +24,7 @@ export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
     }
   } catch (error) {
     errorFn("로그인에 실패하였습니다. 서버가 불안정합니다. 다시 시도해주세요.");
+    
   }
 };
 

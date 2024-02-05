@@ -215,7 +215,7 @@ const MainMorePage = () => {
           <Pagination
             current={pageNum}
             onChange={handlePageChange}
-            total={Math.floor(filterData.length / 16) + 1}
+            total={50}
             pageSize={10}
           />
         </div>

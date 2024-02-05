@@ -4,6 +4,9 @@ import { IdBox, LoginBox, PwBox } from '../../styles/login/LoginPageStyle'
 import { BtSection, CancelBt,  SaveBt } from '../../styles/join/JoinPageStyle'
 import { patchWithdraw } from "../../api/my/my_api";
 import styled from '@emotion/styled';
+import useCustomLogin from '../../hooks/useCustomLogin';
+import { useNavigate } from 'react-router';
+import JoinPopUp, { ModalBackground } from '../../components/joinpopup/JoinPopUp';
 
 const MyWithDrawPw = styled.div`
   display: flex;
@@ -48,6 +51,15 @@ const MyWithDrawPage = () => {
   // 비밀번호 보이기/감추기
 const [showPassword, setShowPassword] = useState(false);
 
+const { doLogout, moveToPath  } = useCustomLogin();
+const [showModal, setShowModal] = useState(false);
+const closeModal = () => {
+  handleWithdraw();
+  doLogout();
+  setShowModal(false);
+  moveToPath("/")
+};
+
 const handleTogglePassword = () => {
   setShowPassword(prev => !prev);
 };
@@ -60,15 +72,14 @@ const handleTogglePassword = () => {
         phone: phone
       };
       await patchWithdraw(data);
-  
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
-
-  }, []);
+  const handleLogOut = () => {
+    setShowModal(true);
+  }
 
   return (
     <>
@@ -130,7 +141,16 @@ const handleTogglePassword = () => {
           value={phone} onChange={(e) => setPhone(e.target.value)}/>
             <BtSection mgtop={"40px"} mgbtm={"20px"} width={"380px"}>
                 <CancelBt>취소</CancelBt>
-                <SaveBt onClick={handleWithdraw}>탈퇴</SaveBt>
+                <SaveBt onClick={handleLogOut}>탈퇴</SaveBt>
+                {showModal && (
+            <>
+              <JoinPopUp
+                txt="회원 탈퇴 하셨습니다."
+                onConfirm={closeModal}
+              />
+              <ModalBackground></ModalBackground>
+            </>
+            )}
             </BtSection>
         </LoginBox>
     </>

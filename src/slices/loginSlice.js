@@ -47,6 +47,8 @@ const loginSlice = createSlice({
           setCookie("member", JSON.stringify(payload));
           sessionStorage.setItem('isLogin', 'true');
           return {...state, isLogin: true, iuser: payload.iuser }
+        } else {
+          console.log(payload.error);
         }
         return payload;
       })
