@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Common } from "../../styles/CommonStyles";
 import { getMyBuySell, getMyRental, getMyUser } from "../../api/my/my_api";
 import { useSelector } from "react-redux";
+import MyPopUp, { ModalBackground } from "./MyPopUp";
 
 const ProfileDiv = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const ProfileLeft = styled.div`
   height: 140px;
   align-items: center;
   border-right: 1px solid ${Common.color.p500};
+  cursor: pointer;
   h1 {
     font-weight: 400;
     margin-left: 2rem;
@@ -69,6 +71,14 @@ const ProfileRight = styled.div`
 const MyProfile = () => {
   const [result, setResult] = useState([]);
   const [data, setData] = useState([]);
+  const [showCheck, setShowCheck] = useState(false);
+
+  const handleshowCheck = () => {
+    setShowCheck(true);
+  }
+  const closeCheck = () => {
+    setShowCheck(false);
+  };
 
   const iuser = useSelector((state) => state.loginSlice.iuser);
 
@@ -92,14 +102,28 @@ const MyProfile = () => {
 
   return (
     <ProfileDiv>
-      <ProfileLeft>
+      <ProfileLeft onClick={handleshowCheck}>
         <ProfileImg>
-          <img src={`/pic/${result.storedPic}`} />
+          <img src={`/pic/${result.storedPic}`} alt="회원정보 보기"/>
         </ProfileImg>
         <div>
           <h1>{result.nick}</h1>
         </div>
       </ProfileLeft>
+      {showCheck && (
+            <>
+              <MyPopUp
+                title={"회원정보"}
+                txt={`
+                  주소: ${result.addr} 
+                  전화번호: ${result.phone}
+                  이메일: ${result.email}
+                `}
+                onConfirm={closeCheck}
+              />
+              <ModalBackground></ModalBackground>
+            </>
+            )}
       <ProfileRight>
         <div>
           <p>대여중 (구매)</p>

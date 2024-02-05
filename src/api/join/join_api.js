@@ -2,6 +2,7 @@ import axios from "axios";
 import { SERVER_URL } from "../config";
 
 // 회원가입
+
 export const joinPost = async ({obj}) => {
   try {
     const header = {headers: {"Content-Type": "multipart/form-data"}};
@@ -11,12 +12,15 @@ export const joinPost = async ({obj}) => {
       console.log({ ...res.data });
       // postSuccess(res.data);
       return res.data;
+
     } else {
       alert("데이터 전송에 실패했습니다.");
     }
   } catch (error) {
     console.log(error);
+
     // postFail();
+
   }
 };
 

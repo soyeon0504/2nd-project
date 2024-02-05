@@ -199,6 +199,8 @@ const JoinPage = () => {
   const [restAddress, setRestAddress] = useState("");
   const email = watch("email");
 
+
+
   const handleChangeAddress = e => {
     setAddress(e.target.value);
   };
@@ -281,11 +283,13 @@ const JoinPage = () => {
   const handleCancel = () => {
     navigate(`/login`);
   };
+
   // const JoinSave = e => {
   //   e.preventDefault();
   //   JoinAction();
   //   navigate(`/join/3`);
   // };
+
   const handleNotValid = e => {
     setCatchErr(true);
   };

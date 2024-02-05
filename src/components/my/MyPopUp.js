@@ -11,41 +11,44 @@ background: rgba(0, 0, 0, 0.5);
 z-index: 999;
 `
 
-const JoinPopUp = ({ txt, onConfirm }) => {
-  const JoinPopUp = styled.div`
+const MyPopUp = ({ title,txt, onConfirm }) => {
+  const MyPopUp = styled.div`
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
 
-    width: 300px;
-    height: 180px;
+    width: 320px;
+    height: 300px;
     display: flex;
 
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
-
     border-radius: 10px;
     border: 1px solid #2c39b5;
     background: #fff;
+    h1 {
+        font-size: 25px;
+    }
     b {
       color: #000;
-      text-align: center;
+      text-align: left;
       font-size: 20px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      white-space: pre-line;
     }
     button {
+        margin-top: 30px;
       width: 100px;
       height: 50px;
       border-radius: 5px;
       border: none;
       background: #2c39b5;
-      cursor: pointer;
+        cursor: pointer;
       color: #fff;
       font-size: 20px;
       font-style: normal;
@@ -55,11 +58,12 @@ const JoinPopUp = ({ txt, onConfirm }) => {
   `;
 
   return (
-    <JoinPopUp>
+    <MyPopUp>
+        <h1>{title}</h1>
       <b>{txt}</b>
       <button onClick={onConfirm}>확인</button>
-    </JoinPopUp>
+    </MyPopUp>
   );
 };
 
-export default JoinPopUp;
+export default MyPopUp;

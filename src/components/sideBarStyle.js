@@ -38,7 +38,7 @@ export const Write = styled.button`
   width: 40px;
   height: 40px;
 
-  background: url("../images/main/plus.svg");
+  background: url("/images/main/plus.svg");
 
   background-repeat: no-repeat;
   border: none;
@@ -48,7 +48,7 @@ export const Chat = styled.button`
   width: 40px;
   height: 40px;
 
-  background: url("../images/main/chat.svg") center;
+  background: url("/images/main/chat.svg") center;
 
   background-repeat: no-repeat;
   border: none;
@@ -59,7 +59,7 @@ export const Like = styled.button`
   width: 40px;
   height: 40px;
 
-  background: url("../images/main/heart.svg");
+  background: url("/images/main/heart.svg");
 
   background-repeat: no-repeat;
   border: none;
@@ -69,7 +69,7 @@ export const Profile = styled.button`
   width: 40px;
   height: 40px;
 
-  background: url("../images/main/profile.svg");
+  background: url("/images/main/profile.svg");
 
   background-repeat: no-repeat;
   border: none;
@@ -79,7 +79,7 @@ export const Call = styled.button`
   width: 40px;
   height: 40px;
 
-  background: url("../images/main/phone.svg");
+  background: url("/images/main/phone.svg");
 
   background-repeat: no-repeat;
   border: none;

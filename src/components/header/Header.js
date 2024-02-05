@@ -164,7 +164,9 @@ const Header = ({ searchName, pageNum }) => {
               min={2}
               value={search}
             />
+
             <SearchBt ref={searchBtRef} onClick={e => onClickSearch(e)} type="button" />
+
           </SearchForm>
         </div>
         {isLogin ? (

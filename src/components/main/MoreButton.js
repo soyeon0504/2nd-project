@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MoreBt, MoreBtWrap } from "../../styles/main/mainStyle";
-import { getMoreProduct } from "../../api/main/mainMore_api";
 
 const MoreButton = ({ categoryId, subCategoryId, pageNum, title }) => {
   const navigate = useNavigate();
@@ -12,8 +11,6 @@ const MoreButton = ({ categoryId, subCategoryId, pageNum, title }) => {
       state: { title },
     });
   };
-  console.log(categoryId);
-  const [moreProductData, setMoreProductData] = useState([]); // 상품 데이터 상태 추가
 
   return (
     <MoreBtWrap>
