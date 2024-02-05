@@ -283,7 +283,9 @@ const Write = () => {
     // hook-form 의 전용함수 활용
     setValue("depositPer", v);
     // 아래는 값을 보관
-    setValueDeposit(prevValue => (prevValue > 50 ? prevValue - 10 : prevValue));
+    // setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : prevValue));
+
+    setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : 50));
   };
 
   const handleIncrease = () => {
@@ -333,6 +335,9 @@ const Write = () => {
     setValue("rentalStartDate", "");
     setValue("rentalEndDate", "");
   }, []);
+  useEffect(() => {
+    setBtData(btListPk[selectCate]);
+  }, [selectCate]);
 
   // 확인 버튼 선택시 실행
   const handleSubmitMy = async data => {
