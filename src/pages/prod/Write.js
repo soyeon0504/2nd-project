@@ -25,33 +25,35 @@ import {
   ProductImgBt,
   ProductImgMap,
   ProductImgMapBt,
+  Resets,
 } from "../../styles/productsStyle";
 import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
+
 //서버에서 돌려주는 값
-const initMoreData = {
-  mainPic: "", //메인 사진
-  pics: [""], //서브 사진
-  dto: {
-    title: "", //재목(50자 한정)
-    contents: "", // 내용 (1500자 제한)
-    addr: "", //주소
-    restAddr: "", // 나머지 주소
-    price: 0, //가격
-    rentalPrice: 0, //임대 가격
-    depositPer: 0, //보증금 비율
-    buyDate: "2024-01-31", //구매날짜
-    rentalStartDate: "2024-01-31", //임대시작
-    rentalEndDate: "2024-01-31", // 임대 종료
-    icategory: {
-      //카테고리숫자
-      mainCategory: 0, //메인카테고리
-      subCategory: 1, //하위 카테고리
-    },
-    inventory: 1, // 재고
-  },
-};
+// const initMoreData = {
+//   mainPic: "", //메인 사진
+//   pics: [""], //서브 사진
+//   dto: {
+//     title: "", //재목(50자 한정)
+//     contents: "", // 내용 (1500자 제한)
+//     addr: "", //주소
+//     restAddr: "", // 나머지 주소
+//     price: 0, //가격
+//     rentalPrice: 0, //임대 가격
+//     depositPer: 0, //보증금 비율
+//     buyDate: "2024-01-31", //구매날짜
+//     rentalStartDate: "2024-01-31", //임대시작
+//     rentalEndDate: "2024-01-31", // 임대 종료
+//     icategory: {
+//       //카테고리숫자
+//       mainCategory: 0, //메인카테고리
+//       subCategory: 1, //하위 카테고리
+//     },
+//     inventory: 1, // 재고
+//   },
+// };
 
 const btlist = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -71,7 +73,7 @@ const initState = {
   restAddr: "", // 나머지 주소
   price: "", //가격
   rentalPrice: "", //임대 가격
-  depositPer: "", //보증금 비율
+  depositPer: "50", //보증금 비율
 
   buyDate: "", //구매날짜
   rentalStartDate: "", //임대시작
@@ -88,38 +90,46 @@ const initState = {
 const validationSchema = yup.object({
   title: yup
     .string("내용을 입력하세요.")
+    .min(2, "2자 이상 입력하세요")
     .max(50, "50자까지만 입력하세요 ")
     .required("제목은 필수 입력 사항입니다."),
   contents: yup
     .string("내용을 입력하세요.")
+    .min(2, "2자 이상 입력하세요")
     .max(1500, "1500자까지만 입력하세요 ")
     .required("내용은 필수 입력 사항입니다."),
   price: yup
     .string("내용을 입력하세요.")
+    .min(3, "100원 이상 입력하세요")
     .required("가격은 필수 입력 사항입니다."),
   depositPer: yup
-    .string("내용을 입력하세요.")
+    .string("50% 이상 최대 100% 입력하세요.")
     .required("보증금은 필수 입력 사항입니다."),
   rentalPrice: yup
     .string("내용을 입력하세요.")
+    .min(3, "100원 이상 입력하세요")
+    // .max(10, "21억까지만 입력하세요 ")
     .required("하루대여 가격은 필수 입력 사항입니다."),
   inventory: yup
     .string("내용을 입력하세요.")
+    .min(1, "1개 이상 입력하세요")
     .required("소유 수량은 필수 입력 사항입니다."),
   buyDate: yup
     .string("내용을 입력하세요.")
     .required("제품 구매일은 필수 입력 사항입니다."),
   rentalStartDate: yup
     .string("내용을 입력하세요.")
-    .required("거래 시작날짜는 필수 입력 사항입니다."),
+    .required("거래 시작 날짜는 필수 입력 사항입니다."),
   rentalEndDate: yup
     .string("내용을 입력하세요.")
     .required(" / 거래 종료 날짜는 필수 입력 사항입니다."),
   addr: yup
-    .string("내용을 입력하세요.")
-    .required(" 주소는 필수 입력 사항입니다."),
+    .string("내용 입력하세요.")
+    .min(2, "주소를 입력하세요")
+    .required(" 거래 주소는 필수 입력 사항입니다."),
   restAddr: yup
     .string("내용을 입력하세요.")
+    .max(50, "50자까지만 입력하세요 ")
     .required(" 상세 주소는 필수 입력 사항입니다."),
   mainPic: yup
     .string("제품사진을 선택해주세요.")
@@ -225,7 +235,7 @@ const Write = () => {
     // 가장 마지막 이미지를 미리보기로 설정
     setUploadImgBefore(arr[arr.length - 1]);
   };
-
+  //버튼 감시자
   useEffect(() => {
     // console.log(imageBefore);
     setValue("mainPic", imageBefore[0]);
@@ -238,9 +248,8 @@ const Write = () => {
     setValue("icategory.subCategory", item + 1);
     setChangeBtn(item);
   };
+  //주메뉴 서브메뉴 연결설정
   const handleButtonClick = num => {
-    // console.log(num);
-
     setValue("icategory.mainCategory", num + 1);
     setValue("icategory.subCategory", 1);
     // 상태 업데이트
@@ -270,10 +279,10 @@ const Write = () => {
     }
   };
   const handleDecrease = () => {
-    const v = valueDeoposit > 50 ? valueDeoposit - 10 : valueDeoposit;
+    const v = valueDeoposit > 60 ? valueDeoposit - 10 : valueDeoposit;
     // hook-form 의 전용함수 활용
     setValue("depositPer", v);
-    // 아래는 값을 보관함.
+    // 아래는 값을 보관
     setValueDeposit(prevValue => (prevValue > 50 ? prevValue - 10 : prevValue));
   };
 
@@ -314,7 +323,7 @@ const Write = () => {
     setValue("rentalStartDate", dateStrings[0]);
     setValue("rentalEndDate", dateStrings[1]);
   };
-
+  //카테고리 변화 감시자
   useEffect(() => {
     setBtData(btListPk[selectCate]);
   }, [selectCate]);
@@ -389,7 +398,15 @@ const Write = () => {
     console.log("errorFn", result);
     // failPostDatas("/");
   };
-
+  const handleReset = () => {
+    setValue("depositPer", 50); // hook-form의 전용 함수를 사용하여 depositPer 값을 50으로 설정
+    setValueDeposit(50); // state 값을 50으로 설정
+  };
+  //취소 버튼시 메인으로
+  const quest = useNavigate();
+  const handleCancel = () => {
+    quest(`/`);
+  };
   return (
     <Layout>
       <SideBar />
@@ -399,6 +416,9 @@ const Write = () => {
         </div>
         <div>
           <form onSubmit={handleSubmit(handleSubmitMy)}>
+            <Resets type="reset" onClick={handleReset}>
+              초기화
+            </Resets>
             <ListDiv>
               <label htmlFor="img">
                 <p>사진</p>
@@ -612,13 +632,9 @@ const Write = () => {
                   <div className="controlBt">
                     <input
                       type="number"
-                      // value={value}
-                      // onChange={handleChange}
-                      // min="50"
-                      // max="100"
                       step="10"
                       {...register("depositPer")}
-                      placeholder="숫자만 입력 가능합니다"
+                      placeholder="버튼을 클릭 해주세요"
                       readOnly
                     />
                     <div>
@@ -627,14 +643,14 @@ const Write = () => {
                         className="upBt"
                         type="button"
                       >
-                        증가
+                        +
                       </button>
                       <button
                         onClick={handleDecrease}
                         className="downBt"
                         type="button"
                       >
-                        감소
+                        -
                       </button>
                     </div>
                     <span>%</span>
@@ -643,7 +659,10 @@ const Write = () => {
                   <div style={{ color: "red" }}>
                     {formState.errors.depositPer?.message}
                   </div>
-                  <p>50 ~ 100% 보증금</p>
+                  <p>
+                    보증금 50 ~ 100%
+                    <hr /> 10단위로 선택 가능합니다
+                  </p>
                 </div>
                 <div>
                   <div>
@@ -709,7 +728,6 @@ const Write = () => {
                 <p>거래 가능 날짜</p> <p>*</p>
               </label>
               <div>
-                {/* rentalStartDate  rentalEndDate   */}
                 <div
                   ref={calendarContainerRef}
                   style={{ position: "relative", overflow: "hidden" }}
@@ -742,7 +760,7 @@ const Write = () => {
             </ListDiv>
             <ListDiv direction={"column"}>
               <label htmlFor="adress">
-                <p>주소</p> <p>*</p>
+                <p>거래 주소</p> <p>*</p>
               </label>
               <div>
                 <input
@@ -754,10 +772,11 @@ const Write = () => {
                   id="adress"
                   readOnly
                 />
+
                 <div style={{ color: "red" }}>
                   {formState.errors.addr?.message}
                 </div>
-                {/* addr,restAddr */}
+
                 <input
                   placeholder="상세 주소를 입력해주세요."
                   {...register("restAddr")}
@@ -777,7 +796,7 @@ const Write = () => {
               </div>
             </ListDiv>
             <BtSection>
-              <CancelBt type="reset">취소</CancelBt>
+              <CancelBt onClick={handleCancel}>취소</CancelBt>
               <SaveBt type="submit">저장</SaveBt>
             </BtSection>
           </form>
