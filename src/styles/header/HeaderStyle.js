@@ -51,7 +51,7 @@ export const SearchWord = styled.input`
   line-height: 24px; /* 80% */
   letter-spacing: 0.5px;
 `;
-export const SearchBt = styled.input`
+export const SearchBt = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 100%;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { JoinHeader } from '../../styles/join/JoinFirstPageStyle'
 import { IdBox, LoginBox, PwBox } from '../../styles/login/LoginPageStyle'
-import { BtSection, CancelBt, JoinElementInput, SaveBt } from '../../styles/join/JoinPageStyle'
+import { BtSection, CancelBt,  SaveBt } from '../../styles/join/JoinPageStyle'
 import { patchWithdraw } from "../../api/my/my_api";
 import styled from '@emotion/styled';
 
@@ -52,17 +52,20 @@ const handleTogglePassword = () => {
   setShowPassword(prev => !prev);
 };
 
-  const [data, setData] = useState([]);
-
   const handleWithdraw = async () => {
     try {
-      let result = await patchWithdraw(id, password, phone);
-      console.log(result.data);
-      return result.data;
+      const data = {
+        uid: id,
+        upw: password,
+        phone: phone
+      };
+      await patchWithdraw(data);
+  
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
 
   }, []);
