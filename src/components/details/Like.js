@@ -4,6 +4,7 @@ import { getFav } from "../../api/details/details_api";
 
 function Like({ isLiked, productId }) {
   const [liked, setLiked] = useState(isLiked);
+
   const toggleLiked = (e) => {
     setLiked((prev) => !prev)
     e.stopPropagation()
@@ -17,6 +18,9 @@ function Like({ isLiked, productId }) {
   //     // console.error("Error toggling like:", error);
   //   }
   // };
+
+
+
 
   return (
     <StyledButton onClick={toggleLiked}>
