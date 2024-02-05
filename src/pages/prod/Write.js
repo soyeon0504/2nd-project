@@ -283,9 +283,9 @@ const Write = () => {
     // hook-form 의 전용함수 활용
     setValue("depositPer", v);
     // 아래는 값을 보관
-    // setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : prevValue));
+    setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : prevValue));
 
-    setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : 50));
+    // setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : 50));
   };
 
   const handleIncrease = () => {
