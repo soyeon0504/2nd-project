@@ -211,8 +211,41 @@ const JoinPage = () => {
   const email = watch("email");
 
   // 확인 버튼 선택시 실행
-  const handleSubmitJoin = data => {
-    console.log("최종 데이터 : ", data);
+  const handleSubmitJoin = async () => {
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          addr: address,
+          restAddr: restAddress,
+          uid: userId,
+          upw: password,
+          nick: nickname,
+          phone: phoneNumber,
+          email: email,
+          isValid: 2,
+          compCode: 0,
+          compNm: "string"
+        })
+      ],
+      {type: "application/json"}
+    )
+    formData.append("dto", dto);
+
+    if (uploadImgFile) {
+      const response = await fetch(uploadImg);
+      const blob = await response.blob();
+      const currentDate = new Date();
+      const seconds = Math.floor(currentDate.getTime() / 1000);
+      const file = new File([blob], `image${seconds}.jpg`, { type: "image/jpeg" });
+      
+      formData.append("pic", file);
+    }
+    try {
+      await joinPost({product: formData})
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChangeAddress = e => {
@@ -249,7 +282,8 @@ const JoinPage = () => {
   };
   const JoinSave = e => {
     e.preventDefault();
-    JoinAction();
+    // JoinAction();
+    handleSubmitJoin();
     // navigate(`/join/3`);
   };
   const handleNotValid = e => {

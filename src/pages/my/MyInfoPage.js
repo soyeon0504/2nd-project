@@ -21,14 +21,19 @@ import * as yup from "yup";
 import { getMyUser, putMyInfo } from '../../api/my/my_api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import JoinPopUp from '../../components/joinpopup/JoinPopUp';
+import JoinPopUp, { ModalBackground } from '../../components/joinpopup/JoinPopUp';
+import { useNavigate } from 'react-router';
+import { nickOverlapPost } from '../../api/join/join_api';
 
 const MyInfoPage = () => {
   const [data, setData] = useState([]);
   const [nickname, setNickname] = useState("");
   const [address, setAddress] = useState("");
   const [restAddress, setRestAddress] = useState("");
+  const [showCheck, setShowCheck] = useState(false);
+  const [phoneNumber, seetPhoneNumber] = useState("")
 
+  const navigate = useNavigate();
   // 유저 iuser 값 
   const iuser = useSelector((state) => state.loginSlice.iuser);
 
@@ -40,6 +45,7 @@ const MyInfoPage = () => {
         setUploadImgBefore(`/pic/${result.storedPic}`)
         setNickname(result.nick);
         setAddress(result.addr)
+        seetPhoneNumber(result.phone)
       } catch (error) {
         console.error(error);
       }
@@ -68,6 +74,39 @@ const handleChangeFileOne = e => {
 const handleNicknameChange = (e) => {
   setNickname(e.target.value);
 };
+
+ // 중복확인(닉네임)
+ const [nickOverlapConfirm, setNickOverlapConfirm] = useState(false);
+ const [nickOverlapFail, setNickOverlapFail] = useState(false);
+ const [nickConfirmModal, setNickConfirmModal] = useState(false);
+ const [nickFailModal, setNickFailModal] = useState(false);
+
+ const NickOverlap = () => {
+   const obj = {
+     div: 1,
+     uid: "userId123",
+     nick: nickname,
+   };
+   nickOverlapPost(obj, nickPostSuccess, nickPostFail);
+ };
+ const NickOverlapBt = e => {
+   e.preventDefault();
+   NickOverlap();
+ };
+ const nickPostSuccess = () => {
+   setNickOverlapConfirm(true);
+   setNickConfirmModal(true);
+ };
+ const closeNickConfirmModal = () => {
+   setNickConfirmModal(false);
+ };
+ const nickPostFail = () => {
+   setNickOverlapFail(true);
+   setNickFailModal(true);
+ };
+ const closeNickFailModal = () => {
+   setNickFailModal(false);
+ };
 
 // 비밀번호 보이기/감추기
 const [showPassword, setShowPassword] = useState(false);
@@ -100,10 +139,13 @@ const [modalOpen, setModalOpen] = useState(false);
   const handleChangeRestAddress = e => {
     setRestAddress(e.target.value);
   };
+  const handleChangePhoneNumber = e => {
+    seetPhoneNumber(e.target.value)
+  }
 
   const [catchErr, setCatchErr] = useState(false);
 
-const phoneRegExp = /^(\d{3})-(\d{4})-(\d{4})$/;
+
   const validationSchema = yup.object().shape({
     password: yup
       .string()
@@ -114,17 +156,12 @@ const phoneRegExp = /^(\d{3})-(\d{4})-(\d{4})$/;
       .string()
       .oneOf([yup.ref("password"), null], "비밀번호가 일치하지 않습니다.")
       .required("비밀번호 확인은 필수 입력 사항입니다."),
-    phoneNumber: yup
-      .string()
-      .matches(phoneRegExp, "전화번호가 올바르지 않습니다.")
-      .required("휴대폰 번호는 필수 입력 사항입니다."),
   });
 
   const { register, handleSubmit, formState, watch } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
-  const phoneNumber = watch("phoneNumber");
 
 
   // 휴대폰 번호 확인 버튼
@@ -135,6 +172,12 @@ const phoneRegExp = /^(\d{3})-(\d{4})-(\d{4})$/;
   const closeModal = () => {
     setShowModal(false);
   };
+  const closeCheck = () => {
+    setShowCheck(false);
+    navigate(`/my?rental`, { state: { selectedItem: "대여중" } });
+        sessionStorage.setItem('selectedItem', "대여중");
+  };
+
 
   useEffect(() => {
   }, [address]);
@@ -147,7 +190,7 @@ const handleConfirm = async () => {
       JSON.stringify({
         nick: nickname,
         upw: watch("password"),
-        phone: watch("phoneNumber"),
+        phone: phoneNumber,
         addr: address,
         restAddr: restAddress,
         compCode: 0,
@@ -172,6 +215,7 @@ const handleConfirm = async () => {
     }
     try {
       putMyInfo({product: formData});
+      setShowCheck(true);
     } catch (error) {
       console.error(error);
     }
@@ -179,6 +223,24 @@ const handleConfirm = async () => {
 
   return (
     <>
+    {nickConfirmModal && (
+                <>
+                  <JoinPopUp
+                    txt="사용 가능한 닉네임입니다."
+                    onConfirm={closeNickConfirmModal}
+                  />
+                  <ModalBackground></ModalBackground>
+                </>
+              )}
+              {nickFailModal && (
+                <>
+                  <JoinPopUp
+                    txt="이미 존재하는 닉네임입니다."
+                    onConfirm={closeNickFailModal}
+                  />
+                  <ModalBackground></ModalBackground>
+                </>
+              )}
         <JoinHeader mgtop={"0"} mgbtm={"20px"}>
           <p>회원정보 수정</p>
         </JoinHeader>
@@ -224,7 +286,18 @@ const handleConfirm = async () => {
                 value={nickname}
                 onChange={handleNicknameChange}
               />
-              <ConfirmBt>중복 확인</ConfirmBt>
+             <ConfirmBt onClick={NickOverlapBt} type="button">
+                  중복 확인
+                </ConfirmBt>
+              {catchErr && formState.errors.nickname && (
+                <InputValid>{formState.errors.nickname?.message}</InputValid>
+              )}
+              {catchErr &&
+                !nickOverlapConfirm &&
+                !formState.errors.nickname && (
+                  <InputValid>닉네임 중복 확인을 해주세요.</InputValid>
+                )}
+            
             </JoinElementInput>
           </JoinElement>
 
@@ -342,9 +415,8 @@ const handleConfirm = async () => {
                   type="text"
                   placeholder="예) 010-0000-0000"
                   name="phoneNumber"
-                  // value={phoneNumber}
-                  // onChange={handleChangePhoneNumber}
-                  {...register("phoneNumber")}
+                  value={phoneNumber}
+                  onChange={handleChangePhoneNumber}
                 />
                 <ConfirmBt onClick={phoneNumberConfirm} type="button">
                   휴대폰 인증
@@ -433,6 +505,15 @@ const handleConfirm = async () => {
           <BtSection mgtop={"50px"} mgbtm={"20px"}>
             <CancelBt type='reset'>취소</CancelBt>
             <SaveBt type="submit">저장</SaveBt>
+            {showCheck && (
+            <>
+              <JoinPopUp
+                txt="회원정보 수정이 완료되었습니다."
+                onConfirm={closeCheck}
+              />
+              <ModalBackground></ModalBackground>
+            </>
+            )}
         </BtSection>
         </JoinBox>
     </>

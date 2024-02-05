@@ -75,15 +75,14 @@ export const putMyInfo = async ({product}) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    failPostDatas("/");
+    // failPostDatas("/");
   }
 };
 
-export const patchWithdraw = async (uid,upw,phone) => {
+export const patchWithdraw = async (data) => {
   try {
-    const url = `${path2}/user?uid=${uid}&upw=${upw}&phone=${phone}`
-    const res = await jwtAxios.patch(url);
-    console.log(res.data);
+    const url = `${path2}/user`
+    const res = await jwtAxios.patch(url,data);
     return res.data;
   } catch (error) {
     console.log(error);
