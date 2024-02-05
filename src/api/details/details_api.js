@@ -11,7 +11,7 @@ const failPostDatas = () => {
 
 export const getProduct = async (mainicategory, subicategory, iproduct) => {
   try {
-    const url = `${path}/prod/${mainicategory}/${subicategory}/{iproduct}?iproduct=${iproduct}`;
+    const url = `${path}/prod/${mainicategory}/${subicategory}/${iproduct}`;
     const res = await jwtAxios.get(url);
 
     return res;
@@ -59,7 +59,7 @@ export const postProduct = async (
       rentalStartDate,
       rentalEndDate,
     };
-    const res = await jwtAxios.post(url, data); // 요청 시 필수값인 data를 함께 전달
+    const res = await jwtAxios.post(url, data);
     return res;
   } catch (error) {
     console.log(error);

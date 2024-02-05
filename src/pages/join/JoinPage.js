@@ -174,7 +174,7 @@ const JoinPage = () => {
       .required("닉네임은 필수 입력 사항입니다."),
     userId: yup
       .string()
-      .min(8, "8자 이상 입력하세요.")
+      .min(4, "4자 이상 입력하세요.")
       .max(15, "15자까지만 입력하세요 ")
       .required("아이디는 필수 입력 사항입니다."),
     password: yup
@@ -402,9 +402,9 @@ const JoinPage = () => {
               <JoinElementInput width="440px">
                 <input
                   type="text"
-                  minLength={8}
+                  minLength={4}
                   maxLength={15}
-                  placeholder="8~15자 이내"
+                  placeholder="4~15자 이내"
                   name="userId"
                   {...register("userId")}
                 />

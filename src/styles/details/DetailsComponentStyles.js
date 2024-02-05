@@ -3,15 +3,18 @@ import { Common } from "../CommonStyles";
 
 // Like styles
 export const StyledButton = styled.button`
+position: absolute;
+display: block;
+top: 12px;
+right: 12px;
   background: none;
   border: none;
   cursor: pointer;
-
+  
   img {
     width: 40px;
     height: 35px;
-    margin-top: 54px;
-    margin-right: 30px;
+
   }
 `;
 
@@ -216,7 +219,7 @@ export const ProfileImg = styled.div`
 `;
 
 export const ProfileName = styled.div`
-  width: 100px;
+  width: 120px;
   height: 20px;
   color: #000;
   font-size: 16px;

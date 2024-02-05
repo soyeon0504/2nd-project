@@ -5,27 +5,27 @@ import { jwtAxios } from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api`;
 
 const failPostDatas = () => {
-  // const navigate = useNavigate();
-  // navigate("/");
+  const navigate = useNavigate();
+  navigate("/");
 };
 
-export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sort) => {
+export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sortType) => {
   try {
-    // api/prod?sort=2&page=1&mc=1&sc=1
-    // const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
-    const url = `${path}/prod?sort=${sort}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
-    // /api/prod?page=1&mc=2&sc=1
+    let url;
+    if (sortType) url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    else url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     const res = await axios.get(url);
+
     return res.data;
   } catch (error) {
     console.log(error);
-    // failPostDatas("/");
+    failPostDatas("/");
   }
 };
 
 
 
-  
+
 export const postProduct = async () => {
   try {
     const res = await axios.post(`${path}`);

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../slices/loginSlice";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import MenuTab, { menuCate } from "./MenuTab";
+import MenuTab, { mainCate, subCate } from "./MenuTab";
 import { searchGet } from "../../api/header/header_api";
 
 
@@ -68,9 +68,6 @@ const Header = ({ searchName, pageNum }) => {
   };
   const handleMy = () => {
     navigate(`/my`);
-  };
-  const handleCate = () => {
-    navigate(`/main/more`);
   };
 
   // 스크롤 시 그림자 생성
@@ -145,7 +142,7 @@ const Header = ({ searchName, pageNum }) => {
       }
     >
       <HeaderTop>
-        <HeaderLogo onClick={handleLogo}>로고</HeaderLogo>
+      <HeaderLogo src="/images/logo.png" onClick={handleLogo}/>
         <div className="header-search">
           <SearchForm>
             <SearchWord
@@ -183,7 +180,7 @@ const Header = ({ searchName, pageNum }) => {
         </HeaderMainMenu>
 
         <CategoryTab>
-          {menuCate.map(item => (
+          {mainCate.map(item => (
             <MainCate
               key={item.title}
               onMouseEnter={() => handleCategoryHover(item.title)}
@@ -201,14 +198,14 @@ const Header = ({ searchName, pageNum }) => {
               </MainCateTitle>
               {activeCategory === item.title && (
                 <SubCate>
-                  {item.list.map(listItem => (
+                  {subCate[item.id - 1].map(listItem => (
                     <li
                       key={listItem.id}
-                      onClick={handleCate}
-                      onMouseEnter={() => handleSubCateHover(listItem.cate)}
+                      onClick={() => navigate(`/more/${item.id}/${listItem.id}/1`)}
+                      onMouseEnter={() => handleSubCateHover(listItem.title)}
                       onMouseLeave={handleSubCateLeave}
                       style={
-                        activeSubCate === listItem.cate
+                        activeSubCate === listItem.title
                           ? {
                               color: "#2C39B5",
                               fontWeight: "500",
@@ -217,7 +214,7 @@ const Header = ({ searchName, pageNum }) => {
                           : {}
                       }
                     >
-                      {listItem.cate}
+                      {listItem.title}
                     </li>
                   ))}
                 </SubCate>

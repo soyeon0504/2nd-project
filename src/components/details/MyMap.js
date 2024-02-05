@@ -3,10 +3,6 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const MyMap = ({ x, y }) => {
   const [position, setPosition] = useState({ lat: y, lng: x });
-  //   const [position, setPosition] = useState({
-  //   lat: 37.556579695929415,
-  //   lng: 126.9237369839583,
-  // });
 
   useEffect(() => {
     if (navigator.geolocation) {

@@ -34,29 +34,17 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
     }
   };
 
-  
+
   // const navigate = useNavigate(`/details/`);
   const handlePageChange = _item => {
-    const url = `/details/${id}/${focus+1}/${_item.iproduct}`
-    console.log("wowo", _item);
+    const url = `/details/${id}/${focus + 1}/${_item.iproduct}`
     const serverData = {
       mainCategoryId: id,
       subCategoryId: focus + 1,
       iproduct: _item.iproduct,
     };
-    console.log(serverData);
     const res = getProductDetail(serverData);
     navigate(url);
-    console.log(res);
-
-    // 02-01 소연 팀장 전달
-    // const location = useLocation();
-    // console.log(location);
-    // const { state } = location;
-    // console.log(state);
-    // 페이지 변경 시 주소값을 업데이트하고 해당 페이지로 이동
-    // navigate(`/more/${id}/${params.id}?page=${page}`);
-    // 페이지 번호 업데이트
   };
 
   return (
@@ -141,7 +129,6 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
             subCategoryId={focus + 1}
             pageNum={1}
             title={btList[focus].title}
-            onClick={handlePageChange}
           />
         </div>
       </div>

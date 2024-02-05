@@ -2,33 +2,28 @@ import React, { useState } from "react";
 import { StyledButton } from "../../styles/details/DetailsComponentStyles";
 import { getFav } from "../../api/details/details_api";
 
-function Like({ productId }) {
-  const [liked, setLiked] = useState(false);
-
-  const toggleLike = async () => {
-    try {
-      // 상태 업데이트를 이전 값에 의존하지 않도록 함수형 업데이트를 사용합니다.
-      setLiked(prevLiked => !prevLiked);
-
-      // 찜 상태에 따라 API를 호출하여 찜 기능을 처리합니다.
-      if (!liked) {
-        await getFav(productId);
-        console.log("Added to favorites");
-      } else {
-        await getFav(productId);
-        console.log("Added to favorites");
-      }
-    } catch (error) {
-      console.error("Error toggling like:", error);
-    }
-  };
+function Like({ isLiked, productId }) {
+  const [liked, setLiked] = useState(isLiked);
+  const toggleLiked = (e) => {
+    setLiked((prev) => !prev)
+    e.stopPropagation()
+  }
+  // const toggleLike = async () => {
+  //   try {
+  //     // 상태 업데이트를 이전 값에 의존하지 않도록 함수형 업데이트를 사용합니다.
+  //     setLiked(prevLiked => !prevLiked);
+  //     await getFav(productId);
+  //   } catch (error) {
+  //     // console.error("Error toggling like:", error);
+  //   }
+  // };
 
   return (
-    <StyledButton onClick={toggleLike}>
+    <StyledButton onClick={toggleLiked}>
       {liked ? (
-        <img src="images/details/like_full.svg" alt="풀 하트" />
+        <img src="/images/details/like_full.svg" alt="풀 하트" />
       ) : (
-        <img src="images/details/like.svg" alt="빈 하트" />
+        <img src="/images/details/like.svg" alt="빈 하트" />
       )}
     </StyledButton>
   );

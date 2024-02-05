@@ -7,15 +7,16 @@ export const FooterStyle = styled.div`
   border-top: 1px solid #f2f2ff;
 `;
 export const FooterTop = styled.div`
+text-align: start;
   width: 1300px;
   margin: 0 auto;
   height: 70px;
   padding-top: 30px;
 `;
-export const FooterLogo = styled.div`
-  width: 200px;
-  height: 40px;
-  background-color: #d9d9d9;
+export const FooterLogo = styled.img`
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
 `;
 export const FooterMain = styled.div`
   width: 1300px;
