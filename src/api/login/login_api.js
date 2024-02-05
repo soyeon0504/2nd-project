@@ -28,19 +28,19 @@ export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
 };
 
 // 아이디 찾기
-export const idPost = async(obj, setUserList) => {
+export const idPost = async (obj, setUserList) => {
   try {
     // const url = `${SERVER_URL}/api/user/id`
-    const res = await axios.post(`${SERVER_URL}/api/user/id`, obj)
-    
+    const res = await axios.post(`${SERVER_URL}/api/user/id`, obj);
+
     const resStatus = res.status.toString();
-    if(resStatus.charAt(0) === "2" ){
-      setUserList({ ...res.data })
-    } else{
-      alert("데이터 전송에 실패했습니다.")
+    if (resStatus.charAt(0) === "2") {
+      setUserList({ ...res.data });
+    } else {
+      alert("데이터 전송에 실패했습니다.");
     }
     // fnc([...res.data])
   } catch (error) {
-    console.log("error")
+    console.log("error");
   }
-}
+};

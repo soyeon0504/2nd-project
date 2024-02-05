@@ -1,16 +1,15 @@
-// DetailsPage.js
-
 import React, { useState, useEffect } from "react";
 import Layout from "../../layouts/Layout";
 import MyMap from "../../components/details/MyMap";
 import Profile from "../../components/details/Profile";
-import { getProduct } from "../../api/details/details_api";
+import { getProduct, deleteProduct } from "../../api/details/details_api";
 import Calendar from "../../components/details/Calendar";
 import Like from "../../components/details/Like";
 import SellerProfile from "../../components/details/SellerProfile";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Pay from "../../components/details/Pay";
+import { useSelector } from "react-redux";
 import {
   SubContainer,
   PageWrapper,
@@ -54,13 +53,32 @@ import {
   PayContainer,
 } from "../../styles/details/DetailsPageStyles";
 
+const UserDetails = ({ userId, currentUserId, onDelete }) => {
+  const isCurrentUser = userId === currentUserId;
+
+  return isCurrentUser ? (
+    <span
+      onClick={onDelete}
+      style={{
+        cursor: "pointer",
+        fontSize: "15px",
+        marginLeft: "520px",
+        marginTop: "-40px",
+        position: "absolute",
+      }}
+    >
+      삭제
+    </span>
+  ) : null;
+};
+
 const DetailsPage = () => {
   const [showPayModal, setShowPayModal] = useState(false);
   const [productData, setProductData] = useState(null);
-  const [rentalDays, setRentalDays] = useState(1); // 기본값으로 1일 설정
+  const [rentalDays, setRentalDays] = useState(1);
   const [paymentData, setPaymentData] = useState({
     rentPrice: 0,
-    rentalDays: 1, // 기본값으로 1일 설정
+    rentalDays: 1,
     deposit: 0,
   });
   const [rentalStartDate, setRentalStartDate] = useState(null);
@@ -68,17 +86,29 @@ const DetailsPage = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const { mainCategory, subCategory, productId } = useParams();
+  const iuser = useSelector(state => state.loginSlice.iuser);
 
-  // URL에서 매개변수 추출
   const togglePayModal = () => {
     setShowPayModal(!showPayModal);
+  };
+
+  const handleDeleteProduct = async () => {
+    const confirmDelete = window.confirm("삭제 하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        await deleteProduct(productId);
+        console.log("Product deleted successfully");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    }
   };
 
   const handleDateSelect = (startDate, endDate) => {
     setRentalStartDate(startDate);
     setRentalEndDate(endDate);
     const timeDiff = Math.abs(new Date(endDate) - new Date(startDate));
-    const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1; // 시작일을 포함하여 계산
+    const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
     setRentalDays(days);
 
     const rentPrice = productData.rentalPrice || 0;
@@ -103,6 +133,7 @@ const DetailsPage = () => {
 
     fetchData();
   }, [mainCategory, subCategory, productId]);
+
   if (!productData) {
     return <div>Loading...</div>;
   }
@@ -120,14 +151,17 @@ const DetailsPage = () => {
           <Box>
             <Title>
               <ContentWrapper>{productData.title}</ContentWrapper>
+              <UserDetails
+                userId={productData.iuser}
+                currentUserId={iuser}
+                onDelete={handleDeleteProduct}
+              />
               <SellerProfile
                 sellerName={productData.nick}
                 profileImage={`/pic/${productData.userPic}`}
                 iuser={productData.iuser}
-                iauth={productData.iauth}
               />
             </Title>
-
             <PriceContainer>
               <Price>{productData.rentalPrice.toLocaleString()} 원</Price>
               <RentalText>일일대여가</RentalText>
@@ -162,6 +196,7 @@ const DetailsPage = () => {
               </BtnChat>
               <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
             </Container>
+
             {showPayModal && (
               <Box visible={showPayModal} onCancel={togglePayModal}>
                 <Pay
@@ -178,8 +213,6 @@ const DetailsPage = () => {
         </SubContainer>
         <MainContainer>
           <ProductContent>상품내용</ProductContent>
-          {/* 렌탈가능일 : {productData.rentalStartDate}~{" "}
-          {productData.rentalEndDate} */}
         </MainContainer>
 
         <MiniContainer>
@@ -195,9 +228,8 @@ const DetailsPage = () => {
                 </HeaderText>
                 <BodyText>
                   판매자가 별도의 메신저로 결제링크를 보내거나
-                  직거래(직접송금)을
-                  <br />
-                  유도하는 경우 사기일 가능성이 높으니 거래를 자제해 주시고
+                  직거래(직접송금)을 유도하는 경우 사기일 가능성이 높으니 거래를
+                  자제해 주시고
                 </BodyText>
                 <BodyText>
                   <RedText>고객센터</RedText>

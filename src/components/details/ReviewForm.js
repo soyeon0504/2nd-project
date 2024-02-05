@@ -1,8 +1,8 @@
-// ReviewForm.js
 import React, { useState } from "react";
 import Modal from "react-modal";
 import StarRating from "./StarRating";
 import styled from "@emotion/styled";
+import { postReview } from "../../api/details/details_api";
 
 const CancelButton = styled.button`
   width: 200px;
@@ -26,23 +26,26 @@ const CancelButton = styled.button`
 
 const SubmitButton = styled(CancelButton)``;
 
-const ReviewForm = ({ isOpen, onRequestClose, onSubmit }) => {
+const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
 
-  const handleRate = newRating => {
-    setRating(newRating);
-    // 리뷰나 별점이 입력되지 않은 경우, 제출되지 않도록 방지
+  const handleRate = async () => {
     if (rating === 0 || review.trim() === "") {
-      // alert("별점과 후기를 모두 입력해주세요.");
+      // 별점과 리뷰가 입력되지 않은 경우, 리뷰 전송을 방지
       return;
     }
-    onSubmit({ rating, contents: review });
-    // 제출 후 입력란 초기화
-    setRating(0);
-    setReview("");
-    // 모달 닫기 요청
-    onRequestClose();
+    try {
+      await postReview(ipayment, review, rating); // API 호출
+      // 제출 후 입력란 초기화
+      setRating(0);
+      setReview("");
+      // 모달 닫기 요청
+      onRequestClose();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      // 실패 시 처리
+    }
   };
 
   const handleClose = () => {
@@ -57,6 +60,7 @@ const ReviewForm = ({ isOpen, onRequestClose, onSubmit }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
+      ipayment={ipayment}
       contentLabel="Review Form"
       style={{
         overlay: {
@@ -80,7 +84,12 @@ const ReviewForm = ({ isOpen, onRequestClose, onSubmit }) => {
       }}
     >
       <h2>상품리뷰 작성</h2>
-      <form onSubmit={handleRate}>
+      <form
+        onSubmit={e => {
+          e.preventDefault(); // 기본 폼 제출 방지
+          handleRate();
+        }}
+      >
         <div
           style={{
             marginTop: "10px",
@@ -91,7 +100,7 @@ const ReviewForm = ({ isOpen, onRequestClose, onSubmit }) => {
           <StarRating
             totalStars={5}
             rating={rating}
-            onRate={handleRate}
+            onRate={setRating}
             isReviewing
           />
         </div>
