@@ -35,9 +35,11 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
   };
 
 
+
   // const navigate = useNavigate(`/details/`);
   const handlePageChange = _item => {
     const url = `/details/${id}/${focus + 1}/${_item.iproduct}`
+
     const serverData = {
       mainCategoryId: id,
       subCategoryId: focus + 1,

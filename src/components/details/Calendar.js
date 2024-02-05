@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { DatePicker } from "antd";
 import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
+import { getDisavled } from "../../api/details/details_api"; // getDisavled 함수 import
 
 const Calendar = ({ onDateSelect }) => {
   const [selectedDateRange, setSelectedDateRange] = useState([]); // 선택된 날짜 상태 추가
+  const [disabledDates, setDisabledDates] = useState([]); // 비활성화된 날짜 상태 추가
   const calendarContainerRef = useRef(null);
 
   const handleDateRangeChange = dates => {
@@ -29,7 +31,23 @@ const Calendar = ({ onDateSelect }) => {
   };
 
   useEffect(() => {
-    const handleScroll = () => {};
+    const fetchDisabledDates = async () => {
+      try {
+        const now = new Date();
+        const res = await getDisavled(/* pass parameters here */);
+        // Modify the response format to fit the disabledDate function
+        const disabledDates = res.data.map(date => new Date(date));
+        setDisabledDates(disabledDates);
+      } catch (error) {
+        console.error("Error fetching disabled dates:", error);
+      }
+    };
+
+    fetchDisabledDates();
+
+    const handleScroll = () => {
+      // Scroll handling logic here
+    };
 
     window.addEventListener("scroll", handleScroll);
 
@@ -37,6 +55,11 @@ const Calendar = ({ onDateSelect }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const disabledDate = current => {
+    // Disable dates that are in the disabledDates array
+    return disabledDates.some(date => current.isSame(date, "day"));
+  };
 
   return (
     <div
@@ -58,6 +81,7 @@ const Calendar = ({ onDateSelect }) => {
             <ArrowRightOutlined style={{ fontSize: "18px" }} />
           </span>
         }
+        disabledDate={disabledDate} // 비활성화된 날짜 설정
       />
     </div>
   );

@@ -23,7 +23,7 @@ export const getProduct = async (mainicategory, subicategory, iproduct) => {
 
 export const getUserInfo = async userpk => {
   try {
-    const url = `${path}user?=tar${userpk}`;
+    const url = `${path}/user?=tar${userpk}`;
     const res = await jwtAxios.get(url);
 
     return res;
@@ -36,6 +36,17 @@ export const getUserInfo = async userpk => {
 export const getFav = async iproduct => {
   try {
     const url = `${path}/prod/fav/${iproduct}`;
+    const res = await jwtAxios.get(url);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+export const getDisavled = async (iproduct, y, m) => {
+  try {
+    const url = `${path}/prod/disabled-date/${iproduct}?y=${y}&m=${m}`;
     const res = await jwtAxios.get(url);
 
     return res;
@@ -67,6 +78,17 @@ export const postProduct = async (
   }
 };
 
+export const postReview = async (ipayment, contents, rating) => {
+  try {
+    const url = `${path}/pay/riview?ipayment=${ipayment}&contents=${contents}&rating=${rating}`;
+    const res = await jwtAxios.post(url);
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
 export const putProduct = async () => {
   try {
     const res = await axios.put(`${path}`);
@@ -87,9 +109,32 @@ export const patchProduct = async () => {
   }
 };
 
-export const deleteProduct = async () => {
+export const Reviepatch = async (ireview, contents, rating) => {
   try {
-    const res = await axios.delete(`${path}`);
+    const url = `${path}/pay/review?ireview?=${ireview}&contents=${contents}&rating=${rating}`;
+    const res = await jwtAxios.patch(url);
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
+export const deleteProduct = async iproduct => {
+  try {
+    const url = `${path}/prod/${iproduct}?div=1`;
+    const res = await jwtAxios.delete(url);
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
+export const Reviewdelete = async rev => {
+  try {
+    const url = `${path}/pay/review?rev=${rev}`;
+    const res = await jwtAxios.delete(url);
     return res;
   } catch (error) {
     console.log(error);

@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 
-const ChatBoxWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
+const ChatBoxWrapper = styled.div``;
 
 const ChatBoxContainer = styled.div`
-  flex: 1;
-  display: flex;
   flex-direction: column;
-  position: relative;
 `;
 
 const ChatBoxContent = styled.div`
@@ -26,6 +19,7 @@ const ChatBoxContent = styled.div`
 const NoChatSelectedMessage = styled.p`
   font-size: 16px;
   text-align: center;
+  width: 600px;
 `;
 
 const ChatInput = styled.input`
@@ -58,6 +52,7 @@ const ProfileName = styled.p`
 `;
 
 const ChatMessage = styled.div`
+  position: relative;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 10px;
@@ -89,7 +84,10 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
   const handleKeyPress = e => {
     if (e.key === "Enter" && inputMessage.trim() !== "") {
       // Send message when Enter key is pressed and input message is not empty
-      const newMessage = { text: inputMessage, isSender: true }; // New message object
+      const newMessage = {
+        text: inputMessage,
+        isSender: true,
+      }; // New message object
       setChatMessages([...chatMessages, newMessage]); // Add new message to chatMessages
       setInputMessage(""); // Clear input after sending message
     }
