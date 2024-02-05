@@ -86,7 +86,10 @@ const MenuTab = () => {
             {subCate[item.id - 1].map(listItem => (
               <li
                 key={listItem.id}
-                onClick={() => navigate(`/more/${item.id}/${listItem.id}/1`)}
+                onClick={() => {
+                  navigate(`/more/${item.id}/${listItem.id}/1`);
+                  window.location.reload(); // 페이지 이동 후 화면 갱신
+                }}
                 onMouseEnter={() => handleCategoryHover(listItem.title)}
                 onMouseLeave={handleCategoryLeave}
                 style={

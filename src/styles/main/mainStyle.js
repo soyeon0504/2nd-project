@@ -24,35 +24,12 @@ export const MainWrap = styled.div`
     border-radius: 5px;
   }
   .mySwiper {
-    top: 40px;
+    margin-top: 40px;
     width: 1260px;
-    >div {
+    > div {
       cursor: pointer;
     }
-    .like {
-      position: absolute;
-      border: none;
-      right: 20px;
-      top: -40px;
-      z-index: 1000000;
-      width: 30px;
-      height: 30px;
-      background-repeat: no-repeat;
-    /* &:hover {
-      background-image: url("../images/main/like_full.svg");
-      cursor: pointer;
-    } */
-    button {
-      width: 30px;
-      height: 30px;
-      border: none;
-      background: transparent;
-    }
-    img {
-      width: 30px;
-      height: 30px;
-    }
-    }
+    
     .desc-wrap {
       line-height: 30px;
       text-align: left;

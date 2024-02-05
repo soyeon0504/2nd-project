@@ -127,6 +127,7 @@ export const ProductImgBt = styled.button`
 `;
 export const ProductImgMap = styled.div`
   display: flex;
+  margin-left: 100px;
   flex-wrap: wrap !important;
   width: 500px;
   img {

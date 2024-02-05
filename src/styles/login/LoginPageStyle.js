@@ -7,11 +7,15 @@ export const LoginPageStyle = styled.div`
   /* background: skyblue; */
   padding-bottom: 120px;
 `;
-export const Logo = styled.div`
+export const LogoZone = styled.div`
+width: 100%;
+text-align: center;
+`;
+export const Logo = styled.img`
   margin: 0px auto 40px auto;
-  width: 200px;
-  height: 40px;
-  background-color: #d9d9d9;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
 `;
 export const LoginBox = styled.div`
   margin: 0 auto;
