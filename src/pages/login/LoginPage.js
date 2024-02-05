@@ -9,6 +9,7 @@ import {
   LoginBt,
   LoginPageStyle,
   Logo,
+  LogoZone,
   PwBox,
 } from "../../styles/login/LoginPageStyle";
 import useCustomLogin from "../../hooks/useCustomLogin";
@@ -94,10 +95,12 @@ const LoginPage = () => {
   return (
     <Layout>
       <LoginPageStyle>
-        <Logo>로고</Logo>
+        <LogoZone>
+          <Logo src="/images/logo.png" />
+        </LogoZone>
         <LoginBox>
           <p>
-            000 에 오신 것을 환영합니다!
+            Billy에 오신 것을 환영합니다!
             <br />
             로그인 하시면 더욱 다양한 상품들을 대여할 수 있습니다.
           </p>

@@ -36,9 +36,9 @@ import {
 const JoinPage = () => {
   // 중복확인(닉네임)
   const [nickOverlapConfirm, setNickOverlapConfirm] = useState(false);
-  const [nickOverlapFail, setNickOverlapFail] = useState(false);
   const [nickConfirmModal, setNickConfirmModal] = useState(false);
   const [nickFailModal, setNickFailModal] = useState(false);
+  const [nickNullModal, setNickNullModal] = useState(false);
 
   const NickOverlap = () => {
     const obj = {
@@ -60,18 +60,23 @@ const JoinPage = () => {
     setNickConfirmModal(false);
   };
   const nickPostFail = () => {
-    setNickOverlapFail(true);
     setNickFailModal(true);
   };
   const closeNickFailModal = () => {
     setNickFailModal(false);
   };
+  const nickNullBt = () => {
+    setNickNullModal(true);
+  };
+  const closeNickNullBt = () => {
+    setNickNullModal(false);
+  };
 
   // 중복확인(아이디)
   const [idOverlapConfirm, setIdOverlapConfirm] = useState(false);
-  const [idOverlapFail, setIdOverlapFail] = useState(false);
   const [idConfirmModal, setIdConfirmModal] = useState(false);
   const [idFailModal, setIdFailModal] = useState(false);
+  const [idNullModal, setIdNullModal] = useState(false);
   const IdOverlap = () => {
     const obj = {
       div: 2,
@@ -92,34 +97,18 @@ const JoinPage = () => {
     setIdConfirmModal(false);
   };
   const idPostFail = () => {
-    setIdOverlapFail(true);
     setIdFailModal(true);
   };
   const closeIdFailModal = () => {
     setIdFailModal(false);
   };
-
-  // 데이터 연동(회원가입)
-  const JoinAction = () => {
-    const obj = {
-      addr: address,
-      restAddr: restAddress,
-      uid: userId,
-      upw: password,
-      nick: nickname,
-      pic: photo,
-      phone: phoneNumber,
-      email: email,
-    };
-    joinPost(obj, postSuccess, postFail);
+  const idNullBt = () => {
+    setIdNullModal(true);
+  };
+  const closeIdNullBt = () => {
+    setIdNullModal(false);
   };
 
-  const postSuccess = () => {
-    alert("회원가입 성공");
-  };
-  const postFail = () => {
-    alert("서버 불안정");
-  };
 
   // 이미지 업로드
   const [uploadImg, setUploadImg] = useState(
@@ -210,59 +199,13 @@ const JoinPage = () => {
   const [restAddress, setRestAddress] = useState("");
   const email = watch("email");
 
-  // 확인 버튼 선택시 실행
-  const handleSubmitJoin = async () => {
-    const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          addr: address,
-          restAddr: restAddress,
-          uid: userId,
-          upw: password,
-          nick: nickname,
-          phone: phoneNumber,
-          email: email,
-          isValid: 2,
-          compCode: 0,
-          compNm: "string"
-        })
-      ],
-      {type: "application/json"}
-    )
-    formData.append("dto", dto);
 
-    if (uploadImgFile) {
-      const response = await fetch(uploadImg);
-      const blob = await response.blob();
-      const currentDate = new Date();
-      const seconds = Math.floor(currentDate.getTime() / 1000);
-      const file = new File([blob], `image${seconds}.jpg`, { type: "image/jpeg" });
-      
-      formData.append("pic", file);
-    }
-    try {
-      await joinPost({product: formData})
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleChangeAddress = e => {
     setAddress(e.target.value);
   };
   const handleChangeRestAddress = e => {
     setRestAddress(e.target.value);
-  };
-
-  const [catchErr, setCatchErr] = useState(false);
-  const handleConfirm = e => {
-    e.preventDefault();
-    if (uploadImgFile === null || address === "" || !formState.isValid) {
-      setCatchErr(true);
-    } else {
-      navigate(`/join/3`);
-    }
   };
 
   // 휴대폰 번호 확인 버튼
@@ -274,18 +217,79 @@ const JoinPage = () => {
     setShowPhoneModal(false);
   };
 
+  // 데이터 연동(회원가입)
+  const handleSubmitJoin = async () => {
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          nick: nickname,
+          uid: userId,
+          upw: password,
+          phone: phoneNumber,
+          addr: address,
+          restAddr: restAddress,
+          email: email,
+          isValid: 2
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
+
+    if (uploadImgFile) {
+      console.log(uploadImgFile);
+      const response = await fetch(uploadImg);
+      const blob = await response.blob();
+      const currentDate = new Date();
+      const seconds = Math.floor(currentDate.getTime() / 1000);
+      const file = new File([blob], `image${seconds}.jpg`, {
+        type: "image/jpeg",
+      });
+
+      formData.append("pic", file);
+    }
+    try {
+      joinPost({obj: formData});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // const JoinAction = () => {
+  //   const obj = {
+  //     addr: address,
+  //     restAddr: restAddress,
+  //     uid: userId,
+  //     upw: password,
+  //     nick: nickname,
+  //     pic: photo,
+  //     phone: phoneNumber,
+  //     email: email,
+  //   };
+  //   joinPost(obj, postSuccess, postFail);
+  // };
+
+  // const postSuccess = () => {
+  //   alert("회원가입 성공");
+  // };
+  // const postFail = () => {
+  //   alert("서버 불안정");
+  // };
+
   // 취소 & 저장 버튼
+  const [catchErr, setCatchErr] = useState(false);
   const navigate = useNavigate();
 
   const handleCancel = () => {
     navigate(`/login`);
   };
-  const JoinSave = e => {
-    e.preventDefault();
-    // JoinAction();
-    handleSubmitJoin();
-    // navigate(`/join/3`);
-  };
+
+  // const JoinSave = e => {
+  //   e.preventDefault();
+  //   JoinAction();
+  //   navigate(`/join/3`);
+  // };
+
   const handleNotValid = e => {
     setCatchErr(true);
   };
@@ -304,9 +308,15 @@ const JoinPage = () => {
       {nickFailModal && (
         <>
           <JoinPopUp
-            txt="이미 존재하는 닉네임입니다."
+            txt="사용할 수 없는 닉네임입니다."
             onConfirm={closeNickFailModal}
           />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+      {nickNullModal && (
+        <>
+          <JoinPopUp txt="닉네임을 입력해주세요." onConfirm={closeNickNullBt} />
           <ModalBackground></ModalBackground>
         </>
       )}
@@ -323,9 +333,15 @@ const JoinPage = () => {
       {idFailModal && (
         <>
           <JoinPopUp
-            txt="이미 존재하는 아이디입니다."
+            txt="사용할 수 없는 아이디입니다."
             onConfirm={closeIdFailModal}
           />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+      {idNullModal && (
+        <>
+          <JoinPopUp txt="4글자 이상 입력해주세요." onConfirm={closeIdNullBt} />
           <ModalBackground></ModalBackground>
         </>
       )}
@@ -379,7 +395,7 @@ const JoinPage = () => {
                 <input
                   type="file"
                   {...register("photo")}
-                  accept="image/*"
+                  accept="image/png, image/gif, image/jpeg"
                   onClick={() => {
                     document.getElementById("img").click();
                   }}
@@ -412,9 +428,15 @@ const JoinPage = () => {
                   name="nickname"
                   {...register("nickname")}
                 />
-                <ConfirmBt onClick={NickOverlapBt} type="button">
-                  중복 확인
-                </ConfirmBt>
+                {!nickname ? (
+                  <ConfirmBt onClick={nickNullBt} type="button">
+                    중복 확인
+                  </ConfirmBt>
+                ) : (
+                  <ConfirmBt onClick={NickOverlapBt} type="button">
+                    중복 확인
+                  </ConfirmBt>
+                )}
               </JoinElementInput>
               {catchErr && formState.errors.nickname && (
                 <InputValid>{formState.errors.nickname?.message}</InputValid>
@@ -442,9 +464,15 @@ const JoinPage = () => {
                   name="userId"
                   {...register("userId")}
                 />
-                <ConfirmBt onClick={IdOverlapBt} type="button">
-                  중복 확인
-                </ConfirmBt>
+                {!userId || userId.length < 4 ? (
+                  <ConfirmBt onClick={idNullBt} type="button">
+                    중복확인
+                  </ConfirmBt>
+                ) : (
+                  <ConfirmBt onClick={IdOverlapBt} type="button">
+                    중복 확인
+                  </ConfirmBt>
+                )}
               </JoinElementInput>
               <InputValid>{formState.errors.userId?.message}</InputValid>
               {catchErr && !idOverlapConfirm && !formState.errors.userId && (
@@ -586,7 +614,7 @@ const JoinPage = () => {
               )}
             </JoinElementInputBox>
           </JoinElement>
-          
+
           <BtSection mgtop="90px" mgbtm="0px">
             <CancelBt onClick={handleCancel}>취소</CancelBt>
             {formState.isValid &&
@@ -595,9 +623,7 @@ const JoinPage = () => {
             restAddress &&
             nickOverlapConfirm &&
             idOverlapConfirm ? (
-              <SaveBt onClick={JoinSave} type="button">
-                저장
-              </SaveBt>
+              <SaveBt type="submit">저장</SaveBt>
             ) : (
               <SaveBt onClick={handleNotValid}>저장</SaveBt>
             )}

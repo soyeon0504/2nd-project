@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IdBox, LoginBox, Logo } from "../../styles/login/LoginPageStyle";
+import { IdBox, LoginBox, Logo, LogoZone } from "../../styles/login/LoginPageStyle";
 import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
 import styled from "@emotion/styled";
 import { idPost } from "../../api/login/login_api";
@@ -40,7 +40,9 @@ const IdFind = ({ closeModal }) => {
 
   return (
     <IdFindStyle>
-      <Logo>로고</Logo>
+    <LogoZone>
+      <Logo src="/images/logo.png" style={{marginBottom: "20px"}}/>
+    </LogoZone>
       <LoginBox height={"340px"} mgbtm={"50px"}>
         {!userList.uid && confirmClick ? (
           <p

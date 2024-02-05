@@ -26,6 +26,15 @@ import { searchGet } from "../../api/header/header_api";
 const Header = ({ searchName, pageNum }) => {
   // 검색 데이터 연동
   const [search, setSearch] = useState("");
+  const searchWordRef = useRef(null);
+  const searchBtRef = useRef(null);
+  const handleKeyDown = (e) => {
+    // 키 다운 이벤트 처리 함수
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchBtRef.current.click(); // SearchBt 클릭 이벤트 호출
+    }
+  };
   const handleChangeSearch = e => {
     setSearch(e.target.value);
   };
@@ -44,6 +53,7 @@ const Header = ({ searchName, pageNum }) => {
 
     const url = `/search`;
     navigate(url, { state: { result } });
+    window.location.reload();
 
   };
 
@@ -146,13 +156,17 @@ const Header = ({ searchName, pageNum }) => {
         <div className="header-search">
           <SearchForm>
             <SearchWord
+            ref={searchWordRef}
               onChange={e => handleChangeSearch(e)}
+              onKeyDown={handleKeyDown}
               type="text"
               placeholder="검색어를 입력해주세요."
               min={2}
               value={search}
             />
-            <SearchBt onClick={e => onClickSearch(e)} type="submit" />
+
+            <SearchBt ref={searchBtRef} onClick={e => onClickSearch(e)} type="button" />
+
           </SearchForm>
         </div>
         {isLogin ? (
@@ -201,7 +215,10 @@ const Header = ({ searchName, pageNum }) => {
                   {subCate[item.id - 1].map(listItem => (
                     <li
                       key={listItem.id}
-                      onClick={() => navigate(`/more/${item.id}/${listItem.id}/1`)}
+                      onClick={() => {
+                        navigate(`/more/${item.id}/${listItem.id}/1`);
+                        window.location.reload(); // 페이지 이동 후 화면 갱신
+                      }}
                       onMouseEnter={() => handleSubCateHover(listItem.title)}
                       onMouseLeave={handleSubCateLeave}
                       style={
