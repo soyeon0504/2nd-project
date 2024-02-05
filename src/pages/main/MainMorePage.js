@@ -108,7 +108,7 @@ const MainMorePage = () => {
   const parseMainCategory = parseInt(urlParseArr[3]);
   const parseSubCategory = parseInt(urlParseArr[4]);
 
-  const navigate = useNavigate();
+
 
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
