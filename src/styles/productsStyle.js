@@ -11,17 +11,57 @@ export const PriceDiv = styled.div`
   width: 86rem;
   input {
     width: 20rem !important;
+    margin-right: 8px;
   }
   span {
     margin-left: 5px;
+    margin-top: 5px;
     font-size: 1.8rem;
   }
   p {
     display: block;
     padding-top: 5px;
-    width: 20rem;
+    width: 21rem;
     text-align: center;
     font-size: 1.4rem;
+  }
+  .controlBt {
+    display: flex;
+  }
+
+  .upBt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 20px;
+    background-color: #2c39b5;
+    border: 1px solid #3946be;
+    color: #fff;
+    border: none;
+    border-radius: 5px 5px 0px 0px;
+    cursor: pointer;
+    font-size: 1.8rem;
+  }
+  .upBt:active {
+    background-color: #89cdff;
+    color: #2c39b5;
+  }
+  .downBt {
+    width: 36px;
+    height: 20px;
+    background-color: #2c39b5;
+
+    color: #fff;
+    border: none;
+    border-radius: 0px 0px 5px 5px;
+    cursor: pointer;
+    font-size: 1.8rem;
+  }
+  .downBt:active {
+    background-color: #89cdff;
+    color: #fff;
   }
 `;
 
@@ -60,7 +100,6 @@ export const ListDiv = styled.div`
       border: 1px solid ${Common.color.primary};
       color: #000;
       font-size: 1.6rem;
-    
     }
     input.showSpinner {
       width: 20rem;
@@ -68,6 +107,7 @@ export const ListDiv = styled.div`
   }
   textarea {
     width: 86rem;
+    resize: none;
     height: 28rem;
     border-radius: 5px;
     border: 1px solid ${Common.color.primary};
@@ -93,6 +133,23 @@ export const BtWrap = styled.div`
   font-weight: 400;
   border-radius: 5px;
   border: 1px solid ${Common.color.primary};
+`;
+export const Resets = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+  background: #2c39b5;
+  border: none;
+  cursor: pointer;
+  margin-left: 1104px;
+  color: #fff;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 // 주 카테고리
 export const BtnColor = styled.button`
@@ -130,6 +187,7 @@ export const ProductImgMap = styled.div`
   margin-left: 100px;
   flex-wrap: wrap !important;
   width: 500px;
+  margin-left: 20px;
   img {
     width: 9rem;
     height: 9rem;
