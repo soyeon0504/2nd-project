@@ -52,6 +52,7 @@ import {
   TotalPrice,
   PayContainer,
 } from "../../styles/details/DetailsPageStyles";
+import { SideBar } from "../../components/SideBar";
 
 const UserDetails = ({ userId, currentUserId, onDelete }) => {
   const isCurrentUser = userId === currentUserId;
@@ -140,6 +141,7 @@ const DetailsPage = () => {
 
   return (
     <Layout>
+      <SideBar />
       <PageWrapper>
         <SubContainer>
           <BoxImg>
