@@ -3,18 +3,16 @@ import { Common } from "../CommonStyles";
 
 // Like styles
 export const StyledButton = styled.button`
-position: absolute;
-display: block;
-top: 12px;
-right: 12px;
+  display: block;
+  margin-top: 50px;
+  right: 12px;
   background: none;
   border: none;
   cursor: pointer;
-  
+
   img {
     width: 40px;
     height: 35px;
-
   }
 `;
 

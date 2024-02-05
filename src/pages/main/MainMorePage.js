@@ -5,7 +5,6 @@ import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
-import Like from "../../components/details/Like";
 
 const region = [
   {
@@ -119,25 +118,29 @@ const MainMorePage = () => {
 
   const fetchData = async (pageNum, _sortType) => {
     try {
-      const res = await getMoreProduct(pageNum, parseMainCategory, parseSubCategory, _sortType);
-      setDatas(res)
-      console.log(res)
+      const res = await getMoreProduct(
+        pageNum,
+        parseMainCategory,
+        parseSubCategory,
+        _sortType,
+      );
+      setDatas(res);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
   };
 
-
   const handleRegionChange = e => {
     const regionIndex = region.findIndex(item => item.title === e.target.value);
-    setRegionNum(regionIndex)
-    setDistrictNum(0)
+    setRegionNum(regionIndex);
+    setDistrictNum(0);
   };
 
-  const regionFilter = (e) => {
+  const regionFilter = e => {
     const selectedRegion = e.target.value;
-    const districtIndex = region[regionNum].list.indexOf(selectedRegion)
-    setDistrictNum(districtIndex)
+    const districtIndex = region[regionNum].list.indexOf(selectedRegion);
+    setDistrictNum(districtIndex);
   };
 
   const handlePageChange = _tempPage => {
@@ -151,10 +154,14 @@ const MainMorePage = () => {
   }, [pageNum, sortType]);
 
   useEffect(() => {
-    const regionData = datas.filter((item) => item.addr.includes(region[regionNum].title.slice(0, 2)))
-    const districtData = regionData.filter((item) => item.addr.includes(region[regionNum].list[districtNum]))
-    setFilterData(districtData)
-  }, [districtNum, datas, regionNum])
+    const regionData = datas.filter(item =>
+      item.addr.includes(region[regionNum].title.slice(0, 2)),
+    );
+    const districtData = regionData.filter(item =>
+      item.addr.includes(region[regionNum].list[districtNum]),
+    );
+    setFilterData(districtData);
+  }, [districtNum, datas, regionNum]);
 
   return (
     <Layout>
@@ -181,7 +188,10 @@ const MainMorePage = () => {
                   );
                 })}
               </select>
-              <select onChange={(e) => regionFilter(e)} value={region[regionNum].list[districtNum]}>
+              <select
+                onChange={e => regionFilter(e)}
+                value={region[regionNum].list[districtNum]}
+              >
                 {region[regionNum].list.map((item, index) => {
                   return <option key={`regionList${index}`}>{item}</option>;
                 })}
@@ -197,8 +207,12 @@ const MainMorePage = () => {
                 key={`MainMore-item-${index}`}
                 onClick={() => handlePageChange(item)}
               >
-                <img className="item-image" src={`/pic/${item.prodMainPic}`} alt="제품 이미지" />
-                <Like productId={item.iproduct} />
+                <img
+                  className="item-image"
+                  src={`/pic/${item.prodMainPic}`}
+                  alt="제품 이미지"
+                />
+
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>

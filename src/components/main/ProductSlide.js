@@ -10,7 +10,7 @@ import {
   SlideBtWrap,
 } from "../../styles/main/SlideButton";
 import { BtWrap } from "../../styles/main/mainStyle";
-import Like from "../details/Like";
+
 import MoreButton from "./MoreButton";
 
 const ProductSlide = ({ btList, title, desc, id, data }) => {
@@ -34,11 +34,9 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
     }
   };
 
-
-
   // const navigate = useNavigate(`/details/`);
   const handlePageChange = _item => {
-    const url = `/details/${id}/${focus + 1}/${_item.iproduct}`
+    const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
 
     const serverData = {
       mainCategoryId: id,
@@ -89,9 +87,6 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
             productData.map((item, index) => (
               <SwiperSlide key={`cameraSlide${index}`}>
                 <div onClick={() => handlePageChange(item)}>
-                  <div className="like">
-                    <Like productId={productData.iproduct} />
-                  </div>
                   <img src={`/pic/${item.prodMainPic}`} alt="" />
                   <div className="desc-wrap">
                     <span className="desc-title">{item.title}</span>
