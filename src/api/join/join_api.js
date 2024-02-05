@@ -36,13 +36,13 @@ export const nickOverlapPost = async (
     if (resStatus.charAt(0) === "2") {
       console.log({ ...res.data });
       nickPostSuccess(res.data);
-    } else if (res.status == 427) {
-      nickPostFail();
+    // } else if (res.status == 427) {
+    //   nickPostFail();
     } else {
       alert("데이터 전송에 실패했습니다.");
     }
   } catch (error) {
-    console.log(error);
+    nickPostFail();
   }
 };
 
@@ -58,12 +58,12 @@ export const idOverlapPost = async (
     if (resStatus.charAt(0) === "2") {
       console.log({ ...res.data });
       idPostSuccess(res.data);
-    } else if (res.status == 432) {
-      idPostFail();
+    // } else if (res.status == 432) {
+    //   idPostFail();
     } else {
       alert("데이터 전송에 실패했습니다.");
     }
   } catch (error) {
-    console.log(error);
+    idPostFail();
   }
 };

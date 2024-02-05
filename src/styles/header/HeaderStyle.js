@@ -19,7 +19,7 @@ export const HeaderTop = styled.div`
   width: 1300px;
 `;
 export const HeaderLogo = styled.img`
-  width: 60px;
+  width: 80px;
   height: 60px;
   background-color: transparent;
   cursor: pointer;

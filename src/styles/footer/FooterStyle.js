@@ -14,7 +14,7 @@ text-align: start;
   padding-top: 30px;
 `;
 export const FooterLogo = styled.img`
-  width: 50px;
+  width: 60px;
   height: 50px;
   background-color: transparent;
 `;
