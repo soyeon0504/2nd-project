@@ -7,6 +7,7 @@ import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
+import { getProductDetail } from "../../api/main/main_api"; // API 호출 함수 import
 
 const region = [
   {
@@ -107,7 +108,7 @@ const MainMoreSearchPage = () => {
   const { state } = location;
   //   console.log("state : ", state.result);
 
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 가져오기
+  const navigate = useNavigate();
   // 중분류 값
   const [id, setId] = useState(0);
   // 페이지 번호
@@ -119,32 +120,6 @@ const MainMoreSearchPage = () => {
   const [datas, setDatas] = useState(state.result);
   // 지역 선택 관리
   const [regionNum, setRegionListNum] = useState(0);
-
-  // 02-01 소연
-  useEffect(() => {
-    // if(params.id){
-    //   fetchData(params.id)
-    // }
-    const fetchData = async () => {
-      try {
-        // const res = await getMoreProduct(parseMainCategory, id, pageNum); // API 호출
-        // // console.log(pageNum);
-        // // setMoreProductData(res); // 데이터 설정
-        // console.log(res);
-        // // 반드시 API 확인 필요
-        // if (res) {
-        //   setDatas(res);
-        // } else {
-        //   // 샘플진행
-        //   setDatas(initData);
-        // }
-      } catch (error) {
-        // console.log(error);
-      }
-    };
-    // console.log(datas);
-    fetchData();
-  }, [id, pageNum]);
 
   const handleRegionChange = e => {
     const regionIndex = region.findIndex(item => item.title === e.target.value);
@@ -163,6 +138,21 @@ const MainMoreSearchPage = () => {
 
   //추후 초기 값 세팅 필요
   useEffect(() => {}, []);
+
+  // details 페이지로 이동
+  const handlePageChangeDetails = _item => {
+    const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+    console.log("wowo", _item);
+    const serverData = {
+      mainCategoryId: _item.categories.mainCategory,
+      subCategoryId: _item.categories.subCategory,
+      iproduct: _item.iproduct,
+    };
+    console.log(serverData);
+    const res = getProductDetail(serverData);
+    navigate(url);
+    console.log(res);
+  };
 
   return (
     <Layout>
@@ -200,7 +190,13 @@ const MainMoreSearchPage = () => {
         <div className="main-wrap">
           {datas &&
             datas.map((item, index) => (
-              <div className="item-wrap" key={`MainMore-item-${index}`}>
+              <div
+                className="item-wrap"
+                key={`MainMore-item-${index}`}
+                onClick={() => {
+                  handlePageChangeDetails(item);
+                }}
+              >
                 <img src={`/pic/${item.prodMainPic}`} alt="" />
                 <div className="like">
                   <Like productId={item.iproduct} />

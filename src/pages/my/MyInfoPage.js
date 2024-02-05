@@ -51,7 +51,6 @@ const MyInfoPage = () => {
  const [uploadImgBefore, setUploadImgBefore] = useState(
   `${process.env.PUBLIC_URL}/images/join/join_img.svg`
 );
-const [fileCount, setFileCount] = useState(0);
 const [uploadImgBeforeFile, setUploadImgBeforeFile] = useState(null);
 const handleChangeFileOne = e => {
   const file = e.target.files[0];
@@ -61,7 +60,6 @@ const handleChangeFileOne = e => {
     setUploadImgBefore(tempUrl); // 미리보기 끝
     // FB 파일을 보관
     setUploadImgBeforeFile(file); // 파일 1개 추가 끝
-    setFileCount(prev => prev + 1); // 파일 추가 되었어요.
   }
 };
 
