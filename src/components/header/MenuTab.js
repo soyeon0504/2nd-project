@@ -86,6 +86,7 @@ const MenuTab = () => {
             {subCate[item.id - 1].map(listItem => (
               <li
                 key={listItem.id}
+                title={listItem.title}
                 onClick={() => {
                   navigate(`/more/${item.id}/${listItem.id}/1`,{ state: { title: listItem.title }});
                   window.location.reload(); // 페이지 이동 후 화면 갱신

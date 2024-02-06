@@ -186,6 +186,15 @@ const MainMoreSearchPage = () => {
 
   const searchValue = sessionStorage.getItem('searchValue');
 
+//   // URL에서 검색어 매개변수 추출
+//   const [search, setSearch] = useState("");
+//   useEffect(() => {
+//     const searchParams = new URLSearchParams(location.search);
+//     const searchParam = searchParams.get("search");
+//     setSearch(searchParam);
+//   }, [location]);
+
+
   return (
     <Layout>
       <SideBar />
@@ -237,9 +246,7 @@ const MainMoreSearchPage = () => {
                   src={`/pic/${item.prodMainPic}`}
                   alt=""
                 />
-                {/* <div className="like">
-                  <Like productId={item.iproduct} />
-                </div> */}
+                
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>

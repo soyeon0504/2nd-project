@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
@@ -150,7 +151,7 @@ const MainMorePage = () => {
     setPageNum(_tempPage);
   };
 
-  // 02-01 소연
+  // 02-01 소연 
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
     else fetchData(pageNum);
@@ -188,7 +189,6 @@ const MainMorePage = () => {
         <div className="header-wrap">
           <div className="header-cate-wrap">
             <div>{state && state.title ? state.title : "Default Title"}</div>
-            {/* <div>{datas.length}개</div> */}
           </div>
           <div>
             <div className="bt-wrap">

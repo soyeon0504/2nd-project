@@ -10,7 +10,7 @@ export const HeaderStyle = styled.div`
   width: 100vw;
   text-align: center;
   padding-bottom: 15px;
-  height: 180px;
+  height: 155px;
 `;
 export const HeaderTop = styled.div`
   margin: 30px auto;
@@ -20,8 +20,8 @@ export const HeaderTop = styled.div`
   width: 1300px;
 `;
 export const HeaderLogo = styled.img`
-  width: 120px;
-  height: 80px;
+  width: 90px;
+  height: 60px;
   background-color: transparent;
   cursor: pointer;
 `;

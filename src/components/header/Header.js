@@ -67,6 +67,14 @@ const Header = ({ searchName, pageNum }) => {
     console.log("검색 서버에러", result);
   };
 
+    // URL에서 검색어 매개변수 추출
+    const [searchWord, setSearchWord] = useState("");
+    useEffect(() => {
+      const searchParams = new URLSearchParams(location.search);
+      const searchParam = searchParams.get("search");
+      setSearchWord(searchParam);
+    }, [location]);
+
   // 페이지 이동
   const navigate = useNavigate();
   const handleLogo = () => {
@@ -162,7 +170,7 @@ const Header = ({ searchName, pageNum }) => {
               onChange={e => handleChangeSearch(e)}
               onKeyDown={handleKeyDown}
               type="text"
-              placeholder="검색어를 입력해주세요."
+              placeholder={"검색어를 입력해주세요."}
               min={2}
               value={search}
             />
@@ -217,6 +225,7 @@ const Header = ({ searchName, pageNum }) => {
                   {subCate[item.id - 1].map(listItem => (
                     <li
                       key={listItem.id}
+                      title={listItem.title}
                       onClick={() => {
                         navigate(`/more/${item.id}/${listItem.id}/1`, { state: { title: listItem.title }});
                         window.location.reload(); // 페이지 이동 후 화면 갱신
