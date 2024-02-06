@@ -51,7 +51,7 @@ const Header = ({ searchName, pageNum }) => {
   const successFn = result => {
     console.log("검색 성공", result);
 
-    const url = `/search`;
+    const url = `/search?search=${search}`;
     navigate(url, { state: { result } });
     window.location.reload();
 
@@ -64,6 +64,14 @@ const Header = ({ searchName, pageNum }) => {
   const errFn = result => {
     console.log("검색 서버에러", result);
   };
+
+    // URL에서 검색어 매개변수 추출
+    const [searchWord, setSearchWord] = useState("");
+    useEffect(() => {
+      const searchParams = new URLSearchParams(location.search);
+      const searchParam = searchParams.get("search");
+      setSearchWord(searchParam);
+    }, [location]);
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -160,7 +168,7 @@ const Header = ({ searchName, pageNum }) => {
               onChange={e => handleChangeSearch(e)}
               onKeyDown={handleKeyDown}
               type="text"
-              placeholder="검색어를 입력해주세요."
+              placeholder={"검색어를 입력해주세요."}
               min={2}
               value={search}
             />
@@ -215,8 +223,9 @@ const Header = ({ searchName, pageNum }) => {
                   {subCate[item.id - 1].map(listItem => (
                     <li
                       key={listItem.id}
+                      title={listItem.title}
                       onClick={() => {
-                        navigate(`/more/${item.id}/${listItem.id}/1`);
+                        navigate(`/more/1/${item.id}/${listItem.id}`);
                         window.location.reload(); // 페이지 이동 후 화면 갱신
                       }}
                       onMouseEnter={() => handleSubCateHover(listItem.title)}

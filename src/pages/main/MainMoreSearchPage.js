@@ -182,13 +182,21 @@ const MainMoreSearchPage = () => {
     console.log(res);
   };
 
+  // URL에서 검색어 매개변수 추출
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchParam = searchParams.get("search");
+    setSearch(searchParam);
+  }, [location]);
+
   return (
     <Layout>
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">
           <div className="header-cate-wrap">
-            <div>{state && state.title ? state.title : "Default Title"}</div>
+            <div>{search}</div>
             <div>{datas.length}개</div>
           </div>
           <div>
@@ -233,9 +241,7 @@ const MainMoreSearchPage = () => {
                   src={`/pic/${item.prodMainPic}`}
                   alt=""
                 />
-                {/* <div className="like">
-                  <Like productId={item.iproduct} />
-                </div> */}
+                
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>
