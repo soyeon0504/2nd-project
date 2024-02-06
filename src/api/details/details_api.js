@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtAxios } from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api`;
 
-const failPostDatas = () => {
+export const failPostDatas = () => {
   // const navigate = useNavigate();
   // navigate("/");
 };
@@ -133,7 +133,7 @@ export const deleteProduct = async iproduct => {
 
 export const Reviewdelete = async rev => {
   try {
-    const url = `${path}/pay/review?rev=${rev}`;
+    const url = `${path}/pay/review?rev=${1}`;
     const res = await jwtAxios.delete(url);
     return res;
   } catch (error) {

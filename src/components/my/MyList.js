@@ -11,6 +11,7 @@ import {
   MyListTop,
   MyListTopButton,
 } from "../../styles/my/MyList";
+import ReviewForm from "../details/ReviewForm";
 import MyMoreButton from "./MyMoreButton";
 import { getMyBuySell, getMyRental } from "../../api/my/my_api";
 import { Link } from "react-router-dom";
@@ -19,13 +20,20 @@ const MyList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(3);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const [selectedPaymentId, setSelectedPaymentId] = useState(null);
 
   const handleButtonClick = buttonType => {
     setActiveButton(buttonType);
   };
 
   const handleLoadMore = () => {
-    setViewMore((prevViewMore) => prevViewMore + 3);
+    setViewMore(prevViewMore => prevViewMore + 3);
+  };
+
+  const openReviewForm = paymentId => {
+    setSelectedPaymentId(paymentId);
+    setIsReviewFormOpen(true);
   };
 
   useEffect(() => {
@@ -55,12 +63,13 @@ const MyList = ({ activeBtn }) => {
   return (
     <MyListDiv>
       <MyListTop>
-        { activeBtn === "대여중" ? <h2>대여중</h2> : <h2>대여완료</h2>}
-          <div>
-            <MyListTopButton
+        {activeBt "대여중" ? <h2>대여중</h2> : <h2>대여완료</h2>}
+        <div>
+          <MyListTopButton
             selected={activeButton}
-              onClick={() => handleButtonClick(true)}
-            >
+
+            onClick={() => handleButtonClick(true)}
+          >
               구매
             </MyListTopButton>
             <MyListTopButton
@@ -92,7 +101,9 @@ const MyList = ({ activeBtn }) => {
                 </div>
               </MyListMidTxt>
               <MyListMidLast>
-                <p>더보기</p>
+                   <button onClick={() => openReviewForm(item.ipayment)}>
+                    리뷰 등록
+                  </button>
               </MyListMidLast>
             </MyListMid>
           </Link>
@@ -127,9 +138,17 @@ const MyList = ({ activeBtn }) => {
          )}
         </React.Fragment> 
       ))}
+
       <MyListBottom>
         <MyMoreButton handleLoadMore={handleLoadMore} />
       </MyListBottom>
+      {isReviewFormOpen && (
+        <ReviewForm
+          isOpen={isReviewFormOpen}
+          onRequestClose={() => setIsReviewFormOpen(false)}
+          ipayment={selectedPaymentId}
+        />
+      )}
     </MyListDiv>
   );
 };

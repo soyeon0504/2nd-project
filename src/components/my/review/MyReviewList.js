@@ -1,20 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListProfileImg, MyListTop, MyListTopButton, MyProfileDiv, MyStarDiv } from "../../../styles/my/MyList";
+import {
+  MyListBottom,
+  MyListDiv,
+  MyListMid,
+  MyListMidImg,
+  MyListMidLast,
+  MyListMidTxt,
+  MyListProfileImg,
+  MyListTop,
+  MyListTopButton,
+  MyProfileDiv,
+  MyStarDiv,
+} from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
 import { getMyReview, getProdReview } from "../../../api/my/my_api";
 import StarRatined from "../StarRatined";
 import styled from "@emotion/styled";
-import { get } from "react-hook-form";
 import { Link } from "react-router-dom";
-
+import { Reviewdelete } from "../../../api/details/details_api";
 
 const MyReviewList = ({ activeBtn }) => {
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(3);
 
   const handleLoadMore = () => {
-    setViewMore((prevViewMore) => prevViewMore + 3);
+    setViewMore(prevViewMore => prevViewMore + 3);
   };
+
+  const handleDeleteReview = async rev => {
+    try {
+      const response = await Reviewdelete(rev);
+      console.log("Review deleted successfully", response);
+      // Refresh the review list after deletion
+      fetchData();
+    } catch (error) {
+      console.error("Error deleting review", error);
+    }
+  };
+
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -28,18 +51,29 @@ const MyReviewList = ({ activeBtn }) => {
         setData(result);
       } catch (error) {
         console.error(error);
+
       }
+      setData(result);
+    } catch (error) {
+      console.error(error);
     }
+  };
+
+  useEffect(() => {
     fetchData();
-  },[activeBtn])
+  }, [activeBtn]);
 
   return (
     <MyListDiv>
       <MyListTop>
-        { activeBtn === "내 작성 후기" ? <h2>내 작성 후기</h2> : <h2>내 상품 후기</h2>}
-        <div>
-        </div>
+        {activeBtn === "내 작성 후기" ? (
+          <h2>내 작성 후기</h2>
+        ) : (
+          <h2>내 상품 후기</h2>
+        )}
+        <div></div>
       </MyListTop>
+
       {data && data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
           { activeBtn === "내 작성 후기" && item.icategory ? (
@@ -65,6 +99,12 @@ const MyReviewList = ({ activeBtn }) => {
                 <img src={`/pic/${item.loginedUserPic}`}/>
               </MyListProfileImg>
               <span>{item.nick}</span>
+                <button
+                    onClick={() => handleDeleteReview(item.rev)}
+                    style={{ color: "red" }}
+                  >
+                    리뷰삭제
+                  </button>
             </MyListMidLast>
           </MyListMid>
          </Link>
@@ -89,15 +129,27 @@ const MyReviewList = ({ activeBtn }) => {
             <MyListMidLast>
               <Link to={"/"}>
                 <p>내 상품 바로가기</p>
+                
               </Link>
+                <button
+                    onClick={() => handleDeleteReview(item.rev)}
+                    style={{ color: "red" }}
+                  >
+                    리뷰삭제
+                  </button>
             </MyListMidLast>
           </MyListMid>
           </Link>
          )}
         </React.Fragment> 
       ))}
+
       <MyListBottom>
-        <MyMoreButton handleLoadMore={handleLoadMore} display={"flex"} marginleft={"0px"}/>
+        <MyMoreButton
+          handleLoadMore={handleLoadMore}
+          display={"flex"}
+          marginleft={"0px"}
+        />
       </MyListBottom>
     </MyListDiv>
   );
