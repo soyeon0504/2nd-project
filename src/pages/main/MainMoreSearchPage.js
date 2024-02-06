@@ -136,6 +136,8 @@ const MainMoreSearchPage = () => {
     setPageNum(_tempPage);
   };
 
+  console.log(state);
+
   //추후 초기 값 세팅 필요
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
@@ -182,13 +184,24 @@ const MainMoreSearchPage = () => {
     console.log(res);
   };
 
+  const searchValue = sessionStorage.getItem('searchValue');
+
+//   // URL에서 검색어 매개변수 추출
+//   const [search, setSearch] = useState("");
+//   useEffect(() => {
+//     const searchParams = new URLSearchParams(location.search);
+//     const searchParam = searchParams.get("search");
+//     setSearch(searchParam);
+//   }, [location]);
+
+
   return (
     <Layout>
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">
-          <div className="header-cate-wrap">
-            <div>{state && state.title ? state.title : "Default Title"}</div>
+          <div className="header-cate-wrap" style={{ flexDirection: 'column' }}>
+            <div>검색어 : {searchValue}</div>
             <div>{datas.length}개</div>
           </div>
           <div>
@@ -233,9 +246,7 @@ const MainMoreSearchPage = () => {
                   src={`/pic/${item.prodMainPic}`}
                   alt=""
                 />
-                {/* <div className="like">
-                  <Like productId={item.iproduct} />
-                </div> */}
+                
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>

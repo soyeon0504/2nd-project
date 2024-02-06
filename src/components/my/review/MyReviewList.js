@@ -38,13 +38,20 @@ const MyReviewList = ({ activeBtn }) => {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      let result;
-      if (activeBtn === "내 작성 후기") {
-        result = await getMyReview(1);
-      } else if (activeBtn === "내 상품 후기") {
-        result = await getProdReview();
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        let result;
+        if (activeBtn === "내 작성 후기") {
+          result = await getMyReview(1);
+        } else if (activeBtn === "내 상품 후기") {
+          result = await getProdReview();
+        }
+        setData(result);
+      } catch (error) {
+        console.error(error);
+
       }
       setData(result);
     } catch (error) {
@@ -66,71 +73,77 @@ const MyReviewList = ({ activeBtn }) => {
         )}
         <div></div>
       </MyListTop>
-      {data &&
-        data.slice(0, viewMore).map((item, index) => (
-          <React.Fragment key={index}>
-            {activeBtn === "내 작성 후기" ? (
-              <MyListMid>
-                <MyListMidImg>
-                  <img src={`/pic/${item.prodPic}`} alt={item.title} />
-                </MyListMidImg>
-                <MyListMidTxt>
-                  <div>
-                    <h2>{item.title}</h2>
-                  </div>
-                  <MyStarDiv>
-                    <StarRatined totalStars={item.raiting} />
-                  </MyStarDiv>
-                  <div>
-                    <span>{item.contents}</span>
-                  </div>
-                </MyListMidTxt>
-                <MyListMidLast location={"center"} size={"1.2rem"}>
-                  <p>작성자</p>
-                  <MyListProfileImg>
-                    <img src={`/pic/${item.loginedUserPic}`} />
-                  </MyListProfileImg>
-                  <span>{item.nick}</span>
-                  <button
+
+      {data && data.slice(0, viewMore).map((item, index) => (
+        <React.Fragment key={index}>
+          { activeBtn === "내 작성 후기" && item.icategory ? (
+           <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+           <MyListMid>
+            <MyListMidImg>
+              <img src={`/pic/${item.prodPic}`} alt={item.title} />
+            </MyListMidImg>
+            <MyListMidTxt>
+              <div>
+                <h2>{item.title}</h2>
+              </div>
+              <MyStarDiv>
+                <StarRatined totalStars={item.raiting}/>
+              </MyStarDiv>
+              <div>
+                <span>{item.contents}</span>
+              </div>
+            </MyListMidTxt>
+            <MyListMidLast location={"center"} size={"1.2rem"}>
+              <p>작성자</p>
+              <MyListProfileImg>
+                <img src={`/pic/${item.loginedUserPic}`}/>
+              </MyListProfileImg>
+              <span>{item.nick}</span>
+                <button
                     onClick={() => handleDeleteReview(item.rev)}
                     style={{ color: "red" }}
                   >
                     리뷰삭제
                   </button>
-                </MyListMidLast>
-              </MyListMid>
-            ) : (
-              <MyListMid>
-                <MyProfileDiv>
-                  <p>작성자</p>
-                  <MyListProfileImg>
-                    <img src={`/pic/${item.userProfPic}`} />
-                  </MyListProfileImg>
-                  <span>{item.nick}</span>
-                </MyProfileDiv>
-                <MyListMidTxt>
-                  <MyStarDiv>
-                    <StarRatined totalStars={item.rating} />
-                  </MyStarDiv>
-                  <div>
-                    <span>{item.contents}</span>
-                  </div>
-                </MyListMidTxt>
-                <MyListMidLast>
-                  <Link to={"/"}>
-                    <p>내 상품 바로가기</p>
-                  </Link>
-                  <button
+            </MyListMidLast>
+          </MyListMid>
+         </Link>
+         ) : (
+          <Link to={`/details/${item.imainCategory}/${item.isubCategory}/${item.iproduct}`}>
+            <MyListMid>
+            <MyProfileDiv>
+              <p>작성자</p>
+              <MyListProfileImg>
+                <img src={`/pic/${item.userProfPic}`}/>
+              </MyListProfileImg>
+              <span>{item.nick}</span>
+            </MyProfileDiv>
+            <MyListMidTxt>
+              <MyStarDiv>
+              <StarRatined totalStars={item.rating}/>
+              </MyStarDiv>
+              <div>
+                <span>{item.contents}</span>
+              </div>
+            </MyListMidTxt>
+            <MyListMidLast>
+              <Link to={"/"}>
+                <p>내 상품 바로가기</p>
+                
+              </Link>
+                <button
                     onClick={() => handleDeleteReview(item.rev)}
                     style={{ color: "red" }}
                   >
                     리뷰삭제
                   </button>
-                </MyListMidLast>
-              </MyListMid>
-            )}
-          </React.Fragment>
-        ))}
+            </MyListMidLast>
+          </MyListMid>
+          </Link>
+         )}
+        </React.Fragment> 
+      ))}
+
       <MyListBottom>
         <MyMoreButton
           handleLoadMore={handleLoadMore}
