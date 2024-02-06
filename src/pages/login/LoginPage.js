@@ -39,27 +39,21 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
-  const handleClick = () => {
+  const handleClick = async () => {
     // dispatch(login(loginParam));
     // dispatch(loginPostAsync({ loginParam, successFn, failFn, errorFn }));
-    doLogin({ loginParam, successFn, failFn, errorFn });
-  };
-  const successFn = result => {
-    console.log("성공", result);
-    moveToPath("/");
-  };
-
-  const failFn = result => {
-    console.log("실패", result);
-    // alert("이메일 및 비밀번호 확인하세요.");
-    setShowModal(true);
+    try {
+      await doLogin({ loginParam, successFn, failFn, errorFn });
+    } catch (error) {
+      console.log("login error");
+    }
   };
 
-  const errorFn = result => {
-    console.log("서버 에러", result);
-    // openModal("비밀번호 에러", "비밀번호를 확인해주세요.", closeModal);
-    setShowModal(true);
-  };
+  // const errorFn = error => {
+  //   console.log("서버 에러", error);
+  //   // openModal("비밀번호 에러", "비밀번호를 확인해주세요.", closeModal);
+  //   setShowModal(true);
+  // };
 
   const closeModal = () => {
     setShowModal(false);
@@ -92,15 +86,74 @@ const LoginPage = () => {
     navigate(`/join/1`);
   };
 
+  const successFn = result => {
+    console.log("성공", result);
+    moveToPath("/");
+  };
+
+  const failFn = result => {
+    console.log("실패", result);
+    // alert("이메일 및 비밀번호 확인하세요.");
+    setShowModal(true);
+  };
+
+  const [idFail, setIdFail] = useState(false);
+  const [pwFail, setPwFail] = useState(false);
+  const [loginFail, setLoginFail] = useState(false);
+  const errorFn = error => {
+    console.log("서버 에러입니다.", error);
+
+    if (error.response && error.response.status === 456) {
+      setPwFail(true);
+    }
+    if (error.response && error.response.status === 455) {
+      setIdFail(true);
+    }
+
+    if (error.response && error.response.status === 400) {
+      setLoginFail(true);
+    }
+  };
+  const closeIdModal = () => {
+    setIdFail(false);
+  };
+  const closePwModal = () => {
+    setPwFail(false);
+  };
+  const closeLoginModal = () => {
+    setLoginFail(false);
+  };
+
   return (
     <Layout>
+      {idFail && (
+        <>
+          <JoinPopUp txt="아이디를 확인해주세요." onConfirm={closeIdModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+      {pwFail && (
+        <>
+          <JoinPopUp txt="비밀번호를 확인해주세요." onConfirm={closePwModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+      {loginFail && (
+        <>
+          <JoinPopUp
+            txt="로그인에 실패하였습니다."
+            onConfirm={closeLoginModal}
+          />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
       <LoginPageStyle>
         <LogoZone>
           <Logo src="/images/logo.svg" />
         </LogoZone>
         <LoginBox>
           <p>
-          <img src="/images/Billy.svg" style={{width:"50px"}}/>
+            <img src="/images/Billy.svg" style={{ width: "50px" }} />
             에 오신 것을 환영합니다!
             <br />
             로그인 하시면 더욱 다양한 상품들을 대여할 수 있습니다.

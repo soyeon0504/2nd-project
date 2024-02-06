@@ -24,6 +24,7 @@ const loadMemberCookie = () => {
 const loginSlice = createSlice({
   name: "loginSlice",
   initialState: loadMemberCookie() || initState,
+  
   reducers: {
     login: (state, action) => {
       console.log("login");

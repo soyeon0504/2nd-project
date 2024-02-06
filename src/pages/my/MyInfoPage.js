@@ -32,6 +32,7 @@ const MyInfoPage = () => {
   const [restAddress, setRestAddress] = useState("");
   const [showCheck, setShowCheck] = useState(false);
   const [phoneNumber, seetPhoneNumber] = useState("")
+  const [userDataReady, setUserDataReady] = useState(false);
 
   const navigate = useNavigate();
   // 유저 iuser 값 
@@ -46,6 +47,7 @@ const MyInfoPage = () => {
         setNickname(result.nick);
         setAddress(result.addr)
         seetPhoneNumber(result.phone)
+        setUserDataReady(true);
       } catch (error) {
         console.error(error);
       }
@@ -69,32 +71,43 @@ const handleChangeFileOne = e => {
   }
 };
 
-const handleNicknameChange = (e) => {
-  setNickname(e.target.value);
-};
-
  // 중복확인(닉네임)
  const [nickOverlapConfirm, setNickOverlapConfirm] = useState(false);
  const [nickOverlapFail, setNickOverlapFail] = useState(false);
  const [nickConfirmModal, setNickConfirmModal] = useState(false);
  const [nickFailModal, setNickFailModal] = useState(false);
 
- const NickOverlap = () => {
-   const obj = {
-     div: 1,
-     uid: "userId123",
-     nick: nickname,
-   };
-   nickOverlapPost(obj, nickPostSuccess, nickPostFail);
- };
- const NickOverlapBt = e => {
-   e.preventDefault();
-   NickOverlap();
- };
- const nickPostSuccess = () => {
-   setNickOverlapConfirm(true);
-   setNickConfirmModal(true);
- };
+ const NickOverlap = async () => {
+  const obj = {
+    div: 1,
+    uid: "userId123",
+    nick: nickname,
+  };
+  try {
+    const response = await nickOverlapPost(obj);
+    if (response.success) {
+      // 중복 확인 성공 시의 로직 추가
+      setNickOverlapConfirm(true);
+      setNickConfirmModal(true);
+    } else {
+      // 중복 확인 실패 시의 로직 추가
+      setNickOverlapFail(true);
+      setNickFailModal(true);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleNicknameChange = (e) => {
+  setNickname(e.target.value);
+};
+
+const handleNickOverlapClick = (e) => {
+  e.preventDefault();
+  NickOverlap();
+};
+
  const closeNickConfirmModal = () => {
    setNickConfirmModal(false);
  };
@@ -156,7 +169,7 @@ const [modalOpen, setModalOpen] = useState(false);
       .required("비밀번호 확인은 필수 입력 사항입니다."),
   });
 
-  const { register, handleSubmit, formState, watch } = useForm({
+  const { register, handleSubmit, formState, watch, reset } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
@@ -180,7 +193,26 @@ const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
   }, [address]);
 
+  const handleCancel = async () => {
+    try {
+      const result = await getMyUser(iuser);
+      setData(result);
+      setUploadImgBefore(`/pic/${result.storedPic}`);
+      setNickname(result.nick);
+      setAddress(result.addr);
+      seetPhoneNumber(result.phone);
+      setUserDataReady(true);
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
+  }; 
+
 const handleConfirm = async () => {
+  if(!userDataReady) {
+    return;
+  }
+  
   const formData = new FormData();
   
   const dto = new Blob(
@@ -191,8 +223,6 @@ const handleConfirm = async () => {
         phone: phoneNumber,
         addr: address,
         restAddr: restAddress,
-        compCode: 0,
-        compNm: "string",
         email: data.email
       })
     ],
@@ -242,7 +272,7 @@ const handleConfirm = async () => {
         <JoinHeader mgtop={"0"} mgbtm={"20px"}>
           <p>회원정보 수정</p>
         </JoinHeader>
-        <JoinBox margin={"0 auto 50px"} onSubmit={handleSubmit(handleConfirm)}>
+        <JoinBox margin={"0 auto 50px"}>
           <JoinElement>
             <JoinElementTxt>
               <p>사진</p>
@@ -284,7 +314,7 @@ const handleConfirm = async () => {
                 value={nickname}
                 onChange={handleNicknameChange}
               />
-             <ConfirmBt onClick={NickOverlapBt} type="button">
+             <ConfirmBt onClick={handleNickOverlapClick} type="button">
                   중복 확인
                 </ConfirmBt>
               {catchErr && formState.errors.nickname && (
@@ -501,8 +531,8 @@ const handleConfirm = async () => {
             </JoinElementInput>
           </JoinElement>
           <BtSection mgtop={"50px"} mgbtm={"20px"}>
-            <CancelBt type='reset'>취소</CancelBt>
-            <SaveBt type="submit">저장</SaveBt>
+            <CancelBt type="button" onClick={handleCancel}>취소</CancelBt>
+            <SaveBt type="button" onClick={handleSubmit(handleConfirm)}>저장</SaveBt>
             {showCheck && (
             <>
               <JoinPopUp

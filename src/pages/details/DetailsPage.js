@@ -9,6 +9,7 @@ import SellerProfile from "../../components/details/SellerProfile";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Pay from "../../components/details/Pay";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   SubContainer,
@@ -52,6 +53,7 @@ import {
   TotalPrice,
   PayContainer,
 } from "../../styles/details/DetailsPageStyles";
+import { SideBar } from "../../components/SideBar";
 
 const UserDetails = ({ userId, currentUserId, onDelete }) => {
   const isCurrentUser = userId === currentUserId;
@@ -87,7 +89,7 @@ const DetailsPage = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const { mainCategory, subCategory, productId } = useParams();
   const iuser = useSelector(state => state.loginSlice.iuser);
-
+  const navigate = useNavigate();
   const togglePayModal = () => {
     setShowPayModal(!showPayModal);
   };
@@ -98,6 +100,7 @@ const DetailsPage = () => {
       try {
         await deleteProduct(productId);
         console.log("Product deleted successfully");
+        navigate("/");
       } catch (error) {
         console.error("Error deleting product:", error);
       }
@@ -135,16 +138,18 @@ const DetailsPage = () => {
   }, [mainCategory, subCategory, productId]);
 
   if (!productData) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   return (
     <Layout>
+      <SideBar />
       <PageWrapper>
         <SubContainer>
           <BoxImg>
             <ProductImage
               src={`/pic/${productData.prodMainPic}`}
+              sub={`/pic/${productData.prodSubPics}`}
               alt="제품 이미지"
             />
           </BoxImg>

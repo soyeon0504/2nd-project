@@ -69,8 +69,8 @@ const initState = {
   pics: [],
   title: "", //재목(50자 한정)
   contents: "", // 내용 (1500자 제한)
-  addr: "", //주소
-  restAddr: "", // 나머지 주소
+  // addr: "", //주소
+  // restAddr: "", // 나머지 주소
   price: "", //가격
   rentalPrice: "", //임대 가격
   depositPer: "50", //보증금 비율
@@ -123,14 +123,14 @@ const validationSchema = yup.object({
   rentalEndDate: yup
     .string("내용을 입력하세요.")
     .required(" / 거래 종료 날짜는 필수 입력 사항입니다."),
-  addr: yup
-    .string("내용 입력하세요.")
-    .min(2, "주소를 입력하세요")
-    .required(" 거래 주소는 필수 입력 사항입니다."),
-  restAddr: yup
-    .string("내용을 입력하세요.")
-    .max(50, "50자까지만 입력하세요 ")
-    .required(" 상세 주소는 필수 입력 사항입니다."),
+  // addr: yup
+  //   .string("내용 입력하세요.")
+  //   .min(2, "주소를 입력하세요")
+  //   .required(" 거래 주소는 필수 입력 사항입니다."),
+  // restAddr: yup
+  //   .string("내용을 입력하세요.")
+  //   .max(50, "50자까지만 입력하세요 ")
+  //   .required(" 상세 주소는 필수 입력 사항입니다."),
   mainPic: yup
     .string("제품사진을 선택해주세요.")
     .required("제품사진은 최소 1개이상 필수 입력 사항입니다."),
@@ -162,6 +162,15 @@ const Write = () => {
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
+  const [address, setAddress] = useState("");
+  const [restAddress, setRestAddress] = useState("");
+  const handleChangeAddress = e => {
+    setAddress(e.target.value);
+  };
+  const handleChangeRestAddress = e => {
+    setRestAddress(e.target.value);
+  };
+
   const navigate = useNavigate();
   // 이미지 모음
   const [fileCount, setFileCount] = useState(0);
@@ -185,19 +194,19 @@ const Write = () => {
   const [inputValue, setInputValue] = useState("");
 
   // 주소 검색 모달창
-  const [calendarLocation, setCalendarLocation] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
+  const [addrModal, setAddrModal] = useState(false);
+
   const handleSelectAddress = data => {
-    const { address } = data;
-    // setFormData(prev => ({ ...prev, address })); // 주소를 직접 formData에 설정
-    setCalendarLocation(address);
-    setModalOpen(false);
+    const selectedAddress = data.address;
+    setAddress(selectedAddress);
+    setAddrModal(false);
+    console.log(address);
   };
   const handleClickButton = () => {
-    setModalOpen(true);
+    setAddrModal(true);
   };
   const handleCloseModal = () => {
-    setModalOpen(false);
+    setAddrModal(false);
   };
 
   const handleInputChangs = event => {
@@ -225,7 +234,7 @@ const Write = () => {
     // console.log(_index);
     // console.log(fileCount);
     if (fileCount === 1) {
-      alert("상품 이미지는 최소 1개가 있어야 합니다.");
+      alert("상품 대표 이미지는 최소 1개 이상 등록 하셔야 합니다.");
       return false;
     }
 
@@ -348,8 +357,8 @@ const Write = () => {
         JSON.stringify({
           title: data.title, //재목(50자 한정)
           contents: data.contents, // 내용 (1500자 제한)
-          addr: data.addr, //주소
-          restAddr: data.restAddr, // 나머지 주소
+          addr: address, //주소
+          restAddr: restAddress, // 나머지 주소
           price: data.price, //가격
           rentalPrice: data.rentalPrice, //임대 가격
           depositPer: data.depositPer, //보증금 비율
@@ -411,6 +420,11 @@ const Write = () => {
   const quest = useNavigate();
   const handleCancel = () => {
     quest(`/`);
+  };
+
+  const [catchErr, setCatchErr] = useState(false);
+  const handleNotValid = e => {
+    setCatchErr(true);
   };
   return (
     <Layout>
@@ -770,27 +784,35 @@ const Write = () => {
               <div>
                 <input
                   type="text"
-                  {...register("addr")}
-                  value={calendarLocation}
+                  // {...register("addr")}
+                  value={address}
                   placeholder="주소 검색을 해주세요."
                   onClick={handleClickButton}
                   id="adress"
                   readOnly
+                  onChange={handleChangeAddress}
                 />
 
-                <div style={{ color: "red" }}>
+                {catchErr && address === "" && (
+                  <div style={{ color: "red" }}>주소를 검색해주세요.</div>
+                )}
+                {/* <div style={{ color: "red" }}>
                   {formState.errors.addr?.message}
-                </div>
+                </div> */}
 
                 <input
+                  type="text"
+                  value={restAddress}
                   placeholder="상세 주소를 입력해주세요."
-                  {...register("restAddr")}
+                  // {...register("restAddr")}
+                  name="restAddress"
+                  onChange={handleChangeRestAddress}
                 />
                 <div style={{ color: "red" }}>
                   {formState.errors.restAddr?.message}
                 </div>
 
-                {modalOpen && (
+                {addrModal && (
                   <Modal handleClose={handleCloseModal}>
                     <DaumPostcode
                       onComplete={handleSelectAddress}
@@ -802,7 +824,11 @@ const Write = () => {
             </ListDiv>
             <BtSection>
               <CancelBt onClick={handleCancel}>취소</CancelBt>
-              <SaveBt type="submit">저장</SaveBt>
+              {address && restAddress ? (
+                <SaveBt type="submit">저장</SaveBt>
+              ) : (
+                <SaveBt onClick={handleNotValid}>저장</SaveBt>
+              )}
             </BtSection>
           </form>
         </div>

@@ -12,6 +12,8 @@ import {
 import { BtWrap } from "../../styles/main/mainStyle";
 
 import MoreButton from "./MoreButton";
+import { useSelector } from "react-redux";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ProductSlide = ({ btList, title, desc, id, data }) => {
   
@@ -33,18 +35,37 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
       console.log(error);
     }
   };
-
   // const navigate = useNavigate(`/details/`);
-  const handlePageChange = _item => {
-    const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
+  // const handlePageChange = _item => {
+  //   const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
 
-    const serverData = {
-      mainCategoryId: id,
-      subCategoryId: focus + 1,
-      iproduct: _item.iproduct,
-    };
-    const res = getProductDetail(serverData);
-    navigate(url);
+  //   const serverData = {
+  //     mainCategoryId: id,
+  //     subCategoryId: focus + 1,
+  //     iproduct: _item.iproduct,
+  //   };
+  //   const res = getProductDetail(serverData);
+  //   navigate(url);
+  // };
+  const isUserLoggedIn = useSelector((state) => state.loginSlice.isLogin);
+
+  const handlePageChange = async _item => {
+   
+    if (isUserLoggedIn) {
+      const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
+      
+      const serverData = {
+        mainCategoryId: id,
+        subCategoryId: focus + 1,
+        iproduct: _item.iproduct,
+      };
+
+      const res = await getProductDetail(serverData);
+      navigate(url);
+    } else {
+      alert("로그인 후 이용해주세요")
+      navigate(`/login`);
+    }
   };
 
   return (

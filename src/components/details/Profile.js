@@ -74,12 +74,12 @@ const Profile = ({ reviews }) => {
         onRequestClose={handleCloseModal}
         onSubmit={handleSubmitReview}
       />
-      <BtnReivew
+      {/* <BtnReivew
         onClick={handleOpenModal}
         style={{ position: "absolute", right: "-40px", top: "30px" }} // 버튼을 오른쪽 상단에 배치
       >
         등록하기
-      </BtnReivew>
+      </BtnReivew> */}
       {visibleProfiles.map((review, index) => (
         <ReviewProfile key={index}>
           <ProfileContainer>

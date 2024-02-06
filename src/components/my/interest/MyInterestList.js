@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyListTopButton } from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
 import { getMyInterest } from "../../../api/my/my_api";
+import { Link } from "react-router-dom";
 
 
 const MyInterestList = () => {
@@ -34,27 +35,29 @@ const MyInterestList = () => {
       </MyListTop>
       {data.map((item, index) => (
         <React.Fragment key={index}>
-          <MyListMid>
-          <MyListMidImg>
-            <img src={`/pic/${item.prodPic}`}alt={item.title} />
-          </MyListMidImg>
-          <MyListMidTxt>
-            <div>
-              <h2>{item.title}</h2>
-            </div>
-            <div>
-              <p>{item.price} 원</p>
-            </div>
-            <div>
-              <span>{item.deposit}</span>
-            </div>
-          </MyListMidTxt>
-          <MyListMidLast>
-            <button>
-              <img src="/images/main/heart_hover.svg"/>
-            </button>
-          </MyListMidLast>
-        </MyListMid>
+          <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+            <MyListMid>
+              <MyListMidImg>
+                <img src={`/pic/${item.prodPic}`}alt={item.title} />
+              </MyListMidImg>
+              <MyListMidTxt>
+                <div>
+                  <h2>{item.title}</h2>
+                </div>
+                <div>
+                  <p>{item.price} 원</p>
+                </div>
+                <div>
+                  <span>{item.deposit}</span>
+                </div>
+              </MyListMidTxt>
+              <MyListMidLast>
+                <button>
+                  <img src="/images/main/heart_hover.svg"/>
+                </button>
+              </MyListMidLast>
+            </MyListMid>
+          </Link>
         </React.Fragment> 
       ))}
       <MyListBottom>

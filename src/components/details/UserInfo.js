@@ -17,7 +17,6 @@ const UserInfoRetrieval = ({ iuser, setData, setNickname, setAddress }) => {
     fetchData();
   }, [iuser, setData, setNickname, setAddress]);
 
-  // This component doesn't render anything, it only fetches user information
   return null;
 };
 
@@ -35,7 +34,6 @@ const UserInfo = () => {
         setNickname={setNickname}
         setAddress={setAddress}
       />
-      {/* Rest of your component */}
     </>
   );
 };
