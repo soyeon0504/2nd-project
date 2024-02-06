@@ -180,12 +180,12 @@ export const BtnChat = styled.div`
   border: 1px solid #2c39b5;
   color: #2c39b5;
   margin-top: 54px;
-  margin-left: 45px;
-  font-family: Inter;
+  margin-left: 65px;
+
   font-size: 16px;
-  font-style: normal;
+
   font-weight: 400;
-  line-height: normal;
+
   display: flex;
   justify-content: center;
   align-items: center;

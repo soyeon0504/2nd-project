@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { DatePicker } from "antd";
 import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
-import { getDisavled } from "../../api/details/details_api"; // getDisavled 함수 import
+// import { getDisavled } from "../../api/details/details_api"; // getDisavled 함수 import
 
 const Calendar = ({ onDateSelect }) => {
   const [selectedDateRange, setSelectedDateRange] = useState([]); // 선택된 날짜 상태 추가
@@ -34,10 +34,10 @@ const Calendar = ({ onDateSelect }) => {
     const fetchDisabledDates = async () => {
       try {
         const now = new Date();
-        const res = await getDisavled(/* pass parameters here */);
+        // const res = await getDisavled(/* pass parameters here */);
         // Modify the response format to fit the disabledDate function
-        const disabledDates = res.data.map(date => new Date(date));
-        setDisabledDates(disabledDates);
+        // const disabledDates = res.data.map(date => new Date(date));
+        // setDisabledDates(disabledDates);
       } catch (error) {
         console.error("Error fetching disabled dates:", error);
       }
