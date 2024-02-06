@@ -182,7 +182,6 @@ const MainMorePage = () => {
     console.log(res);
   };
 
-
   return (
     <Layout>
       <SideBar />

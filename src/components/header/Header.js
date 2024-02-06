@@ -41,6 +41,7 @@ const Header = ({ searchName, pageNum }) => {
   const onClickSearch = e => {
     e.preventDefault();
     console.log("검색실행", search);
+    sessionStorage.setItem('searchValue', search);
     const sendData = {
       search: search,
       pageNum: 1,
@@ -50,9 +51,10 @@ const Header = ({ searchName, pageNum }) => {
   };
   const successFn = result => {
     console.log("검색 성공", result);
+    const searchValue = sessionStorage.getItem('searchValue');
 
-    const url = `/search?search=${search}`;
-    navigate(url, { state: { result } });
+    const url = `/search`;
+    navigate(url, { state: { result , searchValue} });
     window.location.reload();
 
   };
@@ -225,7 +227,7 @@ const Header = ({ searchName, pageNum }) => {
                       key={listItem.id}
                       title={listItem.title}
                       onClick={() => {
-                        navigate(`/more/1/${item.id}/${listItem.id}`);
+                        navigate(`/more/${item.id}/${listItem.id}/1`, { state: { title: listItem.title }});
                         window.location.reload(); // 페이지 이동 후 화면 갱신
                       }}
                       onMouseEnter={() => handleSubCateHover(listItem.title)}

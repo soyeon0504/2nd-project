@@ -75,7 +75,6 @@ export const putMyInfo = async ({product}) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    failPostDatas("/");
   }
 };
 

@@ -23,7 +23,7 @@ const MyReviewList = ({ activeBtn }) => {
         if (activeBtn === "내 작성 후기") {
           result = await getMyReview(1);
         } else if (activeBtn === "내 상품 후기") {
-          result = await getProdReview()
+          result = await getProdReview();
         }
         setData(result);
       } catch (error) {
@@ -42,32 +42,35 @@ const MyReviewList = ({ activeBtn }) => {
       </MyListTop>
       {data && data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
-          { activeBtn === "내 작성 후기" ? (
-          <MyListMid>
-          <MyListMidImg>
-            <img src={`/pic/${item.prodPic}`} alt={item.title} />
-          </MyListMidImg>
-          <MyListMidTxt>
-            <div>
-              <h2>{item.title}</h2>
-            </div>
-            <MyStarDiv>
-              <StarRatined totalStars={item.raiting}/>
-            </MyStarDiv>
-            <div>
-              <span>{item.contents}</span>
-            </div>
-          </MyListMidTxt>
-          <MyListMidLast location={"center"} size={"1.2rem"}>
+          { activeBtn === "내 작성 후기" && item.icategory ? (
+           <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+           <MyListMid>
+            <MyListMidImg>
+              <img src={`/pic/${item.prodPic}`} alt={item.title} />
+            </MyListMidImg>
+            <MyListMidTxt>
+              <div>
+                <h2>{item.title}</h2>
+              </div>
+              <MyStarDiv>
+                <StarRatined totalStars={item.raiting}/>
+              </MyStarDiv>
+              <div>
+                <span>{item.contents}</span>
+              </div>
+            </MyListMidTxt>
+            <MyListMidLast location={"center"} size={"1.2rem"}>
               <p>작성자</p>
               <MyListProfileImg>
                 <img src={`/pic/${item.loginedUserPic}`}/>
               </MyListProfileImg>
               <span>{item.nick}</span>
             </MyListMidLast>
-        </MyListMid>
+          </MyListMid>
+         </Link>
          ) : (
-          <MyListMid>
+          <Link to={`/details/${item.imainCategory}/${item.isubCategory}/${item.iproduct}`}>
+            <MyListMid>
             <MyProfileDiv>
               <p>작성자</p>
               <MyListProfileImg>
@@ -89,6 +92,7 @@ const MyReviewList = ({ activeBtn }) => {
               </Link>
             </MyListMidLast>
           </MyListMid>
+          </Link>
          )}
         </React.Fragment> 
       ))}
