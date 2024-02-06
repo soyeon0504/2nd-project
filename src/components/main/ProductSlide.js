@@ -14,7 +14,7 @@ import { BtWrap } from "../../styles/main/mainStyle";
 import MoreButton from "./MoreButton";
 
 const ProductSlide = ({ btList, title, desc, id, data }) => {
-  // 게시물 클릭 시 detail 페이지로 이동
+  
   const navigate = useNavigate(`/details/`); // useNavigate 훅을 사용하여 navigate 함수 가져오기
   // 전달 받은 목록데이터
   const [productData, setProductData] = useState(data); // 상품 데이터 상태 추가

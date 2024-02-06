@@ -109,6 +109,7 @@ const MainMorePage = () => {
   const parseMainCategory = parseInt(urlParseArr[3]);
   const parseSubCategory = parseInt(urlParseArr[4]);
 
+
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
   const [sortType, setSortType] = useState(0);
@@ -151,7 +152,6 @@ const MainMorePage = () => {
     setPageNum(_tempPage);
   };
 
-  // 02-01 소연 
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
     else fetchData(pageNum);

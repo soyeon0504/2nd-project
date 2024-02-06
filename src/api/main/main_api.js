@@ -5,8 +5,8 @@ import { jwtAxios } from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api`;
 
 const failPostDatas = () => {
-  // const navigate = useNavigate();
-  // navigate("/");
+  const navigate = useNavigate();
+  navigate("/");
 };
 
 export const getProductFirst = async () => {
@@ -17,7 +17,7 @@ export const getProductFirst = async () => {
     return res.data;
   } catch (error) {
     console.log(error);
-    // failPostDatas("/");
+    failPostDatas("/");
   }
 };
 export const getProduct = async (mainCategoryId, subCategoryId) => {
@@ -27,28 +27,19 @@ export const getProduct = async (mainCategoryId, subCategoryId) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    // failPostDatas("/");
+    failPostDatas("/");
   }
 };
 
 // 상품 상세 정보 출력
 export const getProductDetail = async serverData => {
   try {
-    // const serverData = {
-    //   mainCategoryId: id,
-    //   subCategoryId: focus + 1,
-    //   iproduct: _item.iproduct,
-    // };
-    // http://localhost:3000/api/prod/1/1/75?iproduct=75
-    // http://112.222.157.156:5225/api/prod/1/1/%7Biproduct%7D?iproduct=75
-    // const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/${serverData.iproduct}`;
-    // const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/${serverData.iproduct}?iproduct=${serverData.iproduct}`;
     const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/{iproduct}?iproduct=${serverData.iproduct}`;
     const res = await axios.get(url);
     return res.data;
   } catch (error) {
     console.log(error);
-    // failPostDatas("/");
+    failPostDatas("/");
   }
 };
 
@@ -58,46 +49,6 @@ export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
     const res = await axios.get(url);
 
     return res.data;
-  } catch (error) {
-    console.log(error);
-    // failPostDatas("/");
-  }
-};
-
-export const postProduct = async () => {
-  try {
-    const res = await axios.post(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const putProduct = async () => {
-  try {
-    const res = await axios.put(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const patchProduct = async () => {
-  try {
-    const res = await axios.patch(`${path}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const deleteProduct = async () => {
-  try {
-    const res = await axios.delete(`${path}`);
-    return res;
   } catch (error) {
     console.log(error);
     failPostDatas("/");
