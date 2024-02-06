@@ -115,35 +115,38 @@ const LoginPage = () => {
     }
   };
   const closeIdModal = () => {
-    setIdFail(false)
-  }
+    setIdFail(false);
+  };
   const closePwModal = () => {
-    setPwFail(false)
-  }
+    setPwFail(false);
+  };
   const closeLoginModal = () => {
-    setLoginFail(false)
-  }
+    setLoginFail(false);
+  };
 
   return (
     <Layout>
       {idFail && (
-          <>
-            <JoinPopUp txt="아이디를 확인해주세요." onConfirm={closeIdModal} />
-            <ModalBackground></ModalBackground>
-          </>
-        )}
-        {pwFail && (
-            <>
-              <JoinPopUp txt="비밀번호를 확인해주세요." onConfirm={closePwModal} />
-              <ModalBackground></ModalBackground>
-            </>
-          )}
-          {loginFail && (
-              <>
-                <JoinPopUp txt="로그인에 실패하였습니다." onConfirm={closeLoginModal} />
-                <ModalBackground></ModalBackground>
-              </>
-            )}
+        <>
+          <JoinPopUp txt="아이디를 확인해주세요." onConfirm={closeIdModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+      {pwFail && (
+        <>
+          <JoinPopUp txt="비밀번호를 확인해주세요." onConfirm={closePwModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+      {loginFail && (
+        <>
+          <JoinPopUp
+            txt="로그인에 실패하였습니다."
+            onConfirm={closeLoginModal}
+          />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
       <LoginPageStyle>
         <LogoZone>
           <Logo src="/images/logo.svg" />

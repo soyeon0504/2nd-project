@@ -234,7 +234,7 @@ const Write = () => {
     // console.log(_index);
     // console.log(fileCount);
     if (fileCount === 1) {
-      alert("상품 이미지는 최소 1개가 있어야 합니다.");
+      alert("상품 대표 이미지는 최소 1개 이상 등록 하셔야 합니다.");
       return false;
     }
 

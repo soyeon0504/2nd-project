@@ -26,8 +26,10 @@ export const MyListTop = styled.div`
 export const MyListTopButton = styled.button`
   border-radius: 3px;
   border: 1px solid ${Common.color.primary};
-  background: ${props => (props.selected ? Common.color.primary : Common.color.p500)};
-  color: ${props => (props.selected ? Common.color.p600 : Common.color.primary)};
+  background: ${props =>
+    props.selected ? Common.color.primary : Common.color.p500};
+  color: ${props =>
+    props.selected ? Common.color.p600 : Common.color.primary};
   width: 5rem;
   height: 2.5rem;
   text-align: center;
@@ -62,7 +64,7 @@ export const MyListMidEnd = styled.div`
   left: 0;
   width: 98rem;
   height: 12rem;
-  background: rgba(0,0,0,.15);
+  background: rgba(0, 0, 0, 0.15);
   z-index: 3;
   border-radius: 1rem;
 `;
@@ -101,16 +103,15 @@ export const MyListMidTxt = styled.div`
     height: 2rem;
     line-height: 2rem;
     font-size: 1.4rem;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  } 
+  }
 `;
-
 
 export const MyListMidLast = styled.div`
   display: flex;
-  align-items: ${props => props.location ? props.location : "end"};
+  align-items: ${props => (props.location ? props.location : "end")};
   justify-content: space-between;
   flex-direction: column;
   width: 10rem;
@@ -119,9 +120,9 @@ export const MyListMidLast = styled.div`
   bottom: 1rem;
   right: 1rem;
   p {
-    font-size:  ${props => props.size ? props.size : "1.4rem"};
+    font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
-  
+
   button {
     border: 0;
     cursor: pointer;
@@ -130,7 +131,7 @@ export const MyListMidLast = styled.div`
     height: 2rem;
     line-height: 2rem;
     font-size: 1.2rem;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -147,7 +148,7 @@ export const MyListProfileImg = styled.div`
     height: 100%;
     object-fit: cover;
   }
-`
+`;
 
 export const MyListBottom = styled.div`
   margin-top: 2.3rem;
@@ -157,7 +158,7 @@ export const MyListBottom = styled.div`
 
 export const MyStarDiv = styled.div`
   height: 2rem;
-`
+`;
 
 export const MyProfileDiv = styled.div`
   display: flex;
@@ -176,4 +177,4 @@ export const MyProfileDiv = styled.div`
     font-size: 1.2rem;
     margin: 0 auto;
   }
-`
+`;
