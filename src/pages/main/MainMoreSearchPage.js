@@ -136,6 +136,8 @@ const MainMoreSearchPage = () => {
     setPageNum(_tempPage);
   };
 
+  console.log(state);
+
   //추후 초기 값 세팅 필요
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
@@ -182,13 +184,15 @@ const MainMoreSearchPage = () => {
     console.log(res);
   };
 
+  const searchValue = sessionStorage.getItem('searchValue');
+
   return (
     <Layout>
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">
-          <div className="header-cate-wrap">
-            <div>{state && state.title ? state.title : "Default Title"}</div>
+          <div className="header-cate-wrap" style={{ flexDirection: 'column' }}>
+            <div>검색어 : {searchValue}</div>
             <div>{datas.length}개</div>
           </div>
           <div>

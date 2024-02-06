@@ -87,7 +87,7 @@ const MenuTab = () => {
               <li
                 key={listItem.id}
                 onClick={() => {
-                  navigate(`/more/${item.id}/${listItem.id}/1`);
+                  navigate(`/more/${item.id}/${listItem.id}/1`,{ state: { title: listItem.title }});
                   window.location.reload(); // 페이지 이동 후 화면 갱신
                 }}
                 onMouseEnter={() => handleCategoryHover(listItem.title)}
