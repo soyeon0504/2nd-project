@@ -52,6 +52,12 @@ import {
   PayValue,
   TotalPrice,
   PayContainer,
+  ImageSlider,
+  ImageContainer,
+  PrevButton,
+  NextButton,
+  PrevImage,
+  NextImage,
 } from "../../styles/details/DetailsPageStyles";
 import { SideBar } from "../../components/SideBar";
 
@@ -74,6 +80,65 @@ const UserDetails = ({ userId, currentUserId, onDelete }) => {
   ) : null;
 };
 
+const ProductSlider = ({ productData }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handlePrevImage = () => {
+    if (currentImageIndex === 0) {
+      return;
+    }
+    setCurrentImageIndex(prevIndex => prevIndex - 1);
+  };
+
+  const handleNextImage = () => {
+    if (currentImageIndex === productData.prodSubPics.length) {
+      return;
+    }
+    setCurrentImageIndex(prevIndex => prevIndex + 1);
+  };
+
+  return (
+    <ImageSlider>
+      {/* 이전 버튼 */}
+      {productData &&
+        productData.prodSubPics &&
+        productData.prodSubPics.length > 1 && (
+          <PrevButton onClick={handlePrevImage}>
+            <PrevImage src="/images/main/prev.svg" alt="prev" />
+          </PrevButton>
+        )}
+
+      <ImageContainer>
+        {/* 현재 이미지 */}
+        {currentImageIndex === 0 ? (
+          // 메인 이미지 표시
+          <ProductImage
+            src={`/pic/${productData.prodMainPic}`}
+            alt="제품 이미지"
+          />
+        ) : (
+          // 서브 이미지 표시
+          <ProductImage
+            src={`/pic/${
+              productData.prodSubPics[currentImageIndex - 1].prodPics
+            }`}
+            alt="제품 이미지"
+          />
+        )}
+      </ImageContainer>
+
+      {/* 다음 버튼 */}
+      {productData &&
+        productData.prodSubPics &&
+        productData.prodSubPics.length > 1 && (
+          <NextButton onClick={handleNextImage}>
+            <NextImage src="/images/main/next.svg" alt="next" />
+          </NextButton>
+        )}
+    </ImageSlider>
+  );
+};
+
 const DetailsPage = () => {
   const [showPayModal, setShowPayModal] = useState(false);
   const [productData, setProductData] = useState(null);
@@ -85,8 +150,6 @@ const DetailsPage = () => {
   });
   const [rentalStartDate, setRentalStartDate] = useState(null);
   const [rentalEndDate, setRentalEndDate] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
-  const [selectedEndDate, setSelectedEndDate] = useState(null);
   const { mainCategory, subCategory, productId } = useParams();
   const iuser = useSelector(state => state.loginSlice.iuser);
   const navigate = useNavigate();
@@ -147,11 +210,7 @@ const DetailsPage = () => {
       <PageWrapper>
         <SubContainer>
           <BoxImg>
-            <ProductImage
-              src={`/pic/${productData.prodMainPic}`}
-              sub={`/pic/${productData.prodSubPics}`}
-              alt="제품 이미지"
-            />
+            {productData && <ProductSlider productData={productData} />}
           </BoxImg>
           <Box>
             <Title>

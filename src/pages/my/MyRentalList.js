@@ -9,7 +9,7 @@ const MyRentalList = () => {
   return (
     <div>
       <MyProfile />
-      <MyListBtn activeBtn={activeBtn} setActiveBtn={setActiveBtn}/>
+      <MyListBtn activeBtn={activeBtn} setActiveBtn={setActiveBtn} />
       <MyList />
     </div>
   );

@@ -56,10 +56,10 @@ const Calendar = ({ onDateSelect }) => {
     };
   }, []);
 
-  const disabledDate = current => {
-    // Disable dates that are in the disabledDates array
-    return disabledDates.some(date => current.isSame(date, "day"));
-  };
+  // const disabledDate = current => {
+  //   // Disable dates that are in the disabledDates array
+  //   return disabledDates.some(date => current.isSame(date, "day"));
+  // };
 
   return (
     <div
@@ -81,7 +81,7 @@ const Calendar = ({ onDateSelect }) => {
             <ArrowRightOutlined style={{ fontSize: "18px" }} />
           </span>
         }
-        disabledDate={disabledDate} // 비활성화된 날짜 설정
+        // disabledDate={disabledDate} // 비활성화된 날짜 설정
       />
     </div>
   );
