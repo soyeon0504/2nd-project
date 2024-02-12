@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
@@ -11,26 +11,29 @@ import {
 } from "../../styles/main/SlideButton";
 import { BtWrap } from "../../styles/main/mainStyle";
 
-import MoreButton from "./MoreButton";
 import { useSelector } from "react-redux";
+
+import MoreButton from "./MoreButton";
+import Like from "../details/Like";
+
 import useCustomLogin from "../../hooks/useCustomLogin";
 import JoinPopUp, { ModalBackground } from "../joinpopup/JoinPopUp";
 
+
 const ProductSlide = ({ btList, title, desc, id, data }) => {
-  // 게시물 클릭 시 detail 페이지로 이동
   const navigate = useNavigate(`/details/`); // useNavigate 훅을 사용하여 navigate 함수 가져오기
+  const [swiper, setSwiper] = useState();
+
   // 전달 받은 목록데이터
   const [productData, setProductData] = useState(data); // 상품 데이터 상태 추가
   // 활성화된 중분류 카테고리 버튼 번호 관리
   const [focus, setFocus] = useState(0);
   // Swiper
-  const swiperRefs = useRef([useRef(1), useRef(2), useRef(3), useRef(4)]);
-
+  console.log(id);
   // 중분류 메뉴 버튼 클릭시 처리
   const handleClickList = async (mainCategoryId, subCategoryId) => {
     try {
       const res = await getProduct(mainCategoryId, subCategoryId);
-      console.log("res : ", res);
       setProductData(res);
     } catch (error) {
       console.log(error);
@@ -59,9 +62,17 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
         iproduct: _item.iproduct,
       };
 
-      const res = await getProductDetail(serverData);
+
+      // const serverData = {
+      //   mainCategoryId: id,
+      //   subCategoryId: focus + 1,
+      //   iproduct: _item.iproduct,
+      // };
+
       navigate(url);
+      // const res = await getProductDetail(serverData);
     } else {
+
       setLoginState(true);
       // navigate(`/login`);
     }
@@ -71,6 +82,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
     setLoginState(false);
     navigate(`/login`);
   };
+
 
   return (
     <div>
@@ -87,7 +99,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
           {btList.map((item, index) => {
             return (
               <button
-                key={`camera${index}`}
+                key={`product-slide-bt-${id}-${index}`}
                 className={focus === index ? "focus" : ""}
                 onClick={() => {
                   setFocus(index);
@@ -108,45 +120,42 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
             nextEl: `.slide-next-bt-${id}`,
             prevEl: `.slide-prev-bt-${id}`,
           }}
-          onSwiper={swiper => {
-            swiperRefs.current = swiper;
-          }}
+          onSwiper={setSwiper}
+          onSlideChange={() => console.log("슬라이드 체인지")}
           className="mySwiper"
           modules={[Navigation]}
         >
           {productData &&
-            productData.map((item, index) => (
-              <SwiperSlide key={`cameraSlide${index}`}>
-                <div onClick={() => handlePageChange(item)}>
-                  <img src={`/pic/${item.prodMainPic}`} alt="" />
-                  <div className="desc-wrap">
-                    <span className="desc-title">{item.title}</span>
-                    <hr></hr>
-                    <div className="desc-price">
-                      {item.rentalPrice.toLocaleString()}
+            productData.map((item, index) => {
+              return (
+                <SwiperSlide key={`productSlide-${id}-${index}`}>
+                  <div onClick={() => handlePageChange(item)}>
+                    <div className="like-wrap">
+                      <Like
+                        isLiked={item.isLiked !== 0 ? true : false}
+                        productId={item.iproduct}
+                      />
                     </div>
-                    <div className="desc-ad">{item.addr}</div>
-                    <div className="view">조회수{item.view}</div>
+                    <img src={`/pic/${item.prodMainPic}`} alt="" />
+                    <div className="desc-wrap">
+                      <span className="desc-title">{item.title}</span>
+                      <hr></hr>
+                      <div className="desc-price">
+                        {item.rentalPrice.toLocaleString()}
+                      </div>
+                      <div className="desc-ad">{item.addr}</div>
+                      <div className="view">조회수{item.view}</div>
+                    </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                </SwiperSlide>
+              );
+            })}
         </Swiper>
         <SlideBtWrap>
-          <BtSlidePrev
-            className={`slide-prev-bt-${id} c-slide-prev`}
-            onClick={() => {
-              swiperRefs.current[id];
-            }}
-          >
+          <BtSlidePrev className={`slide-prev-bt-${id} c-slide-prev`}>
             <img src="../images/main/prev.svg" alt="prev" />
           </BtSlidePrev>
-          <BtSlideNext
-            className={`slide-next-bt-${id} c-slide-next`}
-            onClick={() => {
-              swiperRefs.current[id];
-            }}
-          >
+          <BtSlideNext className={`slide-next-bt-${id} c-slide-next`}>
             <img src="../images/main/next.svg" alt="next" />
           </BtSlideNext>
         </SlideBtWrap>

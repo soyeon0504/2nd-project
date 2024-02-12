@@ -12,6 +12,9 @@ export const MainWrap = styled.div`
     font-size: 45px;
     text-align: center;
   }
+  .product-slide-liked {
+    margin-top: auto;
+  }
   .desc {
     padding-top: 20px;
     font-size: 16px;
@@ -29,7 +32,6 @@ export const MainWrap = styled.div`
     > div {
       cursor: pointer;
     }
-    
     .desc-wrap {
       line-height: 30px;
       text-align: left;
@@ -56,6 +58,15 @@ export const MainWrap = styled.div`
         font-size: 12px;
       }
     }
+    .like-wrap {
+      position: absolute;
+      margin: 0 auto;
+      right: 15px;
+      top: 15px;
+      button {
+        margin: auto;
+      }
+    }
   }
   .section-2,
   .section-3,
@@ -63,6 +74,7 @@ export const MainWrap = styled.div`
     gap: 300px;
   }
 `;
+
 export const BtWrap = styled.div`
   display: flex;
   align-items: center;
@@ -124,9 +136,8 @@ export const MoreBt = styled.button`
   &:hover img {
     content: url("../images/main/arrow1.svg");
   }
-
-  `;
+`;
 
 export const Pagination = styled.div`
   color: #2c39b5;
-`
+`;

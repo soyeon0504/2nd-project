@@ -124,20 +124,20 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getProductFirst(); // API 호출
+        const res = await getProductFirst(); 
         console.log(res);
         const newData = [...new Array(5)].map((item,index)=>{
           const found = res.filter((element)=> element.categories.mainCategory-1 === index);
           return found
         })
         console.log(newData)
-        setProductData(newData); // 데이터 설정
+        setProductData(newData); 
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchData(); // 함수 호출
+    fetchData();
   }, []);
 
 
