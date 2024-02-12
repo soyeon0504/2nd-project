@@ -58,24 +58,25 @@ const MyReviewList = ({ activeBtn }) => {
         data.slice(0, viewMore).map((item, index) => (
           <React.Fragment key={index}>
             {activeBtn === "내 작성 후기" && item.icategory ? (
-              <Link
-                to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}
-              >
                 <MyListMid>
-                  <MyListMidImg>
-                    <img src={`/pic/${item.prodPic}`} alt={item.title} />
-                  </MyListMidImg>
-                  <MyListMidTxt>
-                    <div>
-                      <h2>{item.title}</h2>
-                    </div>
-                    <MyStarDiv>
-                      <StarRatined totalStars={item.raiting} />
-                    </MyStarDiv>
-                    <div>
-                      <span>{item.contents}</span>
-                    </div>
-                  </MyListMidTxt>
+                  <Link
+                    to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}
+                  >
+                    <MyListMidImg>
+                      <img src={`/pic/${item.prodPic}`} alt={item.title} />
+                    </MyListMidImg>
+                    <MyListMidTxt>
+                      <div>
+                        <h2>{item.title}</h2>
+                      </div>
+                      <MyStarDiv>
+                        <StarRatined totalStars={item.raiting} />
+                      </MyStarDiv>
+                      <div>
+                        <span>{item.contents}</span>
+                      </div>
+                    </MyListMidTxt>
+                  </Link>
                   <MyListMidLast location={"center"} size={"1.2rem"}>
                     <p>작성자</p>
                     <MyListProfileImg>
@@ -84,7 +85,6 @@ const MyReviewList = ({ activeBtn }) => {
                     <span>{item.nick}</span>
                   </MyListMidLast>
                 </MyListMid>
-              </Link>
             ) : (
               <Link
                 to={`/details/${item.imainCategory}/${item.isubCategory}/${item.iproduct}`}
@@ -106,9 +106,7 @@ const MyReviewList = ({ activeBtn }) => {
                     </div>
                   </MyListMidTxt>
                   <MyListMidLast>
-                    <Link to={"/"}>
                       <p>내 상품 바로가기</p>
-                    </Link>
                   </MyListMidLast>
                 </MyListMid>
               </Link>

@@ -46,6 +46,7 @@ const MyInfoPage = () => {
         setUploadImgBefore(`/pic/${result.storedPic}`)
         setNickname(result.nick);
         setAddress(result.addr)
+        setRestAddress(result.restAddr)
         seetPhoneNumber(result.phone)
         setUserDataReady(true);
       } catch (error) {
@@ -83,20 +84,7 @@ const handleChangeFileOne = e => {
     uid: "userId123",
     nick: nickname,
   };
-  try {
-    const response = await nickOverlapPost(obj);
-    if (response.success) {
-      // 중복 확인 성공 시의 로직 추가
-      setNickOverlapConfirm(true);
-      setNickConfirmModal(true);
-    } else {
-      // 중복 확인 실패 시의 로직 추가
-      setNickOverlapFail(true);
-      setNickFailModal(true);
-    }
-  } catch (error) {
-    console.error(error);
-  }
+  nickOverlapPost(obj,nickPostSuccess,nickPostFail);
 };
 
 const handleNicknameChange = (e) => {
@@ -111,9 +99,12 @@ const handleNickOverlapClick = (e) => {
  const closeNickConfirmModal = () => {
    setNickConfirmModal(false);
  };
+ const nickPostSuccess = () => {
+  setNickOverlapConfirm(true);
+  setNickConfirmModal(true);
+ }
  const nickPostFail = () => {
-   setNickOverlapFail(true);
-   setNickFailModal(true);
+  setNickFailModal(true);
  };
  const closeNickFailModal = () => {
    setNickFailModal(false);
@@ -158,16 +149,24 @@ const [modalOpen, setModalOpen] = useState(false);
 
 
   const validationSchema = yup.object().shape({
-    password: yup
-      .string()
-      .required("비밀번호는 필수 입력 사항입니다.")
-      .min(8, "8자 이상 입력하세요.")
-      .max(15, "15자까지만 입력하세요 "),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "비밀번호가 일치하지 않습니다.")
-      .required("비밀번호 확인은 필수 입력 사항입니다."),
+    password: yup.lazy(value =>
+      value
+        ? yup.string()
+            .required("비밀번호는 필수 입력 사항입니다.")
+            .min(8, "8자 이상 입력하세요.")
+            .max(15, "15자까지만 입력하세요 ")
+        : yup.string().notRequired()
+    ),
+    confirmPassword: yup.lazy(value =>
+      value
+        ? yup
+            .string()
+            .oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
+            .required('비밀번호 확인은 필수 입력 사항입니다.')
+        : yup.string().notRequired()
+    ),
   });
+  
 
   const { register, handleSubmit, formState, watch, reset } = useForm({
     resolver: yupResolver(validationSchema),
@@ -200,6 +199,7 @@ const [modalOpen, setModalOpen] = useState(false);
       setUploadImgBefore(`/pic/${result.storedPic}`);
       setNickname(result.nick);
       setAddress(result.addr);
+      setRestAddress(result.restAddr)
       seetPhoneNumber(result.phone);
       setUserDataReady(true);
       reset();
@@ -209,25 +209,26 @@ const [modalOpen, setModalOpen] = useState(false);
   }; 
 
 const handleConfirm = async () => {
-  if(!userDataReady) {
+    if (!userDataReady) {
     return;
   }
-  
+
   const formData = new FormData();
-  
-  const dto = new Blob(
-    [
-      JSON.stringify({
-        nick: nickname,
-        upw: watch("password"),
-        phone: phoneNumber,
-        addr: address,
-        restAddr: restAddress,
-        email: data.email
-      })
-    ],
-    { type: "application/json" },
-  )
+
+  const dto = {
+    phone: phoneNumber,
+    addr: address,
+    restAddr: restAddress,
+    email: data.email
+  };
+  if (nickname !== data.nick) {
+    dto.nick = nickname;
+  }
+  if (watch("password")) {
+    dto.upw = watch("password");
+  }
+
+  formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
   
   formData.append("dto", dto);
 
@@ -251,7 +252,7 @@ const handleConfirm = async () => {
 
   return (
     <>
-    {nickConfirmModal && (
+              {nickConfirmModal && (
                 <>
                   <JoinPopUp
                     txt="사용 가능한 닉네임입니다."
