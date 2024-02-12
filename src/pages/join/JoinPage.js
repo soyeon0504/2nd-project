@@ -200,7 +200,6 @@ const JoinPage = () => {
   const email = watch("email");
 
 
-
   const handleChangeAddress = e => {
     setAddress(e.target.value);
   };
@@ -256,26 +255,6 @@ const JoinPage = () => {
       console.log(error);
     }
   };
-  // const JoinAction = () => {
-  //   const obj = {
-  //     addr: address,
-  //     restAddr: restAddress,
-  //     uid: userId,
-  //     upw: password,
-  //     nick: nickname,
-  //     pic: photo,
-  //     phone: phoneNumber,
-  //     email: email,
-  //   };
-  //   joinPost(obj, postSuccess, postFail);
-  // };
-
-  // const postSuccess = () => {
-  //   alert("회원가입 성공");
-  // };
-  // const postFail = () => {
-  //   alert("서버 불안정");
-  // };
 
   // 취소 & 저장 버튼
   const [catchErr, setCatchErr] = useState(false);
@@ -284,12 +263,6 @@ const JoinPage = () => {
   const handleCancel = () => {
     navigate(`/login`);
   };
-
-  // const JoinSave = e => {
-  //   e.preventDefault();
-  //   JoinAction();
-  //   navigate(`/join/3`);
-  // };
 
   const handleNotValid = e => {
     setCatchErr(true);

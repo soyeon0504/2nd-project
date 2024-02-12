@@ -14,6 +14,7 @@ import { BtWrap } from "../../styles/main/mainStyle";
 import MoreButton from "./MoreButton";
 import { useSelector } from "react-redux";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import JoinPopUp, { ModalBackground } from "../joinpopup/JoinPopUp";
 
 const ProductSlide = ({ btList, title, desc, id, data }) => {
   // 게시물 클릭 시 detail 페이지로 이동
@@ -35,9 +36,6 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
       console.log(error);
     }
   };
-  // const navigate = useNavigate(`/details/`);
-  // const handlePageChange = _item => {
-  //   const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
 
   //   const serverData = {
   //     mainCategoryId: id,
@@ -47,13 +45,14 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
   //   const res = getProductDetail(serverData);
   //   navigate(url);
   // };
-  const isUserLoggedIn = useSelector((state) => state.loginSlice.isLogin);
+
+  const { isLogin } = useCustomLogin();
+  const [loginState, setLoginState] = useState(false);
 
   const handlePageChange = async _item => {
-   
-    if (isUserLoggedIn) {
+    if (isLogin) {
       const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
-      
+
       const serverData = {
         mainCategoryId: id,
         subCategoryId: focus + 1,
@@ -63,13 +62,24 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
       const res = await getProductDetail(serverData);
       navigate(url);
     } else {
-      alert("로그인 후 이용해주세요")
-      navigate(`/login`);
+      setLoginState(true);
+      // navigate(`/login`);
     }
+  };
+
+  const closeModal = () => {
+    setLoginState(false);
+    navigate(`/login`);
   };
 
   return (
     <div>
+      {loginState && (
+        <>
+          <JoinPopUp txt="로그인 후 이용해주세요." onConfirm={closeModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
       <div className="section-1">
         <div className="title">{title}</div>
         <div className="desc">{desc}</div>
