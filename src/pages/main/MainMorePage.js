@@ -7,7 +7,12 @@ import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
 import { getProductDetail } from "../../api/main/main_api";
+
 import Like from "../../components/details/Like";
+
+import useCustomLogin from "../../hooks/useCustomLogin";
+import JoinPopUp, { ModalBackground } from "../../components/joinpopup/JoinPopUp";
+
 
 const region = [
   {
@@ -162,19 +167,50 @@ const MainMorePage = () => {
   const handlePageChange = _tempPage => {
     setPageNum(_tempPage);
   };
+
+
+  // 02-01 소연
+  useEffect(() => {
+    if (sortType !== 0) fetchData(pageNum, sortType);
+    else fetchData(pageNum);
+  }, [pageNum, sortType]);
+
+  useEffect(() => {
+    const regionData = datas.filter(item =>
+      item.addr.includes(region[regionNum].title.slice(0, 2)),
+    );
+    const districtData = regionData.filter(item =>
+      item.addr.includes(region[regionNum].list[districtNum]),
+    );
+    setFilterData(districtData);
+  }, [districtNum, datas, regionNum]);
+
+
   // details 페이지로 이동
-  const handlePageChangeDetails = _item => {
-    const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
-    console.log("wowo", _item);
-    const serverData = {
-      mainCategoryId: _item.categories.mainCategory,
-      subCategoryId: _item.categories.subCategory,
-      iproduct: _item.iproduct,
-    };
-    console.log(serverData);
-    const res = getProductDetail(serverData);
-    navigate(url);
-    console.log(res);
+  const { isLogin } = useCustomLogin();
+  const [loginState, setLoginState] = useState(false);
+
+  const handlePageChangeDetails = async _item => {
+    if (isLogin) {
+      const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+      // console.log("wowo", _item);
+      const serverData = {
+        mainCategoryId: _item.categories.mainCategory,
+        subCategoryId: _item.categories.subCategory,
+        iproduct: _item.iproduct,
+      };
+      // console.log(serverData);
+      const res = await getProductDetail(serverData);
+      navigate(url);
+      // console.log(res);
+    } else {
+      setLoginState(true)
+    }
+  };
+
+  const closeModal = () => {
+    setLoginState(false);
+    navigate(`/login`);
   };
 
   // 제품 갯수
@@ -206,6 +242,12 @@ const MainMorePage = () => {
 
   return (
     <Layout>
+      {loginState && (
+        <>
+          <JoinPopUp txt="로그인 후 이용해주세요." onConfirm={closeModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">

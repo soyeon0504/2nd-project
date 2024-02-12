@@ -83,64 +83,29 @@ const MyList = ({ activeBtn }) => {
         data.slice(0, viewMore).map((item, index) => (
           <React.Fragment key={index}>
             {activeBtn === "대여중" ? (
-              <Link
-                to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}
-              >
                 <MyListMid>
-                  <MyListMidImg>
-                    <img
-                      src={`/pic/${item.productStoredPic}`}
-                      alt={item.title}
-                    />
-                  </MyListMidImg>
-                  <MyListMidTxt>
-                    <div>
-                      <h2>{item.title}</h2>
-                    </div>
-                    <div>
-                      <p>{item.price} 원</p>
-                    </div>
-                    <div>
-                      <span>
-                        대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                        ({item.rentalDuration}일)
-                      </span>
-                    </div>
-                  </MyListMidTxt>
-                  <MyListMidLast>
-                    <button onClick={() => openReviewForm(item.ipayment)}>
-                      리뷰 등록
-                    </button>
-                  </MyListMidLast>
-                </MyListMid>
-              </Link>
-            ) : (
-              <Link
-                to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}
-              >
-                <MyListMid>
-                  <MyListMidEnd />
-                  <h2>반 납 완 료</h2>
-                  <MyListMidImg>
-                    <img
-                      src={`/pic/${item.productStoredPic}`}
-                      alt={item.ipayment}
-                    />
-                  </MyListMidImg>
-                  <MyListMidTxt>
-                    <div>
-                      <h2>{item.title}</h2>
-                    </div>
-                    <div>
-                      <p>{item.price} 원 </p>
-                    </div>
-                    <div>
-                      <span>
-                        대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                        ({item.rentalDuration}일)
-                      </span>
-                    </div>
-                  </MyListMidTxt>
+                  <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+                    <MyListMidImg>
+                      <img
+                        src={`/pic/${item.productStoredPic}`}
+                        alt={item.title}
+                      />
+                    </MyListMidImg>
+                    <MyListMidTxt>
+                      <div>
+                        <h2>{item.title}</h2>
+                      </div>
+                      <div>
+                        <p>{item.price} 원</p>
+                      </div>
+                      <div>
+                        <span>
+                          대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
+                          ({item.rentalDuration}일)
+                        </span>
+                      </div>
+                    </MyListMidTxt>
+                  </Link>
                   <MyListMidLast location={"center"} size={"1.2rem"}>
                     <p>거래자</p>
                     <MyListProfileImg>
@@ -149,7 +114,38 @@ const MyList = ({ activeBtn }) => {
                     <span>{item.targetNick}</span>
                   </MyListMidLast>
                 </MyListMid>
-              </Link>
+            ) : (
+                <MyListMid>
+                  <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+                    <MyListMidEnd />
+                    <h2>반 납 완 료</h2>
+                    <MyListMidImg>
+                      <img
+                        src={`/pic/${item.productStoredPic}`}
+                        alt={item.ipayment}
+                      />
+                    </MyListMidImg>
+                    <MyListMidTxt>
+                      <div>
+                        <h2>{item.title}</h2>
+                      </div>
+                      <div>
+                        <p>{item.price} 원 </p>
+                      </div>
+                      <div>
+                        <span>
+                          대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
+                          ({item.rentalDuration}일)
+                        </span>
+                      </div>
+                    </MyListMidTxt>
+                  </Link>
+                  <MyListMidLast >
+                      <button onClick={() => openReviewForm(item.ipayment)}>
+                        <p>리뷰 등록</p>
+                      </button>
+                  </MyListMidLast>  
+                </MyListMid>
             )}
           </React.Fragment>
         ))}

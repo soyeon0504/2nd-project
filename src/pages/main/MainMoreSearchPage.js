@@ -8,6 +8,8 @@ import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
 import { getProductDetail } from "../../api/main/main_api"; // API 호출 함수 import
+import useCustomLogin from "../../hooks/useCustomLogin";
+import JoinPopUp, { ModalBackground } from "../../components/joinpopup/JoinPopUp";
 
 const region = [
   {
@@ -170,37 +172,50 @@ const MainMoreSearchPage = () => {
   };
 
   // details 페이지로 이동
-  const handlePageChangeDetails = _item => {
-    const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
-    console.log("wowo", _item);
-    const serverData = {
-      mainCategoryId: _item.categories.mainCategory,
-      subCategoryId: _item.categories.subCategory,
-      iproduct: _item.iproduct,
-    };
-    console.log(serverData);
-    const res = getProductDetail(serverData);
-    navigate(url);
-    console.log(res);
+  const { isLogin } = useCustomLogin();
+  const [loginState, setLoginState] = useState(false);
+
+  const handlePageChangeDetails = async _item => {
+    if (isLogin) {
+      const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+      const serverData = {
+        mainCategoryId: _item.categories.mainCategory,
+        subCategoryId: _item.categories.subCategory,
+        iproduct: _item.iproduct,
+      };
+      const res = await getProductDetail(serverData);
+      navigate(url);
+    } else {
+      setLoginState(true)
+    }
+  };
+  const closeModal = () => {
+    setLoginState(false);
+    navigate(`/login`);
   };
 
-  const searchValue = sessionStorage.getItem('searchValue');
+  const searchValue = sessionStorage.getItem("searchValue");
 
-//   // URL에서 검색어 매개변수 추출
-//   const [search, setSearch] = useState("");
-//   useEffect(() => {
-//     const searchParams = new URLSearchParams(location.search);
-//     const searchParam = searchParams.get("search");
-//     setSearch(searchParam);
-//   }, [location]);
-
+  //   // URL에서 검색어 매개변수 추출
+  //   const [search, setSearch] = useState("");
+  //   useEffect(() => {
+  //     const searchParams = new URLSearchParams(location.search);
+  //     const searchParam = searchParams.get("search");
+  //     setSearch(searchParam);
+  //   }, [location]);
 
   return (
     <Layout>
+      {loginState && (
+        <>
+          <JoinPopUp txt="로그인 후 이용해주세요." onConfirm={closeModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">
-          <div className="header-cate-wrap" style={{ flexDirection: 'column' }}>
+          <div className="header-cate-wrap" style={{ flexDirection: "column" }}>
             <div>검색어 : {searchValue}</div>
             <div>{datas.length}개</div>
           </div>
@@ -246,7 +261,7 @@ const MainMoreSearchPage = () => {
                   src={`/pic/${item.prodMainPic}`}
                   alt=""
                 />
-                
+
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
                   <hr></hr>
