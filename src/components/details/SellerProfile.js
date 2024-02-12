@@ -7,7 +7,7 @@ import {
 
 const SellerProfile = ({ sellerName, profileImage, iuser }) => {
   const handleDelete = () => {
-    console.log("Delete action");
+    // console.log("Delete action");
     // 여기에 삭제 동작을 추가하십시오.
   };
 
@@ -15,13 +15,11 @@ const SellerProfile = ({ sellerName, profileImage, iuser }) => {
 
   return (
     <SellerProfileContainer>
-      {/* Profile image */}
       <ProfileImg>
         <img src={profileImage} alt="Profile Image" />
       </ProfileImg>
-      {/* Seller name */}
+
       <ProfileName>{sellerName}</ProfileName>
-      {/* 삭제 버튼 */}
     </SellerProfileContainer>
   );
 };

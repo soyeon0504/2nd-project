@@ -372,3 +372,85 @@ export const PayValue = styled.span`
 export const TotalPrice = styled.div`
   border-bottom: 1px solid ${Common.color.primary};
 `;
+
+export const ImageSlider = styled.div`
+  position: relative;
+  width: 560px;
+  height: 550px;
+`;
+
+export const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const PrevButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 500px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;
+
+export const NextButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 540px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+`;
+
+export const PrevImage = styled.img`
+  width: 70px;
+  height: 70px;
+`;
+
+export const NextImage = styled.img`
+  width: 70px;
+  height: 70px;
+`;
+
+//
+export const SlideBtWrap = styled.div`
+  display: block;
+  position: relative;
+`;
+export const BtSlidePrev = styled.button`
+  display: block;
+  position: absolute;
+  top: -220px;
+  left: -100px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+
+  img {
+    width: 70px;
+    height: 70px;
+  }
+  &.c-slide-prev.swiper-button-disabled {
+    display: none;
+  }
+`;
+
+// 슬라이드 우측 이동 버튼
+export const BtSlideNext = styled.button`
+  position: absolute;
+  top: -220px;
+  right: -100px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  /* padding: 10px 20px; */
+  img {
+    width: 70px;
+    height: 70px;
+  }
+  &.c-slide-next.swiper-button-disabled {
+    display: none;
+  }
+`;
