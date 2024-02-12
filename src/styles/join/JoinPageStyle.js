@@ -50,6 +50,7 @@ export const JoinElementInput = styled.div`
   img {
     width: 180px;
     height: 180px;
+    object-fit: cover;
     border-radius: 5px;
     border: 1px solid #2c39b5;
   }

@@ -38,9 +38,9 @@ export const MyListTopButton = styled.button`
 
 export const MyListMid = styled.div`
   display: flex;
+  gap: 2rem;
   position: relative;
   overflow: hidden;
-  gap: 2rem;
   color: #000;
   padding: 1rem;
   border: 1px solid ${Common.color.primary};
@@ -48,13 +48,17 @@ export const MyListMid = styled.div`
   margin-top: 2.3rem;
   height: 12rem;
   width: 98rem;
-  > h2 {
+  a > h2 {
     position: absolute;
     top: 4rem;
     right: 40rem;
     font-size: 3rem;
     font-weight: 600;
     color: #8f8f8f;
+  }
+  a {
+    display: flex;
+    gap: 2rem;
   }
 `;
 
@@ -65,7 +69,6 @@ export const MyListMidEnd = styled.div`
   width: 98rem;
   height: 12rem;
   background: rgba(0, 0, 0, 0.15);
-  z-index: 3;
   border-radius: 1rem;
 `;
 
@@ -122,8 +125,9 @@ export const MyListMidLast = styled.div`
   p {
     font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
-
   button {
+    z-index: 999;
+    background: none;
     border: 0;
     cursor: pointer;
   }

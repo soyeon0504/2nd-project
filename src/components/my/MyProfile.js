@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Common } from "../../styles/CommonStyles";
 import { getMyBuySell, getMyRental, getMyUser } from "../../api/my/my_api";
 import { useSelector } from "react-redux";
-import MyPopUp, { ModalBackground } from "./MyPopUp";
 
 const ProfileDiv = styled.div`
   display: flex;
@@ -16,22 +15,27 @@ const ProfileDiv = styled.div`
 
 const ProfileLeft = styled.div`
   display: flex;
-  width: 412px;
+  width: 520px;
   height: 140px;
   align-items: center;
   border-right: 1px solid ${Common.color.p500};
-  cursor: pointer;
-  h1 {
-    font-weight: 400;
+  div:nth-of-type(2) {
     margin-left: 2rem;
+      h1 {
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+    p {
+      font-size: 1.4rem;
+    }
   }
 `;
 
 const ProfileImg = styled.div`
-  width: 7rem;
-  height: 7rem;
+  width: 13rem;
+  height: 13rem;
   box-sizing: border-box;
-  border-radius: 45px;
+  border-radius: 10px;
   overflow: hidden;
   img {
     width: 100%;
@@ -71,14 +75,6 @@ const ProfileRight = styled.div`
 const MyProfile = () => {
   const [result, setResult] = useState([]);
   const [data, setData] = useState([]);
-  const [showCheck, setShowCheck] = useState(false);
-
-  const handleshowCheck = () => {
-    setShowCheck(true);
-  }
-  const closeCheck = () => {
-    setShowCheck(false);
-  };
 
   const iuser = useSelector((state) => state.loginSlice.iuser);
 
@@ -102,28 +98,18 @@ const MyProfile = () => {
 
   return (
     <ProfileDiv>
-      <ProfileLeft onClick={handleshowCheck}>
+      <ProfileLeft>
         <ProfileImg>
           <img src={`/pic/${result.storedPic}`} alt="회원정보 보기"/>
         </ProfileImg>
         <div>
           <h1>{result.nick}</h1>
+          <p>통합별점: {result.rating}</p>
+          <p>주소: {result.addr} <br /> {result.restAddr}</p>
+          <p>전화번호: {result.phone}</p>
+          <p>이메일: {result.email}</p>
         </div>
       </ProfileLeft>
-      {showCheck && (
-            <>
-              <MyPopUp
-                title={"회원정보"}
-                txt={`
-                  주소: ${result.addr} 
-                  전화번호: ${result.phone}
-                  이메일: ${result.email}
-                `}
-                onConfirm={closeCheck}
-              />
-              <ModalBackground></ModalBackground>
-            </>
-            )}
       <ProfileRight>
         <div>
           <p>대여중 (구매)</p>

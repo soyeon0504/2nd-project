@@ -49,37 +49,55 @@ const MyWithDrawPage = () => {
   const [phone, setPhone] = useState('');
 
   // 비밀번호 보이기/감추기
-const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-const { doLogout, moveToPath  } = useCustomLogin();
-const [showModal, setShowModal] = useState(false);
-const closeModal = () => {
-  handleWithdraw();
-  doLogout();
-  setShowModal(false);
-  moveToPath("/")
-};
+  const { doLogout } = useCustomLogin();
+  const [showModal, setShowModal] = useState(false);
+  const [withdrawError, setWithdrawError] = useState('');
+  const navigate = useNavigate();
 
-const handleTogglePassword = () => {
-  setShowPassword(prev => !prev);
-};
-
-  const handleWithdraw = async () => {
-    try {
-      const data = {
-        uid: id,
-        upw: password,
-        phone: phone
-      };
-      await patchWithdraw(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const resetValues = () => {
+    setId('');
+    setPassword('');
+    setPhone('');
+    setShowPassword(false);
   };
 
-  const handleLogOut = () => {
-    setShowModal(true);
-  }
+  const closeModal = () => {
+    if (!withdrawError) {
+      doLogout();
+    }
+    setShowModal(false);
+    navigate(`/my?rental`, { state: { selectedItem: "대여중" } });
+    sessionStorage.setItem('selectedItem', "대여중");
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(prev => !prev);
+  };
+
+    const handleWithdraw = async () => {
+      try {
+        const data = {
+          uid: id,
+          upw: password,
+          phone: phone
+        };
+        await patchWithdraw(data);
+        setShowModal(true);
+      } catch (error) {
+        console.error(error);
+        setWithdrawError('거래중인 내역이 있어 탈퇴할 수 없습니다');
+        setShowModal(true);
+      }
+    };
+
+    const handleLogOut = () => {
+      handleWithdraw();
+    }
+    const handleCancel = () => {
+      resetValues();
+    };
 
   return (
     <>
@@ -140,17 +158,17 @@ const handleTogglePassword = () => {
           <PwBox type="text" maxLength={14} placeholder="휴대폰 번호" 
           value={phone} onChange={(e) => setPhone(e.target.value)}/>
             <BtSection mgtop={"40px"} mgbtm={"20px"} width={"380px"}>
-                <CancelBt>취소</CancelBt>
+                <CancelBt onClick={handleCancel}>취소</CancelBt>
                 <SaveBt onClick={handleLogOut}>탈퇴</SaveBt>
                 {showModal && (
-            <>
-              <JoinPopUp
-                txt="회원 탈퇴 하셨습니다."
-                onConfirm={closeModal}
-              />
-              <ModalBackground></ModalBackground>
-            </>
-            )}
+                  <>
+                    <JoinPopUp
+                      txt={withdrawError || "회원 탈퇴 하셨습니다."}
+                      onConfirm={closeModal}
+                    />
+                    <ModalBackground></ModalBackground>
+                  </>
+                )}
             </BtSection>
         </LoginBox>
     </>

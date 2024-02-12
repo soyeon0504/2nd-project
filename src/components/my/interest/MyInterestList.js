@@ -3,11 +3,13 @@ import { MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyList
 import MyMoreButton from "../MyMoreButton";
 import { getMyInterest } from "../../../api/my/my_api";
 import { Link } from "react-router-dom";
+import {getFav} from "../../../api/details/details_api"
 
 
 const MyInterestList = () => {
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(3);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +24,18 @@ const MyInterestList = () => {
     fetchData();
   }, []);
 
+  const handleFavoriteClick = async (iproduct) => {
+    try {
+      const favResult = await getFav(iproduct);
+
+      const updatedResult = await getMyInterest(1);
+      setData(updatedResult);
+
+    } catch (error) {
+      console.error("Error favoriting:", error);
+    }
+  };
+
   const handleLoadMore = () => {
     setViewMore((prevViewMore) => prevViewMore + 3);
   };
@@ -35,29 +49,29 @@ const MyInterestList = () => {
       </MyListTop>
       {data.map((item, index) => (
         <React.Fragment key={index}>
-          <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
             <MyListMid>
-              <MyListMidImg>
-                <img src={`/pic/${item.prodPic}`}alt={item.title} />
-              </MyListMidImg>
-              <MyListMidTxt>
-                <div>
-                  <h2>{item.title}</h2>
-                </div>
-                <div>
-                  <p>{item.price} 원</p>
-                </div>
-                <div>
-                  <span>{item.deposit}</span>
-                </div>
-              </MyListMidTxt>
+              <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+                <MyListMidImg>
+                  <img src={`/pic/${item.prodPic}`}alt={item.title} />
+                </MyListMidImg>
+                <MyListMidTxt>
+                  <div>
+                    <h2>{item.title}</h2>
+                  </div>
+                  <div>
+                    <p>{item.price} 원</p>
+                  </div>
+                  <div>
+                    <span>{item.deposit}</span>
+                  </div>
+                </MyListMidTxt>
+              </Link>
               <MyListMidLast>
-                <button>
+                <button onClick={() => handleFavoriteClick(item.iproduct)}>
                   <img src="/images/main/heart_hover.svg"/>
                 </button>
               </MyListMidLast>
             </MyListMid>
-          </Link>
         </React.Fragment> 
       ))}
       <MyListBottom>
