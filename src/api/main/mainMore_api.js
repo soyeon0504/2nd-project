@@ -12,6 +12,7 @@ const failPostDatas = () => {
 export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sortType) => {
   try {
     let url;
+    console.log(pageNum, categoryId, subCategoryId, sortType)
     if (sortType) url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     else url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     const res = await axios.get(url);

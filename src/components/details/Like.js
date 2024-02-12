@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledButton } from "../../styles/details/DetailsComponentStyles";
 import { getFav } from "../../api/details/details_api";
 
 function Like({ isLiked, productId }) {
   const [liked, setLiked] = useState(isLiked);
 
-  const toggleLike = async () => {
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
+  
+  const toggleLike = async (e) => {
     try {
       // 상태 업데이트를 이전 값에 의존하지 않도록 함수형 업데이트를 사용합니다.
+      e.stopPropagation()
       setLiked(prevLiked => !prevLiked);
 
       // 찜 상태에 따라 API를 호출하여 찜 기능을 처리합니다.

@@ -7,11 +7,13 @@ import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
 import { getProductDetail } from "../../api/main/main_api";
+import Like from "../../components/details/Like";
 
 const region = [
   {
     title: "대구광역시",
     list: [
+      "전체",
       "달서구",
       "중구",
       "동구",
@@ -25,6 +27,7 @@ const region = [
   {
     title: "서울특별시",
     list: [
+      "전체",
       "종로구",
       "중구",
       "용산구",
@@ -55,6 +58,7 @@ const region = [
   {
     title: "부산광역시",
     list: [
+      "전체",
       "중구",
       "서구",
       "동구",
@@ -76,6 +80,7 @@ const region = [
   {
     title: "인천광역시",
     list: [
+      "전체",
       "중구",
       "동구",
       "미추홀구",
@@ -88,15 +93,15 @@ const region = [
   },
   {
     title: "광주광역시",
-    list: ["동구", "서구", "남구", "북구", "광산구"],
+    list: ["전체", "동구", "서구", "남구", "북구", "광산구"],
   },
   {
     title: "대전광역시",
-    list: ["동구", "중구", "서구", "유성구", "대덕구"],
+    list: ["전체", "동구", "중구", "서구", "유성구", "대덕구"],
   },
   {
     title: "울산광역시",
-    list: ["중구", "남구", "동구", "북구"],
+    list: ["전체", "중구", "남구", "동구", "북구"],
   },
 ];
 
@@ -105,10 +110,10 @@ const MainMorePage = () => {
 
   const location = useLocation();
   const { pathname, state } = location;
+  const { title } = location.state || {};
   const urlParseArr = pathname.split("/");
   const parseMainCategory = parseInt(urlParseArr[3]);
   const parseSubCategory = parseInt(urlParseArr[4]);
-
 
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
@@ -118,8 +123,8 @@ const MainMorePage = () => {
   // 지역별 시, 구 분류 데이터
   const [filterData, setFilterData] = useState([]);
   // 지역 선택 관리
-  const [regionNum, setRegionNum] = useState(0);
-  const [districtNum, setDistrictNum] = useState(0);
+  const [regionNum, setRegionNum] = useState(null);
+  const [districtNum, setDistrictNum] = useState(null);
 
   const fetchData = async (pageNum, _sortType) => {
     try {
@@ -137,9 +142,15 @@ const MainMorePage = () => {
   };
 
   const handleRegionChange = e => {
-    const regionIndex = region.findIndex(item => item.title === e.target.value);
-    setRegionNum(regionIndex);
-    setDistrictNum(0);
+    if (e.target.value === "전체") {
+      setRegionNum(null);
+    } else {
+      const regionIndex = region.findIndex(
+        item => item.title === e.target.value,
+      );
+      setRegionNum(regionIndex);
+    }
+    setDistrictNum(null);
   };
 
   const regionFilter = e => {
@@ -151,22 +162,6 @@ const MainMorePage = () => {
   const handlePageChange = _tempPage => {
     setPageNum(_tempPage);
   };
-
-  useEffect(() => {
-    if (sortType !== 0) fetchData(pageNum, sortType);
-    else fetchData(pageNum);
-  }, [pageNum, sortType]);
-
-  useEffect(() => {
-    const regionData = datas.filter(item =>
-      item.addr.includes(region[regionNum].title.slice(0, 2)),
-    );
-    const districtData = regionData.filter(item =>
-      item.addr.includes(region[regionNum].list[districtNum]),
-    );
-    setFilterData(districtData);
-  }, [districtNum, datas, regionNum]);
-
   // details 페이지로 이동
   const handlePageChangeDetails = _item => {
     const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
@@ -182,13 +177,40 @@ const MainMorePage = () => {
     console.log(res);
   };
 
+  // 제품 갯수
+  const totalPosts = filterData.length; //최대 16개
+
+  useEffect(() => {
+    if (sortType !== 0) fetchData(pageNum, sortType);
+    else fetchData(pageNum);
+  }, [pageNum, sortType]);
+
+  useEffect(() => {
+    if (regionNum !== null) {
+      const regionData = datas.filter(item =>
+        item.addr.includes(region[regionNum].title.slice(0, 2)),
+      );
+      if (districtNum !== null) {
+        const districtData = regionData.filter(item =>
+          item.addr.includes(` ${region[regionNum].list[districtNum]}`),
+        );
+        setFilterData(districtData);
+      } else {
+        setFilterData(regionData);
+      }
+    } else {
+      setFilterData(datas);
+    }
+  }, [districtNum, datas, regionNum, pageNum]);
+
+
   return (
     <Layout>
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">
           <div className="header-cate-wrap">
-            <div>{state && state.title ? state.title : "Default Title"}</div>
+            <div>{title || "Default Title"}</div>
           </div>
           <div>
             <div className="bt-wrap">
@@ -199,7 +221,8 @@ const MainMorePage = () => {
               </div>
             </div>
             <div className="region-wrap">
-              <select onChange={handleRegionChange}>
+              <select onChange={handleRegionChange} defaultValue="전체">
+                <option>전체</option>
                 {region.map((item, index) => {
                   return (
                     <option key={`regionTitle${index}`}>{item.title}</option>
@@ -208,11 +231,16 @@ const MainMorePage = () => {
               </select>
               <select
                 onChange={e => regionFilter(e)}
-                value={region[regionNum].list[districtNum]}
+                value={
+                  regionNum !== null && region[regionNum].list[districtNum]
+                }
+                disabled={regionNum === null}
               >
-                {region[regionNum].list.map((item, index) => {
-                  return <option key={`regionList${index}`}>{item}</option>;
-                })}
+                {regionNum === null && <option>-</option>}
+                {regionNum !== null &&
+                  region[regionNum].list.map((item, index) => {
+                    return <option key={`regionList${index}`}>{item}</option>;
+                  })}
               </select>
             </div>
           </div>
@@ -225,6 +253,12 @@ const MainMorePage = () => {
                 key={`MainMore-item-${index}`}
                 onClick={() => handlePageChangeDetails(item)}
               >
+                <div className="like-wrap">
+                      <Like
+                        isLiked={item.isLiked !== 0 ? true : false}
+                        productId={item.iproduct}
+                      />
+                    </div>
                 <img
                   className="item-image"
                   src={`/pic/${item.prodMainPic}`}
@@ -247,8 +281,8 @@ const MainMorePage = () => {
           <Pagination
             current={pageNum}
             onChange={handlePageChange}
-            total={50}
-            pageSize={10}
+            total={totalPosts}
+            pageSize={16}
           />
         </div>
       </MoreWrap>

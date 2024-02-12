@@ -100,7 +100,15 @@ export const MoreWrap = styled.div`
       border: none;
       border-radius: 4px;
     }
-    
+    .like-wrap {
+      position: absolute;
+      margin: 0 auto;
+      right: 15px;
+      top: 15px;
+      button {
+        margin: auto;
+      }
+    }
   
   }
   .ant-select-show-search {
