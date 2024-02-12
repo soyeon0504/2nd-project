@@ -15,22 +15,21 @@ import {
   SubCate,
 } from "../../styles/header/HeaderStyle";
 import { DivisionLine } from "../../styles/login/LoginPageStyle";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../slices/loginSlice";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import MenuTab, { mainCate, subCate } from "./MenuTab";
 import { searchGet } from "../../api/header/header_api";
 
-
 const Header = ({ searchName, pageNum }) => {
   // 검색 데이터 연동
   const [search, setSearch] = useState("");
   const searchWordRef = useRef(null);
   const searchBtRef = useRef(null);
-  const handleKeyDown = (e) => {
+  const handleKeyDown = e => {
     // 키 다운 이벤트 처리 함수
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       searchBtRef.current.click(); // SearchBt 클릭 이벤트 호출
     }
@@ -41,7 +40,7 @@ const Header = ({ searchName, pageNum }) => {
   const onClickSearch = e => {
     e.preventDefault();
     console.log("검색실행", search);
-    sessionStorage.setItem('searchValue', search);
+    sessionStorage.setItem("searchValue", search);
     const sendData = {
       search: search,
       pageNum: 1,
@@ -51,12 +50,11 @@ const Header = ({ searchName, pageNum }) => {
   };
   const successFn = result => {
     console.log("검색 성공", result);
-    const searchValue = sessionStorage.getItem('searchValue');
+    const searchValue = sessionStorage.getItem("searchValue");
 
     const url = `/search`;
-    navigate(url, { state: { result , searchValue} });
+    navigate(url, { state: { result, searchValue } });
     window.location.reload();
-
   };
 
   const failFn = result => {
@@ -67,13 +65,13 @@ const Header = ({ searchName, pageNum }) => {
     console.log("검색 서버에러", result);
   };
 
-    // URL에서 검색어 매개변수 추출
-    const [searchWord, setSearchWord] = useState("");
-    useEffect(() => {
-      const searchParams = new URLSearchParams(location.search);
-      const searchParam = searchParams.get("search");
-      setSearchWord(searchParam);
-    }, [location]);
+  // URL에서 검색어 매개변수 추출
+  const [searchWord, setSearchWord] = useState("");
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchParam = searchParams.get("search");
+    setSearchWord(searchParam);
+  }, [location]);
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -86,8 +84,8 @@ const Header = ({ searchName, pageNum }) => {
   const handleJoin = () => {
     navigate(`/join/1`);
   };
-  const handleMy = () => {
-    navigate(`/my`);
+  const handleMy = subItem => {
+    sessionStorage.setItem("selectedItem", subItem);
   };
 
   // 스크롤 시 그림자 생성
@@ -162,11 +160,11 @@ const Header = ({ searchName, pageNum }) => {
       }
     >
       <HeaderTop>
-      <HeaderLogo src="/images/logo.svg" onClick={handleLogo}/>
+        <HeaderLogo src="/images/logo.svg" onClick={handleLogo} />
         <div className="header-search">
           <SearchForm>
             <SearchWord
-            ref={searchWordRef}
+              ref={searchWordRef}
               onChange={e => handleChangeSearch(e)}
               onKeyDown={handleKeyDown}
               type="text"
@@ -175,15 +173,26 @@ const Header = ({ searchName, pageNum }) => {
               value={search}
             />
 
-            <SearchBt ref={searchBtRef} onClick={e => onClickSearch(e)} type="button" />
-
+            <SearchBt
+              ref={searchBtRef}
+              onClick={e => onClickSearch(e)}
+              type="button"
+            />
           </SearchForm>
         </div>
         {isLogin ? (
           <LoginState>
             <button onClick={handleLogout}>로그아웃</button>
             <DivisionLine></DivisionLine>
-            <button onClick={handleMy}>마이페이지</button>
+            <Link
+              to="/my"
+              onClick={() => {
+                handleMy("대여중");
+              }}
+              // style={{width: "100px"}}
+            >
+              <button>마이페이지</button>
+            </Link>
           </LoginState>
         ) : (
           <LoginState>
@@ -227,7 +236,9 @@ const Header = ({ searchName, pageNum }) => {
                       key={listItem.id}
                       title={listItem.title}
                       onClick={() => {
-                        navigate(`/more/1/${item.id}/${listItem.id}`, { state: { title: listItem.title }});
+                        navigate(`/more/1/${item.id}/${listItem.id}`, {
+                          state: { title: listItem.title },
+                        });
                         window.location.reload(); // 페이지 이동 후 화면 갱신
                       }}
                       onMouseEnter={() => handleSubCateHover(listItem.title)}

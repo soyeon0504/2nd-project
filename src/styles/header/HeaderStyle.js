@@ -65,8 +65,9 @@ export const LoginState = styled.div`
   display: flex;
   width: 200px;
   height: 20px;
+  justify-content: space-between;
   button {
-    width: 100%;
+    width: 80px;
     background: transparent;
     border: none;
     color: #777;
