@@ -13,8 +13,23 @@ import JoinPopUp, { ModalBackground } from "../../components/joinpopup/JoinPopUp
 
 const region = [
   {
+    title: "대구광역시",
+    list: [
+      "전체",
+      "달서구",
+      "중구",
+      "동구",
+      "서구",
+      "남구",
+      "북구",
+      "수성구",
+      "달성군",
+    ],
+  },
+  {
     title: "서울특별시",
     list: [
+      "전체",
       "종로구",
       "중구",
       "용산구",
@@ -45,6 +60,7 @@ const region = [
   {
     title: "부산광역시",
     list: [
+      "전체",
       "중구",
       "서구",
       "동구",
@@ -64,21 +80,9 @@ const region = [
     ],
   },
   {
-    title: "대구광역시",
-    list: [
-      "중구",
-      "동구",
-      "서구",
-      "남구",
-      "북구",
-      "수성구",
-      "달서구",
-      "달성군",
-    ],
-  },
-  {
     title: "인천광역시",
     list: [
+      "전체",
       "중구",
       "동구",
       "미추홀구",
@@ -91,15 +95,15 @@ const region = [
   },
   {
     title: "광주광역시",
-    list: ["동구", "서구", "남구", "북구", "광산구"],
+    list: ["전체", "동구", "서구", "남구", "북구", "광산구"],
   },
   {
     title: "대전광역시",
-    list: ["동구", "중구", "서구", "유성구", "대덕구"],
+    list: ["전체", "동구", "중구", "서구", "유성구", "대덕구"],
   },
   {
     title: "울산광역시",
-    list: ["중구", "남구", "동구", "북구"],
+    list: ["전체", "중구", "남구", "동구", "북구"],
   },
 ];
 
@@ -183,7 +187,7 @@ const MainMoreSearchPage = () => {
         subCategoryId: _item.categories.subCategory,
         iproduct: _item.iproduct,
       };
-      const res = await getProductDetail(serverData);
+      // const res = await getProductDetail(serverData);
       navigate(url);
     } else {
       setLoginState(true)

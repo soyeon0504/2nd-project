@@ -10,6 +10,7 @@ import {
   MainCate,
   MainCateTitle,
   SearchBt,
+  SearchDivisionLine,
   SearchForm,
   SearchWord,
   SubCate,
@@ -52,7 +53,7 @@ const Header = ({ searchName, pageNum }) => {
     console.log("검색 성공", result);
     const searchValue = sessionStorage.getItem("searchValue");
 
-    const url = `/search`;
+    const url = `/search?search=${search}`;
     navigate(url, { state: { result, searchValue } });
     window.location.reload();
   };
@@ -72,6 +73,42 @@ const Header = ({ searchName, pageNum }) => {
     const searchParam = searchParams.get("search");
     setSearchWord(searchParam);
   }, [location]);
+
+  // search에서 카테고리 선택
+  const [searchMainCate, setSearchMainCate] = useState(false);
+  const toggleMainCate = () => {
+    setSearchMainCate(prev => !prev);
+  };
+  const [searchSubCate, setSearchSubCate] = useState(false);
+  const toggleSubCate = () => {
+    setSearchSubCate(prev => !prev);
+  };
+
+  const [selectedSubCate, setSelectedSubCate] = useState([
+    { id: 0, title: "전체" },
+  ]);
+  const [selectedValue, setSelectedValue] = useState('');
+  const handleMainCategoryChange = event => {
+    const selectedOption = mainCate.find(item => item.id === parseInt(event.target.value));
+    setSelectedValue(selectedOption ? selectedOption.title : '');
+    const selectedMainCategoryId = parseInt(event.target.value);
+    const selectedMainCategory = mainCate.find(
+      item => item.id === selectedMainCategoryId,
+    );
+
+    if (selectedMainCategory) {
+      const selectedSubCategoryId = selectedMainCategoryId;
+      const selectedSubCategory = subCate[selectedSubCategoryId];
+
+      setSelectedSubCate(selectedSubCategory);
+    }
+  };
+
+  const [selectedSubValue, setSelectedSubValue] = useState('');
+  const handleSubCategoryChange = (event) => {
+    const selectedOption = selectedSubCate.find((item) => item.title === event.target.value);
+    setSelectedSubValue(selectedOption ? selectedOption.title : '');
+  };
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -172,6 +209,36 @@ const Header = ({ searchName, pageNum }) => {
               min={2}
               value={search}
             />
+            <SearchDivisionLine></SearchDivisionLine>
+            <div>
+              <b>메인카테고리</b>
+              <br />
+              <span onClick={toggleMainCate}>{selectedValue ? selectedValue : '메인카테고리 선택'}</span>
+            </div>
+            {searchMainCate && (
+              <select onChange={handleMainCategoryChange}>
+                {mainCate.map(item => {
+                  return (
+                    <option key={item.id} value={item.id}>
+                      {item.title}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
+            <SearchDivisionLine></SearchDivisionLine>
+            <div>
+              <b>상세카테고리</b>
+              <br />
+              <span onClick={toggleSubCate}>{selectedSubValue ? selectedSubValue : '상세카테고리 선택'}</span>
+            </div>
+            {searchSubCate && (
+              <select onChange={handleSubCategoryChange}>
+                {selectedSubCate.map(listItem => {
+                  return <option key={listItem.id}>{listItem.title}</option>;
+                })}
+              </select>
+            )}
 
             <SearchBt
               ref={searchBtRef}
@@ -189,7 +256,6 @@ const Header = ({ searchName, pageNum }) => {
               onClick={() => {
                 handleMy("대여중");
               }}
-              // style={{width: "100px"}}
             >
               <button>마이페이지</button>
             </Link>
@@ -213,53 +279,67 @@ const Header = ({ searchName, pageNum }) => {
         </HeaderMainMenu>
 
         <CategoryTab>
-          {mainCate.map(item => (
-            <MainCate
-              key={item.title}
-              onMouseEnter={() => handleCategoryHover(item.title)}
-              onMouseLeave={() => handleCategoryLeave(item.title)}
-              className={activeCategory === item.title ? "active" : ""}
-            >
-              <MainCateTitle
-                style={
-                  activeCategory === item.title
-                    ? { color: "#2C39B5", fontWeight: "500", fontSize: "13px" }
-                    : { color: "#777" }
-                }
+          {mainCate
+            .filter(item => item.id !== 0)
+            .map(item => (
+              <MainCate
+                key={item.title}
+                onMouseEnter={() => handleCategoryHover(item.title)}
+                onMouseLeave={() => handleCategoryLeave(item.title)}
+                className={activeCategory === item.title ? "active" : ""}
               >
-                {item.title}
-              </MainCateTitle>
-              {activeCategory === item.title && (
-                <SubCate>
-                  {subCate[item.id - 1].map(listItem => (
-                    <li
-                      key={listItem.id}
-                      title={listItem.title}
-                      onClick={() => {
-                        navigate(`/more/1/${item.id}/${listItem.id}`, {
-                          state: { title: listItem.title },
-                        });
-                        window.location.reload(); // 페이지 이동 후 화면 갱신
-                      }}
-                      onMouseEnter={() => handleSubCateHover(listItem.title)}
-                      onMouseLeave={handleSubCateLeave}
-                      style={
-                        activeSubCate === listItem.title
-                          ? {
-                              color: "#2C39B5",
-                              fontWeight: "500",
-                              background: "#F2F2FF",
-                            }
-                          : {}
-                      }
-                    >
-                      {listItem.title}
-                    </li>
-                  ))}
-                </SubCate>
-              )}
-            </MainCate>
-          ))}
+                <MainCateTitle
+                  style={
+                    activeCategory === item.title
+                      ? {
+                          color: "#2C39B5",
+                          fontWeight: "500",
+                          fontSize: "13px",
+                        }
+                      : { color: "#777" }
+                  }
+                >
+                  {item.title}
+                </MainCateTitle>
+                {activeCategory === item.title && (
+                  <SubCate>
+                    {subCate[item.id]
+                      .filter(listItem => listItem.id !== 0)
+                      .map(listItem => (
+                        <li
+                          key={listItem.id}
+                          title={listItem.title}
+                          onClick={() => {
+                            // navigate(`/more/1/${item.id}/${listItem.id}`, {
+                            navigate(
+                              `/more?mc=${item.id}&sc=${listItem.id}&page=1`,
+                              {
+                                state: { title: listItem.title },
+                              },
+                            );
+                            window.location.reload(); // 페이지 이동 후 화면 갱신
+                          }}
+                          onMouseEnter={() =>
+                            handleSubCateHover(listItem.title)
+                          }
+                          onMouseLeave={handleSubCateLeave}
+                          style={
+                            activeSubCate === listItem.title
+                              ? {
+                                  color: "#2C39B5",
+                                  fontWeight: "500",
+                                  background: "#F2F2FF",
+                                }
+                              : {}
+                          }
+                        >
+                          {listItem.title}
+                        </li>
+                      ))}
+                  </SubCate>
+                )}
+              </MainCate>
+            ))}
           <div></div>
         </CategoryTab>
       </HeaderMenu>

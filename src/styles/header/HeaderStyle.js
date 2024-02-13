@@ -27,7 +27,7 @@ export const HeaderLogo = styled.img`
 `;
 export const SearchForm = styled.div`
   display: flex;
-  width: 640px;
+  width: 700px;
   height: 60px;
   flex-shrink: 0;
   padding-left: 30px;
@@ -36,10 +36,17 @@ export const SearchForm = styled.div`
   align-items: center;
   border-radius: 80px;
   border: 1px solid #2c39b5;
+  b {
+    font-size: 13px;
+  }
+  select {
+    width: 120px;
+    border: 1px solid #2c39b5;
+  }
 `;
 export const SearchWord = styled.input`
   display: flex;
-  width: 550px;
+  width: 250px;
   height: 50px;
   flex-direction: column;
   justify-content: center;
@@ -47,10 +54,15 @@ export const SearchWord = styled.input`
   border: none;
 
   color: rgb(0, 0, 0);
-  font-size: 25px;
+  font-size: 23px;
   font-style: normal;
   line-height: 24px; /* 80% */
   letter-spacing: 0.5px;
+`;
+export const SearchDivisionLine = styled.div`
+width: 1px;
+height: 50px;
+background: #2c39b5;
 `;
 export const SearchBt = styled.button`
   width: 40px;
