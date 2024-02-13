@@ -8,6 +8,8 @@ import Layout from "../../layouts/Layout";
 import { getMoreProduct } from "../../api/main/mainMore_api";
 import { getProductDetail } from "../../api/main/main_api";
 import Like from "../../components/details/Like";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import JoinPopUp, { ModalBackground } from "../../components/joinpopup/JoinPopUp";
 
 const region = [
   {
@@ -111,9 +113,12 @@ const MainMorePage = () => {
   const location = useLocation();
   const { pathname, state } = location;
   const { title } = location.state || {};
-  const urlParseArr = pathname.split("/");
-  const parseMainCategory = parseInt(urlParseArr[3]);
-  const parseSubCategory = parseInt(urlParseArr[4]);
+  // const urlParseArr = pathname.split("/");
+  // const parseMainCategory = parseInt(urlParseArr[3]);
+  // const parseSubCategory = parseInt(urlParseArr[4]);
+  const searchParams = new URLSearchParams(location.search);
+  const parseMainCategory = parseInt(searchParams.get("mc"));
+  const parseSubCategory = parseInt(searchParams.get("sc"));
 
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
@@ -163,18 +168,29 @@ const MainMorePage = () => {
     setPageNum(_tempPage);
   };
   // details 페이지로 이동
-  const handlePageChangeDetails = _item => {
-    const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
-    console.log("wowo", _item);
-    const serverData = {
-      mainCategoryId: _item.categories.mainCategory,
-      subCategoryId: _item.categories.subCategory,
-      iproduct: _item.iproduct,
-    };
-    console.log(serverData);
-    const res = getProductDetail(serverData);
-    navigate(url);
-    console.log(res);
+  const { isLogin } = useCustomLogin();
+  const [loginState, setLoginState] = useState(false);
+
+  const handlePageChangeDetails = async _item => {
+    if (isLogin) {
+      const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+      // console.log("wowo", _item);
+      const serverData = {
+        mainCategoryId: _item.categories.mainCategory,
+        subCategoryId: _item.categories.subCategory,
+        iproduct: _item.iproduct,
+      };
+      // console.log(serverData);
+      // const res = getProductDetail(serverData);
+      navigate(url);
+      // console.log(res);
+    } else {
+      setLoginState(true)
+    }
+  };
+  const closeModal = () => {
+    setLoginState(false);
+    navigate(`/login`);
   };
 
   // 제품 갯수
@@ -203,9 +219,14 @@ const MainMorePage = () => {
     }
   }, [districtNum, datas, regionNum, pageNum]);
 
-
   return (
     <Layout>
+      {loginState && (
+        <>
+          <JoinPopUp txt="로그인 후 이용해주세요." onConfirm={closeModal} />
+          <ModalBackground></ModalBackground>
+        </>
+      )}
       <SideBar />
       <MoreWrap>
         <div className="header-wrap">
@@ -254,11 +275,11 @@ const MainMorePage = () => {
                 onClick={() => handlePageChangeDetails(item)}
               >
                 <div className="like-wrap">
-                      <Like
-                        isLiked={item.isLiked !== 0 ? true : false}
-                        productId={item.iproduct}
-                      />
-                    </div>
+                  <Like
+                    isLiked={item.isLiked !== 0 ? true : false}
+                    productId={item.iproduct}
+                  />
+                </div>
                 <img
                   className="item-image"
                   src={`/pic/${item.prodMainPic}`}
