@@ -120,7 +120,8 @@ export const patchProduct = async () => {
   }
 };
 
-export const Reviepatch = async (ireview, contents, rating) => {
+// 수정해야되는 부분 (쿼리 파라미터x)
+export const Reviewpatch = async (ireview, contents, rating) => {
   try {
     const url = `${path}/pay/review?ireview?=${ireview}&contents=${contents}&rating=${rating}`;
     const res = await jwtAxios.patch(url);
@@ -144,7 +145,7 @@ export const deleteProduct = async iproduct => {
 
 export const Reviewdelete = async rev => {
   try {
-    const url = `${path}/pay/review?rev=${1}`;
+    const url = `${path}/pay/review?rev=${rev}`;
     const res = await jwtAxios.delete(url);
     return res;
   } catch (error) {

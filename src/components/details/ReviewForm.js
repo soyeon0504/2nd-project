@@ -36,7 +36,12 @@ const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
       return;
     }
     try {
-      await postReview(ipayment, review, rating); // API 호출
+      const userInputData = {
+        ipayment,
+        contents: review,
+        rating,
+      };
+      await postReview(userInputData); // API 호출
       // 제출 후 입력란 초기화
       setRating(0);
       setReview("");
