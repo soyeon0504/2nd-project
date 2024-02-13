@@ -77,11 +77,22 @@ export const postProduct = async (
     failPostDatas("/");
   }
 };
+// 쿼리 문자열로 전송 방식
+// export const postReview = async (ipayment, contents, rating) => {
+//   try {
+//     const url = `${path}/pay/review?ipayment=${ipayment}&contents=${contents}&rating=${rating}`;
+//     const res = await jwtAxios.post(url);
+//     return res;
+//   } catch (error) {
+//     console.log(error);
+//     failPostDatas("/");
+//   }
+// };
 
-export const postReview = async (ipayment, contents, rating) => {
+export const postReview = async data => {
   try {
-    const url = `${path}/pay/riview?ipayment=${ipayment}&contents=${contents}&rating=${rating}`;
-    const res = await jwtAxios.post(url);
+    const url = `${path}/pay/review`;
+    const res = await jwtAxios.post(url, data);
     return res;
   } catch (error) {
     console.log(error);
