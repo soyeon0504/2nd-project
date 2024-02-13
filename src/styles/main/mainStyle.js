@@ -90,17 +90,18 @@ export const BtWrap = styled.div`
     border-radius: 25px;
     background: #fff;
     cursor: pointer;
-    /* &:hover {
+    &:hover {
       color: #fff;
     background-color: #2c39b5;
     border: 3px solid #2c39b5;
-    } */
+    }
     &.focus {
       color: #fff;
       background-color: #2c39b5;
       border: #2c39b5;
     }
   }
+  
 `;
 export const MoreBtWrap = styled.div`
   padding-top: 100px;
@@ -129,9 +130,6 @@ export const MoreBt = styled.button`
     color: #fff;
     background-color: #2c39b5;
     border: 3px solid #2c39b5;
-    /* display: flex;
-            justify-content: space-evenly;
-            text-align: center; */
   }
   &:hover img {
     content: url("../images/main/arrow1.svg");

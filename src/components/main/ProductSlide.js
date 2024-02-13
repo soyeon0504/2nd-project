@@ -12,13 +12,8 @@ import {
 import { BtWrap } from "../../styles/main/mainStyle";
 
 import { useSelector } from "react-redux";
-
 import MoreButton from "./MoreButton";
 import Like from "../details/Like";
-
-import useCustomLogin from "../../hooks/useCustomLogin";
-import JoinPopUp, { ModalBackground } from "../joinpopup/JoinPopUp";
-
 
 const ProductSlide = ({ btList, title, desc, id, data }) => {
   const navigate = useNavigate(`/details/`); // useNavigate 훅을 사용하여 navigate 함수 가져오기
@@ -40,28 +35,11 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
     }
   };
 
-  //   const serverData = {
-  //     mainCategoryId: id,
-  //     subCategoryId: focus + 1,
-  //     iproduct: _item.iproduct,
-  //   };
-  //   const res = getProductDetail(serverData);
-  //   navigate(url);
-  // };
+  const isUserLoggedIn = useSelector(state => state.loginSlice.isLogin);
 
-  const { isLogin } = useCustomLogin();
-  const [loginState, setLoginState] = useState(false);
-
-  const handlePageChange = async _item => {
-    if (isLogin) {
+  const handlePageChange =  _item => {
+    if (isUserLoggedIn) {
       const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
-
-      const serverData = {
-        mainCategoryId: id,
-        subCategoryId: focus + 1,
-        iproduct: _item.iproduct,
-      };
-
 
       // const serverData = {
       //   mainCategoryId: id,
@@ -72,26 +50,19 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
       navigate(url);
       // const res = await getProductDetail(serverData);
     } else {
-
-      setLoginState(true);
-      // navigate(`/login`);
+      alert("로그인 후 이용해주세요");
+      navigate(`/login`);
     }
   };
 
-  const closeModal = () => {
-    setLoginState(false);
-    navigate(`/login`);
-  };
-
+  useEffect(() => {
+    if (swiper) {
+      swiper.slideTo(0, 0); // 슬라이더 초기화
+    }
+  }, [focus]);
 
   return (
     <div>
-      {loginState && (
-        <>
-          <JoinPopUp txt="로그인 후 이용해주세요." onConfirm={closeModal} />
-          <ModalBackground></ModalBackground>
-        </>
-      )}
       <div className="section-1">
         <div className="title">{title}</div>
         <div className="desc">{desc}</div>
