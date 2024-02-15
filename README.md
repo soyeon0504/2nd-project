@@ -2,6 +2,14 @@
 <div align= "center"> 
     <h2 style="border-bottom: 1px solid #21262d; color: #c9d1d9;"> 프론트엔드 - 백엔드 협업 2차 프로젝트 </h2>  
     <div style="font-weight: 700; font-size: 15px; text-align: center; color: #c9d1d9;"> IT기기 제품대여 서비스 </div> 
+    <br/>
+
+## 🪄 Introduce
+
+> 따뜻하고 활발한 교류가 있는 지역사회 만들기 <br/>
+사용하지않는IT기기, 제품대여 <br/>
+전자제품과 생활가전의 종류 및 필요성의 증가로 1인당 제품 구매 비용이 증가 하고 있습니다. <br/>
+이점을 활용하여 사용하지 않는 제품을 보유한 사람들과 필요한 이용자를 연결하여 상호 간 대여 기회를 제공합니다.
     </div>
     <div align= "center">
     <h2 style="border-bottom: 1px solid #21262d; color: #c9d1d9;"> 🛠️ Tech Stacks </h2> <br> 
