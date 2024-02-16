@@ -40,10 +40,11 @@ const LazyCustomerPage = lazy(() =>
   import("./pages/Customer/CustomerServicePage"),
 );
 const LazyErrorPage = lazy(() => import("./pages/ErrorPage"));
-
+//등록
 const LazyWrite = lazy(() => import("./pages/prod/Write"));
 const LazyModify = lazy(() => import("./pages/prod/Modify"));
-
+//기업등록
+const LazyEnterprise = lazy(()=>import("./pages/promootion/EnterpriseWrite"))
 const App = () => {
   return (
     <BrowserRouter>
@@ -187,6 +188,14 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyModify />
+            </Suspense>
+          }
+        ></Route>
+          <Route
+          path="/enterprise"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyEnterprise />
             </Suspense>
           }
         ></Route>

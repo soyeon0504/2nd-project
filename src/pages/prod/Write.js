@@ -444,6 +444,7 @@ const Write = () => {
                 <p>*</p>
                 <span>({imageBefore.length}/10)</span>
               </label>
+
               <div>
                 <div>
                   <ProductImgBt
