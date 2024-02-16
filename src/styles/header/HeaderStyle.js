@@ -75,6 +75,7 @@ export const SearchBt = styled.button`
 `;
 export const LoginState = styled.div`
   display: flex;
+  align-items: center;
   width: 200px;
   height: 20px;
   justify-content: space-between;

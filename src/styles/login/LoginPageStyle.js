@@ -85,5 +85,5 @@ export const LoginBt = styled.button`
 export const DivisionLine = styled.div`
   width: 1px;
   height: 15px;
-  background: #2c39b5;
+  background: ${props => (props.color ? props.color : "#2c39b5")};
 `;
