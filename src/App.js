@@ -10,6 +10,7 @@ import Breadcrumb from "./components/breadcrumb/Breadcrumb";
 import Loading from "./components/loading/Loading";
 // import "antd/dist/antd.css";
 
+const LazyJoinSelectPage = lazy(() => import("./pages/join/JoinSelectPage"));
 const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
@@ -20,6 +21,8 @@ const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
 const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
 const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"));
+
+const LazyAdminPage = lazy(() => import("./pages/admin/AdminPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
@@ -81,6 +84,14 @@ const App = () => {
           }
         ></Route>
 
+        <Route
+          path="/join/select"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinSelectPage />
+            </Suspense>
+          }
+        ></Route>
         <Route
           path="/join/1"
           element={
@@ -147,6 +158,14 @@ const App = () => {
             ></Route>
           </Route>
         </Route>
+        <Route
+          path="/admin"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyAdminPage />
+            </Suspense>
+          }
+        ></Route>
         <Route
           path="/pay/"
           element={
