@@ -16,6 +16,9 @@ import JoinPopUp, {
 const JoinFirstPage = () => {
   const navigate = useNavigate();
 
+  const joinParams = new URLSearchParams(location.search);
+  const parseJoinMember = (joinParams.get("member"));
+
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [personalInfoChecked, setPersonalInfoChecked] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -23,7 +26,7 @@ const JoinFirstPage = () => {
   // "확인" 버튼 클릭을 처리하는 함수
   const handlePageSubmit = () => {
     if (agreementChecked && personalInfoChecked) {
-      navigate(`/join/2`);
+      navigate(`/join/2?member=${parseJoinMember}`);
     } else {
       setShowModal(true);
     }
