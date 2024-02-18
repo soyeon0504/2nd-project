@@ -2,7 +2,11 @@ import React from 'react'
 
 const AdminBoardPage = () => {
   return (
-    <div>AdminBoardPage</div>
+    <div>
+      <div>
+        
+      </div>
+    </div>
   )
 }
 
