@@ -71,6 +71,9 @@ export const MoreWrap = styled.div`
       .desc-title {
         font-size: 15px;
         color: #777;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       hr {
         width: 280px;

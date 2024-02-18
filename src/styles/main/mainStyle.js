@@ -36,8 +36,13 @@ export const MainWrap = styled.div`
       line-height: 30px;
       text-align: left;
       .desc-title {
+        width: 270px;
         font-size: 15px;
         color: #777;
+        display:block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       hr {
         width: 280px;
