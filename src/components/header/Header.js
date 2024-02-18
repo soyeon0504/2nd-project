@@ -119,7 +119,7 @@ const Header = ({ searchName, pageNum }) => {
     navigate(`/login`);
   };
   const handleJoin = () => {
-    navigate(`/join/1`);
+    navigate(`/join/select`);
   };
   const handleMy = subItem => {
     sessionStorage.setItem("selectedItem", subItem);
