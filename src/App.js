@@ -26,6 +26,8 @@ const LazyAdminPage = lazy(() => import("./pages/admin/AdminPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
+const LazyProfilePage = lazy(() => import("./pages/profile/UserProfile"))
+
 const LazyMainMorePage = lazy(() => import("./pages/main/MainMorePage"));
 const LazyMainSearchPage = lazy(() =>
   import("./pages/main/MainMoreSearchPage"),
@@ -195,6 +197,14 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyDetailsPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/profile"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyProfilePage />
             </Suspense>
           }
         ></Route>
