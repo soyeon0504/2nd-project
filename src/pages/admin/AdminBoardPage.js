@@ -1,6 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const AdminBoardPage = () => {
+
   return (
     <div>
       <div>
@@ -10,4 +11,5 @@ const AdminBoardPage = () => {
   )
 }
 
-export default AdminBoardPage
+
+export default AdminBoardPage;
