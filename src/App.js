@@ -26,7 +26,7 @@ const LazyAdminPage = lazy(() => import("./pages/admin/AdminPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
 
-const LazyProfilePage = lazy(() => import("./pages/profile/UserProfile"))
+const LazyProfilePage = lazy(() => import("./pages/profile/UserProfile"));
 
 const LazyMainMorePage = lazy(() => import("./pages/main/MainMorePage"));
 const LazyMainSearchPage = lazy(() =>
@@ -46,7 +46,7 @@ const LazyErrorPage = lazy(() => import("./pages/ErrorPage"));
 const LazyWrite = lazy(() => import("./pages/prod/Write"));
 const LazyModify = lazy(() => import("./pages/prod/Modify"));
 //기업등록
-const LazyEnterprise = lazy(()=>import("./pages/promootion/EnterpriseWrite"))
+const LazyEnterprise = lazy(() => import("./pages/promootion/EnterpriseWrite"));
 const App = () => {
   return (
     <BrowserRouter>
@@ -193,7 +193,7 @@ const App = () => {
             </Suspense>
           }
         ></Route>
-          <Route
+        <Route
           path="/enterprise"
           element={
             <Suspense fallback={<Loading />}>
