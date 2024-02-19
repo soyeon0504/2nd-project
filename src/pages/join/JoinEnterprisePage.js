@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../../layouts/Layout";
 import DaumPostcode from "react-daum-postcode";
 import {
@@ -33,7 +33,7 @@ import {
   nickOverlapPost,
 } from "../../api/join/join_api";
 
-const JoinPage = () => {
+const JoinEnterprisePage = () => {
   // 중복확인(닉네임)
   const [nickOverlapConfirm, setNickOverlapConfirm] = useState(false);
   const [nickConfirmModal, setNickConfirmModal] = useState(false);
@@ -109,7 +109,6 @@ const JoinPage = () => {
     setIdNullModal(false);
   };
 
-
   // 이미지 업로드
   const [uploadImg, setUploadImg] = useState(
     `${process.env.PUBLIC_URL}/images/join/join_img.svg`,
@@ -140,7 +139,6 @@ const JoinPage = () => {
 
   // 주소 검색 모달창
   const [addrModal, setAddrModal] = useState(false);
-
   const handleSelectAddress = data => {
     const selectedAddress = data.address;
     setAddress(selectedAddress);
@@ -152,6 +150,20 @@ const JoinPage = () => {
   };
   const handleCloseModal = () => {
     setAddrModal(false);
+  };
+
+  const [addrModalTwo, setAddrModalTwo] = useState(false);
+  const handleSelectAddressTwo = data => {
+    const selectedAddressTwo = data.address;
+    setAddressTwo(selectedAddressTwo);
+    setAddrModalTwo(false);
+    console.log(address);
+  };
+  const handleClickButtonTwo = () => {
+    setAddrModalTwo(true);
+  };
+  const handleCloseModalTwo = () => {
+    setAddrModalTwo(false);
   };
 
   // 양식 검증(yup)
@@ -184,6 +196,14 @@ const JoinPage = () => {
       .email("이메일 형식이 올바르지 않습니다.")
       .required("이메일은 필수 입력 사항입니다.")
       .max(30, "30자까지만 입력하세요 "),
+      companyName: yup
+        .string()
+        .max(20, "20자까지만 입력하세요 ")
+        .required("업체명은 필수 입력 사항입니다."),
+        companyNum: yup
+          .string()
+          .max(10, "10자까지만 입력하세요 ")
+          .required("사업자 번호는 필수 입력 사항입니다."),
   });
 
   const { register, handleSubmit, formState, watch } = useForm({
@@ -197,8 +217,11 @@ const JoinPage = () => {
   const phoneNumber = watch("phoneNumber");
   const [address, setAddress] = useState("");
   const [restAddress, setRestAddress] = useState("");
+  const [addressTwo, setAddressTwo] = useState("");
+  const [restAddressTwo, setRestAddressTwo] = useState("");
   const email = watch("email");
-
+  const companyName = watch("companyName");
+  const companyNum = watch("companyNum");
 
   const handleChangeAddress = e => {
     setAddress(e.target.value);
@@ -206,6 +229,14 @@ const JoinPage = () => {
   const handleChangeRestAddress = e => {
     setRestAddress(e.target.value);
   };
+
+  const handleChangeAddressTwo = e => {
+    setAddressTwo(e.target.value);
+  };
+  const handleChangeRestAddressTwo = e => {
+    setRestAddressTwo(e.target.value);
+  };
+
 
   // 휴대폰 번호 확인 버튼
   const [showPhoneModal, setShowPhoneModal] = useState(false);
@@ -229,7 +260,7 @@ const JoinPage = () => {
           addr: address,
           restAddr: restAddress,
           email: email,
-          isValid: 2
+          isValid: 2,
         }),
       ],
       { type: "application/json" },
@@ -249,7 +280,7 @@ const JoinPage = () => {
       formData.append("pic", file);
     }
     try {
-      joinPost({obj: formData});
+      joinPost({ obj: formData });
       navigate(`/join/step_3?nick=${nickname}`);
     } catch (error) {
       console.log(error);
@@ -267,7 +298,6 @@ const JoinPage = () => {
   const handleNotValid = e => {
     setCatchErr(true);
   };
-
   return (
     <Layout>
       {nickConfirmModal && (
@@ -340,6 +370,11 @@ const JoinPage = () => {
       {addrModal && (
         <Modal handleClose={handleCloseModal}>
           <DaumPostcode onComplete={handleSelectAddress} autoClose={false} />
+        </Modal>
+      )}
+      {addrModalTwo && (
+        <Modal handleClose={handleCloseModalTwo}>
+          <DaumPostcode onComplete={handleSelectAddressTwo} autoClose={false} />
         </Modal>
       )}
 
@@ -537,7 +572,7 @@ const JoinPage = () => {
 
           <JoinElement>
             <JoinElementTxt>
-              <p>주소</p>
+              <p>회사 주소</p>
               <span>*</span>
             </JoinElementTxt>
             <JoinElementInputBox>
@@ -570,6 +605,39 @@ const JoinPage = () => {
 
           <JoinElement>
             <JoinElementTxt>
+              <p>지점 주소</p>
+              {/* <span>*</span> */}
+            </JoinElementTxt>
+            <JoinElementInputBox>
+              <JoinAddressInput>
+                <input
+                  type="text"
+                  value={addressTwo}
+                  placeholder="주소를 검색해주세요."
+                  onClick={handleClickButtonTwo}
+                  readOnly
+                  name="addressTwo"
+                  onChange={handleChangeAddressTwo}
+                />
+                {catchErr && addressTwo === "" && (
+                  <InputValid>주소를 검색해주세요.</InputValid>
+                )}
+                <input
+                  type="text"
+                  value={restAddressTwo}
+                  placeholder="상세 주소를 입력해주세요."
+                  name="restAddressTwo"
+                  onChange={handleChangeRestAddressTwo}
+                />
+                {catchErr && restAddressTwo === "" && (
+                  <InputValid>상세 주소를 입력해주세요.</InputValid>
+                )}
+              </JoinAddressInput>
+            </JoinElementInputBox>
+          </JoinElement>
+
+          <JoinElement>
+            <JoinElementTxt>
               <p>이메일</p>
               <span>*</span>
             </JoinElementTxt>
@@ -585,6 +653,46 @@ const JoinPage = () => {
               </JoinElementInput>
               {catchErr && formState.errors.email && (
                 <InputValid>{formState.errors.email?.message}</InputValid>
+              )}
+            </JoinElementInputBox>
+          </JoinElement>
+
+          <JoinElement>
+            <JoinElementTxt>
+              <p>업체명</p>
+              <span>*</span>
+            </JoinElementTxt>
+            <JoinElementInputBox>
+              <JoinElementInput>
+                <input
+                  maxLength={20}
+                  placeholder="20자 이내"
+                  name="companyName"
+                    {...register("companyName")}
+                />
+              </JoinElementInput>
+              {catchErr && formState.errors.companyName && (
+                <InputValid>{formState.errors.companyName?.message}</InputValid>
+              )}
+            </JoinElementInputBox>
+          </JoinElement>
+
+          <JoinElement>
+            <JoinElementTxt>
+              <p>사업자 번호</p>
+              <span>*</span>
+            </JoinElementTxt>
+            <JoinElementInputBox>
+              <JoinElementInput>
+                <input
+                  maxLength={10}
+                  placeholder="10자 이내"
+                  name="companyNum"
+                    {...register("companyNum")}
+                />
+              </JoinElementInput>
+              {catchErr && formState.errors.companyNum && (
+                <InputValid>{formState.errors.companyNum?.message}</InputValid>
               )}
             </JoinElementInputBox>
           </JoinElement>
@@ -607,4 +715,5 @@ const JoinPage = () => {
     </Layout>
   );
 };
-export default JoinPage;
+
+export default JoinEnterprisePage;

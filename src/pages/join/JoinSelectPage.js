@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
 const JoinSelectPage = () => {
     const navigate = useNavigate();
     const handleIndividual = e => {
-        navigate(`/join/1?member=individual`)
+        navigate(`/join/step_1?member=individual`)
     }
     const handleEnterprise = e => {
-        navigate(`/join/1?member=enterprise`)
+        navigate(`/join/step_1?member=enterprise`)
     }
   return (
     <Layout>
