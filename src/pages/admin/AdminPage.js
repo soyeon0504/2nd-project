@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminMemberPage from "./AdminMemberPage";
 import AdminReportPage from "./AdminReportPage";
 import AdminBoardPage from "./AdminBoardPage";
+import AdminFreeBoardPage from "./AdminFreeBoardPage";
 import AdminAdPage from "./AdminAdPage";
 import styled from "@emotion/styled";
 import AdminCategory from "../../components/admin/AdminCategory";
@@ -135,13 +136,15 @@ const AdminPage = () => {
                 handleSubItemClick={handleSubItemClick}
               />
             ) : null}
-            {activeBtn === "상품 게시판" || activeBtn === "자유 게시판" ? (
+            {/* {activeBtn === "상품 게시판" || activeBtn === "자유 게시판" ? (
               <AdminBoardPage
                 activeBtn={activeBtn}
                 setActiveBtn={setActiveBtn}
                 handleSubItemClick={handleSubItemClick}
               />
-            ) : null}
+            ) : null} */}
+            {activeBtn === "상품 게시판" && <AdminBoardPage />}
+            {activeBtn === "자유 게시판" && <AdminFreeBoardPage />}
             {activeBtn === "광고 수익" && <AdminAdPage />}
           </div>
         </Flex>
