@@ -26,7 +26,7 @@ const JoinFirstPage = () => {
   // "확인" 버튼 클릭을 처리하는 함수
   const handlePageSubmit = () => {
     if (agreementChecked && personalInfoChecked) {
-      navigate(`/join/2?member=${parseJoinMember}`);
+      navigate(`/join/step_2/${parseJoinMember}`);
     } else {
       setShowModal(true);
     }

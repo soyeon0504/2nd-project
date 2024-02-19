@@ -13,6 +13,7 @@ import Loading from "./components/loading/Loading";
 const LazyJoinSelectPage = lazy(() => import("./pages/join/JoinSelectPage"));
 const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
+const LazyJoinEnterprisePage = lazy(() => import("./pages/join/JoinEnterprisePage"));
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
@@ -96,7 +97,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/join/1"
+          path="/join/step_1"
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinFirstPage />
@@ -104,7 +105,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/join/2"
+          path="/join/step_2/individual"
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinPage />
@@ -112,7 +113,15 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/join/3"
+          path="/join/step_2/enterprise"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyJoinEnterprisePage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/join/step_3"
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinLastPage />
