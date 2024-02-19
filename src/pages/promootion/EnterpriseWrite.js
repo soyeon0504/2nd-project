@@ -30,6 +30,8 @@ import {
 import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
+// 오늘 날짜 출력
+import moment from "moment";
 
 //서버에서 돌려주는 값
 // const initMoreData = {
@@ -85,7 +87,7 @@ const initState = {
   },
 
   inventory: 1, // 재고
-  hashtag:"#"
+  hashtag: "#",
 };
 
 // 검증 코드 yup
@@ -442,6 +444,16 @@ const Write = () => {
     setValue("hashtag", `#`); // hook-form의 전용 함수를 사용하여 depositPer 값을 50으로 설정
     setValueDeposit(`#`); // state 값을 50으로 설정
   };
+  const [meselectedDateRange, setMeSelectedDateRange] = useState(null);
+
+  // 오늘 날짜
+  const today = moment();
+
+  // 오늘 이전 날짜를 비활성화하는 함수
+  const disabledDate = current => {
+    return current && current < moment().startOf("day");
+  };
+
   return (
     <Layout>
       <SideBar />
@@ -720,7 +732,7 @@ const Write = () => {
                   style={{ position: "relative", overflow: "hidden" }}
                 >
                   <DatePicker.RangePicker
-                    onChange={handleDateRangeChange}
+                    onChange={setMeSelectedDateRange}
                     value={selectedDateRange}
                     format="YYYY-MM-DD"
                     style={inputStyleCalendar}
@@ -736,6 +748,8 @@ const Write = () => {
                         <ArrowRightOutlined style={{ fontSize: "18px" }} />
                       </span>
                     }
+                    // defaultPickerValue={today} // 시작일을 오늘 날짜로 설정
+                    disabledDate={disabledDate} // 오늘 이전 날짜를 비활성화
                   />
 
                   <div style={{ color: "red" }}>

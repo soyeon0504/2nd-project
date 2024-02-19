@@ -30,6 +30,8 @@ import {
 import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
+// 오늘 날짜 추적
+import moment from "moment";
 
 //서버에서 돌려주는 값
 // const initMoreData = {
@@ -426,6 +428,15 @@ const Write = () => {
   const handleNotValid = e => {
     setCatchErr(true);
   };
+  //현재 날짜 추적 이전 날짜 막는 코드
+  const [selectedDateRangeAll, setSelectedDateRangeAll] = useState(null);
+  // 오늘 날짜
+  const today = moment();
+  // 오늘 이전 날짜를 비활성화하는 함수
+  const disabledDate = current => {
+    return current && current < moment().startOf("day");
+  };
+
   return (
     <Layout>
       <SideBar />
@@ -754,6 +765,7 @@ const Write = () => {
                 >
                   <DatePicker.RangePicker
                     onChange={handleDateRangeChange}
+                    onFocus={setSelectedDateRangeAll}
                     value={selectedDateRange}
                     format="YYYY-MM-DD"
                     style={inputStyleCalendar}
@@ -769,6 +781,8 @@ const Write = () => {
                         <ArrowRightOutlined style={{ fontSize: "18px" }} />
                       </span>
                     }
+                    defaultPickerValue={today} // 시작일을 오늘 날짜로 설정
+                    disabledDate={disabledDate} // 오늘 이전 날짜를 비활성화
                   />
 
                   <div style={{ color: "red" }}>
@@ -832,6 +846,7 @@ const Write = () => {
               )}
             </BtSection>
           </form>
+          <Modal />
         </div>
       </AllWidth>
     </Layout>
