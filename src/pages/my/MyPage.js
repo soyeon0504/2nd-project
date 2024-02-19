@@ -4,8 +4,10 @@ import MyCategory from "../../components/my/MyCategory";
 import Mytitle from "../../components/my/Mytitle";
 import styled from '@emotion/styled';
 import MyRentalPage from './MyRentalPage';
+import MyManagementPage from './MyManagementPage';
 import MyReviewPage from './MyReviewPage';
 import MyInterestPage from './MyInterestPage';
+import MyReportPage from './MyReportPage';
 import MyInfoPage from './MyInfoPage';
 import MyWithDrawPage from './MyWithDrawPage';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -38,6 +40,11 @@ const MyPage = () => {
       list: ["대여중", "대여 완료"],
     },
     {
+      title: "등록 리스트",
+      name: ["management"],
+      list: ["등록 상품 관리"]
+    },
+    {
       title: "관심 상품",
       name: ["interest"],
       list: ["관심 목록"],
@@ -49,8 +56,8 @@ const MyPage = () => {
     },
     {
       title: "내 정보",
-      name: ["info","withdraw"],
-      list: ["회원정보 수정", "회원탈퇴"],
+      name: ["report","info","withdraw"],
+      list: ["신고 내역","회원정보 수정", "회원탈퇴"],
     },
   ];
 
@@ -80,9 +87,11 @@ const MyPage = () => {
         return (
           (name === 'rental' && subItem === '대여중') ||
           (name === 'rentaled' && subItem === '대여 완료') ||
+          (name === 'management' && subItem === '등록 상품 관리') ||
           (name === 'interest' && subItem === '관심 목록') ||
           (name === 'myreview' && subItem === '내 작성 후기') ||
           (name === 'prodreview' && subItem === '내 상품 후기') ||
+          (name === 'report' && subItem === '신고 내역') ||
           (name === 'info' && subItem === '회원정보 수정') ||
           (name === 'withdraw' && subItem === '회원탈퇴')
         );
@@ -107,9 +116,11 @@ const MyPage = () => {
         <div>
         {activeBtn === "대여중" || activeBtn === "대여 완료" ?  
             ( <MyRentalPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
+        {activeBtn === "등록 상품 관리" && ( <MyManagementPage /> )}
         {activeBtn === "관심 목록" && ( <MyInterestPage /> )}
         {activeBtn === "내 작성 후기" || activeBtn === "내 상품 후기" ? 
             ( <MyReviewPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
+        {activeBtn === "신고 내역" && ( <MyReportPage />)} 
         {activeBtn === "회원정보 수정" && ( <MyInfoPage /> )}
         {activeBtn === "회원탈퇴" && ( <MyWithDrawPage /> )}
         </div>

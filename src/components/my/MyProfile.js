@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { Common } from "../../styles/CommonStyles";
-import { getMyBuySell, getMyRental, getMyUser } from "../../api/my/my_api";
+import { getMyBuySell, getMyRental, getMyReview, getMyUser } from "../../api/my/my_api";
 import { useSelector } from "react-redux";
 
 const ProfileDiv = styled.div`
@@ -26,7 +26,7 @@ const ProfileLeft = styled.div`
       margin-bottom: 2rem;
     }
     p {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
   }
 `;
@@ -47,26 +47,23 @@ const ProfileImg = styled.div`
 const ProfileRight = styled.div`
   display: flex;
   div {
-    padding: 0 10px;
-    width: 170px;
+    width: 120px;
     height: 80px;
     color: #777;
     text-align: center;
     border-right: 1px solid ${Common.color.p500};
-    :first-of-type {
-      margin-left: 4.3rem;
-    }
     :last-of-type {
+      width: 100px;
       border: 0;
     }
     p {
-      width: 150px;
+      width: 120px;
       font-size: 1.6rem;
-      padding: 12px;
+      padding: 10px;
     }
     span {
       display: block;
-      width: 150px;
+      width: 120px;
       font-size: 1.8rem;
     }
   }
@@ -84,9 +81,9 @@ const MyProfile = () => {
         let result = await getMyUser(iuser);
         const buyData = await getMyRental(1, 1);
         const sellData = await getMyRental(1, 2);
-        const rentalData2 = sellData.filter(item => item.istatus === 1);
+        const reviewData = await getMyReview(1);
         setResult(result);
-        setData([buyData.length, sellData.length, rentalData2.length]);
+        setData([buyData.length, sellData.length, reviewData.length]);
       } catch (error) {
         console.error("Error fetching rental data:", error);
         // 에러 처리 로직 추가
@@ -104,23 +101,27 @@ const MyProfile = () => {
         </ProfileImg>
         <div>
           <h1>{result.nick}</h1>
-          <p>통합별점: {result.rating}</p>
-          <p>주소: {result.addr} <br /> {result.restAddr}</p>
+          <p>통합별점: {result.rating} / 벌점: {result.rating}</p> 
+          <p>주소: {result.addr} {result.restAddr}</p>
           <p>전화번호: {result.phone}</p>
           <p>이메일: {result.email}</p>
         </div>
       </ProfileLeft>
       <ProfileRight>
         <div>
-          <p>대여중 (구매)</p>
+          <p>대여중</p>
           <span>{data[0]}</span>
         </div>
         <div>
-          <p>대여중 (판매)</p>
+          <p>대여 완료</p>
           <span>{data[1]}</span>
         </div>
         <div>
-          <p>대여완료</p>
+          <p>작성 후기</p>
+          <span>{data[2]}</span>
+        </div>
+        <div>
+          <p>등록 상품</p>
           <span>{data[2]}</span>
         </div>
       </ProfileRight>

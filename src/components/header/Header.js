@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
+  CateHover,
   CategoryTab,
   HeaderLogo,
   HeaderMainMenu,
@@ -10,6 +11,7 @@ import {
   MainCate,
   MainCateTitle,
   SearchBt,
+  SearchDiv,
   SearchDivisionLine,
   SearchForm,
   SearchWord,
@@ -25,6 +27,9 @@ import { searchGet } from "../../api/header/header_api";
 
 const Header = ({ searchName, pageNum }) => {
   // 검색 데이터 연동
+  const [isHovered, setIsHovered] = useState(true);
+  const [isCateHoverVisible, setIsCateHoverVisible] = useState(false);
+  const [isSearchWord, setIsSearchWord] = useState(false);
   const [search, setSearch] = useState("");
   const searchWordRef = useRef(null);
   const searchBtRef = useRef(null);
@@ -74,16 +79,6 @@ const Header = ({ searchName, pageNum }) => {
     setSearchWord(searchParam);
   }, [location]);
 
-  // search에서 카테고리 선택
-  const [searchMainCate, setSearchMainCate] = useState(false);
-  const toggleMainCate = () => {
-    setSearchMainCate(prev => !prev);
-  };
-  const [searchSubCate, setSearchSubCate] = useState(false);
-  const toggleSubCate = () => {
-    setSearchSubCate(prev => !prev);
-  };
-
   const [selectedSubCate, setSelectedSubCate] = useState([
     { id: 0, title: "전체" },
   ]);
@@ -109,6 +104,34 @@ const Header = ({ searchName, pageNum }) => {
     const selectedOption = selectedSubCate.find((item) => item.title === event.target.value);
     setSelectedSubValue(selectedOption ? selectedOption.title : '');
   };
+  
+  const handleSearchDivClick = () => {
+    setIsCateHoverVisible(!isCateHoverVisible);
+    setIsSearchWord(false);
+  };
+
+  const handleClickOutsideCateHover = (e) => {
+    if (
+      isCateHoverVisible &&
+      e.target.closest('.header-search') === null
+    ) {
+      setIsCateHoverVisible(false);
+    }
+  };
+
+  const handleSearchWordClick = () => {
+    setIsSearchWord(!isSearchWord);
+    setIsCateHoverVisible(false)
+  }
+
+  const handleClickOutsideSearchWord = (e) => {
+    if (
+      isSearchWord && 
+      e.target.closest('.header-search') === null
+    ) {
+      setIsSearchWord(false)
+    }
+  }
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -131,6 +154,20 @@ const Header = ({ searchName, pageNum }) => {
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutsideSearchWord);
+    return () => {
+      document.removeEventListener('click', handleClickOutsideSearchWord);
+    };
+  }, [isSearchWord]);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutsideCateHover);
+    return () => {
+      document.removeEventListener('click', handleClickOutsideCateHover);
+    };
+  }, [isCateHoverVisible]);
 
   useEffect(() => {
     window.addEventListener("scroll", updateScroll);
@@ -208,38 +245,56 @@ const Header = ({ searchName, pageNum }) => {
               placeholder={"검색어를 입력해주세요."}
               min={2}
               value={search}
+              onMouseEnter={() => setIsHovered(false)}
+              onMouseLeave={() => setIsHovered(true)}
+              onClick={handleSearchWordClick}
+              style={{ 
+                backgroundColor: isSearchWord ? '#FFF' : '',
+                borderRadius: isSearchWord ? '45px' : '', 
+                boxShadow: isSearchWord ? '4px 0px 8px 0px rgba(0, 0, 0, 0.25)' : ''
+              }}
             />
-            <SearchDivisionLine></SearchDivisionLine>
-            <div>
-              <b>메인카테고리</b>
-              <br />
-              <span onClick={toggleMainCate}>{selectedValue ? selectedValue : '메인카테고리 선택'}</span>
-            </div>
-            {searchMainCate && (
-              <select onChange={handleMainCategoryChange}>
-                {mainCate.map(item => {
-                  return (
-                    <option key={item.id} value={item.id}>
-                      {item.title}
-                    </option>
-                  );
-                })}
-              </select>
+             {isHovered && !isSearchWord && <SearchDivisionLine></SearchDivisionLine>}
+            <SearchDiv 
+              onMouseEnter={() => setIsHovered(false)}
+              onMouseLeave={() => setIsHovered(true)} 
+              onClick={handleSearchDivClick}
+              style={{ 
+                backgroundColor: isCateHoverVisible ? '#FFF' : '',
+                borderRadius: isCateHoverVisible ? '45px' : '', 
+                boxShadow: isCateHoverVisible ? '-4px 0px 8px 0px rgba(0, 0, 0, 0.25)' : ''
+              }}
+            >
+              <b>카테고리</b>
+              <div>
+                <span>{selectedValue ? selectedValue : '메인 카테고리'}</span>
+                <p></p>
+                <span>{selectedSubValue ? selectedSubValue : '상세 카테고리'}</span>
+              </div>
+            </SearchDiv>
+            {isCateHoverVisible && ( <CateHover>
+              <div>
+                  <h1>메인 카테고리</h1>
+                  <select onChange={handleMainCategoryChange}>
+                      {mainCate.map(item => {
+                        return (
+                          <option key={item.id} value={item.id}>
+                            {item.title}
+                          </option>
+                        );
+                      })}
+                  </select>
+                </div>
+                <div>
+                  <h1>상세 카테고리</h1>
+                  <select onChange={handleSubCategoryChange}>
+                      {selectedSubCate.map(listItem => {
+                        return <option key={listItem.id}>{listItem.title}</option>;
+                      })}
+                  </select>
+                </div>
+              </CateHover>  
             )}
-            <SearchDivisionLine></SearchDivisionLine>
-            <div>
-              <b>상세카테고리</b>
-              <br />
-              <span onClick={toggleSubCate}>{selectedSubValue ? selectedSubValue : '상세카테고리 선택'}</span>
-            </div>
-            {searchSubCate && (
-              <select onChange={handleSubCategoryChange}>
-                {selectedSubCate.map(listItem => {
-                  return <option key={listItem.id}>{listItem.title}</option>;
-                })}
-              </select>
-            )}
-
             <SearchBt
               ref={searchBtRef}
               onClick={e => onClickSearch(e)}

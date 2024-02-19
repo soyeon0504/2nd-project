@@ -19,7 +19,9 @@ const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
+const LazyMyManagementPage = lazy(() => import("./pages/my/MyManagementPage"))
 const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
+const LazyMyReportPage = lazy(() => import("./pages/my/MyReportPage"))
 const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
 const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"));
 
@@ -137,6 +139,14 @@ const App = () => {
           }
         >
           <Route
+              path="management"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <LazyMyManagementPage />
+                </Suspense>
+              }
+            ></Route>
+          <Route
             path="interest"
             element={
               <Suspense fallback={<Loading />}>
@@ -152,6 +162,14 @@ const App = () => {
               </Suspense>
             }
           ></Route>
+          <Route
+              path="report"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <LazyMyReportPage />
+                </Suspense>
+              }
+            ></Route>
           <Route
             path="info"
             element={

@@ -7,12 +7,11 @@ const MyCateDiv = styled.div`
   flex-direction: column;
   gap: 3.3rem;
   width: 135px;
-  height: 482px;
+  height: 617px;
 `;
 
 const MyCateUl = styled.ul`
   display: block;
-  height: 104px;
   border-radius: 3px;
   p {
     color: #000;
