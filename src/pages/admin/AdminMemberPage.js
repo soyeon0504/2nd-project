@@ -1,153 +1,145 @@
 import React from "react";
-// import { ReportTitle } from "../../styles/admin/AdminReportPageStyle";
+import { useTable } from "react-table";
 
 const AdminMemberPage = ({ activeBtn }) => {
-  let tableData;
-  let numColumns;
-
-  // activeBtn prop에 따라 데이터와 열 수 설정
-  if (activeBtn === "개인 회원") {
-    tableData = Array.from({ length: 12 }, (_, rowIndex) =>
-      Array.from(
-        { length: 8 },
-        (_, colIndex) => `개인 데이터 ${rowIndex + 1}-${colIndex + 1}`,
+  // 테이블 데이터 설정
+  const tableData = React.useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, rowIndex) =>
+        Array.from(
+          { length: activeBtn === "개인 회원" ? 7 : 8 },
+          (_, colIndex) =>
+            `${activeBtn === "개인 회원" ? "개인" : "기업"} 데이터 ${
+              rowIndex + 1
+            }-${colIndex + 1}`,
+        ),
       ),
-    );
-    numColumns = 8;
-  } else if (activeBtn === "기업 회원") {
-    tableData = Array.from({ length: 12 }, (_, rowIndex) =>
-      Array.from(
-        { length: 9 },
-        (_, colIndex) => `기업 데이터 ${rowIndex + 1}-${colIndex + 1}`,
-      ),
-    );
-    numColumns = 9;
-  }
+    [activeBtn],
+  );
 
-  // 열 제목에 대한 스타일 및 색상 정의
-  const tableHeaderStyle = {
-    backgroundColor: "#FFE6E6",
-    fontWeight: "normal",
-    textAlign: "center",
-    padding: "10px",
-    border: "1px solid #BEBEBE",
-    height: "60px",
-    color: "#000",
-    fontSize: "16px",
-  };
+  // 열 제목 설정
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "회원번호",
+        accessor: "회원번호",
+        width: 120,
+      },
+      {
+        Header: "아이디",
+        accessor: "아이디",
+        width: 150,
+      },
+      {
+        Header: "이름",
+        accessor: "이름",
+        width: 150,
+      },
+      {
+        Header: "가입일자",
+        accessor: "가입일자",
+        width: 150,
+      },
+      {
+        Header: "이메일",
+        accessor: "이메일",
+        width: 300,
+      },
+      ...(activeBtn === "기업 회원"
+        ? [
+            {
+              Header: "사업자번호",
+              accessor: "사업자번호",
+              width: 100,
+            },
+          ]
+        : []),
+      {
+        Header: "벌점",
+        accessor: "벌점",
+        width: 100,
+      },
+      {
+        Header: "회원상태",
+        accessor: "회원상태",
+        width: 100,
+      },
+      {
+        Header: "회원정지",
+        accessor: "회원정지",
+        width: 100,
+      },
+    ],
+    [activeBtn],
+  );
 
-  // 표 내용에 대한 스타일 및 색상 정의
-  const tableCellStyle = {
-    textAlign: "center",
-    padding: "10px",
-    border: "1px solid #BEBEBE",
-    height: "60px",
-    fontSize: "14px",
-  };
-
-  // 이메일과 사업자 번호 열에 대한 스타일 및 너비 조정
-  const emailColumnStyle = {
-    ...tableCellStyle,
-    width: "180px",
-  };
-
-  const oddEmailColumnStyle = {
-    ...emailColumnStyle,
-    backgroundColor: "#FFF7F7",
-  };
-
-  const evenEmailColumnStyle = {
-    ...emailColumnStyle,
-    backgroundColor: "#fff",
-  };
+  // React 테이블 훅 사용
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data: tableData });
 
   return (
     <div>
-      {activeBtn === "개인 회원" && (
-        <div>
-          <h1>개인 회원 페이지</h1>
-        </div>
-      )}
-      {activeBtn === "기업 회원" && (
-        <div>
-          <h1>기업 회원 페이지</h1>
-        </div>
-      )}
-      {/* 표 시작 */}
-
+      {activeBtn === "개인 회원" && <h1>개인 회원 페이지</h1>}
+      {activeBtn === "기업 회원" && <h1>기업 회원 페이지</h1>}
       <table
+        {...getTableProps()}
         style={{ borderCollapse: "collapse", width: "100%", marginTop: "25px" }}
       >
         <thead>
-          <tr>
-            {/* 열 제목  */}
-            <th style={{ ...tableHeaderStyle, width: "120px" }}>회원번호</th>
-            <th style={{ ...tableHeaderStyle, width: "150px" }}>아이디</th>
-            <th style={{ ...tableHeaderStyle, width: "150px" }}>이름</th>
-            <th style={{ ...tableHeaderStyle, width: "150px" }}>가입일자</th>
-            <th style={{ ...tableHeaderStyle, width: "250px" }}>이메일</th>
-            {activeBtn === "기업 회원" && (
-              <th style={{ ...tableHeaderStyle, width: "80px" }}>사업자번호</th>
-            )}
-            <th style={{ ...tableHeaderStyle, width: "100px" }}>벌점</th>
-            <th style={{ ...tableHeaderStyle, width: "100px" }}>회원상태</th>
-            <th style={{ ...tableHeaderStyle, width: "100px" }}>회원정지</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* 데이터 배열을 순회하면서 표 내용 생성 */}
-          {tableData.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              style={{
-                backgroundColor: rowIndex % 2 === 0 ? "#FFF" : "#FFF7F7",
-              }}
-            >
-              {/* 각 행의 데이터 렌더링 */}
-              {row.map((data, colIndex) => {
-                if (colIndex === 4) {
-                  return (
-                    <td
-                      key={colIndex}
-                      style={
-                        rowIndex % 2 === 0
-                          ? evenEmailColumnStyle
-                          : oddEmailColumnStyle
-                      }
-                    >
-                      {data}
-                    </td>
-                  );
-                } else if (colIndex === 5 && activeBtn === "기업 회원") {
-                  return (
-                    <td
-                      key={colIndex}
-                      style={
-                        rowIndex % 2 === 0
-                          ? evenEmailColumnStyle
-                          : oddEmailColumnStyle
-                      }
-                    >
-                      {data}
-                    </td>
-                  );
-                } else {
-                  return (
-                    <td
-                      key={colIndex}
-                      style={
-                        rowIndex % 2 === 0
-                          ? { ...tableCellStyle, backgroundColor: "#FFF" }
-                          : tableCellStyle
-                      }
-                    >
-                      {data}
-                    </td>
-                  );
-                }
-              })}
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
+              {headerGroup.headers.map(column => (
+                <th
+                  {...column.getHeaderProps()}
+                  style={{
+                    padding: "10px",
+                    border: "1px solid #BEBEBE",
+                    height: "60px",
+                    textAlign: "center",
+                    backgroundColor: "#FFE6E6",
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    width: column.width,
+                  }}
+                  key={column.id}
+                >
+                  {column.render("Header")}
+                </th>
+              ))}
             </tr>
           ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()} key={row.id}>
+                {row.cells.map(cell => (
+                  <td
+                    {...cell.getCellProps()}
+                    style={{
+                      padding: "10px",
+                      border: "1px solid #BEBEBE",
+                      height: "60px",
+                      textAlign: "center",
+                      fontSize: "14px",
+                      backgroundColor:
+                        cell.column.id === "이메일"
+                          ? row.index % 2 === 0
+                            ? "#fff"
+                            : "#FFF7F7"
+                          : row.index % 2 === 0
+                          ? "#FFF"
+                          : "#FFF7F7",
+                    }}
+                    key={cell.column.id}
+                  >
+                    {cell.render("Cell")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
