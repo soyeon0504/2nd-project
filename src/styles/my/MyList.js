@@ -116,8 +116,8 @@ export const MyListMidLast = styled.div`
   display: flex;
   align-items: ${props => (props.location ? props.location : "end")};
   justify-content: space-between;
-  flex-direction: column;
-  width: 10rem;
+  flex-direction: ${props => (props.direction ? props.direction : "column")};
+  width: 11rem;
   height: 10rem;
   position: absolute;
   bottom: 1rem;
@@ -126,7 +126,7 @@ export const MyListMidLast = styled.div`
     font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
   button {
-    z-index: 999;
+    z-index: 99;
     background: none;
     border: 0;
     cursor: pointer;
@@ -182,3 +182,16 @@ export const MyProfileDiv = styled.div`
     margin: 0 auto;
   }
 `;
+
+export const MyManagementBt = styled.button`
+  width: 50px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${Common.color.primary} !important;
+  color: ${Common.color.primary};
+`
+
+export const MyManagementBtHover = styled(MyManagementBt)`
+  background-color: ${Common.color.primary} !important;
+  color: #fff;
+`

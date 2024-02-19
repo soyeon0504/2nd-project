@@ -86,9 +86,7 @@ const MyReviewList = ({ activeBtn }) => {
                   </MyListMidLast>
                 </MyListMid>
             ) : (
-              <Link
-                to={`/details/${item.imainCategory}/${item.isubCategory}/${item.iproduct}`}
-              >
+              <Link to={`/details/${item.imainCategory}/${item.isubCategory}/${item.iproduct}`}>
                 <MyListMid>
                   <MyProfileDiv>
                     <p>작성자</p>

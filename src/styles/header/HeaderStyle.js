@@ -27,44 +27,89 @@ export const HeaderLogo = styled.img`
 `;
 export const SearchForm = styled.div`
   display: flex;
-  width: 700px;
+  position: relative;
+  width: 640px;
   height: 60px;
-  flex-shrink: 0;
-  padding-left: 30px;
-  padding-right: 10px;
-  justify-content: space-between;
   align-items: center;
   border-radius: 80px;
   border: 1px solid #2c39b5;
-  b {
-    font-size: 13px;
+  input {
+    width: 350px;
+    height: 58px;
+    padding-left: 20px;
+  }
+  input:hover {
+    width: 350px;
+    background-color: #eee;
+    border-radius: 45px;
   }
   select {
     width: 120px;
+    height: 22px;
+    font-size: 12px;
     border: 1px solid #2c39b5;
   }
 `;
+
+export const SearchDiv = styled.div`
+    width: 290px;
+    height: 58px;
+    :hover {
+      background-color: #eee;
+      border-radius: 45px;
+    }
+    b {
+    display: flex;
+    height: 50%;
+    font-size: 16px;
+    color: #777;
+    font-weight: 400;
+    padding-top: 10px;
+    padding-left: 25px;
+    }
+    >div {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 50%;
+      padding-left: 25px;
+      p {
+        display: block;
+        content: "";
+        width: 1px;
+        height: 10px;
+        background: #2c39b5;
+      }
+      span {
+        line-height: 1.6;
+        font-size: 12px;
+      }
+    }
+`
+
 export const SearchWord = styled.input`
   display: flex;
-  width: 250px;
-  height: 50px;
+  width: 350px;
+  height: 60px;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
   border: none;
-
+  background-color: transparent;
   color: rgb(0, 0, 0);
-  font-size: 23px;
+  font-size: 16px;
   font-style: normal;
   line-height: 24px; /* 80% */
   letter-spacing: 0.5px;
 `;
 export const SearchDivisionLine = styled.div`
 width: 1px;
-height: 50px;
-background: #2c39b5;
+height: 26px;
+background: #eee;
 `;
 export const SearchBt = styled.button`
+  position: absolute;
+  right: 10px;
   width: 40px;
   height: 40px;
   border-radius: 100%;
@@ -147,3 +192,25 @@ export const SubCate = styled.div`
     cursor: pointer;
   }
 `;
+
+export const CateHover = styled.div`
+  display: block;
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  border: 1px solid #2c39b5;
+  width: 245px;
+  height: 90px; 
+  padding: 15px;
+  background: #fff;
+  div {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    h1 {
+      font-size: 12px;
+      font-weight: 400;
+      color: #777;
+    }
+  }
+`

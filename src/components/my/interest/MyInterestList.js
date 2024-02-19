@@ -47,7 +47,7 @@ const MyInterestList = () => {
         <div>
         </div>
       </MyListTop>
-      {data.map((item, index) => (
+      {data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
             <MyListMid>
               <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
