@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
-  MyListBottom,
-  MyListDiv,
-  MyListMid,
-  MyListMidImg,
-  MyListMidLast,
-  MyListMidTxt,
-  MyListTop,
-  MyManagementBt,
-  MyManagementBtHover,
-} from "../../styles/my/MyList";
-import MyMoreButton from "./MyMoreButton";
-import { getMyRental } from "../../api/my/my_api";
-import { Link } from "react-router-dom";
-import { deleteProduct } from "../../api/details/details_api";
+import React, { useEffect, useState } from 'react'
+import { deleteProduct } from '../../api/details/details_api';
+import { getMyRental } from '../../api/my/my_api';
+import { CompManagementBt, CompManagementBtHover, MyListBottom, MyListDiv, MyListMid, MyListMidImg, MyListMidLast, MyListMidTxt, MyListTop, MyManagementBt, MyManagementBtHover } from '../../styles/my/MyList';
+import MyMoreButton from '../../components/my/MyMoreButton';
+import { Link } from 'react-router-dom';
 
-const MyManagement = ({ activeBtn }) => {
+const CompManagement = ({activeBtn}) => {
   const [activeButton, setActiveButton] = useState(true);
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(3);
@@ -80,9 +70,15 @@ const MyManagement = ({ activeBtn }) => {
                       </div>
                     </MyListMidTxt>
                   </Link>
-                  <MyListMidLast direction={"row"}>
-                    <MyManagementBt>수정</MyManagementBt>
-                    <MyManagementBtHover onClick={() => handleDeleteProduct(item.iproduct)}>삭제</MyManagementBtHover>
+                  <MyListMidLast>
+                    <div>
+                        <CompManagementBt>광고 등록</CompManagementBt>
+                        {/* <CompManagementBtHover>광고 철회</CompManagementBtHover> */}
+                    </div>
+                    <div>
+                        <MyManagementBt>수정</MyManagementBt>
+                        <MyManagementBtHover onClick={() => handleDeleteProduct(item.iproduct)}>삭제</MyManagementBtHover>
+                    </div>
                   </MyListMidLast>
                 </MyListMid>
           </React.Fragment>
@@ -94,4 +90,5 @@ const MyManagement = ({ activeBtn }) => {
   );
 };
 
-export default MyManagement;
+
+export default CompManagement

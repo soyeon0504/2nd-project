@@ -47,7 +47,7 @@ const ProfileImg = styled.div`
 const ProfileRight = styled.div`
   display: flex;
   div {
-    width: 120px;
+    width: ${props => props.company ? "150px" : "120px"};
     height: 80px;
     color: #777;
     text-align: center;
@@ -57,19 +57,19 @@ const ProfileRight = styled.div`
       border: 0;
     }
     p {
-      width: 120px;
+      width:${props => props.company ? "150px" : "120px"};
       font-size: 1.6rem;
       padding: 10px;
     }
     span {
       display: block;
-      width: 120px;
+      width: ${props => props.company ? "150px" : "120px"};
       font-size: 1.8rem;
     }
   }
 `;
 
-const MyProfile = () => {
+const CompProfile = () => {
   const [result, setResult] = useState([]);
   const [data, setData] = useState([]);
 
@@ -107,18 +107,14 @@ const MyProfile = () => {
           <p>이메일: {result.email}</p>
         </div>
       </ProfileLeft>
-      <ProfileRight>
+      <ProfileRight company>
         <div>
-          <p>대여중</p>
+          <p>보유 캐시</p>
           <span>{data[0]}</span>
         </div>
         <div>
-          <p>대여 완료</p>
+          <p>상품 후기</p>
           <span>{data[1]}</span>
-        </div>
-        <div>
-          <p>작성 후기</p>
-          <span>{data[2]}</span>
         </div>
         <div>
           <p>등록 상품</p>
@@ -129,4 +125,4 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default CompProfile;

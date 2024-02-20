@@ -58,12 +58,12 @@ export const SideBar = ({ setSelectedItem, setActiveBtn }) => {
               <p>MY</p>
             </div>
           </Link>
-          {/* <Link to="/customer">
+          <Link to="/customer">
             <div>
               <Call></Call>
               <p>고객센터</p>
             </div>
-          </Link> */}
+          </Link>
         </ButtonWrap>
       </SideBarWrap>
     </Wrap>

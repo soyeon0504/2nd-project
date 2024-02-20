@@ -122,6 +122,16 @@ export const MyListMidLast = styled.div`
   position: absolute;
   bottom: 1rem;
   right: 1rem;
+  div:nth-of-type(1) {
+    display: flex;
+    justify-content: end;
+    width: 120px;
+  }
+  div:nth-of-type(2) {
+    display: flex;
+    justify-content: space-between;
+    width: 11rem;
+  }
   p {
     font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
@@ -194,4 +204,16 @@ export const MyManagementBt = styled.button`
 export const MyManagementBtHover = styled(MyManagementBt)`
   background-color: ${Common.color.primary} !important;
   color: #fff;
+`
+export const CompManagementBt = styled.button`
+  width: 110px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #fcd508 !important;
+  color: #fff;
+`
+export const CompManagementBtHover = styled(CompManagementBt)`
+  background-color: transparent !important;
+  color: #fcd508;
+  border: 1px solid #fcd508 !important;
 `
