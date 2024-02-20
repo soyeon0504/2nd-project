@@ -58,8 +58,8 @@ const AdminPage = () => {
 
   // 메인페이지로 이동
   const handleMain = () => {
-    navigate(`/`)
-  }
+    navigate(`/`);
+  };
 
   // AdminCate 상태 변경
   useEffect(() => {

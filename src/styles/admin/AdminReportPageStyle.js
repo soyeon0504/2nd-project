@@ -47,6 +47,46 @@ export const ReportSearchBt = styled.button`
   cursor: pointer;
 `;
 
+
+//member page
+
+export const MemberTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border-bottom: 1px solid #c14b45; */
+  padding-bottom: 17px;
+  margin-bottom: 10px;
+  h1 {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  select {
+    width: 120px;
+    height: 35px;
+    border: 1px solid #bebebe;
+    /* border-radius: 5px; */
+  }
+`;
+
+export const MemberSearchWord = styled.input`
+  width: 180px;
+  border: none;
+  /* border-radius: 10px; */
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+`;
+
+export const MemberSearchForm = styled.div`
+  display: flex;
+  width: 320px;
+  height: 35px;
+
+  align-items: center;
+  /* border-radius: 5px; */
+  border: 1px solid #bebebe;
+`;
+=======
 export const ReportMain = styled.div`
 table{
   width: 100%;
@@ -119,3 +159,4 @@ export const PaginationContent = styled(Pagination)`
     color: #fff;
   }
 `;
+
