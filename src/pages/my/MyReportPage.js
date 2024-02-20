@@ -13,6 +13,54 @@ const PaginationDiv = styled.div`
   padding-top: 20px;
   height: 50px;
 `
+const TableDiv = styled.table`
+  width: 1020px;
+  text-align: center;
+  border-collapse: separate;
+  thead {
+    width:100%; 
+    height: 60px; 
+    background: #2C39B5; 
+    font-size: 18px;
+    color: #FFF;
+  }
+  tbody tr {
+    position: relative;
+  }
+`
+
+const FirstTr = styled.tr`
+  font-size: 1.6rem;
+  height: 60px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+  &:hover {
+    background-color: #E4E7FF; 
+  }
+`
+const SecondTr = styled.tr`
+  font-size: 1.4rem;
+   height: ${(props) => (props.isOpen ? '60px' : '0')}; 
+   overflow: hidden;
+   transition: height 0.3s ease;
+   td {
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: ${(props) => (props.isOpen ? '1' : '0')};
+     height: 60px;
+     overflow: hidden;
+     transition: opacity 0.3s ease, max-height 0.3s ease;
+     border-bottom: 1px solid ${Common.color.primary};
+   }
+   
+   
+`;
 
 const contentData = [
   {
@@ -100,23 +148,22 @@ const MyReportPage = () => {
 
   const totalItems = contentData.length;
 
-  const handleSlideDown = id => {
-    if (contentOpen === id) {
-      // 이미 펼쳐진 행을 클릭한 경우 닫기
-      setContentOpen(null);
-    } else {
-      // 새로운 행을 클릭한 경우 해당 행 펼치기
-      setContentOpen(id);
-    }
+  // const handleSlideDown = id => {
+  //   if (contentOpen === id) {
+  //     setContentOpen(null);
+  //   } else {
+  //     setContentOpen(id);
+  //   }
+  // };
+
+  const handleSlideDown = (id) => {
+    setContentOpen((prev) => (prev === id ? null : id));
   };
 
   return (
     <MyReportDiv>
-      <div className="reportMain">
-        <table style={{ width: "100%", textAlign: "center" }}>
-          <thead
-            style={{ width:"100%" ,height: "60px", background: "#2C39B5", fontSize: "18px", color: "#FFF" }}
-          >
+      <TableDiv>
+      <thead>
             <tr>
               <th>아이디</th>
               <th>닉네임</th>
@@ -134,32 +181,29 @@ const MyReportPage = () => {
                 backgroundColor: "inherit",
               }}
             >
-              <tr style={{ height: "60px", borderBottom: "1px solid #2C39B5" }} onClick={() => handleSlideDown(item.id)}>
+              <FirstTr onClick={() => handleSlideDown(item.id)}>
                 <td>{item.uid}</td>
                 <td>{item.nick}</td>
                 <td>{item.cate}</td>
                 <td>{item.date}</td>
                 <td>{item.oppositeId}</td>
                 <td>{item.state}</td>
-              </tr>
-              {contentOpen === item.id && (
-                <tr>
-                  <td colSpan={6} style={{ width: "1000px",padding: "15px 0", borderBottom: "1px solid #2C39B5", borderTop: "1px solid #2C39B5" }}>
-                    {item.content}
-                  </td>
-                </tr>
-              )}
+              </FirstTr>
+              <SecondTr isOpen={contentOpen === item.id}>
+                <td colSpan={6}>
+                  {item.content}
+                </td>
+              </SecondTr>
             </tbody>
-          ))}
-        </table>
-        <PaginationDiv>
-          <Pagination
-            current={pageNum}
-            total={totalItems}
-            pageSize={10}
-          />
-        </PaginationDiv>
-      </div>
+          ))}    
+      </TableDiv>
+      <PaginationDiv>
+        <Pagination
+          current={pageNum}
+          total={totalItems}
+          pageSize={10}
+        />
+      </PaginationDiv> 
     </MyReportDiv>
   )
 }

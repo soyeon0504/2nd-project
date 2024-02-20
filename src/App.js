@@ -20,12 +20,10 @@ const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
-const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
-const LazyMyManagementPage = lazy(() => import("./pages/my/MyManagementPage"));
-const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
-const LazyMyReportPage = lazy(() => import("./pages/my/MyReportPage"));
-const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
-const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"));
+
+
+const LazyCompanyPage = lazy(() => import("./pages/company/CompanyPage"))
+
 
 const LazyAdminPage = lazy(() => import("./pages/admin/AdminPage"));
 
@@ -42,6 +40,12 @@ const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 
 const LazyDetailsPage = lazy(() => import("./pages/details/DetailsPage"));
 const LazyChatPage = lazy(() => import("./pages/chat/ChatPage"));
+
+
+const LazyFreePage = lazy(() => import("./pages/free/FreePage"));
+const LazyFreeRegisterPage = lazy(() => import("./pages/free/FreeRegisterPage"));
+const LazyFreeModifyPage = lazy(() => import("./pages/free/FreeModifyPage"));
+const LazyFreeDetailsPage = lazy(() => import("./pages/free/FreeDetailsPage"));
 
 const LazyCustomerPage = lazy(() =>
   import("./pages/Customer/CustomerServicePage"),
@@ -140,55 +144,17 @@ const App = () => {
             </Suspense>
           }
         >
-          <Route
-            path="management"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyMyManagementPage />
-              </Suspense>
-            }
-          ></Route>
-          <Route
-            path="interest"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyMyInterestPage />
-              </Suspense>
-            }
-          ></Route>
-          <Route
-            path="review"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyMyReviewPage />
-              </Suspense>
-            }
-          ></Route>
-          <Route
-            path="report"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyMyReportPage />
-              </Suspense>
-            }
-          ></Route>
-          <Route
-            path="info"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyMyInfoPage />
-              </Suspense>
-            }
-          >
-            <Route
-              path="withdraw"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyMyWithDrawPage />
-                </Suspense>
-              }
-            ></Route>
-          </Route>
+
+        </Route>
+        <Route
+          path="/company"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyCompanyPage />
+            </Suspense>
+          }
+        >
+
         </Route>
         <Route
           path="/admin"
@@ -251,6 +217,38 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyChatPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreePage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free/register"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreeRegisterPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free/modify"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreeModifyPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free/details"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreeDetailsPage />
             </Suspense>
           }
         ></Route>

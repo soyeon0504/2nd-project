@@ -21,7 +21,7 @@ const CustomTxt = styled.div`
   }
   cursor: pointer;
 `
-const CustomSlide = styled.div`
+export const CustomSlide = styled.div`
   overflow: hidden;
   max-height: ${(props) => (props.isopen ? '500px' : '0')};
   transition: max-height 0.5s ease-in-out;

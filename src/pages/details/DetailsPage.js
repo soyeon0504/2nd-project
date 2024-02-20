@@ -61,23 +61,41 @@ import {
 } from "../../styles/details/DetailsPageStyles";
 import { SideBar } from "../../components/SideBar";
 
-const UserDetails = ({ userId, currentUserId, onDelete }) => {
+const UserDetails = ({ userId, currentUserId, onDelete, onModify }) => {
   const isCurrentUser = userId === currentUserId;
 
-  return isCurrentUser ? (
-    <span
-      onClick={onDelete}
-      style={{
-        cursor: "pointer",
-        fontSize: "15px",
-        marginLeft: "520px",
-        marginTop: "-40px",
-        position: "absolute",
-      }}
-    >
-      삭제
-    </span>
-  ) : null;
+  return (
+    <div style={{ position: "absolute", marginLeft: "500px", top: "20px" }}>
+      {isCurrentUser && (
+        <>
+          <span
+            onClick={onModify}
+            style={{
+              cursor: "pointer",
+              fontSize: "15px",
+              color: "#000",
+            }}
+            onMouseEnter={e => (e.target.style.color = "#2c39b5")}
+            onMouseLeave={e => (e.target.style.color = "#000")}
+          >
+            수정 |
+          </span>
+          <span
+            onClick={onDelete}
+            style={{
+              cursor: "pointer",
+              fontSize: "15px",
+              marginLeft: "5px",
+            }}
+            onMouseEnter={e => (e.target.style.color = "#CF1010")}
+            onMouseLeave={e => (e.target.style.color = "#000")}
+          >
+            삭제
+          </span>
+        </>
+      )}
+    </div>
+  );
 };
 
 const ProductSlider = ({ productData }) => {
@@ -170,6 +188,10 @@ const DetailsPage = () => {
     }
   };
 
+  const handleModifyProduct = () => {
+    navigate(`/modify/${mainCategory}/${subCategory}/${productId}`);
+  };
+
   const handleDateSelect = (startDate, endDate) => {
     setRentalStartDate(startDate);
     setRentalEndDate(endDate);
@@ -219,6 +241,7 @@ const DetailsPage = () => {
                 userId={productData.iuser}
                 currentUserId={iuser}
                 onDelete={handleDeleteProduct}
+                onModify={handleModifyProduct}
               />
               <SellerProfile
                 sellerName={productData.nick}

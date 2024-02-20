@@ -16,8 +16,8 @@ background: transparent;
 
 
 img {
-width: 70px;
-height: 70px;
+width: 70px !important;
+height: 70px !important;
 }
 &.c-slide-prev.swiper-button-disabled {
     display: none;
@@ -37,8 +37,8 @@ cursor: pointer;
 background: transparent;
 /* padding: 10px 20px; */
 img {
-width: 70px;
-height: 70px;
+width: 70px !important;
+height: 70px !important;
 }
 &.c-slide-next.swiper-button-disabled {
     display: none;
