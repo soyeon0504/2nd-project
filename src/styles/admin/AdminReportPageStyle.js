@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Pagination } from "antd";
 
 export const ReportTitle = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ export const ReportTitle = styled.div`
     width: 120px;
     height: 30px;
     border: 1px solid #c14b45;
+    cursor: pointer;
   }
 `;
 
@@ -44,6 +46,7 @@ export const ReportSearchBt = styled.button`
   border: none;
   cursor: pointer;
 `;
+
 
 //member page
 
@@ -83,3 +86,77 @@ export const MemberSearchForm = styled.div`
   /* border-radius: 5px; */
   border: 1px solid #bebebe;
 `;
+=======
+export const ReportMain = styled.div`
+table{
+  width: 100%;
+  text-align: center;
+}
+thead{
+  height: 60px;
+  background: #FFE6E6;
+  font-size: 18px;
+}
+tbody{
+  font-size: 18px;
+}
+tr{
+  height: 60px;
+}
+button {
+  width: ${props => (props.width ? props.width : "65px")};
+  height: 30px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #79747E;
+  cursor: pointer;
+}
+button:hover{
+  background: #FFE6E6;
+}
+
+.hovertext {
+    position: relative;
+}
+.hovertext:before {
+    content: attr(data-hover);
+    visibility: hidden;
+    opacity: 0;
+    width: max-content;
+    background-color: gray;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 5px;
+    /* transition: opacity 1s ease-in-out; */
+
+    position: absolute;
+    z-index: 1;
+    left:50%;
+    top: -110%;
+}
+
+.hovertext:hover:before {
+    opacity: 1;
+    visibility: visible;
+}
+`;
+
+export const PaginationContent = styled(Pagination)`
+.ant-pagination-item-active {
+  border-color: #C14B45;
+  background-color: #C14B45;
+}
+  .ant-pagination-item-active a {
+    color: #fff;
+  }
+  .ant-pagination-item-active:hover {
+  border-color: #C14B45;
+  background-color: #C14B45;
+}
+  .ant-pagination-item-active a:hover {
+    color: #fff;
+  }
+`;
+

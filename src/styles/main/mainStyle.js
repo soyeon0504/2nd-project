@@ -36,7 +36,7 @@ export const MainWrap = styled.div`
       line-height: 30px;
       text-align: left;
       .desc-title {
-        width: 270px;
+        width: 300px;
         font-size: 15px;
         color: #777;
         display:block;
@@ -45,8 +45,10 @@ export const MainWrap = styled.div`
         white-space: nowrap;
       }
       hr {
-        width: 280px;
+
+        width: 300px;
         /* background-color: #2C39B5; */
+
         border: 1px solid #2c39b5;
         margin: 0;
       }
@@ -141,6 +143,3 @@ export const MoreBt = styled.button`
   }
 `;
 
-export const Pagination = styled.div`
-  color: #2c39b5;
-`;
