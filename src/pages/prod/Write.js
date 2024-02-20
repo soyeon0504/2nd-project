@@ -26,12 +26,13 @@ import {
   ProductImgMap,
   ProductImgMapBt,
   Resets,
-} from "../../styles/productsStyle";
+} from "../../styles/prod/productsStyle";
 import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
 // 오늘 날짜 추적
 import moment from "moment";
+import ModalMin from "../../components/prod/ModalMin";
 
 //서버에서 돌려주는 값
 // const initMoreData = {
@@ -415,7 +416,16 @@ const Write = () => {
     // failPostDatas("/");
   };
   const handleReset = () => {
-    setValue("depositPer", 50); // hook-form의 전용 함수를 사용하여 depositPer 값을 50으로 설정
+    setValue("price", "");
+    setValue("rentalPrice", "");
+    setValue("depositPer", "50"); // hook-form의 전용 함수를 사용하여 depositPer 값을 50으로 설정
+    setValue("title", "");
+    setValue("contents", "");
+    setValue("inventory", 0);
+
+    setValue("restAddress", "");
+    setValue("adress", "");
+
     setValueDeposit(50); // state 값을 50으로 설정
   };
   //취소 버튼시 메인으로
@@ -846,7 +856,8 @@ const Write = () => {
               )}
             </BtSection>
           </form>
-          <Modal />
+
+          <ModalMin />
         </div>
       </AllWidth>
     </Layout>

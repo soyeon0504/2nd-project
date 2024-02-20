@@ -26,7 +26,7 @@ import {
   ProductImgMap,
   ProductImgMapBt,
   Resets,
-} from "../../styles/productsStyle";
+} from "../../styles/prod/productsStyle";
 import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
@@ -431,27 +431,47 @@ const Write = () => {
   const handleNotValid = e => {
     setCatchErr(true);
   };
-  const [hashtagValue, setHashtagValue] = useState(``);
-  const handleInputChange = event => {
-    const { value } = event.target;
-    // 특수 문자를 정규 표현식으로 찾아내거나 대체합니다.
-    const sanitizedValue = value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setHashtagValue(sanitizedValue); // 상태 업데이트 함수명을 바르게 설정해야 합니다.
-  };
-  const initialValue = "#";
+  // const [hashtagValue, setHashtagValue] = useState(``);
+  // const handleInputChange = event => {
+  //   const { value } = event.target;
+  //   // 특수 문자를 정규 표현식으로 찾아내거나 대체합니다.
+  //   const sanitizedValue = value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+  //   setHashtagValue(sanitizedValue); // 상태 업데이트 함수명을 바르게 설정해야 합니다.
+  // };
+  // const initialValue = "#";
 
-  const handleResets = () => {
-    setValue("hashtag", `#`); // hook-form의 전용 함수를 사용하여 depositPer 값을 50으로 설정
-    setValueDeposit(`#`); // state 값을 50으로 설정
-  };
-  const [meselectedDateRange, setMeSelectedDateRange] = useState(null);
+  // const handleResets = () => {
+  //   setValue("hashtag", `#`); // hook-form의 전용 함수를 사용하여 depositPer 값을 50으로 설정
+  //   setValueDeposit(`#`); // state 값을 50으로 설정
+  // };
 
   // 오늘 날짜
+  const [meselectedDateRange, setMeSelectedDateRange] = useState(null);
   const today = moment();
-
   // 오늘 이전 날짜를 비활성화하는 함수
   const disabledDate = current => {
     return current && current < moment().startOf("day");
+  };
+
+  // # 이외에 기호 안들어가게 만든 조건식
+  const initialInputs = [
+    { id: 1, value: `` },
+    { id: 2, value: `` },
+    { id: 3, value: `` },
+    { id: 4, value: `` },
+  ];
+  const [inputs, setInputs] = useState(initialInputs);
+  const [inputHash, setInputHash] = useState("");
+
+  const handleInputChange = (id, value) => {
+    setInputs(
+      inputs.map(input => (input.id === id ? { ...input, value } : input)),
+    );
+  };
+
+  const handleInputChangeHash = e => {
+    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+    setInputHash(newValue);
   };
 
   return (
@@ -616,11 +636,18 @@ const Write = () => {
                 </BtWrap>
               </div>
             </ListDiv>
+            {/* 기업 회원 돈 입력 */}
             {/* <ListDiv>
               <label htmlFor="price">
-                <p>대여가격</p> <p>*</p>
+                <p>홍부물가격</p> <p>*</p>
               </label>
               <div>
+                <input
+                  type="number"
+                  id="price"
+                  {...register("rentalPrice")}
+                  placeholder="₩ 대여 가격을 입력해주세요"
+                />
                 <input
                   type="number"
                   id="price"
@@ -664,17 +691,42 @@ const Write = () => {
               <PriceDiv>
                 <div>
                   <div>
+                    {inputs.map(input => (
+                      <input
+                        key={input.id}
+                        type="text"
+                        value={input.value}
+                        onChange={e =>
+                          handleInputChange(input.id, e.target.value)
+                        }
+                        placeholder={`Input ${input.id}`}
+                      />
+                    ))}
                     <input
                       type="text"
-                      value={handleResets}
-                      onChange={handleInputChange}
-                      placeholder="#전자제품"
-                      defaultValue={initialValue}
+                      value={inputHash}
+                      onChange={handleInputChangeHash}
+                      placeholder="#태그를작성해주세요"
                     ></input>
 
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
+                    {/* <input
+                      type="text"
+                      value={inputHash}
+                      onChange={handleInputChangeHash}
+                      placeholder="#닌테도"
+                    ></input>
+                    <input
+                      type="text"
+                      value={inputHash}
+                      onChange={handleInputChangeHash}
+                      placeholder="#이벤트"
+                    ></input>
+                    <input
+                      type="text"
+                      value={inputHash}
+                      onChange={handleInputChangeHash}
+                      placeholder="#전자제품"
+                    ></input> */}
                   </div>
                 </div>
               </PriceDiv>

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Common } from "./CommonStyles";
+import { Common } from "../CommonStyles";
 
 export const AllWidth = styled.div`
   width: 1260px;

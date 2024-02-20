@@ -13,11 +13,14 @@ import Loading from "./components/loading/Loading";
 const LazyJoinSelectPage = lazy(() => import("./pages/join/JoinSelectPage"));
 const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
-const LazyJoinEnterprisePage = lazy(() => import("./pages/join/JoinEnterprisePage"));
+const LazyJoinEnterprisePage = lazy(() =>
+  import("./pages/join/JoinEnterprisePage"),
+);
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
+
 
 const LazyCompanyPage = lazy(() => import("./pages/company/CompanyPage"))
 
@@ -141,6 +144,7 @@ const App = () => {
             </Suspense>
           }
         >
+
         </Route>
         <Route
           path="/company"
@@ -150,6 +154,7 @@ const App = () => {
             </Suspense>
           }
         >
+
         </Route>
         <Route
           path="/admin"
@@ -176,7 +181,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/modify"
+          path="/modify/:mainCategory/:subCategory/:productId"
           element={
             <Suspense fallback={<Loading />}>
               <LazyModify />
