@@ -11,8 +11,8 @@ export const StyledButton = styled.button`
   cursor: pointer;
 
   img {
-    width: 40px;
-    height: 35px;
+    width: 40px !important;
+    height: 35px !important;
   }
 `;
 

@@ -41,6 +41,12 @@ const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 const LazyDetailsPage = lazy(() => import("./pages/details/DetailsPage"));
 const LazyChatPage = lazy(() => import("./pages/chat/ChatPage"));
 
+
+const LazyFreePage = lazy(() => import("./pages/free/FreePage"));
+const LazyFreeRegisterPage = lazy(() => import("./pages/free/FreeRegisterPage"));
+const LazyFreeModifyPage = lazy(() => import("./pages/free/FreeModifyPage"));
+const LazyFreeDetailsPage = lazy(() => import("./pages/free/FreeDetailsPage"));
+
 const LazyCustomerPage = lazy(() =>
   import("./pages/Customer/CustomerServicePage"),
 );
@@ -249,6 +255,38 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyChatPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreePage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free/register"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreeRegisterPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free/modify"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreeModifyPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/free/details"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyFreeDetailsPage />
             </Suspense>
           }
         ></Route>
