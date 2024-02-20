@@ -5,48 +5,46 @@ export const MoreWrap = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
-  
 
   .header-wrap {
     width: 1260px;
     display: flex;
     justify-content: space-between;
     padding-bottom: 30px;
-    
 
-  .header-cate-wrap {
-    display: flex;
-    justify-content: space-between;
-    max-width: 100%;
-    gap: 10px;
-    height: 30px;
-    font-size: 20px;
-  }
-  .bt-wrap {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 20px;
-    >div{
+    .header-cate-wrap {
       display: flex;
-      width: 150px;
-      justify-content: space-evenly;
+      justify-content: space-between;
+      max-width: 100%;
+      gap: 10px;
+      height: 30px;
+      font-size: 20px;
     }
-    button {
-      border: none;
-      background: transparent;
-      font-size: 15px;
-      color: #777;
-      cursor: pointer;
+    .bt-wrap {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 20px;
+      > div {
+        display: flex;
+        width: 150px;
+        justify-content: space-evenly;
+      }
+      button {
+        border: none;
+        background: transparent;
+        font-size: 15px;
+        color: #777;
+        cursor: pointer;
+      }
+      img {
+        width: 2px;
+        height: 15px;
+      }
+      option {
+        background-color: #fff;
+      }
     }
-    img {
-      width: 2px;
-      height: 15px;
-    }
-    option {
-      background-color: #fff;
-    }
-  }
-  .region-wrap {
+    .region-wrap {
       width: 310px;
       display: flex;
       justify-content: space-between;
@@ -56,8 +54,7 @@ export const MoreWrap = styled.div`
         border: 2px solid #2c39b5;
       }
     }
-}
-
+  }
 
   .main-wrap {
     max-width: 1260px;
@@ -69,14 +66,16 @@ export const MoreWrap = styled.div`
       line-height: 30px;
       text-align: left;
       .desc-title {
+        width: 300px;
         font-size: 15px;
         color: #777;
+        display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
       hr {
-        width: 280px;
+        width: 300px;
         border: 1px solid #2c39b5;
         margin: 0;
       }
@@ -112,7 +111,6 @@ export const MoreWrap = styled.div`
         margin: auto;
       }
     }
-  
   }
   .ant-select-show-search {
     display: none;
@@ -122,5 +120,4 @@ export const MoreWrap = styled.div`
     padding-top: 80px;
     padding-bottom: 80px;
   }
-
 `;
