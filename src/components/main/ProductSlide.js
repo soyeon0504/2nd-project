@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { getProduct, getProductDetail } from "../../api/main/main_api"; // API 호출 함수 import
+import { getProduct } from "../../api/main/main_api"; 
 import {
   BtSlideNext,
   BtSlidePrev,
   SlideBtWrap,
 } from "../../styles/main/SlideButton";
 import { BtWrap } from "../../styles/main/mainStyle";
-
-import { useSelector } from "react-redux";
 import MoreButton from "./MoreButton";
 import Like from "../details/Like";
 import JoinPopUp, { ModalBackground } from "../joinpopup/JoinPopUp";
@@ -49,16 +47,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
         subCategoryId: focus + 1,
         iproduct: _item.iproduct,
       };
-
-
-      // const serverData = {
-      //   mainCategoryId: id,
-      //   subCategoryId: focus + 1,
-      //   iproduct: _item.iproduct,
-      // };
-
       navigate(url);
-      // const res = await getProductDetail(serverData);
     } else {
 
       setLoginState(true);

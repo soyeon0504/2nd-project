@@ -174,7 +174,6 @@ const MainMorePage = () => {
   const handlePageChangeDetails = async _item => {
     if (isLogin) {
       const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
-      // console.log("wowo", _item);
       const serverData = {
         mainCategoryId: _item.categories.mainCategory,
         subCategoryId: _item.categories.subCategory,
@@ -272,8 +271,12 @@ const MainMorePage = () => {
               <div
                 className="item-wrap"
                 key={`MainMore-item-${index}`}
-                onClick={() => handlePageChangeDetails(item)}
-              >
+                onClick={() => handlePageChangeDetails(item)}>
+
+                <div className="ad-wrap">
+                  <div className="ad">광고</div>
+                </div>
+
                 <div className="like-wrap">
                   <Like
                     isLiked={item.isLiked !== 0 ? true : false}
