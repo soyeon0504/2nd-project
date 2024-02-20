@@ -1,9 +1,17 @@
 import styled from "@emotion/styled";
 
+export const PageContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`
+
+
 export const PageWrap = styled.div`
    width: 1980px;
    display: flex;
    justify-content: center;
+   
 `
 export const Wrap = styled.div`
     width: 1260px;
@@ -93,6 +101,7 @@ export const PostInfoWrap = styled.div`
 export const PostInfo = styled.div`
     width: 1260px;
     margin-top: 35px;
+    padding-bottom: 40px;
     background-color: #F2F2FF;
     border-radius: 7px;
     justify-content: center;
@@ -111,6 +120,7 @@ export const PostWrap = styled.div`
     justify-content: center;
     padding-top: 25px;
     padding-left: 25px;
+    
 `
 export const Post = styled.div`
     width: 1210px;
@@ -120,6 +130,8 @@ export const Post = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
     >div {
         display: flex;
     }

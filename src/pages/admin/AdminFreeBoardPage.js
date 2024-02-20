@@ -1,5 +1,6 @@
 import React from 'react'
-import { BoardWrap } from '../../styles/admin/AdminBoardPageStyle'
+import { BoardWrap, HeaderWrap } from '../../styles/admin/AdminBoardPageStyle'
+import { Pagination } from "antd";
 
 const boardData = [
 {
@@ -74,12 +75,30 @@ const boardData = [
 const AdminBoardPage = () => {
   return (
     <BoardWrap>
-        <div>
-            <div>
-                <div>자유 게시판</div>
-                <div>총 28개</div>
+        <HeaderWrap>
+            <div className='header-title'>
+                <div className='title'>자유 게시판</div>
+                <div className='total'>총 28개</div>
             </div>
-        </div>
+            <div className='search-wrap'>
+                <form>
+                    <select>
+                        <option></option>
+                    </select>
+                    <input type='text' placeholder='검색어를 입력하세요'/>
+                    <button>
+                        <img src='/images/admin/search.svg'/>
+                    </button>
+                </form>
+            </div>
+            <div className="bt-wrap">
+              <div>
+                <button onClick={() => {}}>최신순</button>
+                <img src="/images/admin/line.svg" />
+                <button onClick={() => {}}>조회순</button>
+              </div>
+            </div>
+        </HeaderWrap>
       <table style={{ width: "100%"}}>
       <thead
             style={{height: "50px", background: "#FFE6E6", fontSize: "16px" }}
@@ -121,6 +140,7 @@ const AdminBoardPage = () => {
                 </>
             ))}
       </table>
+      <Pagination defaultCurrent={1} total={50}/>
     </BoardWrap>
   )
 }
