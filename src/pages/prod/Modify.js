@@ -26,7 +26,7 @@ import {
   ProductImgMap,
   ProductImgMapBt,
   Resets,
-} from "../../styles/productsStyle";
+} from "../../styles/prod/productsStyle";
 import { GetProd, failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router";
@@ -447,15 +447,19 @@ const Modify = () => {
   // 초기 값을 만들어 준 State 감시자
   const [stays, setStays] = useState({ ...stay });
   const [productData, setProductData] = useState({ ...stay });
-  // 목록의 이동할 페스주소 만들어 주기
+  // 목록의 이동할 페스주소 를 받아옴
+  // http://localhost:3000/modify/1/1/321
   const { mainicategory, subicategory, iproduct } = useParams();
   //로그인 사용자 정보 담기
   const iuser = useSelector(state => state.loginSlice.iuser);
-  // 화면에 한번 그려라
+
+  // 화면에 한번 그려라 (한번만 자료를 가져오면 된다.)
   useEffect(() => {
     const fetchData = async () => {
+      console.log("여기가 되어야 한다...");
       try {
         const response = await GetProd(mainicategory, subicategory, iproduct);
+        console.log("자료 가져오니 ? ", response);
         setStays(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -463,7 +467,7 @@ const Modify = () => {
     };
 
     fetchData();
-  }, [mainicategory, subicategory, iproduct]);
+  }, []);
 
   const handleClickGet = () => {
     console.log("연동");
@@ -868,22 +872,22 @@ const Modify = () => {
                 )}
               </div>
             </ListDiv>
-            {/* <BtSection>
+            <BtSection>
               <CancelBt onClick={handleCancel}>취소</CancelBt>
               {address && restAddress ? (
                 <SaveBt type="submit">저장</SaveBt>
               ) : (
                 <SaveBt onClick={handleNotValid}>저장</SaveBt>
               )}
-            </BtSection> */}
+            </BtSection>
           </form>
-            <button
-              onClick={() => {
-                handleClickGet();
-              }}
-            >
-              get
-            </button>
+          <button
+            onClick={() => {
+              handleClickGet();
+            }}
+          >
+            get
+          </button>
         </div>
       </AllWidth>
     </Layout>

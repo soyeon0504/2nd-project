@@ -13,15 +13,17 @@ import Loading from "./components/loading/Loading";
 const LazyJoinSelectPage = lazy(() => import("./pages/join/JoinSelectPage"));
 const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
-const LazyJoinEnterprisePage = lazy(() => import("./pages/join/JoinEnterprisePage"));
+const LazyJoinEnterprisePage = lazy(() =>
+  import("./pages/join/JoinEnterprisePage"),
+);
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
-const LazyMyManagementPage = lazy(() => import("./pages/my/MyManagementPage"))
+const LazyMyManagementPage = lazy(() => import("./pages/my/MyManagementPage"));
 const LazyMyInterestPage = lazy(() => import("./pages/my/MyInterestPage"));
-const LazyMyReportPage = lazy(() => import("./pages/my/MyReportPage"))
+const LazyMyReportPage = lazy(() => import("./pages/my/MyReportPage"));
 const LazyMyInfoPage = lazy(() => import("./pages/my/MyInfoPage"));
 const LazyMyWithDrawPage = lazy(() => import("./pages/my/MyWithDrawPage"));
 
@@ -139,13 +141,13 @@ const App = () => {
           }
         >
           <Route
-              path="management"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyMyManagementPage />
-                </Suspense>
-              }
-            ></Route>
+            path="management"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyManagementPage />
+              </Suspense>
+            }
+          ></Route>
           <Route
             path="interest"
             element={
@@ -163,13 +165,13 @@ const App = () => {
             }
           ></Route>
           <Route
-              path="report"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <LazyMyReportPage />
-                </Suspense>
-              }
-            ></Route>
+            path="report"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyReportPage />
+              </Suspense>
+            }
+          ></Route>
           <Route
             path="info"
             element={
@@ -213,7 +215,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/modify"
+          path="/modify/:mainCategory/:subCategory/:productId"
           element={
             <Suspense fallback={<Loading />}>
               <LazyModify />

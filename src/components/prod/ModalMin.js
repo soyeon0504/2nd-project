@@ -1,8 +1,7 @@
 import React from "react";
-import { MidalCover, MidalCovers } from "../../styles/mdalStylecss";
+import { MidalCovers } from "../../styles/prod/mdalStylecss";
 
-const Modal = () => {
-
+const ModalMin = () => {
   return (
     <MidalCovers>
       <div className="modala">
@@ -11,9 +10,7 @@ const Modal = () => {
       </div>
       <button className="btn-open-modal">Modal열기</button>
     </MidalCovers>
-   
-   
   );
 };
 
-export default Modal;
+export default ModalMin;
