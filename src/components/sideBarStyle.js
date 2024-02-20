@@ -11,8 +11,8 @@ export const Wrap = styled.div`
 export const SideBarWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 60px;
-  height: 400px;
+  width: 70px;
+  height: 500px;
   background-color: #eeeef1;
   border-radius: 30px;
 `;
