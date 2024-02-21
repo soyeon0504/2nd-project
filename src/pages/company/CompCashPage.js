@@ -1,17 +1,14 @@
 import React from 'react'
 import CompProfile from '../../components/company/CompProfile'
-import MyList from '../../components/my/MyList'
-import CompListBtn from '../../components/company/CompListBtn'
+import CompCashList from '../../components/company/CompCashList'
+import CompCashButton from '../../components/company/CompCashButton'
 
-const CompCashPage = ({activeBtn, setActiveBtn, handleSubItemClick}) => {
+const CompCashPage = ({activeBtn, setActiveBtn }) => {
   return (
-    <>
+    <> 
+      <CompCashButton />
       <CompProfile />
-      <CompListBtn 
-      activeBtn={activeBtn} 
-      setActiveBtn={setActiveBtn} 
-      onButtonClick={handleSubItemClick} />
-      <MyList activeBtn={activeBtn} setActiveBtn={setActiveBtn}/>
+      <CompCashList activeBtn={activeBtn} setActiveBtn={setActiveBtn}/>
     </>
   )
 }
