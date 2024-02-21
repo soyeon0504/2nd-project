@@ -54,7 +54,7 @@ export const MyListMid = styled.div`
     right: 40rem;
     font-size: 3rem;
     font-weight: 600;
-    color: #8f8f8f;
+    color: #fff;
   }
   a {
     display: flex;
@@ -152,8 +152,8 @@ export const MyListMidLast = styled.div`
 `;
 
 export const MyListProfileImg = styled.div`
-  width: 6rem;
-  height: 6rem;
+  width: 6rem !important;
+  height: 6rem !important;
   box-sizing: border-box;
   border-radius: 4.5rem;
   overflow: hidden;

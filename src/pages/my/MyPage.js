@@ -120,7 +120,7 @@ const MyPage = () => {
         {activeBtn === "관심 목록" && ( <MyInterestPage /> )}
         {activeBtn === "내 작성 후기" || activeBtn === "내 상품 후기" ? 
             ( <MyReviewPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
-        {activeBtn === "신고 내역" && ( <MyReportPage />)} 
+        {activeBtn === "신고 내역" && ( <MyReportPage activeBtn={activeBtn} />)} 
         {activeBtn === "회원정보 수정" && ( <MyInfoPage /> )}
         {activeBtn === "회원탈퇴" && ( <MyWithDrawPage /> )}
         </div>
