@@ -1,14 +1,33 @@
-import React from "react";
-import { MidalCovers } from "../../styles/prod/mdalStylecss";
+import React, { useState } from "react";
+import { BT, Detail, MidalCovers } from "../../styles/prod/mdalStylecss";
 
-const ModalMin = () => {
+const ModalMin = ({ title, deletes, registration }) => {
+  const [isOpen, setIsOpen] = useState(true);
+  // 모달 창 닫기
+  const closeMsdal = () => {
+    setIsOpen(true);
+  };
   return (
     <MidalCovers>
-      <div className="modala">
-        <h2>모달창 제목</h2>
-        <p>모달창 내용 </p>
+      <div className="maincover">
+        <div>
+          <img src="/images/logo.svg" />
+        </div>
+        <button className="btn-open-modal" onClick={() => setIsOpen(true)}>
+          닫기
+        </button>
+        <div className="modala">
+          <div>
+            <Detail>
+              <h1>{title}</h1>
+            </Detail>
+            <BT>
+              <button className="BtRight">{registration}</button>
+              <button className="BtLeft">{deletes}</button>
+            </BT>
+          </div>
+        </div>
       </div>
-      <button className="btn-open-modal">Modal열기</button>
     </MidalCovers>
   );
 };

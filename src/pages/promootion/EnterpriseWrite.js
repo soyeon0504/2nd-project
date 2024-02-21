@@ -138,6 +138,12 @@ const validationSchema = yup.object({
   mainPic: yup
     .string("제품사진을 선택해주세요.")
     .required("제품사진은 최소 1개이상 필수 입력 사항입니다."),
+  hash: yup
+    .string("내용을 입력하세요.")
+    .matches(/#/g, "태그에는 # 기호가 반드시 포함되어야 합니다.")
+    .min(2, "2자 이상 입력하세요.")
+    .max(50, "50자까지만 입력하세요.")
+    .required("제목은 필수 입력 사항입니다."),
 });
 
 const Write = () => {
@@ -453,7 +459,7 @@ const Write = () => {
     return current && current < moment().startOf("day");
   };
 
-  // # 이외에 기호 안들어가게 만든 조건식
+  // 멥을 돌린 아이템
   const initialInputs = [
     { id: 1, value: `` },
     { id: 2, value: `` },
@@ -461,7 +467,11 @@ const Write = () => {
     { id: 4, value: `` },
   ];
   const [inputs, setInputs] = useState(initialInputs);
+  // # 이외에 기호 안들어가게 만든 조건식
   const [inputHash, setInputHash] = useState("");
+  const [inputHash1, setInputHash1] = useState("");
+  const [inputHash2, setInputHash2] = useState("");
+  const [inputHash3, setInputHash3] = useState("");
 
   const handleInputChange = (id, value) => {
     setInputs(
@@ -472,6 +482,35 @@ const Write = () => {
   const handleInputChangeHash = e => {
     const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
     setInputHash(newValue);
+  };
+  const handleInputChangeHash1 = e => {
+    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+    setInputHash1(newValue);
+  };
+  const handleInputChangeHash2 = e => {
+    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+    setInputHash2(newValue);
+  };
+  const handleInputChangeHash3 = e => {
+    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+    setInputHash3(newValue);
+  };
+  // 공백을 제거하는 함수 만들기
+  let [str, setStr] = useState("");
+  const handleChangeS = e => {
+    let newValue = e.target.value.trim(); // 입력 값에서 공백을 제거한 후 새로운 변수에 할당
+    setStr(newValue); // state 변수(str) 업데이트
+  };
+
+  str = str.trim();
+  let arr = str.split(" ");
+  let result = arr.join("");
+  console.log(result);
+
+  // 이벤트 합치기 왜 아됨 짜증나
+  const handleChangeSS = () => {
+    handleChangeS();
+    handleInputChangeHash3();
   };
 
   return (
@@ -696,10 +735,11 @@ const Write = () => {
                         key={input.id}
                         type="text"
                         value={input.value}
+                        onFocus={handleInputChangeHash}
                         onChange={e =>
                           handleInputChange(input.id, e.target.value)
                         }
-                        placeholder={`Input ${input.id}`}
+                        placeholder="#태그를작성해주세요"
                       />
                     ))}
                     <input
@@ -707,26 +747,32 @@ const Write = () => {
                       value={inputHash}
                       onChange={handleInputChangeHash}
                       placeholder="#태그를작성해주세요"
+                      {...register("hash")}
                     ></input>
 
-                    {/* <input
+                    <input
                       type="text"
-                      value={inputHash}
-                      onChange={handleInputChangeHash}
+                      value={inputHash1}
+                      onChange={handleInputChangeHash1}
                       placeholder="#닌테도"
                     ></input>
                     <input
                       type="text"
-                      value={inputHash}
-                      onChange={handleInputChangeHash}
+                      value={inputHash2}
+                      onChange={handleInputChangeHash2}
                       placeholder="#이벤트"
                     ></input>
                     <input
                       type="text"
-                      value={inputHash}
-                      onChange={handleInputChangeHash}
+                      // value={inputHash3}
+                      // onChange={handleInputChangeHash3}
+                      value={str}
+                      onChange={e => handleChangeS(e)}
                       placeholder="#전자제품"
-                    ></input> */}
+                    />
+                    <div style={{ color: "red" }}>
+                      {formState.errors.hash?.message}
+                    </div>
                   </div>
                 </div>
               </PriceDiv>

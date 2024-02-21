@@ -857,7 +857,8 @@ const Write = () => {
             </BtSection>
           </form>
 
-          <ModalMin />
+          <ModalMin 
+          title={"기업 홍보 게시물 등록 하시 겠습니까."} deletes={"삭제"} registration={"등록"}/>
         </div>
       </AllWidth>
     </Layout>
