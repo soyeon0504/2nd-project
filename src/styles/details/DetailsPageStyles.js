@@ -71,14 +71,20 @@ export const Price = styled.div`
 
 export const ViewCount = styled.div`
   margin-top: 28px;
-  flex-shrink: 0;
+  display: flex;
   color: #4b4b4b;
-  font-family: Inter;
+
   font-size: 14px;
-  font-style: normal;
+
   font-weight: 500;
-  line-height: normal;
+
   margin-bottom: 40px;
+`;
+
+export const Report = styled.div`
+  /* position: absolute; */
+  font-size: 14px;
+  margin-left: 520px;
 `;
 
 export const Address = styled.div`
