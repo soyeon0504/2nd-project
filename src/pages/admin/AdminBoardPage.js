@@ -9,7 +9,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -20,7 +20,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -31,7 +31,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -42,7 +42,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -53,7 +53,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -64,7 +64,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -75,7 +75,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -86,7 +86,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -97,7 +97,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -108,7 +108,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -119,7 +119,7 @@ const boardData = [
     category: "노트북",
     rentalPrice: "10,000원",
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     productInquiry: "",
     productManage: "",
@@ -158,7 +158,6 @@ const AdminBoardPage = () => {
           style={{ height: "50px", background: "#FFE6E6", fontSize: "16px" }}
         >
           <tr>
-            <th></th>
             <th>상품번호</th>
             <th>카테고리</th>
             <th>대여 가격</th>
@@ -179,7 +178,7 @@ const AdminBoardPage = () => {
               }}
             >
               <tr className="board-data">
-                <td>{item.id}</td>
+                {/* <td>{item.id}</td> */}
                 <td>{item.iproduct}</td>
                 <td>{item.category}</td>
                 <td>{item.rentalPrice}</td>
