@@ -121,7 +121,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
                     <img src={`/pic/${item.prodMainPic}`} alt="" />
                     <div className="desc-wrap">
                       <span className="desc-title">{item.title}</span>
-                      <hr></hr>
+                      <hr/>
                       <div className="desc-price">
                         {item.rentalPrice.toLocaleString()}
                       </div>

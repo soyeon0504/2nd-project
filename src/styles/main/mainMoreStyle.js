@@ -96,22 +96,6 @@ export const MoreWrap = styled.div`
   .item-wrap {
     position: relative;
     cursor: pointer;
-    .ad-wrap {
-      position: absolute;
-      padding-top: 10px;
-      padding-left: 10px;
-      .ad {
-      width: 55px;
-      height: 30px;
-      border-radius: 5px;
-      background-color: #FFEB85;
-      letter-spacing: 5px;
-      font-size: 14px;
-      font-weight: bold;
-      text-align: center;
-      padding-top: 5px;
-      }
-    }
     .item-image {
       width: 300px;
       height: 300px;
