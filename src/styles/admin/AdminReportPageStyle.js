@@ -129,38 +129,16 @@ export const ReportMain = styled.div`
     height: 30px;
     background: #fff;
     border-radius: 8px;
-    border: 1px solid #79747e;
+    border: 2px solid #79747e;
     cursor: pointer;
+
+    font-weight: bold;
+    color: #79747e;
   }
   button:hover {
-    background: #ffe6e6;
-  }
-
-  .hovertext {
-    position: relative;
-  }
-  .hovertext:before {
-    content: attr(data-hover);
-    visibility: hidden;
-    opacity: 0;
-    width: max-content;
-    background-color: gray;
-    color: #fff;
-    font-size: 11px;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px 5px;
-    /* transition: opacity 1s ease-in-out; */
-
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: -110%;
-  }
-
-  .hovertext:hover:before {
-    opacity: 1;
-    visibility: visible;
+    border: 2px solid #b6000b;
+    color: #b6000b;
+    /* background: #ffe6e6; */
   }
 `;
 

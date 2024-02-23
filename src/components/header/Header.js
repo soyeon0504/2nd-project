@@ -82,10 +82,12 @@ const Header = ({ searchName, pageNum }) => {
   const [selectedSubCate, setSelectedSubCate] = useState([
     { id: 0, title: "전체" },
   ]);
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const handleMainCategoryChange = event => {
-    const selectedOption = mainCate.find(item => item.id === parseInt(event.target.value));
-    setSelectedValue(selectedOption ? selectedOption.title : '');
+    const selectedOption = mainCate.find(
+      item => item.id === parseInt(event.target.value),
+    );
+    setSelectedValue(selectedOption ? selectedOption.title : "");
     const selectedMainCategoryId = parseInt(event.target.value);
     const selectedMainCategory = mainCate.find(
       item => item.id === selectedMainCategoryId,
@@ -99,39 +101,35 @@ const Header = ({ searchName, pageNum }) => {
     }
   };
 
-  const [selectedSubValue, setSelectedSubValue] = useState('');
-  const handleSubCategoryChange = (event) => {
-    const selectedOption = selectedSubCate.find((item) => item.title === event.target.value);
-    setSelectedSubValue(selectedOption ? selectedOption.title : '');
+  const [selectedSubValue, setSelectedSubValue] = useState("");
+  const handleSubCategoryChange = event => {
+    const selectedOption = selectedSubCate.find(
+      item => item.title === event.target.value,
+    );
+    setSelectedSubValue(selectedOption ? selectedOption.title : "");
   };
-  
+
   const handleSearchDivClick = () => {
     setIsCateHoverVisible(!isCateHoverVisible);
     setIsSearchWord(false);
   };
 
-  const handleClickOutsideCateHover = (e) => {
-    if (
-      isCateHoverVisible &&
-      e.target.closest('.header-search') === null
-    ) {
+  const handleClickOutsideCateHover = e => {
+    if (isCateHoverVisible && e.target.closest(".header-search") === null) {
       setIsCateHoverVisible(false);
     }
   };
 
   const handleSearchWordClick = () => {
     setIsSearchWord(!isSearchWord);
-    setIsCateHoverVisible(false)
-  }
+    setIsCateHoverVisible(false);
+  };
 
-  const handleClickOutsideSearchWord = (e) => {
-    if (
-      isSearchWord && 
-      e.target.closest('.header-search') === null
-    ) {
-      setIsSearchWord(false)
+  const handleClickOutsideSearchWord = e => {
+    if (isSearchWord && e.target.closest(".header-search") === null) {
+      setIsSearchWord(false);
     }
-  }
+  };
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -142,7 +140,7 @@ const Header = ({ searchName, pageNum }) => {
     navigate(`/login`);
   };
   const handleJoin = () => {
-    navigate(`/join/select`);
+    navigate(`/join/step_1`);
   };
   const handleMy = subItem => {
     sessionStorage.setItem("selectedItem", subItem);
@@ -156,16 +154,16 @@ const Header = ({ searchName, pageNum }) => {
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutsideSearchWord);
+    document.addEventListener("click", handleClickOutsideSearchWord);
     return () => {
-      document.removeEventListener('click', handleClickOutsideSearchWord);
+      document.removeEventListener("click", handleClickOutsideSearchWord);
     };
   }, [isSearchWord]);
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutsideCateHover);
+    document.addEventListener("click", handleClickOutsideCateHover);
     return () => {
-      document.removeEventListener('click', handleClickOutsideCateHover);
+      document.removeEventListener("click", handleClickOutsideCateHover);
     };
   }, [isCateHoverVisible]);
 
@@ -248,52 +246,63 @@ const Header = ({ searchName, pageNum }) => {
               onMouseEnter={() => setIsHovered(false)}
               onMouseLeave={() => setIsHovered(true)}
               onClick={handleSearchWordClick}
-              style={{ 
-                backgroundColor: isSearchWord ? '#FFF' : '',
-                borderRadius: isSearchWord ? '45px' : '', 
-                boxShadow: isSearchWord ? '4px 0px 8px 0px rgba(0, 0, 0, 0.25)' : ''
+              style={{
+                backgroundColor: isSearchWord ? "#FFF" : "",
+                borderRadius: isSearchWord ? "45px" : "",
+                boxShadow: isSearchWord
+                  ? "4px 0px 8px 0px rgba(0, 0, 0, 0.25)"
+                  : "",
               }}
             />
-             {isHovered && !isSearchWord && <SearchDivisionLine></SearchDivisionLine>}
-            <SearchDiv 
+            {isHovered && !isSearchWord && (
+              <SearchDivisionLine></SearchDivisionLine>
+            )}
+            <SearchDiv
               onMouseEnter={() => setIsHovered(false)}
-              onMouseLeave={() => setIsHovered(true)} 
+              onMouseLeave={() => setIsHovered(true)}
               onClick={handleSearchDivClick}
-              style={{ 
-                backgroundColor: isCateHoverVisible ? '#FFF' : '',
-                borderRadius: isCateHoverVisible ? '45px' : '', 
-                boxShadow: isCateHoverVisible ? '-4px 0px 8px 0px rgba(0, 0, 0, 0.25)' : ''
+              style={{
+                backgroundColor: isCateHoverVisible ? "#FFF" : "",
+                borderRadius: isCateHoverVisible ? "45px" : "",
+                boxShadow: isCateHoverVisible
+                  ? "-4px 0px 8px 0px rgba(0, 0, 0, 0.25)"
+                  : "",
               }}
             >
               <b>카테고리</b>
               <div>
-                <span>{selectedValue ? selectedValue : '메인 카테고리'}</span>
+                <span>{selectedValue ? selectedValue : "메인 카테고리"}</span>
                 <p></p>
-                <span>{selectedSubValue ? selectedSubValue : '상세 카테고리'}</span>
+                <span>
+                  {selectedSubValue ? selectedSubValue : "상세 카테고리"}
+                </span>
               </div>
             </SearchDiv>
-            {isCateHoverVisible && ( <CateHover>
-              <div>
+            {isCateHoverVisible && (
+              <CateHover>
+                <div>
                   <h1>메인 카테고리</h1>
                   <select onChange={handleMainCategoryChange}>
-                      {mainCate.map(item => {
-                        return (
-                          <option key={item.id} value={item.id}>
-                            {item.title}
-                          </option>
-                        );
-                      })}
+                    {mainCate.map(item => {
+                      return (
+                        <option key={item.id} value={item.id}>
+                          {item.title}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
                 <div>
                   <h1>상세 카테고리</h1>
                   <select onChange={handleSubCategoryChange}>
-                      {selectedSubCate.map(listItem => {
-                        return <option key={listItem.id}>{listItem.title}</option>;
-                      })}
+                    {selectedSubCate.map(listItem => {
+                      return (
+                        <option key={listItem.id}>{listItem.title}</option>
+                      );
+                    })}
                   </select>
                 </div>
-              </CateHover>  
+              </CateHover>
             )}
             <SearchBt
               ref={searchBtRef}
