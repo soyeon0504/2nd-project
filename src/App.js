@@ -10,12 +10,8 @@ import Breadcrumb from "./components/breadcrumb/Breadcrumb";
 import Loading from "./components/loading/Loading";
 // import "antd/dist/antd.css";
 
-const LazyJoinSelectPage = lazy(() => import("./pages/join/JoinSelectPage"));
 const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
-const LazyJoinEnterprisePage = lazy(() =>
-  import("./pages/join/JoinEnterprisePage"),
-);
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
@@ -96,14 +92,7 @@ const App = () => {
           }
         ></Route>
 
-        <Route
-          path="/join/select"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyJoinSelectPage />
-            </Suspense>
-          }
-        ></Route>
+
         <Route
           path="/join/step_1"
           element={
@@ -113,18 +102,10 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/join/step_2/individual"
+          path="/join/step_2"
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinPage />
-            </Suspense>
-          }
-        ></Route>
-        <Route
-          path="/join/step_2/enterprise"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyJoinEnterprisePage />
             </Suspense>
           }
         ></Route>
