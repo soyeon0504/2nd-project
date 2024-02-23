@@ -2,23 +2,23 @@ import styled from "@emotion/styled";
 
 export const PageWrapper = styled.div`
   max-width: 1280px;
-  height: 900px;
+  height: 630px;
   margin: 0 auto;
+
   display: flex;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 `;
 
 export const ChatBox = styled.div`
   width: 630px;
+
   height: auto;
-  max-height: 850px;
+  max-height: 624px;
   flex-shrink: 0;
   padding-left: 20px;
   padding-top: 15px;
   margin-right: 20px;
   border: 1px solid #777;
-  overflow-y: auto;
-  overflow-x: hidden;
 `;
 
 export const ChatProfileBox = styled.div`
@@ -65,4 +65,64 @@ export const CurrentDate = styled.div`
   font-size: 13px;
   font-weight: 400;
   margin-left: 40px;
+`;
+
+export const ChatBoxWrapper = styled.div``;
+
+export const ChatBoxContainer = styled.div`
+  flex-direction: column;
+`;
+
+export const ChatBoxContent = styled.div`
+  width: 600px;
+  max-width: 100%;
+  max-height: 550px;
+  height: auto;
+  box-sizing: border-box;
+  background-color: #fff;
+`;
+
+export const NoChatSelectedMessage = styled.p`
+  font-size: 16px;
+  text-align: center;
+  width: 600px;
+`;
+
+export const ChatInput = styled.input`
+  width: 580px;
+  max-width: 100%; /* 최대 너비 설정 */
+  height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  background: #f2f2ff;
+  padding-left: 10px;
+  bottom: 10px;
+`;
+
+export const ProfileInfoContainer = styled.div`
+  display: inline-block;
+  margin-left: 10px;
+`;
+
+export const ChatText = styled.div`
+  max-height: 460px;
+  min-height: 460px;
+  margin-bottom: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+`;
+
+export const ProfileName = styled.p`
+  font-size: 16px;
+  margin-bottom: 10px;
+`;
+
+export const ChatMessage = styled.div`
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: ${({ isSender }) => (isSender ? "#DCF8C6" : "#E5E5EA")};
+  align-self: ${({ isSender }) => (isSender ? "flex-end" : "flex-start")};
 `;

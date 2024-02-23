@@ -31,6 +31,7 @@ export const Box = styled.div`
   width: 630px;
   height: 550px;
   border-bottom: 1px solid #2c39b5;
+  margin-left: 20px;
 `;
 
 export const BoxImg = styled.div`
