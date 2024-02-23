@@ -1,20 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import Layout from "../../layouts/Layout";
+import { useForm } from "react-hook-form";
 import { SideBar } from "../../components/SideBar";
 import Mytitle from "../../components/my/Mytitle";
-import { useForm } from "react-hook-form";
+import Layout from "../../layouts/Layout";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import MyDatePicker from "./MyDatePicker";
-import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
-import { Modal } from "../../components/address/Address";
-import DaumPostcode from "react-daum-postcode";
-import Calendar from "../../components/details/Calendar";
+import { ArrowRightOutlined, CalendarOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 import { DatePicker } from "antd";
-import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
+import DaumPostcode from "react-daum-postcode";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import { GetProd, postprod } from "../../api/prod/prod_api";
+import { Modal } from "../../components/address/Address";
+import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
 import {
   AllWidth,
   BtWrap,
@@ -24,13 +26,8 @@ import {
   PriceDiv,
   ProductImgBt,
   ProductImgMap,
-  ProductImgMapBt,
   Resets,
 } from "../../styles/prod/productsStyle";
-import { GetProd, failPostDatas, postprod } from "../../api/prod/prod_api";
-import dayjs from "dayjs";
-import { useNavigate, useParams } from "react-router";
-import { useSelector } from "react-redux";
 
 // 항목 카테고리 리스트
 const btlist = [
@@ -64,6 +61,45 @@ const initState = {
 
   inventory: 1, // 재고
 };
+
+// 제품 정보 읽어온 데이터
+const initStateData = {
+  iuser: 2,
+  nick: "현빈대마왕",
+  userPic: "user/1/1c005a93-1284-455e-a25c-adfddb43c8cf.jpg",
+  iauth: 2,
+  iproduct: 316,
+  title: "테스트",
+  prodMainPic: "prod/main/316/60feacc2-6004-4d86-8302-04e5fdd2695d.jpg",
+  price: 1000,
+  rentalPrice: 100,
+  deposit: 500,
+  rentalStartDate: "2024-02-13",
+  rentalEndDate: "2024-02-21",
+  addr: "광주 서구 2순환로 2275",
+  restAddr: "하하",
+  prodLike: 0,
+  istatus: 0,
+  inventory: 3,
+  isLiked: 0,
+  view: 2,
+  categories: {
+    mainCategory: 1,
+    subCategory: 1,
+  },
+  contents: "사용감 죽이네",
+  prodSubPics: [
+    {
+      ipics: 215,
+      prodPics: "prod/316/67bb5c5e-47c1-4765-adc6-5f09f19f4c64.jpg",
+    },
+  ],
+  buyDate: "2024-02-11",
+  x: 126.826514037352,
+  y: 35.1594545934228,
+  reviews: [],
+};
+
 // 검증 코드 yup
 const validationSchema = yup.object({
   title: yup
@@ -135,8 +171,29 @@ const Modify = () => {
     marginLeft: "-150px",
   };
 
+  const { mainCategory, subCategory, productId } = useParams();
+  // get 한목록 가져오기
+  // const [stays, setStays] = useState(initStateData);
+  const [productData, setProductData] = useState(initStateData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await GetProd(mainCategory, subCategory, productId);
+        // 상품정보를 읽어서 상태로 저장한다.
+        setProductData(response.data);
+        setImageBefore(response.data.prodSubPics);
+        setSelectCate(response.data.categories.mainCategory - 1);
+        setChangeBtn(response.data.categories.subCategory - 1);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // 폼 관련 데이터 처리
   const { register, handleSubmit, formState, setValue } = useForm({
-    defaultValues: initState,
+    defaultValues: productData,
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
@@ -406,68 +463,8 @@ const Modify = () => {
     setCatchErr(true);
   };
 
-  // get 기초 코드
-  const stay = {
-    iuser: 2,
-    nick: "현빈대마왕",
-    userPic: "user/1/1c005a93-1284-455e-a25c-adfddb43c8cf.jpg",
-    iauth: 2,
-    iproduct: 316,
-    title: "테스트",
-    prodMainPic: "prod/main/316/60feacc2-6004-4d86-8302-04e5fdd2695d.jpg",
-    price: 1000,
-    rentalPrice: 100,
-    deposit: 500,
-    rentalStartDate: "2024-02-13",
-    rentalEndDate: "2024-02-21",
-    addr: "광주 서구 2순환로 2275",
-    restAddr: "하하",
-    prodLike: 0,
-    istatus: 0,
-    inventory: 3,
-    isLiked: 0,
-    view: 2,
-    categories: {
-      mainCategory: 1,
-      subCategory: 1,
-    },
-    contents: "사용감 죽이네",
-    prodSubPics: [
-      {
-        ipics: 215,
-        prodPics: "prod/316/67bb5c5e-47c1-4765-adc6-5f09f19f4c64.jpg",
-      },
-    ],
-    buyDate: "2024-02-11",
-    x: 126.826514037352,
-    y: 35.1594545934228,
-    reviews: [],
-  };
-  // get 한목록 가져오기
-  // 초기 값을 만들어 준 State 감시자
-  const [stays, setStays] = useState({ ...stay });
-  const [productData, setProductData] = useState({ ...stay });
-  // 목록의 이동할 페스주소 를 받아옴
-  // http://localhost:3000/modify/1/1/321
-  const { mainicategory, subicategory, iproduct } = useParams();
   //로그인 사용자 정보 담기
   const iuser = useSelector(state => state.loginSlice.iuser);
-
-  // 화면에 한번 그려라 (한번만 자료를 가져오면 된다.)
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("여기가 되어야 한다...");
-      try {
-        const response = await GetProd(mainicategory, subicategory, iproduct);
-        console.log("자료 가져오니 ? ", response);
-        setStays(response.data);
-      } catch (error) {
-        console.error("Error fetching product data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleClickGet = () => {
     console.log("연동");
@@ -522,7 +519,7 @@ const Modify = () => {
               <ProductImgMap>
                 {imageBefore.map((item, index) => (
                   <div key={index} onClick={() => removeImgList(index)}>
-                    <img src={item} alt="" />
+                    <img src={`/pic/${item.prodPics}`} alt="" />
                   </div>
                 ))}
               </ProductImgMap>
@@ -538,8 +535,8 @@ const Modify = () => {
                   <input
                     type="text"
                     id="product"
+                    value={productData.title}
                     maxLength={50}
-                    value={stay.title}
                     placeholder="상품을 입력해주세요"
                     // {...register("title")}
                   />
@@ -564,7 +561,6 @@ const Modify = () => {
                     <li>
                       <BtnColor
                         type="button"
-                        value={stay.iuser}
                         clickbtn={selectCate === 0}
                         onClick={() => {
                           handleButtonClick(0);
@@ -576,7 +572,6 @@ const Modify = () => {
                     <li>
                       <BtnColor
                         type="button"
-                        value={stay.iuser}
                         clickbtn={selectCate === 1}
                         onClick={() => {
                           handleButtonClick(1);
@@ -588,7 +583,6 @@ const Modify = () => {
                     <li>
                       <BtnColor
                         type="button"
-                        value={stay.iuser}
                         clickbtn={selectCate === 2}
                         onClick={() => {
                           handleButtonClick(2);
@@ -600,7 +594,6 @@ const Modify = () => {
                     <li>
                       <BtnColor
                         type="button"
-                        value={stay.iuser}
                         clickbtn={selectCate === 3}
                         onClick={() => {
                           handleButtonClick(3);
@@ -612,7 +605,6 @@ const Modify = () => {
                     <li>
                       <BtnColor
                         type="button"
-                        value={stay.iuser}
                         clickbtn={selectCate === 4}
                         onClick={() => {
                           handleButtonClick(4);
@@ -629,7 +621,6 @@ const Modify = () => {
                     {btData.map((item, index) => (
                       <li key={index}>
                         <BtnColorSub
-                          value={stay.iuser}
                           type="button"
                           clickbtn={changebtn === index}
                           onClick={() => {
@@ -654,7 +645,7 @@ const Modify = () => {
                   <textarea
                     id="detail"
                     maxLength={1500}
-                    value={stay.contents}
+                    value={productData.contents}
                     {...register("contents")}
                     placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감,하자 유무) 등을 입력해 주세요."
                     // value={textareaValue}
@@ -683,7 +674,7 @@ const Modify = () => {
                   <div>
                     <input
                       type="number"
-                      value={stay.price}
+                      value={productData.price}
                       placeholder="숫자만 입력 가능합니다"
                       {...register("price")}
                     />
@@ -699,7 +690,7 @@ const Modify = () => {
                     <input
                       type="number"
                       step="10"
-                      value={stay.rentalPrice}
+                      value={productData.deposit}
                       {...register("depositPer")}
                       placeholder="버튼을 클릭 해주세요"
                       readOnly
@@ -735,7 +726,7 @@ const Modify = () => {
                   <div>
                     <input
                       type="number"
-                      value={stay.deposit}
+                      value={productData.rentalPrice}
                       placeholder="숫자만 입력 가능합니다"
                       {...register("rentalPrice")}
                     />
@@ -758,7 +749,7 @@ const Modify = () => {
                     className="showSpinner"
                     type="number"
                     id="quantity"
-                    value={stay.inventory}
+                    value={productData.inventory}
                     placeholder="숫자만 입력"
                     {...register("inventory")}
                   />
@@ -783,7 +774,7 @@ const Modify = () => {
                       <CalendarOutlined style={{ color: "#2C39B5" }} />
                     }
                     onChange={handleChangeBuyDate}
-                    value={buyDateNow}
+                    defaultValue={dayjs(productData.buyDate)}
                   />
 
                   <div style={{ color: "red" }}>
@@ -803,7 +794,11 @@ const Modify = () => {
                 >
                   <DatePicker.RangePicker
                     onChange={handleDateRangeChange}
-                    value={selectedDateRange}
+                    // value={selectedDateRange}
+                    defaultValue={[
+                      dayjs(productData.rentalStartDate),
+                      dayjs(productData.rentalEndDate),
+                    ]}
                     format="YYYY-MM-DD"
                     style={inputStyleCalendar}
                     placeholder={["시작일", "종료일"]}
@@ -835,7 +830,8 @@ const Modify = () => {
                 <input
                   type="text"
                   // {...register("addr")}
-                  value={address}
+                  // value={address}
+                  value={productData.addr}
                   placeholder="주소 검색을 해주세요."
                   onClick={handleClickButton}
                   id="adress"
@@ -852,7 +848,8 @@ const Modify = () => {
 
                 <input
                   type="text"
-                  value={restAddress}
+                  // value={restAddress}
+                  value={productData.restAddr}
                   placeholder="상세 주소를 입력해주세요."
                   // {...register("restAddr")}
                   name="restAddress"

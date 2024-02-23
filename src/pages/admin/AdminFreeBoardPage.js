@@ -149,6 +149,7 @@ const AdminBoardPage = () => {
               }}
               >
               <tr className='board-data'>
+
                 <td>{item.ipost}</td>
                 <td>{item.nick}</td>
                 <td>{item.view}</td>

@@ -1,6 +1,8 @@
+
 import React, { useEffect, useState } from "react";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
 import Pagination from "../../components/Pagination";
+
 
 
 const boardData = [
@@ -125,116 +127,8 @@ const boardData = [
     productInquiry: "",
     productManage: "",
   },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
+
+
 ];
 
 const AdminBoardPage = () => {
@@ -290,6 +184,7 @@ const AdminBoardPage = () => {
         </div>
         <div className="search-wrap">
           <form>
+
           <select
               onChange={handleSearchOptionChange}
               value={selectedSearchOption}
@@ -312,15 +207,18 @@ const AdminBoardPage = () => {
               value={searchKeyword}
               onChange={handleSearchKeywordChange}/>
             <button onClick={handleSearchSubmit}>
+
               <img src="/images/admin/search.svg" />
             </button>
           </form>
         </div>
         <div className="bt-wrap">
           <div>
+
             <button onClick={() => setSortType(0)}>최신순</button>
             <img src="/images/admin/line.svg" />
             <button onClick={() => setSortType(2)}>조회순</button>
+
           </div>
         </div>
       </HeaderWrap>
@@ -349,6 +247,7 @@ const AdminBoardPage = () => {
               }}
             >
               <tr className="board-data">
+
                 <td>{item.iproduct}</td>
                 <td>{item.category}</td>
                 <td>{item.rentalPrice}</td>
@@ -369,7 +268,9 @@ const AdminBoardPage = () => {
         ))}
       </table>
       <div>
+
         <Pagination totalPage={totalPage} page={page} limit={limit} siblings={5} onPageChange={handlePageChange}/>
+
       </div>
     </BoardWrap>
   );

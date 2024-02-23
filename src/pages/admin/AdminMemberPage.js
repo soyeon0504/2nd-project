@@ -331,6 +331,7 @@ const AdminMemberPage = ({ activeBtn }) => {
       searchTarget = ["username"];
     }
 
+
     // 검색 결과 필터링
     const filteredData = memberData.filter(member => {
       return searchTarget.some(target => {
@@ -339,6 +340,7 @@ const AdminMemberPage = ({ activeBtn }) => {
           .includes(searchKeyword.toLowerCase());
       });
     });
+
 
     // 필터링된 결과 설정
     setMemberData(filteredData);
@@ -383,6 +385,8 @@ const AdminMemberPage = ({ activeBtn }) => {
         </div>
       </MemberTitle>
       {activeBtn === "개인 회원" && <h1></h1>}
+
+
 
       <table
         {...getTableProps()}

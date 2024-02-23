@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import Layout from "../../layouts/Layout";
+import { useForm } from "react-hook-form";
 import { SideBar } from "../../components/SideBar";
 import Mytitle from "../../components/my/Mytitle";
-import { useForm } from "react-hook-form";
+import Layout from "../../layouts/Layout";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import MyDatePicker from "./MyDatePicker";
-import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
-import { Modal } from "../../components/address/Address";
-import DaumPostcode from "react-daum-postcode";
-import Calendar from "../../components/details/Calendar";
+import { ArrowRightOutlined, CalendarOutlined } from "@ant-design/icons";
 import { DatePicker } from "antd";
-import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
+import DaumPostcode from "react-daum-postcode";
+import { useNavigate } from "react-router";
+import { postprod } from "../../api/prod/prod_api";
+import { Modal } from "../../components/address/Address";
+import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
 import {
   AllWidth,
   BtWrap,
@@ -24,15 +24,10 @@ import {
   PriceDiv,
   ProductImgBt,
   ProductImgMap,
-  ProductImgMapBt,
   Resets,
 } from "../../styles/prod/productsStyle";
-import { failPostDatas, postprod } from "../../api/prod/prod_api";
-import dayjs from "dayjs";
-import { useNavigate } from "react-router";
 // 오늘 날짜 추적
 import moment from "moment";
-import ModalMin from "../../components/prod/ModalMin";
 
 //서버에서 돌려주는 값
 // const initMoreData = {
@@ -857,8 +852,7 @@ const Write = () => {
             </BtSection>
           </form>
 
-          <ModalMin 
-          title={"기업 홍보 게시물 등록 하시 겠습니까."} deletes={"삭제"} registration={"등록"}/>
+          {/* <ModalMin title={"기업 홍보 게시물 등록 하시 겠습니까."} deletes={"삭제"} registration={"등록"}/> */}
         </div>
       </AllWidth>
     </Layout>

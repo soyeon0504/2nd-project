@@ -9,7 +9,9 @@ import { getMoreProduct } from "../../api/main/mainMore_api";
 import { getProductDetail } from "../../api/main/main_api";
 import Like from "../../components/details/Like";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import JoinPopUp, { ModalBackground } from "../../components/joinpopup/JoinPopUp";
+import JoinPopUp, {
+  ModalBackground,
+} from "../../components/joinpopup/JoinPopUp";
 
 const region = [
   {
@@ -184,7 +186,7 @@ const MainMorePage = () => {
       navigate(url);
       // console.log(res);
     } else {
-      setLoginState(true)
+      setLoginState(true);
     }
   };
   const closeModal = () => {
@@ -271,7 +273,9 @@ const MainMorePage = () => {
               <div
                 className="item-wrap"
                 key={`MainMore-item-${index}`}
+
                 onClick={() => handlePageChangeDetails(item)}>
+
                 <div className="like-wrap">
                   <Like
                     isLiked={item.isLiked !== 0 ? true : false}
@@ -286,7 +290,9 @@ const MainMorePage = () => {
 
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
+
                   <hr/>
+
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>
