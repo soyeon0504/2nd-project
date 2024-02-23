@@ -110,7 +110,7 @@ const CompProfile = () => {
       <ProfileRight company>
         <div>
           <p>보유 캐시</p>
-          <span>{data[0]}</span>
+          <span>4,000,000원</span>
         </div>
         <div>
           <p>상품 후기</p>

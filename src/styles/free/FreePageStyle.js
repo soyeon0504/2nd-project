@@ -8,7 +8,7 @@ export const FreeHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #c14b45;
+  border-bottom: 1px solid #2c39b5;
   padding-bottom: 17px;
   p {
     color: #000;
@@ -55,16 +55,25 @@ export const FreeSearchForm = styled.div`
 `;
 
 export const FreeMain = styled.div`
-  button {
-    border: none;
-    background: transparent;
-    font-size: 15px;
-    color: #777;
-    cursor: pointer;
+  table {
+    width: 100%;
+    border-collapse: collapse;
   }
-  img {
-    width: 2px;
-    height: 15px;
+  th {
+    height: 50px;
+    border-bottom: 1px solid #bebebe;
+    text-align: center;
+    background: #e4e7ff;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  td {
+    height: 60px;
+    padding: 10px;
+    border-bottom: 1px solid #bebebe;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
   }
 `;
 
@@ -86,4 +95,35 @@ export const SortWrap = styled.div`
     width: 2px;
     height: 15px;
   }
+`;
+
+export const BtSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  button {
+    width: 150px;
+    height: 40px;
+    background: #2c39b5;
+    border: none;
+
+    color: #fff;
+    font-size: 16px;
+  }
+`;
+
+export const PaginationContainer = styled.div`
+    text-align: center;
+    margin-top: 20px;
+  `;
+export const PaginationButton = styled.button`
+padding: 5px 10px;
+font-size: 16px;
+margin-right: 20px;
+
+&.active {
+  font-weight: bold;
+  background-color: #b6000b;
+  color: #fff;
+}
 `;

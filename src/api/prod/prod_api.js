@@ -27,16 +27,13 @@ export const postprod = async ({ product, successFn, failFn, errorFn }) => {
 
 // 초기 데이터 가져오기
 export const GetProd = async (mainicategory, subicategory, iproduct) => {
-  console.log("왜????? mainicategory : ", mainicategory);
-  console.log("왜????? subicategory : ", subicategory);
-  console.log("왜????? iproduct : ", iproduct);
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
     const res = await jwtAxios.get(
       `${path}/${mainicategory}/${subicategory}/${iproduct}`,
       header,
     );
-    console.log(res.data);
+    // console.log(res.data);
     //derails_api 훔쳐보기
     // 엑시 오스 기본데이터 확인 했다 ....
 

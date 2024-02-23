@@ -58,6 +58,7 @@ import {
   NextButton,
   PrevImage,
   NextImage,
+  Report,
 } from "../../styles/details/DetailsPageStyles";
 import { SideBar } from "../../components/SideBar";
 
@@ -254,7 +255,12 @@ const DetailsPage = () => {
               <RentalText>일일대여가</RentalText>
               <RentalText>(재고:{productData.inventory})</RentalText>
             </PriceContainer>
-            <ViewCount>조회수 {productData.view.toLocaleString()}</ViewCount>
+            <ViewCount>
+              조회수
+              {productData.view.toLocaleString()}
+              <Report>신고하기</Report>
+            </ViewCount>
+
             <AddressContainer>
               <InfoContainer>
                 <Address>
@@ -283,7 +289,6 @@ const DetailsPage = () => {
               </BtnChat>
               <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
             </Container>
-
             {showPayModal && (
               <Box visible={showPayModal} onCancel={togglePayModal}>
                 <Pay

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { getProduct } from "../../api/main/main_api"; 
+import { getProduct } from "../../api/main/main_api";
 import {
   BtSlideNext,
   BtSlidePrev,
@@ -49,7 +49,6 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
       };
       navigate(url);
     } else {
-
       setLoginState(true);
       // navigate(`/login`);
     }
@@ -121,7 +120,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
                     <img src={`/pic/${item.prodMainPic}`} alt="" />
                     <div className="desc-wrap">
                       <span className="desc-title">{item.title}</span>
-                      <hr></hr>
+                      <hr />
                       <div className="desc-price">
                         {item.rentalPrice.toLocaleString()}
                       </div>

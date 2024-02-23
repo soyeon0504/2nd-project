@@ -9,7 +9,9 @@ import { getMoreProduct } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
 import { getProductDetail } from "../../api/main/main_api"; // API 호출 함수 import
 import useCustomLogin from "../../hooks/useCustomLogin";
-import JoinPopUp, { ModalBackground } from "../../components/joinpopup/JoinPopUp";
+import JoinPopUp, {
+  ModalBackground,
+} from "../../components/joinpopup/JoinPopUp";
 
 const region = [
   {
@@ -190,7 +192,7 @@ const MainMoreSearchPage = () => {
       // const res = await getProductDetail(serverData);
       navigate(url);
     } else {
-      setLoginState(true)
+      setLoginState(true);
     }
   };
   const closeModal = () => {
@@ -268,7 +270,7 @@ const MainMoreSearchPage = () => {
 
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
-                  <hr></hr>
+                  <hr />
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>

@@ -7,6 +7,7 @@ import {
   MemberSearchForm,
   MemberSearchWord,
   MemberTitle,
+  SearchOptionSelect,
 } from "../../styles/admin/AdminReportPageStyle";
 
 const AdminMemberPage = ({ activeBtn }) => {
@@ -30,15 +31,6 @@ const AdminMemberPage = ({ activeBtn }) => {
     setSearchKeyword(e.target.value);
   };
 
-  const CustomSelect = styled.select`
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    appearance: none;
-    outline: none;
-  `;
   const PaginationContainer = styled.div`
     text-align: center;
     margin-top: 20px;
@@ -47,26 +39,33 @@ const AdminMemberPage = ({ activeBtn }) => {
   const PaginationButton = styled.button`
     padding: 5px 10px;
     font-size: 16px;
-    margin-right: 20px;
-
+    margin-right: 10px;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
     &.active {
       font-weight: bold;
-      background-color: #b6000b;
+      background-color: #ffffff;
       color: #fff;
+      background-color: #ffd4d4;
+    }
+
+    &:hover {
+      background-color: #ffd4d4;
+    }
+
+    &.next-page,
+    &.last-page {
+      margin-right: 20px;
     }
   `;
 
   const MemberStatus = styled.span`
     color: ${props => (props.isSuspended ? "#B6000B" : "#000")};
   `;
+
   useEffect(() => {
-    // 여기서 실제 API 요청을 보내어 회원 데이터를 가져옵니다.
-    // 아래 예시에서는 더미 데이터를 사용하고 있습니다.
     const fetchData = async () => {
-      // API 요청을 보내어 회원 데이터를 받아옵니다.
-      // const response = await fetch("API_ENDPOINT_URL");
-      // const data = await response.json();
-      // 실제 데이터를 받아온 후에는 아래와 같이 데이터를 설정합니다.
       const personalData = [
         {
           id: 1,
@@ -255,7 +254,6 @@ const AdminMemberPage = ({ activeBtn }) => {
     fetchData();
   }, [activeBtn]);
 
-  // Define columns
   const columns = React.useMemo(
     () => [
       {
@@ -320,22 +318,21 @@ const AdminMemberPage = ({ activeBtn }) => {
               background: "#B6000B",
               fontSize: "14px",
               color: "#fff",
-              border: "none", // 테두리 제거
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", // 그림자 추가
-              cursor: "pointer", // 커서 스타일을 포인터로 설정
-              zIndex: 1, // 다른 요소와 겹치는 경우 z-index 설정
+              border: "none",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+              cursor: "pointer",
+              zIndex: 1,
             }}
             onClick={() => console.log("버튼이 클릭되었습니다.")}
           >
             {value}
           </button>
-        ), // 버튼 추가 및 스타일 변경
+        ),
       },
     ],
     [activeBtn],
   );
 
-  // Use react-table hook for table and pagination
   const {
     getTableProps,
     getTableBodyProps,
@@ -353,19 +350,41 @@ const AdminMemberPage = ({ activeBtn }) => {
     {
       columns,
       data: memberData,
-      initialState: { pageIndex: 0 }, // 페이지 인덱스 초기값 설정
-      ...usePagination, // 페이지네이션 훅 추가
+      initialState: { pageIndex: 0 },
+      ...usePagination,
     },
     usePagination,
   );
+  const handleSearchSubmit = () => {
+    // 선택된 검색 옵션에 따라 검색 대상을 설정
+    let searchTarget = [];
+    if (selectedSearchOption === "전체") {
+      searchTarget = ["username", "name"];
+    } else if (selectedSearchOption === "이름") {
+      searchTarget = ["name"];
+    } else if (selectedSearchOption === "아이디") {
+      searchTarget = ["username"];
+    }
 
+    // 검색 결과 필터링
+    const filteredData = memberData.filter(member => {
+      return searchTarget.some(target => {
+        return member[target]
+          .toLowerCase()
+          .includes(searchKeyword.toLowerCase());
+      });
+    });
+
+    // 필터링된 결과 설정
+    setMemberData(filteredData);
+  };
   return (
     <div>
       <MemberTitle>
         <h1>{activeBtn}</h1>
         <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
           <MemberSearchForm>
-            <select
+            <SearchOptionSelect
               onChange={handleSearchOptionChange}
               value={selectedSearchOption}
             >
@@ -374,17 +393,17 @@ const AdminMemberPage = ({ activeBtn }) => {
                   {option}
                 </option>
               ))}
-            </select>
+            </SearchOptionSelect>
             <MemberSearchWord
               placeholder={`${
                 selectedSearchOption === "전체"
-                  ? "전체"
+                  ? "검색어를 입력하세요."
                   : selectedSearchOption + "을 입력하세요."
               }`}
               value={searchKeyword}
               onChange={handleSearchKeywordChange}
             />
-            <ReportSearchBt />
+            <ReportSearchBt onClick={handleSearchSubmit} />
           </MemberSearchForm>
           <select
             onChange={handleMembershipStatusChange}
@@ -400,7 +419,6 @@ const AdminMemberPage = ({ activeBtn }) => {
       </MemberTitle>
       {activeBtn === "개인 회원" && <h1></h1>}
       {activeBtn === "기업 회원" && <h1></h1>}
-      {/* 테이블 */}
       <table
         {...getTableProps()}
         style={{

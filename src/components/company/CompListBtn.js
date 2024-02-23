@@ -31,18 +31,17 @@ const CompListBtn = ({ activeBtn, setActiveBtn, onButtonClick}) => {
 
   return (
     <MyListBtnDiv>
-      <MyListButton active={activeBtn === "충전 내역"} 
-      onClick={() => handleButtonClick("충전 내역")}
-      width={"80px"}
-      >
-        충전 내역
+      <MyListButton active={activeBtn === "진행 광고 조회"} 
+      onClick={() => handleButtonClick("진행 광고 조회")}
+      width={"80px"}>
+        진행 광고
       </MyListButton>
       <MyListButton
-        active={activeBtn === "사용 내역"}
-        onClick={() => handleButtonClick("사용 내역")}
+        active={activeBtn === "종료 광고 조회"}
+        onClick={() => handleButtonClick("종료 광고 조회")}
         width={"80px"}
       >
-        사용 내역
+        종료 광고
       </MyListButton>
     </MyListBtnDiv>
   );

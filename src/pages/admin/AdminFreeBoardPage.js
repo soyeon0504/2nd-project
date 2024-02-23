@@ -7,7 +7,7 @@ const boardData = [
   id: 1,
   ipost: 115,
   nick: "바보준서",
-  view: "조회수 650",
+  view: 650,
   date: "2024-02-19",
   postInquiry: "",
   postManage: ""
@@ -16,7 +16,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -24,7 +24,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -32,7 +32,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -40,7 +40,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -48,7 +48,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -56,7 +56,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -64,7 +64,7 @@ const boardData = [
     id: 1,
     ipost: 115,
     nick: "바보준서",
-    view: "조회수 650",
+    view: 650,
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
@@ -104,7 +104,6 @@ const AdminBoardPage = () => {
             style={{height: "50px", background: "#FFE6E6", fontSize: "16px" }}
           >
             <tr>
-              <th></th>
               <th>게시글 번호</th>
               <th>작성자</th>
               <th>조회수</th>
@@ -123,7 +122,7 @@ const AdminBoardPage = () => {
               }}
               >
               <tr className='board-data'>
-                <td>{item.id}</td>
+                {/* <td>{item.id}</td> */}
                 <td>{item.ipost}</td>
                 <td>{item.nick}</td>
                 <td>{item.view}</td>

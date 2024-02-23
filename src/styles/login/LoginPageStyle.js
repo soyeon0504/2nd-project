@@ -74,7 +74,7 @@ export const LoginBt = styled.button`
   border-radius: 10px;
   background: #2c39b5;
   margin-bottom: 20px;
-
+  border: 0;
   color: #fff;
   font-size: 14px;
   font-style: normal;

@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
-
 export const BoardWrap = styled.div `
     text-align: center;
-
     .move, .delete {
         width: 60px;
         height: 30px;
@@ -24,6 +22,7 @@ export const BoardWrap = styled.div `
         }
     }
 `
+
 export const HeaderWrap = styled.div`
     display: flex;
     justify-content: space-between;
