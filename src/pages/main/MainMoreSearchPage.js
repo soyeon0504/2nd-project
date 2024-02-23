@@ -270,7 +270,9 @@ const MainMoreSearchPage = () => {
 
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
-                  <hr />
+
+                  <hr/>
+
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>

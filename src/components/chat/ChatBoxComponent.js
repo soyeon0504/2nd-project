@@ -1,81 +1,20 @@
-import React, { useState, useEffect } from "react";
-import styled from "@emotion/styled";
-
-const ChatBoxWrapper = styled.div``;
-
-const ChatBoxContainer = styled.div`
-  flex-direction: column;
-`;
-
-const ChatBoxContent = styled.div`
-  width: 600px;
-  max-width: 100%; /* 최대 너비 설정 */
-  max-height: 900px;
-  height: auto;
-  box-sizing: border-box;
-  background-color: #fff;
-`;
-
-const NoChatSelectedMessage = styled.p`
-  font-size: 16px;
-  text-align: center;
-  width: 600px;
-`;
-
-const ChatInput = styled.input`
-  width: 580px;
-  max-width: 100%; /* 최대 너비 설정 */
-  height: 50px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  font-size: 16px;
-  background: #f2f2ff;
-  padding-left: 10px;
-  bottom: 10px;
-`;
-
-const ProfileInfoContainer = styled.div`
-  display: inline-block;
-  margin-left: 10px;
-`;
-
-const ChatText = styled.div`
-  max-height: 700px;
-  min-height: 690px;
-  overflow-y: auto;
-  overflow-x: hidden;
-`;
-
-const ProfileName = styled.p`
-  font-size: 16px;
-  margin-bottom: 10px;
-`;
-
-const ChatMessage = styled.div`
-  position: relative;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: ${({ isSender }) => (isSender ? "#DCF8C6" : "#E5E5EA")};
-  align-self: ${({ isSender }) => (isSender ? "flex-end" : "flex-start")};
-`;
+import React, { useState } from "react";
+import {
+  ChatBoxContainer,
+  ChatBoxWrapper,
+  ChatBoxContent,
+  ChatInput,
+  ProfileInfoContainer,
+  NoChatSelectedMessage,
+  ChatText,
+  ProfileName,
+  ChatMessage,
+  ButtonContainer,
+} from "../../styles/chat/ChatStyles";
 
 const ChatBoxComponent = ({ selectedProfile, messages }) => {
-  const [inputMessage, setInputMessage] = useState(
-    localStorage.getItem("inputMessage") || "",
-  ); // State to store input message
-
-  const [chatMessages, setChatMessages] = useState(
-    JSON.parse(localStorage.getItem("chatMessages")) || [],
-  ); // State to store chat messages
-
-  useEffect(() => {
-    localStorage.setItem("inputMessage", inputMessage);
-  }, [inputMessage]);
-
-  useEffect(() => {
-    localStorage.setItem("chatMessages", JSON.stringify(chatMessages));
-  }, [chatMessages]);
+  const [inputMessage, setInputMessage] = useState(""); // State to store input message
+  const [chatMessages, setChatMessages] = useState([]); // State to store chat messages
 
   const handleInputChange = e => {
     setInputMessage(e.target.value); // Update input message state
@@ -112,6 +51,7 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
               <ProfileName>{selectedProfile.profileName}</ProfileName>
               <p>{selectedProfile.productContent}</p>
             </ProfileInfoContainer>
+
             <ChatText>
               {chatMessages.map((message, index) => (
                 <ChatMessage key={index} isSender={message.isSender}>
@@ -127,6 +67,13 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
             onChange={handleInputChange} // Handle input change
             onKeyPress={handleKeyPress} // Handle Enter key press
           />
+          {/* 버튼에 margin-left: auto를 적용하여 오른쪽 끝으로 배치 */}
+          <button
+            onClick={() => console.log("Button clicked")}
+            style={{ marginLeft: "auto" }}
+          >
+            버튼
+          </button>
         </ChatBoxContainer>
       ) : (
         <NoChatSelectedMessage>

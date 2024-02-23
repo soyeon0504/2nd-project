@@ -7,6 +7,8 @@ import {
   ReportSearchWord,
   ReportTitle,
 } from "../../styles/admin/AdminReportPageStyle";
+import ReportContent from "../../components/admin/ReportContent";
+import { ModalBackground } from "../../components/joinpopup/JoinPopUp";
 
 const stateCate = [
   {
@@ -317,7 +319,7 @@ const AdminReportPage = ({ activeBtn }) => {
     setSelectedAccidentCate(selectedOption ? selectedOption.title : "");
   };
 
-  // 상태 선택
+  // 상태 카테고리 선택
   const [selectStateCate, setSelectStateCate] = useState("");
   const handleStateCateChange = e => {
     const selectedOption = stateCate.find(
@@ -327,16 +329,25 @@ const AdminReportPage = ({ activeBtn }) => {
   };
 
   // 신고내용 open/close
-  const [contentOpen, setContentOpen] = useState(null);
+  // const [contentOpen, setContentOpen] = useState(null);
 
-  const handleSlideDown = id => {
-    if (contentOpen === id) {
-      // 이미 펼쳐진 행을 클릭한 경우 닫기
-      setContentOpen(null);
-    } else {
-      // 새로운 행을 클릭한 경우 해당 행 펼치기
-      setContentOpen(id);
-    }
+  // const handleSlideDown = id => {
+  //   if (contentOpen === id) {
+  //     // 이미 펼쳐진 행을 클릭한 경우 닫기
+  //     setContentOpen(null);
+  //   } else {
+  //     // 새로운 행을 클릭한 경우 해당 행 펼치기
+  //     setContentOpen(id);
+  //   }
+  // };
+
+  // 상태변경 or 상태확인 버튼 클릭
+  const [contentModal, setContentModal] = useState(false);
+  const handleClickState = () => {
+    setContentModal(true);
+  };
+  const closeContentModal = () => {
+    setContentModal(false);
   };
 
   // 페이지네이션
@@ -347,6 +358,12 @@ const AdminReportPage = ({ activeBtn }) => {
 
   return (
     <>
+      {contentModal && (
+        <>
+          <ReportContent onClose={closeContentModal} />
+          <ModalBackground />
+        </>
+      )}
       <ReportTitle>
         <h1>{activeBtn}</h1>
         <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
@@ -418,32 +435,34 @@ const AdminReportPage = ({ activeBtn }) => {
                 backgroundColor: item.id % 2 === 0 ? "#FFF7F7" : "inherit",
               }}
             >
-              <tr onClick={() => handleSlideDown(item.id)}>
+              <tr
+              // onClick={() => handleSlideDown(item.id)}
+              >
                 <td>{item.uid}</td>
                 <td>{item.nick}</td>
-                <td style={{cursor:"pointer"}}>
-                  <div className="hovertext" data-hover="클릭하면 신고내용이 보입니다.">
-                    {item.cate}
-                  </div>
-                </td>
+                <td style={{ cursor: "pointer" }}>{item.cate}</td>
                 <td>{item.date}</td>
                 <td>{item.oppositeId}</td>
                 <td>{item.penaltyPoint}</td>
                 <td>
                   {item.state}{" "}
-                  {item.state === "미처리" && <button>상태 변경</button>}
+                  {item.state === "미처리" ? (
+                    <button onClick={handleClickState}>상태 변경</button>
+                  ): (
+                    <button onClick={handleClickState}>상태 확인</button>
+                  ) }
                 </td>
                 <td>
                   <button>이동</button>
                 </td>
               </tr>
-              {contentOpen === item.id && (
+              {/* {contentOpen === item.id && (
                 <tr>
-                  <td colSpan={8} style={{ padding: "15px 0", }}>
+                  <td colSpan={8} style={{ padding: "15px 0" }}>
                     {item.content}
                   </td>
                 </tr>
-              )}
+              )} */}
             </tbody>
           ))}
         </table>

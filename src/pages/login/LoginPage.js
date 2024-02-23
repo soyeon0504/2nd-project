@@ -83,7 +83,7 @@ const LoginPage = () => {
   // 회원가입 페이지 이동
   const navigate = useNavigate();
   const handleJoin = () => {
-    navigate(`/join/select`);
+    navigate(`/join/step_1`);
   };
 
   const successFn = result => {

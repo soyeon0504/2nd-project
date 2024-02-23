@@ -219,35 +219,8 @@ const AdminMemberPage = ({ activeBtn }) => {
         },
       ];
 
-      const companyData = [
-        {
-          id: 11,
-          username: "company123",
-          name: "은진이",
-          joinDate: "2024-02-01",
-          email: "company@naver.com",
-          businessRegistrationNumber: "123-45-67890",
-          penalty: -30,
-          membershipStatus: "정상",
-          managementStatus: "정지",
-        },
-        {
-          id: 12,
-          username: "business456",
-          name: "소연이",
-          joinDate: "2024-02-01",
-          email: "business@naver.com",
-          businessRegistrationNumber: "987-65-43210",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-      ];
-
       if (activeBtn === "개인 회원") {
         setMemberData(personalData);
-      } else if (activeBtn === "기업 회원") {
-        setMemberData(companyData);
       }
     };
 
@@ -281,15 +254,7 @@ const AdminMemberPage = ({ activeBtn }) => {
         accessor: "email",
         width: 300,
       },
-      ...(activeBtn === "기업 회원"
-        ? [
-            {
-              Header: "사업자번호",
-              accessor: "businessRegistrationNumber",
-              width: 150,
-            },
-          ]
-        : []),
+
       {
         Header: "벌점",
         accessor: "penalty",
@@ -366,6 +331,7 @@ const AdminMemberPage = ({ activeBtn }) => {
       searchTarget = ["username"];
     }
 
+
     // 검색 결과 필터링
     const filteredData = memberData.filter(member => {
       return searchTarget.some(target => {
@@ -374,6 +340,7 @@ const AdminMemberPage = ({ activeBtn }) => {
           .includes(searchKeyword.toLowerCase());
       });
     });
+
 
     // 필터링된 결과 설정
     setMemberData(filteredData);
@@ -418,7 +385,9 @@ const AdminMemberPage = ({ activeBtn }) => {
         </div>
       </MemberTitle>
       {activeBtn === "개인 회원" && <h1></h1>}
-      {activeBtn === "기업 회원" && <h1></h1>}
+
+
+
       <table
         {...getTableProps()}
         style={{

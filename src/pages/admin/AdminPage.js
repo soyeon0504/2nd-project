@@ -34,7 +34,7 @@ const AdminPage = () => {
     {
       title: "회원 조회",
       name: ["individual", "enterprise"],
-      list: ["개인 회원", "기업 회원"],
+      list: ["개인 회원"],
     },
     {
       title: "신고 내역",
@@ -86,7 +86,6 @@ const AdminPage = () => {
       const selectedName = selectedCategory.name.find(name => {
         return (
           (name === "individual" && subItem === "개인 회원") ||
-          (name === "enterprise" && subItem === "기업 회원") ||
           (name === "conflict" && subItem === "분쟁 신고") ||
           (name === "accident" && subItem === "사고 신고") ||
           (name === "prod" && subItem === "상품 게시판") ||
@@ -122,13 +121,13 @@ const AdminPage = () => {
             onSubItemClick={handleSubItemClick}
           />
           <div>
-            {activeBtn === "개인 회원" || activeBtn === "기업 회원" ? (
+            {activeBtn === "개인 회원" && (
               <AdminMemberPage
                 activeBtn={activeBtn}
                 setActiveBtn={setActiveBtn}
                 handleSubItemClick={handleSubItemClick}
               />
-            ) : null}
+            )}
             {activeBtn === "분쟁 신고" || activeBtn === "사고 신고" ? (
               <AdminReportPage
                 activeBtn={activeBtn}
