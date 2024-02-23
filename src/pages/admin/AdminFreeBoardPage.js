@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BoardWrap, HeaderWrap } from '../../styles/admin/AdminBoardPageStyle'
-import { Pagination } from "antd";
+import Pagination from '../../components/Pagination'
 
 const boardData = [
 {
@@ -73,6 +73,33 @@ const boardData = [
 ]
 
 const AdminBoardPage = () => {
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const getLength = function () {
+    return boardData.length;
+  }
+  let totalPage = Math.ceil(getLength() / limit)
+
+  function handlePageChane(value) {
+    if (value === "&laquo;"){
+      setPage(1);
+    }else if (value === "&lsaquo;") {
+      if (page !== 1) {
+        setPage(page - 1);
+      }
+    }else if (value === "&rsaquo;") {
+      if (page !== totalPage) {
+        setPage(page + 1);
+      }
+    }else if(value === "&raquo;") {
+      setPage(totalPage);
+    }else {
+      setPage(value);
+    }
+  }
+
+
   return (
     <BoardWrap>
         <HeaderWrap>
@@ -83,9 +110,9 @@ const AdminBoardPage = () => {
             <div className='search-wrap'>
                 <form>
                     <select>
-                        <option></option>
+                        <option>작성자</option>
                     </select>
-                    <input type='text' placeholder='검색어를 입력하세요'/>
+                    <input type='text' placeholder='닉네임을 입력하세요'/>
                     <button>
                         <img src='/images/admin/search.svg'/>
                     </button>
@@ -122,7 +149,6 @@ const AdminBoardPage = () => {
               }}
               >
               <tr className='board-data'>
-                {/* <td>{item.id}</td> */}
                 <td>{item.ipost}</td>
                 <td>{item.nick}</td>
                 <td>{item.view}</td>
@@ -139,7 +165,9 @@ const AdminBoardPage = () => {
                 </>
             ))}
       </table>
-      <Pagination defaultCurrent={1} total={50}/>
+      <div>
+        <Pagination totalPage={totalPage} page={page} limit={limit} siblings={5} onPageChange={handlePageChane}/>
+      </div>
     </BoardWrap>
   )
 }

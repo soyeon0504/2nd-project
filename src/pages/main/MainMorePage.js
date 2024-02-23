@@ -272,11 +272,6 @@ const MainMorePage = () => {
                 className="item-wrap"
                 key={`MainMore-item-${index}`}
                 onClick={() => handlePageChangeDetails(item)}>
-
-                <div className="ad-wrap">
-                  <div className="ad">광고</div>
-                </div>
-
                 <div className="like-wrap">
                   <Like
                     isLiked={item.isLiked !== 0 ? true : false}
@@ -291,7 +286,7 @@ const MainMorePage = () => {
 
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
-                  <hr></hr>
+                  <hr/>
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>

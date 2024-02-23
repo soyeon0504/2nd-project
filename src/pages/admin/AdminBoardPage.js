@@ -1,8 +1,119 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
-import { Pagination } from "antd";
+import Pagination from "../../components/Pagination";
+
 
 const boardData = [
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
+  {
+    id: 1,
+    iproduct: 115,
+    category: "노트북",
+    rentalPrice: "10,000원",
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    productInquiry: "",
+    productManage: "",
+  },
   {
     id: 1,
     iproduct: 115,
@@ -127,6 +238,49 @@ const boardData = [
 ];
 
 const AdminBoardPage = () => {
+  const searchOptions = ["전체", "닉네임", "카테고리"]
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [selectedSearchOption, setSelectedSearchOption] = useState("전체"); // 선택된 검색 옵션 상태
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
+  const getLength = function () {
+    return boardData.length;
+  }
+  const totalPage = Math.ceil(getLength() / limit)
+
+  function handlePageChange(value) {
+    if (value === "&laquo;"){
+      setPage(1);
+    }else if (value === "&lsaquo;") {
+      if (page !== 1) {
+        setPage(page - 1);
+      }
+    }else if (value === "&rsaquo;") {
+      if (page !== totalPage) {
+        setPage(page + 1);
+      }
+    }else if(value === "&raquo;") {
+      setPage(totalPage);
+    }else {
+      setPage(value);
+    }
+  }
+
+  const handleSearchOptionChange = (e) => {
+    setSelectedSearchOption(e.target.value);
+  };
+
+  const handleSearchKeywordChange = (e) => {
+    setSearchKeyword(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    // 검색 기능 추가
+    console.log("검색 옵션:", selectedSearchOption);
+    console.log("검색어:", searchKeyword);
+  };
+
   return (
     <BoardWrap>
       <HeaderWrap>
@@ -136,20 +290,37 @@ const AdminBoardPage = () => {
         </div>
         <div className="search-wrap">
           <form>
-            <select>
-              <option></option>
+          <select
+              onChange={handleSearchOptionChange}
+              value={selectedSearchOption}
+            >
+              {searchOptions.map(option => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
-            <input type="text" placeholder="검색어를 입력하세요" />
-            <button>
+            <input 
+            type="text" 
+            placeholder={`${
+              selectedSearchOption === "전체"
+                ? "검색어를 입력하세요."
+                : selectedSearchOption === "카테고리"
+                ? "카테고리를 입력하세요."
+                : selectedSearchOption + "을 입력하세요."
+            }`}
+              value={searchKeyword}
+              onChange={handleSearchKeywordChange}/>
+            <button onClick={handleSearchSubmit}>
               <img src="/images/admin/search.svg" />
             </button>
           </form>
         </div>
         <div className="bt-wrap">
           <div>
-            <button onClick={() => {}}>최신순</button>
+            <button onClick={() => setSortType(0)}>최신순</button>
             <img src="/images/admin/line.svg" />
-            <button onClick={() => {}}>조회순</button>
+            <button onClick={() => setSortType(2)}>조회순</button>
           </div>
         </div>
       </HeaderWrap>
@@ -178,7 +349,6 @@ const AdminBoardPage = () => {
               }}
             >
               <tr className="board-data">
-                {/* <td>{item.id}</td> */}
                 <td>{item.iproduct}</td>
                 <td>{item.category}</td>
                 <td>{item.rentalPrice}</td>
@@ -199,7 +369,7 @@ const AdminBoardPage = () => {
         ))}
       </table>
       <div>
-        <Pagination defaultCurrent={1} total={50} />
+        <Pagination totalPage={totalPage} page={page} limit={limit} siblings={5} onPageChange={handlePageChange}/>
       </div>
     </BoardWrap>
   );

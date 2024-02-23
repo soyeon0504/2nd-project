@@ -7,12 +7,12 @@ export const BoardWrap = styled.div `
         font-weight: bold;
         color: #79747E;
         background: #fff;
-        border: 2px solid #79747E;
-        border-radius: 5px;
+        border: 1px solid #79747E;
+        border-radius: 10px;
         cursor: pointer;
         &:hover {
-          /* color: #fff; */
-          /* background-color: #B6000B; */
+          color: #fff;
+          background-color: #B6000B;
           border: 2px solid #B6000B;
         }
     }
@@ -44,7 +44,6 @@ export const HeaderWrap = styled.div`
         padding-left: 10px;
     }
     .search-wrap {
-        /* width: 500px; */
         margin-left: 350px;
         form {
             position: relative;
@@ -62,11 +61,12 @@ export const HeaderWrap = styled.div`
             border-radius: 5px;
             padding-left: 15px;
             color: #000;
-            font-size: 18px;
+            font-size: 16px;
             ::placeholder {
               color: #bebebe;
               letter-spacing: 1.5px;
             }
+            
         }
         button {
             position: absolute;
@@ -81,6 +81,11 @@ export const HeaderWrap = styled.div`
                 height: 20px;
             }
         }
+        select {
+                font-size: 16px;
+                color: #777;
+                padding-left: 10px;
+            }
         }
         
     }
