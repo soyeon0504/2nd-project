@@ -9,10 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const mainCate = [
   {
-    id: 0,
-    title: "전체",
-  },
-  {
     id: 1,
     title: "스마트 기기",
   },
@@ -35,23 +31,19 @@ export const mainCate = [
 ];
 
 export const subCate = [
-  [{ id: 0, title: "전체" }],
   [
-    { id: 0, title: "전체" },
     { id: 1, title: "스마트 워치" },
     { id: 2, title: "태블릿" },
     { id: 3, title: "갤럭시" },
     { id: 4, title: "아이폰" },
   ],
   [
-    { id: 0, title: "전체" },
     { id: 1, title: "노트북" },
     { id: 2, title: "PC" },
     { id: 3, title: "마우스" },
     { id: 4, title: "키보드" },
   ],
   [
-    { id: 0, title: "전체" },
     { id: 1, title: "빔프로젝터" },
     { id: 2, title: "셋톱박스" },
     { id: 3, title: "카메라" },
@@ -59,14 +51,12 @@ export const subCate = [
     { id: 5, title: "DSLR" },
   ],
   [
-    { id: 0, title: "전체" },
     { id: 1, title: "스피커" },
     { id: 2, title: "이어폰" },
     { id: 3, title: "헤드폰" },
     { id: 4, title: "마이크" },
   ],
   [
-    { id: 0, title: "전체" },
     { id: 1, title: "플레이스테이션" },
     { id: 2, title: "닌텐도" },
     { id: 3, title: "Wii" },
@@ -89,13 +79,12 @@ const MenuTab = () => {
 
   return (
     <MenuTabStyle>
-      {mainCate
-        .filter(item => item.id !== 0)
-        .map(item => (
-          <MainMenu key={item.id}>
-            <MainMenuList>{item.title}</MainMenuList>
-            <SubMenuList>
-              {subCate[item.id].filter((listItem) => listItem.id !== 0).map(listItem => (
+      {mainCate.map(item => (
+        <MainMenu key={item.id}>
+          <MainMenuList>{item.title}</MainMenuList>
+          <SubMenuList>
+            {subCate[item.id - 1]
+              .map(listItem => (
                 <li
                   key={listItem.id}
                   title={listItem.title}
@@ -117,9 +106,9 @@ const MenuTab = () => {
                   {listItem.title}
                 </li>
               ))}
-            </SubMenuList>
-          </MainMenu>
-        ))}
+          </SubMenuList>
+        </MainMenu>
+      ))}
     </MenuTabStyle>
   );
 };

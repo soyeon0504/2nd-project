@@ -113,17 +113,29 @@ export const BtSection = styled.div`
 `;
 
 export const PaginationContainer = styled.div`
-    text-align: center;
-    margin-top: 20px;
-  `;
+  text-align: center;
+  margin-top: 20px;
+`;
 export const PaginationButton = styled.button`
-padding: 5px 10px;
-font-size: 16px;
-margin-right: 20px;
+  padding: 5px 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  &.active {
+    font-weight: bold;
+    background-color: #ffffff;
+    color: #fff;
+    background-color: #ffd4d4;
+  }
 
-&.active {
-  font-weight: bold;
-  background-color: #b6000b;
-  color: #fff;
-}
+  &:hover {
+    background-color: #ffd4d4;
+  }
+
+  &.next-page,
+  &.last-page {
+    margin-right: 20px;
+  }
 `;
