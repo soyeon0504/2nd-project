@@ -17,8 +17,6 @@ const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 
-const LazyCompanyPage = lazy(() => import("./pages/company/CompanyPage"));
-
 const LazyReport = lazy(() => import("./pages/chat/Report"));
 const LazyAdminPage = lazy(() => import("./pages/admin/AdminPage"));
 
@@ -124,14 +122,7 @@ const App = () => {
             </Suspense>
           }
         ></Route>
-        <Route
-          path="/company"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyCompanyPage />
-            </Suspense>
-          }
-        ></Route>
+
         <Route
           path="/admin"
           element={

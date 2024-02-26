@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
 import Pagination from "../../components/Pagination";
-import { Modal } from "../../styles/admin/\bAdminChatHistoryStyle";
-
+import { Modal } from "../../styles/admin/AdminChatHistoryStyle";
 const boardData = [
   {
     id: 1,
@@ -275,7 +274,9 @@ const AdminBoardPage = () => {
           <div className="modal-content">
             <h2>hello</h2>
           </div>
-          <button className="close-modal" onClick={toggleModal}>닫기</button>
+          <button className="close-modal" onClick={toggleModal}>
+            닫기
+          </button>
         </Modal>
       )}
       <div>
