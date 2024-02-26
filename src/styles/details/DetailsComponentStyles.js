@@ -302,3 +302,42 @@ export const ReviewText = styled.div`
   margin-top: 10px;
   white-space: pre-line;
 `;
+
+// ReportPost styles
+export const ReportBox = styled.div`
+  padding: 22px;
+  width: 600px;
+  height: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 60px;
+
+  position: fixed;
+  top: 200px; /* 원하는 높이로 수정 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  background-color: #fff;
+`;
+export const ReportText = styled.div`
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  color: rgb(102, 102, 102);
+  height: 60px;
+  font-size: 16px;
+  padding-left: 20px px;
+  border-bottom: 1px solid rgb(150, 150, 150);
+`;
+
+export const ReportTitle = styled.div`
+  letter-spacing: 5.2px;
+  font-size: 26px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgb(33, 33, 33);
+  margin-bottom: 45px;
+`;

@@ -9,9 +9,11 @@ import SellerProfile from "../../components/details/SellerProfile";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Pay from "../../components/details/Pay";
+import ReportPost from "../../components/details/ReportPost";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
+  ReportImage,
   SubContainer,
   PageWrapper,
   BoxImg,
@@ -253,11 +255,11 @@ const DetailsPage = () => {
             <PriceContainer>
               <Price>{productData.rentalPrice.toLocaleString()} 원</Price>
               <RentalText>일일대여가</RentalText>
-              <RentalText>(재고:{productData.inventory})</RentalText>
             </PriceContainer>
             <ViewCount>
               조회수
               {productData.view.toLocaleString()}
+              <ReportImage src="/images/details/report.svg" alt="신고이미지" />
               <Report>신고하기</Report>
             </ViewCount>
 
@@ -267,10 +269,10 @@ const DetailsPage = () => {
                   주소
                   <DetailedAddress>{productData.addr}</DetailedAddress>
                 </Address>
-                <InfoLine>
+                {/* <InfoLine>
                   <InfoText>제품구매일 </InfoText>
                   <PurchaseDateText>{productData.buyDate}</PurchaseDateText>
-                </InfoLine>
+                </InfoLine> */}
                 <div>
                   <DepositText>보증금 (50%~100%)</DepositText>
                   <DepositDetailText>
@@ -363,6 +365,7 @@ const DetailsPage = () => {
         <MyMap x={productData.x} y={productData.y} />
 
         <Profile reviews={productData.reviews} starCount={productData.rating} />
+        {/* <ReportPost></ReportPost> */}
       </PageWrapper>
     </Layout>
   );

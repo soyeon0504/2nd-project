@@ -17,10 +17,9 @@ const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 
+const LazyCompanyPage = lazy(() => import("./pages/company/CompanyPage"));
 
-const LazyCompanyPage = lazy(() => import("./pages/company/CompanyPage"))
-
-
+const LazyReport = lazy(() => import("./pages/chat/Report"));
 const LazyAdminPage = lazy(() => import("./pages/admin/AdminPage"));
 
 const LazyMainPage = lazy(() => import("./pages/main/MainPage"));
@@ -37,9 +36,10 @@ const LazyPayPage = lazy(() => import("./pages/pay/PayPage"));
 const LazyDetailsPage = lazy(() => import("./pages/details/DetailsPage"));
 const LazyChatPage = lazy(() => import("./pages/chat/ChatPage"));
 
-
 const LazyFreePage = lazy(() => import("./pages/free/FreePage"));
-const LazyFreeRegisterPage = lazy(() => import("./pages/free/FreeRegisterPage"));
+const LazyFreeRegisterPage = lazy(() =>
+  import("./pages/free/FreeRegisterPage"),
+);
 const LazyFreeModifyPage = lazy(() => import("./pages/free/FreeModifyPage"));
 const LazyFreeDetailsPage = lazy(() => import("./pages/free/FreeDetailsPage"));
 
@@ -92,7 +92,6 @@ const App = () => {
           }
         ></Route>
 
-
         <Route
           path="/join/step_1"
           element={
@@ -124,9 +123,7 @@ const App = () => {
               <LazyMyPage />
             </Suspense>
           }
-        >
-
-        </Route>
+        ></Route>
         <Route
           path="/company"
           element={
@@ -134,9 +131,7 @@ const App = () => {
               <LazyCompanyPage />
             </Suspense>
           }
-        >
-
-        </Route>
+        ></Route>
         <Route
           path="/admin"
           element={
@@ -198,6 +193,14 @@ const App = () => {
           element={
             <Suspense fallback={<Loading />}>
               <LazyChatPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/report"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyReport />
             </Suspense>
           }
         ></Route>
