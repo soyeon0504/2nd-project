@@ -287,12 +287,9 @@ const MainMorePage = () => {
                   src={`/pic/${item.prodMainPic}`}
                   alt="제품 이미지"
                 />
-
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
-
                   <hr/>
-
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BoardWrap, HeaderWrap } from '../../styles/admin/AdminBoardPageStyle'
 import Pagination from '../../components/Pagination'
 
 const boardData = [
 {
   id: 1,
-  ipost: 115,
+  ipost: 111,
   nick: "바보준서",
   view: 650,
   date: "2024-02-19",
@@ -68,6 +68,112 @@ const boardData = [
     date: "2024-02-19",
     postInquiry: "",
     postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 115,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },{
+    id: 1,
+    ipost: 998,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },
+  {
+    id: 1,
+    ipost: 999,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
+  },
+  {
+    id: 1,
+    ipost: 1000,
+    nick: "바보준서",
+    view: 650,
+    date: "2024-02-19",
+    postInquiry: "",
+    postManage: ""
   },
 
 ]
@@ -75,29 +181,40 @@ const boardData = [
 const AdminBoardPage = () => {
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(15);
   const getLength = function () {
     return boardData.length;
   }
   let totalPage = Math.ceil(getLength() / limit)
 
-  function handlePageChane(value) {
-    if (value === "&laquo;"){
+  const handlePageChange = (value, pageNum, page, limit, totalPage) => {
+    if (value === "first") {
       setPage(1);
-    }else if (value === "&lsaquo;") {
+    } else if (value === "prev") {
       if (page !== 1) {
         setPage(page - 1);
       }
-    }else if (value === "&rsaquo;") {
+    } else if (value === "next") {
       if (page !== totalPage) {
         setPage(page + 1);
       }
-    }else if(value === "&raquo;") {
+    } else if (value === "last") {
       setPage(totalPage);
-    }else {
+    } else {
       setPage(value);
     }
-  }
+  };
+
+  const getPageItems = () => {
+    const startIndex = (page - 1) * 15;
+    const endIndex = startIndex + 15;
+    return boardData.slice(startIndex, endIndex);
+  };
+  
+    useEffect(() => {
+      console.log("페이지 변경됨:", page);
+    }, [page]);
+  
 
 
   return (
@@ -139,7 +256,7 @@ const AdminBoardPage = () => {
               <th>게시글 관리</th>
             </tr>
           </thead>
-          {boardData.map((item, index) => (
+          {getPageItems().map((item, index) => (
             <>
             <tbody
               key={item.id}
@@ -167,8 +284,13 @@ const AdminBoardPage = () => {
             ))}
       </table>
       <div>
-        <Pagination totalPage={totalPage} page={page} limit={limit} siblings={5} onPageChange={handlePageChane}/>
-      </div>
+        <Pagination 
+          totalPage={totalPage} 
+          page={page} 
+          limit={limit} 
+          siblings={5} 
+          onPageChange={handlePageChange}/>      
+          </div>
     </BoardWrap>
   )
 }
