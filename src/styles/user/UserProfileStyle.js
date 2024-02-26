@@ -81,15 +81,26 @@ export const Rating = styled.div`
         font-size: 16px;
         color: #777;
     }
-    img {
+    /* img {
         padding-top: 10px;
+    } */
+    .rating-score {
+        width: 90px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 25px;
+        margin-top: 10px;
     }
 `
 export const Demerit = styled.div`
     font-size: 16px;
     color: #777;
     padding-top: 55px;
-    .score {
+    .demerit-score {
+        width: 70px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 25px;
         margin-top: 10px;
     }
 `

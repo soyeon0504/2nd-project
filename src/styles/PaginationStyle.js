@@ -12,4 +12,9 @@ justify-content: center;
     text-align: center;
     border: none;
 }
+.pagination .page-item.active .page-link {
+    padding-top: 5px;
+  background-color: #FFE6E6;
+  border-radius: 5px;
+}
 `

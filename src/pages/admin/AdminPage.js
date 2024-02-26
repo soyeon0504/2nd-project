@@ -3,7 +3,7 @@ import AdminMemberPage from "./AdminMemberPage";
 import AdminReportPage from "./AdminReportPage";
 import AdminBoardPage from "./AdminBoardPage";
 import AdminFreeBoardPage from "./AdminFreeBoardPage";
-import AdminAdPage from "./AdminAdPage";
+import AdminChatHistoryPage from "./AdminChatHistoryPage";
 import styled from "@emotion/styled";
 import AdminCategory from "../../components/admin/AdminCategory";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -47,9 +47,9 @@ const AdminPage = () => {
       list: ["상품 게시판", "자유 게시판"],
     },
     {
-      title: "광고",
-      name: ["ad"],
-      list: ["광고 수익"],
+      title: "채팅",
+      name: ["chat"],
+      list: ["채팅 내역"],
     },
   ];
 
@@ -90,7 +90,7 @@ const AdminPage = () => {
           (name === "accident" && subItem === "사고 신고") ||
           (name === "prod" && subItem === "상품 게시판") ||
           (name === "free" && subItem === "자유 게시판") ||
-          (name === "ad" && subItem === "광고 수익")
+          (name === "chat" && subItem === "채팅 내역")
         );
       });
 
@@ -144,7 +144,7 @@ const AdminPage = () => {
             ) : null} */}
             {activeBtn === "상품 게시판" && <AdminBoardPage />}
             {activeBtn === "자유 게시판" && <AdminFreeBoardPage />}
-            {activeBtn === "광고 수익" && <AdminAdPage />}
+            {activeBtn === "채팅 내역" && <AdminChatHistoryPage />}
           </div>
         </Flex>
       </div>
