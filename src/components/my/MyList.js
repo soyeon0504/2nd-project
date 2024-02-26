@@ -10,6 +10,7 @@ import {
   MyListProfileImg,
   MyListTop,
   MyListTopButton,
+  MyReviewDiv,
 } from "../../styles/my/MyList";
 import ReviewForm from "../details/ReviewForm";
 import MyMoreButton from "./MyMoreButton";
@@ -115,10 +116,11 @@ const MyList = ({ activeBtn }) => {
                   </MyListMidLast>
                 </MyListMid>
             ) : (
+              <>
                 <MyListMid>
                   <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
                     <MyListMidEnd />
-                    <h2>반 납 완 료</h2>
+                    {activeButton === true ? <h2>반 납 완 료</h2> : <h2>대 여 완 료</h2>}
                     <MyListMidImg>
                       <img
                         src={`/pic/${item.productStoredPic}`}
@@ -140,12 +142,29 @@ const MyList = ({ activeBtn }) => {
                       </div>
                     </MyListMidTxt>
                   </Link>
-                  <MyListMidLast >
-                      <button onClick={() => openReviewForm(item.ipayment)}>
-                        <p>리뷰 등록</p>
-                      </button>
-                  </MyListMidLast>  
+                  <MyListMidLast location={"center"} size={"1.2rem"}>
+                    <p>거래자</p>
+                    <MyListProfileImg>
+                      <img src={`/pic/${item.userStoredPic}`} />
+                    </MyListProfileImg>
+                    <span>{item.targetNick}</span>
+                  </MyListMidLast> 
                 </MyListMid>
+                <MyReviewDiv>
+                  {activeButton === true && (
+                    <button onClick={() => openReviewForm(item.ipayment)}>
+                    <p>리뷰 등록</p>
+                    </button>
+                  )}
+                  {activeButton === false && (
+                     <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+                        <button>
+                          <p>리뷰 보기</p>
+                        </button>
+                    </Link>
+                  )}
+                </MyReviewDiv>
+              </>
             )}
           </React.Fragment>
         ))}

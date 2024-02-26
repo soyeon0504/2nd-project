@@ -7,7 +7,7 @@ const MyCateDiv = styled.div`
   flex-direction: column;
   gap: 3.3rem;
   width: 135px;
-  height: 617px;
+  height: 753px;
 `;
 
 const MyCateUl = styled.ul`

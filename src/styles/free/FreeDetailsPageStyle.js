@@ -41,7 +41,7 @@ export const ContentSection = styled.div`
   p {
     margin-top: 20px;
     color: #000;
-    font-size: 16px;
+    font-size: 16px; 
     font-style: normal;
     font-weight: 400;
     line-height: normal;

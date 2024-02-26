@@ -4,12 +4,15 @@ import MyMoreButton from "../MyMoreButton";
 import { getMyInterest } from "../../../api/my/my_api";
 import { Link } from "react-router-dom";
 import {getFav} from "../../../api/details/details_api"
+import MyModal from "./MyModal";
+import { ModalBackground } from "../../joinpopup/JoinPopUp";
 
 
 const MyInterestList = () => {
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(3);
   const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +43,22 @@ const MyInterestList = () => {
     setViewMore((prevViewMore) => prevViewMore + 3);
   };
 
+  const handleDeleteClick = (item) => {
+    setShowModal(true);
+    setItemToDelete(item);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirm = async () => {
+    if (itemToDelete) {
+      await handleFavoriteClick(itemToDelete.iproduct);
+      setShowModal(false);
+    }
+  };
+
   return (
     <MyListDiv>
       <MyListTop>
@@ -67,7 +86,7 @@ const MyInterestList = () => {
                 </MyListMidTxt>
               </Link>
               <MyListMidLast>
-                <button onClick={() => handleFavoriteClick(item.iproduct)}>
+                <button onClick={()=>handleDeleteClick(item)}>
                   <img src="/images/main/heart_hover.svg"/>
                 </button>
               </MyListMidLast>
@@ -77,6 +96,18 @@ const MyInterestList = () => {
       <MyListBottom>
         <MyMoreButton handleLoadMore={handleLoadMore}/>
       </MyListBottom>
+      {showModal && (
+        <>
+        <MyModal onCancel={handleCancel} onConfirm={handleConfirm}  
+        txt={
+          <>
+            관심목록에서 이 게시글을  <br />
+            삭제하시겠습니까?
+          </>
+        }/>
+        <ModalBackground></ModalBackground>
+        </>
+      )}
     </MyListDiv>
   );
 };

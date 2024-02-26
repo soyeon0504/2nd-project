@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { MyListDiv, MyListTop } from '../../styles/my/MyList'
 import { useTable, usePagination } from 'react-table';
+import { Common } from '../../styles/CommonStyles';
 
 const PaginationContainer = styled.div`
     text-align: center;
@@ -41,6 +42,7 @@ const PaginationContainer = styled.div`
   transition: .3s ease-in-out;
   background-color: #F2F2FF;
   color: #2C39B5;
+  border-bottom: ${props => (props.show ? `1px solid ${Common.color.primary}` : '0')};
   p {
     width: 780px;
     font-size: 1.6rem;

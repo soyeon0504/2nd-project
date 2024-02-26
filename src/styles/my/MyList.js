@@ -36,6 +36,7 @@ export const MyListTopButton = styled.button`
   cursor: pointer;
 `;
 
+
 export const MyListMid = styled.div`
   display: flex;
   gap: 2rem;
@@ -91,7 +92,7 @@ export const MyListMidTxt = styled.div`
   height: 10rem;
   gap: 1rem;
   h2 {
-    height: 3.5rem;
+    height: ${props => (props.height ? props.height : "3.5rem")};;
     font-size: 1.4rem;
     font-weight: 400;
   }
@@ -109,6 +110,17 @@ export const MyListMidTxt = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  dt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3; /* 표시할 줄 수 */
+    width: 56rem;
+    padding-top: 1rem;
+    height: 7rem;
+    line-height: 2rem;
+    font-size: 1.4rem;
   }
 `;
 
@@ -150,6 +162,29 @@ export const MyListMidLast = styled.div`
     text-overflow: ellipsis;
   }
 `;
+
+export const MyReservationBtDiv = styled.div`
+    display: flex ;
+    justify-content: space-between !important;
+    width: 11rem !important; 
+`
+
+export const MyReviewDiv = styled.div`
+    display: flex;
+    margin-top: 10px;
+    justify-content: end;
+    width: 980px;
+    button {
+      cursor: pointer;
+      width: 110px;
+      height: 30px;
+      border: 0;
+      border-radius: 5px;
+      background-color: #fcd508;
+      color: #fff;
+      z-index: 99;
+    }
+`
 
 export const MyListProfileImg = styled.div`
   width: 6rem !important;
@@ -217,3 +252,5 @@ export const CompManagementBtHover = styled(CompManagementBt)`
   color: #fcd508;
   border: 1px solid #fcd508 !important;
 `
+
+

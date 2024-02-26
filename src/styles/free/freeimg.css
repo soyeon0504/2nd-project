@@ -1,0 +1,11 @@
+.ql-snow .ql-editor img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.ql-editor p {
+    font-size: 1.6rem; 
+    display: flex;
+    gap: 30px;
+}
