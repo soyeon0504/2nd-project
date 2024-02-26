@@ -74,7 +74,7 @@ export const ViewCount = styled.div`
   margin-top: 28px;
   display: flex;
   color: #4b4b4b;
-
+  margin-right: 00px;
   font-size: 14px;
 
   font-weight: 500;
@@ -84,8 +84,9 @@ export const ViewCount = styled.div`
 
 export const Report = styled.div`
   /* position: absolute; */
+  display: flex;
   font-size: 14px;
-  margin-left: 520px;
+  margin-left: 510px;
 `;
 
 export const Address = styled.div`
@@ -284,7 +285,10 @@ export const CautionsImage = styled.img`
   margin-left: 50px;
   right: auto;
 `;
-
+export const ReportImage = styled.img`
+  margin-left: 480px;
+  position: absolute;
+`;
 export const HeaderText = styled.p`
   text-align: center;
   color: #363636;
