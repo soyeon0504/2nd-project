@@ -9,12 +9,12 @@ const failPostDatas = () => {
   navigate("/");
 };
 
-export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sortType) => {
+export const getMoreProduct = async (search, pageNum, categoryId, subCategoryId, sortType) => {
   try {
     let url;
-    console.log(pageNum, categoryId, subCategoryId, sortType)
-    if (sortType) url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
-    else url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    console.log(search,pageNum, categoryId, subCategoryId, sortType)
+    if (sortType) url = `${path}/prod?sort=${sortType}&search=${search}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    else url = `${path}/prod?search=${search}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     const res = await axios.get(url);
 
     return res.data;

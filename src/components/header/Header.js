@@ -31,8 +31,26 @@ const Header = ({ searchName, pageNum }) => {
   const [isCateHoverVisible, setIsCateHoverVisible] = useState(false);
   const [isSearchWord, setIsSearchWord] = useState(false);
   const [search, setSearch] = useState("");
+  const [mc, setMc] = useState("");
+  const [sc, setSc] = useState("");
   const searchWordRef = useRef(null);
   const searchBtRef = useRef(null);
+  
+  const handleChangeSearch = e => {
+    setSearch(e.target.value);
+  };
+  const onClickSearch = e => {
+    e.preventDefault();
+    // console.log("검색실행", search);
+    sessionStorage.setItem("searchValue", search);
+    const sendData = {
+      search: search,
+      mc:mc,
+      sc:sc,
+      pageNum: 1,
+    };
+    searchGet({ sendData, successFn, failFn, errFn });
+  };
   const handleKeyDown = e => {
     // 키 다운 이벤트 처리 함수
     if (e.key === "Enter") {
@@ -40,25 +58,17 @@ const Header = ({ searchName, pageNum }) => {
       searchBtRef.current.click(); // SearchBt 클릭 이벤트 호출
     }
   };
-  const handleChangeSearch = e => {
-    setSearch(e.target.value);
-  };
-  const onClickSearch = e => {
-    e.preventDefault();
-    console.log("검색실행", search);
-    sessionStorage.setItem("searchValue", search);
-    const sendData = {
-      search: search,
-      pageNum: 1,
-    };
-    searchGet({ sendData, successFn, failFn, errFn });
-    // navigate(`/more/${searchName}/${pageNum}`)
-  };
   const successFn = result => {
     console.log("검색 성공", result);
     const searchValue = sessionStorage.getItem("searchValue");
 
-    const url = `/search?search=${search}`;
+    let url = `/search?search=${search}`;
+    if (mc) {
+      url += `&mc=${mc}`;
+    }
+    if (sc) {
+      url += `&sc=${sc}`;
+    }
     navigate(url, { state: { result, searchValue } });
     window.location.reload();
   };
@@ -71,30 +81,25 @@ const Header = ({ searchName, pageNum }) => {
     console.log("검색 서버에러", result);
   };
 
-  // URL에서 검색어 매개변수 추출
-  const [searchWord, setSearchWord] = useState("");
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const searchParam = searchParams.get("search");
-    setSearchWord(searchParam);
-  }, [location]);
 
+  // 검색 카테고리 선택
+  const [selectedValue, setSelectedValue] = useState("");
   const [selectedSubCate, setSelectedSubCate] = useState([
     { id: 0, title: "전체" },
   ]);
-  const [selectedValue, setSelectedValue] = useState("");
   const handleMainCategoryChange = event => {
     const selectedOption = mainCate.find(
       item => item.id === parseInt(event.target.value),
     );
     setSelectedValue(selectedOption ? selectedOption.title : "");
+    setMc(selectedOption ? selectedOption.id : "");
     const selectedMainCategoryId = parseInt(event.target.value);
     const selectedMainCategory = mainCate.find(
       item => item.id === selectedMainCategoryId,
     );
 
     if (selectedMainCategory) {
-      const selectedSubCategoryId = selectedMainCategoryId;
+      const selectedSubCategoryId = selectedMainCategoryId-1;
       const selectedSubCategory = subCate[selectedSubCategoryId];
 
       setSelectedSubCate(selectedSubCategory);
@@ -107,6 +112,7 @@ const Header = ({ searchName, pageNum }) => {
       item => item.title === event.target.value,
     );
     setSelectedSubValue(selectedOption ? selectedOption.title : "");
+    setSc(selectedOption ? selectedOption.id : "");
   };
 
   const handleSearchDivClick = () => {
@@ -282,7 +288,10 @@ const Header = ({ searchName, pageNum }) => {
               <CateHover>
                 <div>
                   <h1>메인 카테고리</h1>
-                  <select onChange={handleMainCategoryChange}>
+                  <select onChange={handleMainCategoryChange} defaultValue="">
+                    <option value="" disabled hidden>
+                      전체
+                    </option>
                     {mainCate.map(item => {
                       return (
                         <option key={item.id} value={item.id}>
@@ -294,7 +303,10 @@ const Header = ({ searchName, pageNum }) => {
                 </div>
                 <div>
                   <h1>상세 카테고리</h1>
-                  <select onChange={handleSubCategoryChange}>
+                  <select onChange={handleSubCategoryChange} defaultValue="">
+                    <option value="" disabled hidden>
+                      전체
+                    </option>
                     {selectedSubCate.map(listItem => {
                       return (
                         <option key={listItem.id}>{listItem.title}</option>
@@ -343,67 +355,61 @@ const Header = ({ searchName, pageNum }) => {
         </HeaderMainMenu>
 
         <CategoryTab>
-          {mainCate
-            .filter(item => item.id !== 0)
-            .map(item => (
-              <MainCate
-                key={item.title}
-                onMouseEnter={() => handleCategoryHover(item.title)}
-                onMouseLeave={() => handleCategoryLeave(item.title)}
-                className={activeCategory === item.title ? "active" : ""}
+          {mainCate.map(item => (
+            <MainCate
+              key={item.title}
+              onMouseEnter={() => handleCategoryHover(item.title)}
+              onMouseLeave={() => handleCategoryLeave(item.title)}
+              className={activeCategory === item.title ? "active" : ""}
+            >
+              <MainCateTitle
+                style={
+                  activeCategory === item.title
+                    ? {
+                        color: "#2C39B5",
+                        fontWeight: "500",
+                        fontSize: "13px",
+                      }
+                    : { color: "#777" }
+                }
               >
-                <MainCateTitle
-                  style={
-                    activeCategory === item.title
-                      ? {
-                          color: "#2C39B5",
-                          fontWeight: "500",
-                          fontSize: "13px",
-                        }
-                      : { color: "#777" }
-                  }
-                >
-                  {item.title}
-                </MainCateTitle>
-                {activeCategory === item.title && (
-                  <SubCate>
-                    {subCate[item.id]
-                      .filter(listItem => listItem.id !== 0)
-                      .map(listItem => (
-                        <li
-                          key={listItem.id}
-                          title={listItem.title}
-                          onClick={() => {
-                            // navigate(`/more/1/${item.id}/${listItem.id}`, {
-                            navigate(
-                              `/more?mc=${item.id}&sc=${listItem.id}&page=1`,
-                              {
-                                state: { title: listItem.title },
-                              },
-                            );
-                            window.location.reload(); // 페이지 이동 후 화면 갱신
-                          }}
-                          onMouseEnter={() =>
-                            handleSubCateHover(listItem.title)
-                          }
-                          onMouseLeave={handleSubCateLeave}
-                          style={
-                            activeSubCate === listItem.title
-                              ? {
-                                  color: "#2C39B5",
-                                  fontWeight: "500",
-                                  background: "#F2F2FF",
-                                }
-                              : {}
-                          }
-                        >
-                          {listItem.title}
-                        </li>
-                      ))}
-                  </SubCate>
-                )}
-              </MainCate>
-            ))}
+                {item.title}
+              </MainCateTitle>
+              {activeCategory === item.title && (
+                <SubCate>
+                  {subCate[item.id - 1].map(listItem => (
+                    <li
+                      key={listItem.id}
+                      title={listItem.title}
+                      onClick={() => {
+                        // navigate(`/more/1/${item.id}/${listItem.id}`, {
+                        navigate(
+                          `/more?mc=${item.id}&sc=${listItem.id}&page=1`,
+                          {
+                            state: { title: listItem.title },
+                          },
+                        );
+                        window.location.reload(); // 페이지 이동 후 화면 갱신
+                      }}
+                      onMouseEnter={() => handleSubCateHover(listItem.title)}
+                      onMouseLeave={handleSubCateLeave}
+                      style={
+                        activeSubCate === listItem.title
+                          ? {
+                              color: "#2C39B5",
+                              fontWeight: "500",
+                              background: "#F2F2FF",
+                            }
+                          : {}
+                      }
+                    >
+                      {listItem.title}
+                    </li>
+                  ))}
+                </SubCate>
+              )}
+            </MainCate>
+          ))}
           <div></div>
         </CategoryTab>
       </HeaderMenu>

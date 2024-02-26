@@ -15,129 +15,186 @@ import JoinPopUp, {
 
 const region = [
   {
-    title: "대구광역시",
-    list: [
-      "전체",
-      "달서구",
-      "중구",
-      "동구",
-      "서구",
-      "남구",
-      "북구",
-      "수성구",
-      "달성군",
-    ],
+    id: 1,
+    title: "대구",
   },
   {
-    title: "서울특별시",
-    list: [
-      "전체",
-      "종로구",
-      "중구",
-      "용산구",
-      "성동구",
-      "광진구",
-      "동대문구",
-      "중랑구",
-      "성북구",
-      "강북구",
-      "도봉구",
-      "노원구",
-      "은평구",
-      "서대문구",
-      "마포구",
-      "양천구",
-      "강서구",
-      "구로구",
-      "금천구",
-      "영등포구",
-      "동작구",
-      "관악구",
-      "서초구",
-      "강남구",
-      "송파구",
-      "강동구",
-    ],
+    id: 2,
+    title: "서울",
   },
   {
-    title: "부산광역시",
-    list: [
-      "전체",
-      "중구",
-      "서구",
-      "동구",
-      "영도구",
-      "부산진구",
-      "동래구",
-      "남구",
-      "북구",
-      "해운대구",
-      "사하구",
-      "금정구",
-      "강서구",
-      "연제구",
-      "수영구",
-      "사상구",
-      "기장군",
-    ],
+    id: 3,
+    title: "부산",
   },
   {
-    title: "인천광역시",
-    list: [
-      "전체",
-      "중구",
-      "동구",
-      "미추홀구",
-      "연수구",
-      "남동구",
-      "부평구",
-      "계양구",
-      "서구",
-    ],
+    id: 4,
+    title: "인천",
   },
   {
-    title: "광주광역시",
-    list: ["전체", "동구", "서구", "남구", "북구", "광산구"],
+    id: 5,
+    title: "광주",
   },
   {
-    title: "대전광역시",
-    list: ["전체", "동구", "중구", "서구", "유성구", "대덕구"],
+    id: 6,
+    title: "대전",
   },
   {
-    title: "울산광역시",
-    list: ["전체", "중구", "남구", "동구", "북구"],
+    id: 7,
+    title: "울산",
   },
+];
+const district = [
+  [
+    { id: 1, title: "달서구" },
+    { id: 2, title: "중구" },
+    { id: 3, title: "동구" },
+    { id: 4, title: "서구" },
+    { id: 5, title: "북구" },
+    { id: 6, title: "수성구" },
+    { id: 7, title: "달성군" },
+  ],
+  [
+    { id: 1, title: "종로구" },
+    { id: 2, title: "중구" },
+    { id: 3, title: "용산구" },
+    { id: 4, title: "성동구" },
+    { id: 5, title: "광진구" },
+    { id: 6, title: "동대문구" },
+    { id: 7, title: "중랑구" },
+    { id: 8, title: "성북구" },
+    { id: 9, title: "강북구" },
+    { id: 10, title: "도봉구" },
+    { id: 11, title: "노원구" },
+    { id: 12, title: "은평구" },
+    { id: 13, title: "서대문구" },
+    { id: 14, title: "마포구" },
+    { id: 15, title: "양천구" },
+    { id: 16, title: "강서구" },
+    { id: 17, title: "구로구" },
+    { id: 18, title: "금천구" },
+    { id: 19, title: "영등포구" },
+    { id: 20, title: "동작구" },
+    { id: 21, title: "관약구" },
+    { id: 22, title: "서초구" },
+    { id: 23, title: "강남구" },
+    { id: 24, title: "송파구" },
+    { id: 25, title: "강동구" },
+    { id: 26, title: "강남구" },
+  ],
+  [
+    { id: 1, title: "중구" },
+    { id: 2, title: "서구" },
+    { id: 3, title: "동구" },
+    { id: 4, title: "영도구" },
+    { id: 5, title: "부산진구" },
+    { id: 6, title: "동래구" },
+    { id: 7, title: "남구" },
+    { id: 8, title: "북구" },
+    { id: 9, title: "해운대구" },
+    { id: 10, title: "사하구" },
+    { id: 11, title: "금정구" },
+    { id: 12, title: "강서구" },
+    { id: 13, title: "연제구" },
+    { id: 14, title: "수영구" },
+    { id: 15, title: "사상구" },
+    { id: 16, title: "기장군" },
+  ],
+  [
+    { id: 1, title: "중구" },
+    { id: 2, title: "동구" },
+    { id: 3, title: "미추홀구" },
+    { id: 4, title: "연수구" },
+    { id: 5, title: "남동구" },
+    { id: 6, title: "부평구" },
+    { id: 7, title: "계양구" },
+    { id: 8, title: "서구" },
+  ],
+  [
+    { id: 1, title: "동구" },
+    { id: 2, title: "서구" },
+    { id: 3, title: "남구" },
+    { id: 4, title: "북구" },
+    { id: 5, title: "광산구" },
+  ],
+  [
+    { id: 1, title: "동구" },
+    { id: 2, title: "서구" },
+    { id: 3, title: "중구" },
+    { id: 4, title: "유성구" },
+    { id: 5, title: "대덕구" },
+  ],
+  [
+    { id: 1, title: "중구" },
+    { id: 2, title: "남구" },
+    { id: 3, title: "동구" },
+    { id: 4, title: "북구" },
+  ],
 ];
 
 const MainMoreSearchPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { pathname, state } = location;
-  const urlParseArr = pathname.split("/");
-  const parseMainCategory = parseInt(urlParseArr[3]);
-  const parseSubCategory = parseInt(urlParseArr[4]);
+  const { state } = location;
+  const searchValue = sessionStorage.getItem("searchValue");
+  const searchParams = new URLSearchParams(location.search);
+  const parseMainCategory = parseInt(searchParams.get("mc"));
+  const parseSubCategory = parseInt(searchParams.get("sc"));
+
+  // 데이터 연동
+  const fetchData = async (pageNum, _sortType) => {
+    try {
+      const res = await getMoreProduct(
+        searchValue,
+        pageNum,
+        parseMainCategory,
+        parseSubCategory,
+        _sortType,
+      );
+      setDatas(res);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
   const [sortType, setSortType] = useState(0);
+
+  // 지역 카테고리 선택
   // 전지역 출력 데이터
   const [datas, setDatas] = useState(state.result);
   // 지역별 시, 구 분류 데이터
   const [filterData, setFilterData] = useState([]);
+
   // 지역 선택 관리
-  const [regionNum, setRegionListNum] = useState(0);
-  const [districtNum, setDistrictNum] = useState(0);
+  const [regionValue, setRegionValue] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState([
+    { id: 0, title: "전체" },
+  ]);
+  const [districtValue, setDistrictValue] = useState("");
 
   const handleRegionChange = e => {
-    const regionIndex = region.findIndex(item => item.title === e.target.value);
-    setRegionListNum(regionIndex);
-    setDistrictNum(0);
+    const selectedOption = region.find(item => item.id === e.target.value);
+    setRegionValue(selectedOption ? selectedOption.title : "");
+    const selectedRegionListValueId = parseInt(e.target.value);
+    const selectedRegionListValue = region.find(
+      item => item.id === selectedRegionListValueId,
+    );
+
+    if (selectedRegionListValue) {
+      const selectedDistrictValueId = selectedRegionListValueId - 1;
+      const selectedDistrictValue = district[selectedDistrictValueId];
+
+      setSelectedDistrict(selectedDistrictValue);
+    }
   };
 
-  const regionFilter = e => {
-    const selectedRegion = e.target.value;
-    const districtIndex = region[regionNum].list.indexOf(selectedRegion);
-    setDistrictNum(districtIndex);
+  const handleDistrictChange = e => {
+    const selectedOption = selectedDistrict.find(
+      item => item.title === e.target.value,
+    );
+    setDistrictValue(selectedOption ? selectedOption.title : "");
   };
 
   const handlePageChange = _tempPage => {
@@ -152,30 +209,15 @@ const MainMoreSearchPage = () => {
     else fetchData(pageNum);
   }, [pageNum, sortType]);
 
-  useEffect(() => {
-    const regionData = datas.filter(item =>
-      item.addr.includes(region[regionNum].title.slice(0, 2)),
-    );
-    const districtData = regionData.filter(item =>
-      item.addr.includes(region[regionNum].list[districtNum]),
-    );
-    setFilterData(districtData);
-  }, [districtNum, datas, regionNum]);
-
-  const fetchData = async (pageNum, _sortType) => {
-    try {
-      const res = await getMoreProduct(
-        pageNum,
-        parseMainCategory,
-        parseSubCategory,
-        _sortType,
-      );
-      setDatas(res);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // useEffect(() => {
+  //   const regionData = datas.filter(item =>
+  //     item.addr.includes(region[regionNum].title.slice(0, 2)),
+  //   );
+  //   const districtData = regionData.filter(item =>
+  //     item.addr.includes(region[regionNum].list[districtNum]),
+  //   );
+  //   setFilterData(districtData);
+  // }, [districtNum, datas, regionNum]);
 
   // details 페이지로 이동
   const { isLogin } = useCustomLogin();
@@ -184,12 +226,6 @@ const MainMoreSearchPage = () => {
   const handlePageChangeDetails = async _item => {
     if (isLogin) {
       const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
-      const serverData = {
-        mainCategoryId: _item.categories.mainCategory,
-        subCategoryId: _item.categories.subCategory,
-        iproduct: _item.iproduct,
-      };
-      // const res = await getProductDetail(serverData);
       navigate(url);
     } else {
       setLoginState(true);
@@ -199,8 +235,6 @@ const MainMoreSearchPage = () => {
     setLoginState(false);
     navigate(`/login`);
   };
-
-  const searchValue = sessionStorage.getItem("searchValue");
 
   //   // URL에서 검색어 매개변수 추출
   //   const [search, setSearch] = useState("");
@@ -234,19 +268,27 @@ const MainMoreSearchPage = () => {
               </div>
             </div>
             <div className="region-wrap">
-              <select onChange={handleRegionChange}>
-                {region.map((item, index) => {
+              <select onChange={handleRegionChange} defaultValue="">
+                <option value="" disabled hidden>
+                  전체
+                </option>
+                {region.map(item => {
                   return (
-                    <option key={`regionTitle${index}`}>{item.title}</option>
+                    <option key={item.id} value={item.title}>
+                      {item.title}
+                    </option>
                   );
                 })}
               </select>
               <select
-                onChange={e => regionFilter(e)}
-                value={region[regionNum].list[districtNum]}
+                onChange={handleDistrictChange}
+                defaultValue=""
               >
-                {region[regionNum].list.map((item, index) => {
-                  return <option key={`regionList${index}`}>{item}</option>;
+                <option value="" disabled hidden>
+                  전체
+                </option>
+                {selectedDistrict.map(listItem => {
+                  return <option key={listItem.id}>{listItem.title}</option>;
                 })}
               </select>
             </div>
@@ -270,9 +312,7 @@ const MainMoreSearchPage = () => {
 
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
-
-                  <hr/>
-
+                  <hr />
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>

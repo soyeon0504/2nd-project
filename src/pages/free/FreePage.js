@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Layout from "../../layouts/Layout";
 import {
-    BtSection,
+  BtSection,
   FreeHeader,
   FreeMain,
   FreePageStyle,
@@ -12,6 +12,8 @@ import {
   SortWrap,
 } from "../../styles/free/FreePageStyle";
 import { useNavigate } from "react-router-dom";
+import { getFreeList } from "../../api/free/free_api";
+import { usePagination, useTable } from "react-table";
 
 // search 카테고리
 const searchCate = [
@@ -150,7 +152,47 @@ const freeData = [
 ];
 
 const FreePage = () => {
-    // table 헤더
+  // 검색 데이터 연동
+  const [type, setType] = useState(1);
+  const [search, setSearch] = useState("");
+  const searchWordRef = useRef(null);
+  const searchBtRef = useRef(null);
+
+  const handleType = e => {
+    const selectedOption = searchCate.find(item => item.id === e.target.value);
+    // setSelectedSubValue(selectedOption ? selectedOption.title : "");
+    setType(selectedOption ? selectedOption.id : "");
+  };
+  const handleChangeSearch = e => {
+    setSearch(e.target.value);
+  };
+  const handleKeyDown = e => {
+    // 키 다운 이벤트 처리 함수
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchBtRef.current.click(); // SearchBt 클릭 이벤트 호출
+    }
+  };
+  const onClickSearch = e => {
+    e.preventDefault();
+    // console.log("검색실행", search);
+    sessionStorage.setItem("searchValue", search);
+    const sendData = {
+      search: search,
+      type: type,
+      page: 1,
+    };
+    getFreeList({ sendData, failFn, errFn });
+    // navigate(`/more/${searchName}/${pageNum}`)
+  };
+
+  // 데이터 연동
+  const [freeList, setFreeList] = useState([]);
+  const freeListData = () => {
+    getFreeList({ setFreeList, failFn, errFn });
+  };
+
+  // table 헤더
   const columns = React.useMemo(() => [
     {
       Header: "제목",
@@ -162,26 +204,54 @@ const FreePage = () => {
     },
     {
       Header: "좋아요",
-      accessor: "like",
+      accessor: "isLiked",
     },
     {
       Header: "조회수",
-      accessor: "look",
+      accessor: "view",
     },
     {
       Header: "업로드 날짜",
-      accessor: "date",
+      accessor: "createdAt",
     },
   ]);
 
+  // 페이지네이션
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    canPreviousPage,
+    canNextPage,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    state: { pageIndex },
+  } = useTable(
+    {
+      columns,
+      data: freeList,
+      initialState: { pageIndex: 0 },
+      ...usePagination,
+    },
+    usePagination,
+  );
+
   // 페이지 이동
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const moveToRegister = () => {
-    navigate(`/free/register`)
-  }
-  const moveToDetail = () => {
-    navigate(`/free/details`)
-  }
+    navigate(`/free/register`);
+  };
+  const moveToDetail = async _item => {
+    const url = `/free/details?iboard=${_item.iboard}`;
+    const serverData = {
+      iboard: _item.iboard,
+    };
+    navigate(url);
+  };
 
   const headerKey = columns.map(header => header.accessor);
   return (
@@ -190,14 +260,24 @@ const FreePage = () => {
         <FreeHeader>
           <p>자유게시판</p>
           <SearchSection>
-            <select>
+            <select onChange={handleType}>
               {searchCate.map(item => {
                 return <option key={item.id}>{item.title}</option>;
               })}
             </select>
             <FreeSearchForm>
-              <input placeholder="검색어를 입력하세요"></input>
-              <button></button>
+              <input
+                ref={searchWordRef}
+                onChange={e => handleChangeSearch(e)}
+                onKeyDown={handleKeyDown}
+                type="text"
+                placeholder="검색어를 입력하세요"
+              ></input>
+              <button
+                ref={searchBtRef}
+                onClick={e => onClickSearch(e)}
+                type="button"
+              ></button>
             </FreeSearchForm>
           </SearchSection>
         </FreeHeader>
@@ -218,7 +298,7 @@ const FreePage = () => {
               </tr>
             </thead>
             <tbody>
-              {freeData.map((item, index) => (
+              {freeList.map((item, index) => (
                 <tr key={index}>
                   {/* headerKey를 순회하면서 key를 가져옴 */}
                   {headerKey.map(key => (
@@ -235,17 +315,42 @@ const FreePage = () => {
           </BtSection>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <PaginationContainer>
-                <PaginationButton>{"<<"}</PaginationButton>
-                <PaginationButton>{"<"}</PaginationButton>
-                {Array.from({ length: Math.floor(freeData.length/12)+1 }, (_, i) => (
-            <PaginationButton
-              key={i}
-            >
-              {i + 1}
-            </PaginationButton>
-          ))}
-                <PaginationButton>{">"}</PaginationButton>
-                <PaginationButton>{">>"}</PaginationButton>
+              <PaginationButton
+                onClick={() => gotoPage(0)}
+                disabled={!canPreviousPage}
+              >
+                {"<<"}
+              </PaginationButton>
+              <PaginationButton
+                onClick={() => previousPage()}
+                disabled={!canPreviousPage}
+              >
+                {"<"}
+              </PaginationButton>
+              {Array.from(
+                { length: Math.floor(freeData.length / 12) + 1 },
+                (_, i) => (
+                  <PaginationButton
+                    key={i}
+                    className={pageIndex === i ? "active" : ""}
+                    onClick={() => gotoPage(i)}
+                  >
+                    {i + 1}
+                  </PaginationButton>
+                ),
+              )}
+              <PaginationButton
+                onClick={() => nextPage()}
+                disabled={!canNextPage}
+              >
+                {">"}
+              </PaginationButton>
+              <PaginationButton
+                onClick={() => gotoPage(pageCount - 1)}
+                disabled={!canNextPage}
+              >
+                {">>"}
+              </PaginationButton>
             </PaginationContainer>
           </div>
         </FreeMain>

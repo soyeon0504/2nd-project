@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../layouts/Layout";
 import {
   ContentSection,
@@ -15,7 +15,8 @@ import {
 } from "../../styles/free/FreeDetailsPageStyle";
 import { FreeHeader } from "../../styles/free/FreePageStyle";
 import { GoToListBt } from "../../styles/free/FreeRegisterPageStyle";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getFreeData } from "../../api/free/free_api";
 
 const contentData = [
   {
@@ -36,6 +37,31 @@ const contentData = [
 ];
 
 const FreeDetailsPage = () => {
+  // 데이터 연동(상세페이지)
+  // const [freeData, setFreeData] = useState(null);
+  // // const searchParams = new URLSearchParams(location.search);
+  // // const iboard = parseInt(searchParams.get("iboard"));
+  // const iboard = useParams();
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await getFreeData(iboard);
+  //       setFreeData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching product data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [iboard]);
+
+  // if (!freeData) {
+  //   return <div></div>;
+  // }
+
+  // 댓글 작성
+
   // 페이지 이동
   const navigate = useNavigate();
   const MoveToList = () => {
