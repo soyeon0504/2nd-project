@@ -9,6 +9,7 @@ import { FreeHeader } from "../../styles/free/FreePageStyle";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+// import "../../styles/free/freeimg.css"
 import DOMPurify from "dompurify";
 import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
 import { jwtAxios } from "../../util/jwtUtil";

@@ -9,6 +9,7 @@ import {
   MyListTop,
   MyManagementBt,
   MyManagementBtHover,
+  MyReservationBtDiv,
 } from "../../styles/my/MyList";
 import MyMoreButton from "./MyMoreButton";
 import { getMyRental } from "../../api/my/my_api";
@@ -52,12 +53,14 @@ const MyManagement = ({ activeBtn }) => {
   return (
     <MyListDiv>
       <MyListTop>
-        <h2>등록 상품 관리</h2>
+        {activeBtn === "등록 상품 관리" && <h2>등록 상품 관리</h2>}
+        {activeBtn === "등록 게시글" && <h2>등록 게시글</h2>}
       </MyListTop>
       {data &&
         data.slice(0, viewMore).map((item, index) => (
           <React.Fragment key={index}>
-             <MyListMid>
+             {activeBtn === "등록 상품 관리" ? (
+              <MyListMid>
                   <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
                     <MyListMidImg>
                       <img
@@ -80,11 +83,49 @@ const MyManagement = ({ activeBtn }) => {
                       </div>
                     </MyListMidTxt>
                   </Link>
-                  <MyListMidLast direction={"row"}>
-                    <MyManagementBt>수정</MyManagementBt>
-                    <MyManagementBtHover onClick={() => handleDeleteProduct(item.iproduct)}>삭제</MyManagementBtHover>
+                  <MyListMidLast>
+                    <p>{item.rentalStartDate}</p>
+                    <MyReservationBtDiv>
+                      <MyManagementBt>수정</MyManagementBt>
+                      <MyManagementBtHover onClick={() => handleDeleteProduct(item.iproduct)}>삭제</MyManagementBtHover>
+                    </MyReservationBtDiv>
                   </MyListMidLast>
                 </MyListMid>
+             ) : (
+              <MyListMid>
+                  <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+                    <MyListMidImg>
+                      <img
+                        src={`/pic/${item.productStoredPic}`}
+                        alt={item.title}
+                      />
+                    </MyListMidImg>
+                    <MyListMidTxt height={"2rem"}>
+                      <div>
+                        <h2>{item.title}</h2>
+                      </div>
+                      <div>
+                        <dt>
+                          유리 깨끗하고 테두리는 생활기스 있지만 상태좋습니다
+                          사진으로 잘 보일 겁니다.
+                          확인해보세요.유리 깨끗하고 테두리는 생활기스 있지만 상태좋습니다
+                          사진으로 잘 보일 겁니다.
+                          확인해보세요 제발 유리 깨끗하고 테두리는 생활기스 있지만 상태좋습니다
+                          사진으로 잘 보일 겁니다.
+                          확인해보세요 제발
+                        </dt>
+                      </div>
+                    </MyListMidTxt>
+                  </Link>
+                  <MyListMidLast>
+                    <p>{item.rentalStartDate}</p>
+                    <MyReservationBtDiv>
+                      <MyManagementBt>수정</MyManagementBt>
+                      <MyManagementBtHover onClick={() => handleDeleteProduct(item.iproduct)}>삭제</MyManagementBtHover>
+                    </MyReservationBtDiv>
+                  </MyListMidLast>
+                </MyListMid>
+             )}
           </React.Fragment>
         ))}
       <MyListBottom>

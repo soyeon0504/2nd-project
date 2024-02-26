@@ -5,8 +5,10 @@ import Mytitle from "../../components/my/Mytitle";
 import styled from '@emotion/styled';
 import MyRentalPage from './MyRentalPage';
 import MyManagementPage from './MyManagementPage';
+import MyBoardPage from './MyBoardPage'
 import MyReviewPage from './MyReviewPage';
 import MyInterestPage from './MyInterestPage';
+import MyReservationPage from './MyReservationPage'
 import MyReportPage from './MyReportPage';
 import MyInfoPage from './MyInfoPage';
 import MyWithDrawPage from './MyWithDrawPage';
@@ -41,8 +43,8 @@ const MyPage = () => {
     },
     {
       title: "등록 리스트",
-      name: ["management"],
-      list: ["등록 상품 관리"]
+      name: ["management","myboard"],
+      list: ["등록 상품 관리","등록 게시글"]
     },
     {
       title: "관심 상품",
@@ -55,9 +57,14 @@ const MyPage = () => {
       list: ["내 작성 후기", "내 상품 후기"],
     },
     {
+      title: "내역 관리",
+      name: ["reservation","report"],
+      list: ["예약 내역","신고 내역"]
+    },
+    {
       title: "내 정보",
-      name: ["report","info","withdraw"],
-      list: ["신고 내역","회원정보 수정", "회원탈퇴"],
+      name: ["info","withdraw"],
+      list: ["회원정보 수정", "회원탈퇴"],
     },
   ];
 
@@ -88,9 +95,11 @@ const MyPage = () => {
           (name === 'rental' && subItem === '대여중') ||
           (name === 'rentaled' && subItem === '대여 완료') ||
           (name === 'management' && subItem === '등록 상품 관리') ||
+          (name === 'myboard' && subItem === '등록 게시글') ||
           (name === 'interest' && subItem === '관심 목록') ||
           (name === 'myreview' && subItem === '내 작성 후기') ||
           (name === 'prodreview' && subItem === '내 상품 후기') ||
+          (name === 'reservation' && subItem === '예약 내역') ||
           (name === 'report' && subItem === '신고 내역') ||
           (name === 'info' && subItem === '회원정보 수정') ||
           (name === 'withdraw' && subItem === '회원탈퇴')
@@ -116,11 +125,13 @@ const MyPage = () => {
         <div>
         {activeBtn === "대여중" || activeBtn === "대여 완료" ?  
             ( <MyRentalPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
-        {activeBtn === "등록 상품 관리" && ( <MyManagementPage /> )}
+        {activeBtn === "등록 상품 관리" && ( <MyManagementPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} /> )}
+        {activeBtn === "등록 게시글" && ( <MyBoardPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} /> )}
         {activeBtn === "관심 목록" && ( <MyInterestPage /> )}
         {activeBtn === "내 작성 후기" || activeBtn === "내 상품 후기" ? 
             ( <MyReviewPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
-        {activeBtn === "신고 내역" && ( <MyReportPage activeBtn={activeBtn} />)} 
+        {activeBtn === "예약 내역" && ( <MyReservationPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} />)} 
+        {activeBtn === "신고 내역" && ( <MyReportPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} />)} 
         {activeBtn === "회원정보 수정" && ( <MyInfoPage /> )}
         {activeBtn === "회원탈퇴" && ( <MyWithDrawPage /> )}
         </div>
