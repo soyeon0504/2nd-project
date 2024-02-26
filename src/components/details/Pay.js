@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { postProduct } from "../../api/details/details_api";
+import KakaoPay from "./KakaoPay";
 import {
   Box,
   Image,
@@ -132,12 +133,9 @@ const Pay = ({
             clicked={cardClicked}
             onClick={() => handlePaymentMethodClick("credit-card")}
           >
-            신용·체크카드
+            <KakaoPay />
           </BtnCard>
-          <BtnPayList
-            clicked={naverPayClicked}
-            onClick={() => handlePaymentMethodClick("naverPay")}
-          >
+          <BtnPayList clicked={naverPayClicked}>
             <img src="/images/details/naverpay.svg" alt="네이버페이" />
           </BtnPayList>
           <BtnPayList

@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { returnPaginationRagne } from '../util/paginationUtil'
 import { PaginationContainer } from '../styles/PaginationStyle';
@@ -32,9 +33,10 @@ const Pagination = (props) => {
     }
   };
 
-  
+
   return (
     <PaginationContainer>
+
         <ul className="pagination pagination-md justify-content-end">
           <li className="page-item"><span className="page-link" onClick={() =>handleButtonClick("first")}>&laquo;</span></li>
           <li className="page-item"><span className="page-link" onClick={() => handleButtonClick("prev")}>&lsaquo;</span></li>
@@ -47,8 +49,9 @@ const Pagination = (props) => {
           <li className="page-item"><span className="page-link" onClick={() => handleButtonClick("last")}>&raquo;</span></li>
         </ul>
 
-    </PaginationContainer>
-  )
-}
 
-export default Pagination
+    </PaginationContainer>
+  );
+};
+
+export default Pagination;
