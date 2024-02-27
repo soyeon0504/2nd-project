@@ -124,30 +124,37 @@ const initUserData = {
   istatus: 1,
 };
 
-const initListData = {
-  "¡user": 0,
-  nick: "",
-  string: "",
-  userPic: "string",
-  iauth: 0,
-  iproduct: 0,
-  title: "",
-  prodMainPic: "",
-  rentalPrice: 0,
-  rentalStartDate: "2024-02-23711:10:48.508Z",
-  rentalEndDate: "2024-02-23711:10:48.508Z",
-  addr: "string",
-  restAddr: "",
-  view: 0,
-  istatus: 0,
-  prodLike: 0,
-  inventory: 0,
-  isLiked: 0,
-  categories: {
-    mainCategory: 1,
-    subCategory: 1,
-  },
-};
+const initListData = [
+  {
+    "iuser": 0,
+    "nick": "",
+    "userPic": "",
+    "iauth": 0,
+    "iproduct": 0,
+    "title": "",
+    "prodMainPic": "",
+    "rentalPrice": 0,
+    "rentalStartDate": "2024-02-26T12:03:44.734Z",
+    "rentalEndDate": "2024-02-26T12:03:44.734Z",
+    "addr": "",
+    "restAddr": "",
+    "view": 0,
+    "istatus": 0,
+    "prodLike": 0,
+    "isLiked": 0,
+    "categories": {
+      "mainCategory": 1,
+      "subCategory": 1
+    },
+    "hashTags": [
+      ""
+    ],
+    "icategory": {
+      "mainCategory": 1,
+      "subCategory": 1
+    }
+  }
+]
 
 const UserProfile = () => {
   const navigate = useNavigate(`/details/`);
@@ -180,26 +187,37 @@ const UserProfile = () => {
   const iuser = loginState.iuser;
   console.log("iuser", iuser);
 
+  const [page, setPage] = useState(1);
+  
+
+
   useEffect(() => {
-    getUserProfile(iuser, successFn, errorFn);
-  }, []);
+    getUserProfile(iuser, successGetFn, errorFn);
+    getProductList(iuser,page, successFn, errorFn);
+  }, [iuser, page]);
 
-  useEffect((page) => {
-    getProductList(page, successFn, errorFn);
-  }, []);
-
+  // useEffect(() => {
+  //   getProductList(page, successFn, errorFn);
+  // }, [page]);
 
   const successFn = res => {
     console.log("성공했을때", res);
-    setUserData(res);
     setUserListData(res);
+    console.log(res)
+  };
+
+  const successGetFn = res => {
+    console.log("성공했을때", res);
+    setUserData(res);
+    console.log(res)
   };
   const errorFn = res => {
     console.log("실패", res);
     // alert(`${res.message} \n 에러코드(${res.errorCode})`);
   };
 
-  
+
+
 
   return (
     <Layout>
@@ -216,7 +234,7 @@ const UserProfile = () => {
               <UserInfo>
                 <div className="profile-wrap">
                   <ProfileImg>
-                    <img src="../images/kong.jpg" />
+                    <img src={userData.storedPic} />
                   </ProfileImg>
                   <UserName>{userData.nick}</UserName>
                 </div>
@@ -232,7 +250,7 @@ const UserProfile = () => {
                           fontWeight: "500",
                         }}
                       >
-                        4.3
+                        {userData.rating}
                       </span>
                     </div>
                   </Rating>
@@ -248,7 +266,7 @@ const UserProfile = () => {
                           fontSize: "25px",
                         }}
                       >
-                        <span>15</span>
+                        <span>{userData.demerit}</span>
                       </span>
                       <span>점</span>
                     </div>
@@ -256,20 +274,19 @@ const UserProfile = () => {
                 </div>
               </UserInfo>
             </UserInfoWrap>
-
             {/* 제품리스트 */}
             <PostInfoWrap>
               <PostInfo>
                 <Title>
                   <div>작성 게시물</div>
-                  <div>26개</div>
+                  <div>{userListData.length}개</div>
                 </Title>
                 <PostWrap
                   className="item-wrap"
                   // key={`MainMore-item-${index}`}
                   onClick={() => handlePageChangeDetails()}
                 >
-                  {postData.slice(0, viewMore).map((userListData, index) => (
+                  {userListData.slice(0, viewMore).map((userListData, index) => (
                     <Post key={index}>
                       <div>
                         <PostImg>

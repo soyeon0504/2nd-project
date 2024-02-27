@@ -5,14 +5,14 @@ import { jwtAxios } from "../../util/jwtUtil";
 const path = `${SERVER_URL}/api`;
 
 
-export const getUserProfile = async(iuser, successFn, errorFn) => {
+export const getUserProfile = async(iuser, successGetFn, errorFn) => {
     try {
-        // http://192.168.0.144:5226/api/user?tar=12
-        const url = `${path}/user?tar=1`
+        //                  /user?tar=1
+        const url = `${path}/user?tar=${iuser}`
         const res = await jwtAxios.get(url);
         const status = res.status.toString()
         if(status.charAt(0) === "2") {
-            successFn(res.data)
+            successGetFn(res.data)
         }
         return res.data;
     } catch (error) {
@@ -21,10 +21,10 @@ export const getUserProfile = async(iuser, successFn, errorFn) => {
     }
 }
 
-export const getProductList = async(page, successFn, errorFn) => {
+export const getProductList = async(iuser, page, successFn, errorFn) => {
     try {
-        // http://192.168.0.144:5226/api/prod/list?page=1
-        const url = `${path}/prod/list?page=${page}`
+        //                  /prod/list?iuser=1&page=1
+        const url = `${path}/prod/list?iuser=${iuser}&page=${page}`
         const res = await axios.get(url);
         const status = res.status.toString()
         if(status.charAt(0) === "2") {
@@ -32,7 +32,8 @@ export const getProductList = async(page, successFn, errorFn) => {
         }
         return res.data;
     } catch (error) {
-        errorFn(error)
-        console.log(error);
+        const res = error
+        errorFn(res);
+        // console.log(error);
     }
 }
