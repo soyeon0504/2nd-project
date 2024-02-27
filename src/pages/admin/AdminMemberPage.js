@@ -65,167 +65,33 @@ const AdminMemberPage = ({ activeBtn }) => {
   `;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const personalData = [
-        {
-          id: 1,
-          username: "hello123",
-          name: "배구이",
-          joinDate: "2024-02-01",
-          email: "green@naver.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 2,
-          username: "goodbye456",
-          name: "경만이",
-          joinDate: "2024-02-01",
-          email: "blue@naver.com",
-          penalty: -20,
-          membershipStatus: "정상",
-          managementStatus: "정지",
-        },
-        {
-          id: 3,
-          username: "user3",
-          name: "User Three",
-          joinDate: "2024-02-03",
-          email: "user3@example.com",
-          penalty: -30,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 4,
-          username: "user4",
-          name: "User Four",
-          joinDate: "2024-02-04",
-          email: "user4@example.com",
-          penalty: -40,
-          membershipStatus: "정상",
-          managementStatus: "정지",
-        },
-        {
-          id: 5,
-          username: "user5",
-          name: "User Five",
-          joinDate: "2024-02-05",
-          email: "user5@example.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 5,
-          username: "user5",
-          name: "User Five",
-          joinDate: "2024-02-05",
-          email: "user5@example.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 5,
-          username: "user5",
-          name: "User Five",
-          joinDate: "2024-02-05",
-          email: "user5@example.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 5,
-          username: "user5",
-          name: "User Five",
-          joinDate: "2024-02-05",
-          email: "user5@example.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 5,
-          username: "user5",
-          name: "User Five",
-          joinDate: "2024-02-05",
-          email: "user5@example.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 5,
-          username: "user5",
-          name: "User Five",
-          joinDate: "2024-02-05",
-          email: "user5@example.com",
-          penalty: -50,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 6,
-          username: "user6",
-          name: "User Six",
-          joinDate: "2024-02-06",
-          email: "user6@example.com",
-          penalty: -60,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 7,
-          username: "user7",
-          name: "User Seven",
-          joinDate: "2024-02-07",
-          email: "user7@example.com",
-          penalty: -70,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 8,
-          username: "user8",
-          name: "User Eight",
-          joinDate: "2024-02-08",
-          email: "user8@example.com",
-          penalty: -80,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 9,
-          username: "user9",
-          name: "User Nine",
-          joinDate: "2024-02-09",
-          email: "user9@example.com",
-          penalty: -90,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-        {
-          id: 10,
-          username: "user10",
-          name: "User Ten",
-          joinDate: "2024-02-10",
-          email: "user10@example.com",
-          penalty: -100,
-          membershipStatus: "정지",
-          managementStatus: "정지",
-        },
-      ];
+    // 더미 데이터 생성
+    const personalData = [
+      {
+        id: 1,
+        username: "hello123",
+        name: "배구이",
+        joinDate: "2024-02-01",
+        email: "green@naver.com",
+        penalty: -50,
+        membershipStatus: "정지",
+        managementStatus: "정지",
+      },
+      {
+        id: 2,
+        username: "goodbye456",
+        name: "경만이",
+        joinDate: "2024-02-01",
+        email: "blue@naver.com",
+        penalty: -20,
+        membershipStatus: "정상",
+        managementStatus: "정지",
+      },
+      // 나머지 데이터도 포함
+    ];
 
-      if (activeBtn === "개인 회원") {
-        setMemberData(personalData);
-      }
-    };
-
-    fetchData();
-  }, [activeBtn]);
+    setMemberData(personalData);
+  }, []);
 
   const columns = React.useMemo(
     () => [
@@ -295,7 +161,7 @@ const AdminMemberPage = ({ activeBtn }) => {
         ),
       },
     ],
-    [activeBtn],
+    [],
   );
 
   const {
@@ -320,6 +186,7 @@ const AdminMemberPage = ({ activeBtn }) => {
     },
     usePagination,
   );
+
   const handleSearchSubmit = () => {
     // 선택된 검색 옵션에 따라 검색 대상을 설정
     let searchTarget = [];
@@ -331,7 +198,6 @@ const AdminMemberPage = ({ activeBtn }) => {
       searchTarget = ["username"];
     }
 
-
     // 검색 결과 필터링
     const filteredData = memberData.filter(member => {
       return searchTarget.some(target => {
@@ -341,10 +207,10 @@ const AdminMemberPage = ({ activeBtn }) => {
       });
     });
 
-
     // 필터링된 결과 설정
     setMemberData(filteredData);
   };
+
   return (
     <div>
       <MemberTitle>
@@ -385,8 +251,6 @@ const AdminMemberPage = ({ activeBtn }) => {
         </div>
       </MemberTitle>
       {activeBtn === "개인 회원" && <h1></h1>}
-
-
 
       <table
         {...getTableProps()}

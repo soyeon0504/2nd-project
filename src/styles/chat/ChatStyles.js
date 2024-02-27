@@ -13,12 +13,14 @@ export const ChatBox = styled.div`
   width: 630px;
 
   height: auto;
-  max-height: 624px;
+  max-height: 615px;
   flex-shrink: 0;
   padding-left: 20px;
   padding-top: 15px;
   margin-right: 20px;
   border: 1px solid #777;
+  overflow: hidden; /* 넘치는 내용 숨김 */
+  overflow-y: auto; /* 내용이 넘칠 때 수직 스크롤 표시 */
 `;
 
 export const ChatProfileBox = styled.div`
@@ -111,6 +113,7 @@ export const ChatText = styled.div`
   margin-bottom: 5px;
   overflow-y: auto;
   overflow-x: hidden;
+  margin-right: 100px;
 `;
 
 export const ProfileName = styled.p`
