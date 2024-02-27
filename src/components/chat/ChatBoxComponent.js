@@ -51,7 +51,7 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
               <ProfileName>{selectedProfile.profileName}</ProfileName>
               <p>{selectedProfile.productContent}</p>
             </ProfileInfoContainer>
-
+            ㅇㄴㄹㄴㅁㅇㄹㅁㄴㅇ
             <ChatText>
               {chatMessages.map((message, index) => (
                 <ChatMessage key={index} isSender={message.isSender}>
@@ -68,12 +68,6 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
             onKeyPress={handleKeyPress} // Handle Enter key press
           />
           {/* 버튼에 margin-left: auto를 적용하여 오른쪽 끝으로 배치 */}
-          <button
-            onClick={() => console.log("Button clicked")}
-            style={{ marginLeft: "auto" }}
-          >
-            버튼
-          </button>
         </ChatBoxContainer>
       ) : (
         <NoChatSelectedMessage>

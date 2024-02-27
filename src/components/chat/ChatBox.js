@@ -113,15 +113,8 @@ const ChatBox = ({ selectedProfile }) => {
             placeholder="메시지를 입력하세요"
             value={inputMessage} // Bind input value to state
             onChange={handleInputChange} // Handle input change
-            onKeyPress={handleKeyPress} // Handle Enter key press
+            onKeyPress={handleㅁKeyPress} // Handle Enter key press
           />
-          {/* 버튼에 margin-left: auto를 적용하여 오른쪽 끝으로 배치 */}
-          <button
-            onClick={() => console.log("Button clicked")}
-            style={{ marginLeft: "auto" }}
-          >
-            버튼
-          </button>
         </ChatBoxContainer>
       ) : (
         <NoChatSelectedMessage>
