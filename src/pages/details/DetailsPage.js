@@ -171,7 +171,12 @@ const DetailsPage = () => {
   });
   const [rentalStartDate, setRentalStartDate] = useState(null);
   const [rentalEndDate, setRentalEndDate] = useState(null);
-  const { mainCategory, subCategory, productId } = useParams();
+  // const { mainCategory, subCategory, productId } = useParams();
+  const searchParams = new URLSearchParams(location.search);
+  const mainCategory = parseInt(searchParams.get("mc"));
+  const subCategory = parseInt(searchParams.get("sc"));
+  const productId = parseInt(searchParams.get("productId"));
+
   const iuser = useSelector(state => state.loginSlice.iuser);
   const navigate = useNavigate();
   const togglePayModal = () => {
@@ -192,7 +197,7 @@ const DetailsPage = () => {
   };
 
   const handleModifyProduct = () => {
-    navigate(`/modify/${mainCategory}/${subCategory}/${productId}`);
+    navigate(`/modify?mc=${mainCategory}&sc=${subCategory}&productId=${productId}`);
   };
 
   const handleDateSelect = (startDate, endDate) => {

@@ -294,7 +294,7 @@ const Header = ({ searchName, pageNum }) => {
                     </option>
                     {mainCate.map(item => {
                       return (
-                        <option key={item.id} value={item.id}>
+                        <option key={item.id} value={item.id }>
                           {item.title}
                         </option>
                       );

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
-import { getMoreProduct } from "../../api/main/mainMore_api";
+import { getSearchProduct } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
-import { getProductDetail } from "../../api/main/main_api"; // API 호출 함수 import
 import useCustomLogin from "../../hooks/useCustomLogin";
 import JoinPopUp, {
   ModalBackground,
@@ -141,14 +139,15 @@ const MainMoreSearchPage = () => {
   const parseSubCategory = parseInt(searchParams.get("sc"));
 
   // 데이터 연동
-  const fetchData = async (pageNum, _sortType) => {
+  const fetchData = async (pageNum, _sortType, _addr) => {
     try {
-      const res = await getMoreProduct(
+      const res = await getSearchProduct(
         searchValue,
         pageNum,
         parseMainCategory,
         parseSubCategory,
         _sortType,
+        _addr,
       );
       setDatas(res);
       console.log(res);
@@ -156,40 +155,30 @@ const MainMoreSearchPage = () => {
       console.log(error);
     }
   };
-
-  // 페이지 번호
-  const [pageNum, setPageNum] = useState(1);
-  const [sortType, setSortType] = useState(0);
+  const [datas, setDatas] = useState(state.result);
 
   // 지역 카테고리 선택
-  // 전지역 출력 데이터
-  const [datas, setDatas] = useState(state.result);
-  // 지역별 시, 구 분류 데이터
-  const [filterData, setFilterData] = useState([]);
-
-  // 지역 선택 관리
   const [regionValue, setRegionValue] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState([
     { id: 0, title: "전체" },
   ]);
-  const [districtValue, setDistrictValue] = useState("");
 
   const handleRegionChange = e => {
     const selectedOption = region.find(item => item.id === e.target.value);
     setRegionValue(selectedOption ? selectedOption.title : "");
-    const selectedRegionListValueId = parseInt(e.target.value);
-    const selectedRegionListValue = region.find(
-      item => item.id === selectedRegionListValueId,
+    const selectedRegionValueId = parseInt(e.target.value);
+    const selectedRegionValue = region.find(
+      item => item.id === selectedRegionValueId,
     );
-
-    if (selectedRegionListValue) {
-      const selectedDistrictValueId = selectedRegionListValueId - 1;
+    if (selectedRegionValue) {
+      const selectedDistrictValueId = selectedRegionValueId - 1;
       const selectedDistrictValue = district[selectedDistrictValueId];
 
       setSelectedDistrict(selectedDistrictValue);
     }
   };
 
+  const [districtValue, setDistrictValue] = useState("");
   const handleDistrictChange = e => {
     const selectedOption = selectedDistrict.find(
       item => item.title === e.target.value,
@@ -197,12 +186,27 @@ const MainMoreSearchPage = () => {
     setDistrictValue(selectedOption ? selectedOption.title : "");
   };
 
+  const [addr, setAddr] = useState(null);
+  useEffect(() => {
+    if (!regionValue && !districtValue) {
+      setAddr(null);
+    } else if (regionValue && !districtValue) {
+      setAddr(regionValue);
+    } else if (regionValue && districtValue) {
+      setAddr(`${regionValue}_${districtValue}`);
+    }
+  }, [regionValue, districtValue]);
+
+
   const handlePageChange = _tempPage => {
     setPageNum(_tempPage);
   };
 
-  console.log(state);
 
+  // 페이지 번호
+  const [pageNum, setPageNum] = useState(1);
+  // 정렬
+  const [sortType, setSortType] = useState(0);
   //추후 초기 값 세팅 필요
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
@@ -225,7 +229,7 @@ const MainMoreSearchPage = () => {
 
   const handlePageChangeDetails = async _item => {
     if (isLogin) {
-      const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+      const url = `/details?mc=${_item.categories.mainCategory}&sc=${_item.categories.subCategory}&productId=${_item.iproduct}`;
       navigate(url);
     } else {
       setLoginState(true);
@@ -236,13 +240,6 @@ const MainMoreSearchPage = () => {
     navigate(`/login`);
   };
 
-  //   // URL에서 검색어 매개변수 추출
-  //   const [search, setSearch] = useState("");
-  //   useEffect(() => {
-  //     const searchParams = new URLSearchParams(location.search);
-  //     const searchParam = searchParams.get("search");
-  //     setSearch(searchParam);
-  //   }, [location]);
 
   return (
     <Layout>
@@ -274,7 +271,7 @@ const MainMoreSearchPage = () => {
                 </option>
                 {region.map(item => {
                   return (
-                    <option key={item.id} value={item.title}>
+                    <option key={item.id} value={item.id}>
                       {item.title}
                     </option>
                   );
@@ -326,7 +323,7 @@ const MainMoreSearchPage = () => {
           <Pagination
             current={pageNum}
             onChange={handlePageChange}
-            total={Math.floor(filterData.length / 16) + 1}
+            total={Math.floor(state.result.length / 16) + 1}
             pageSize={10}
           />
         </div>
