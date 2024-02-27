@@ -1,227 +1,162 @@
 import React, { useEffect, useState } from "react";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
 import Pagination from "../../components/Pagination";
+import { getAllProducts } from "../../api/admin/admin_board_api";
+
 
 const boardData = [
   {
     id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 115,
+        subCategory: "갤럭시",
+        pricePerDay: "10,000원",
+        nick: "준서",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
   {
     id: 1,
-    iproduct: 776,
-    category: "아이폰",
-    rentalPrice: "10,000원",
-    nick: "준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 776,
+        subCategory: "갤럭시",
+        pricePerDay: "10,000원",
+        nick: "준서",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
   {
     id: 1,
-    iproduct: 55,
-    category: "갤럭시",
-    rentalPrice: "10,000원",
-    nick: "배근",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 55,
+        subCategory: "아이폰",
+        pricePerDay: "10,000원",
+        nick: "소연",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
   {
     id: 1,
-    iproduct: 115,
-    category: "태블릿",
-    rentalPrice: "10,000원",
-    nick: "은진",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 115,
+        subCategory: "아이폰",
+        pricePerDay: "10,000원",
+        nick: "소연",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
   {
     id: 1,
-    iproduct: 343,
-    category: "빔프로젝터",
-    rentalPrice: "10,000원",
-    nick: "소연",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 115,
+        subCategory: "태블릿",
+        pricePerDay: "10,000원",
+        nick: "은진",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
   {
     id: 1,
-    iproduct: 888,
-    category: "태블릿",
-    rentalPrice: "10,000원",
-    nick: "경민",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 115,
+        subCategory: "태블릿",
+        pricePerDay: "10,000원",
+        nick: "은진",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
   {
     id: 1,
-    iproduct: 777,
-    category: "아이폰",
-    rentalPrice: "10,000원",
-    nick: "준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
+    products: [
+      {
+        iproduct: 115,
+        subCategory: "아이폰",
+        pricePerDay: "10,000원",
+        nick: "배근",
+        view: 650,
+        createdAt: "2024-02-19",
+        productInquiry: "",
+        productManage: "",
+      }
+    ]
   },
-  {
-    id: 1,
-    iproduct: 767,
-    category: "갤럭시",
-    rentalPrice: "10,000원",
-    nick: "배근",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 125,
-    category: "아이폰",
-    rentalPrice: "10,000원",
-    nick: "은진",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 987,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "현민",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 363,
-    category: "스피커",
-    rentalPrice: "10,000원",
-    nick: "현민",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 6724,
-    category: "스피커",
-    rentalPrice: "10,000원",
-    nick: "상원",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 624,
-    category: "갤럭시",
-    rentalPrice: "10,000원",
-    nick: "현일",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 1112,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "상원",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 2333,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "현민",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 4454,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "현빈",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 3223,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "현일",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 222,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "소연",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 1111,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "우우",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
+
 ];
 
+const initBoardData = {
+  "totalDisputeCount": 0,
+  "products": [
+    {
+      "iproduct": 0,
+      "iuser": 0,
+      "mainCategory": 0,
+      "subCategory": 0,
+      "pricePerDay": 0,
+      "view": 0,
+      "createdAt": "2024-02-26T07:07:40.747Z",
+      "status": 0
+    }
+  ]
+}
+
 const AdminBoardPage = () => {
+  // 전체 게시물 데이터
+  const [boardAllData, setBoardAllData] = useState([]);
+  // console.log("boardAllData", boardAllData);
+
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(15);
 
   const searchOptions = ["전체", "닉네임", "카테고리"];
   const [selectedSearchOption, setSelectedSearchOption] = useState("전체"); // 선택된 검색 옵션 상태
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
-  const [filteredData, setFilteredData] = useState(boardData); // 필터링된 데이터 상태 추가
+  const [filteredData, setFilteredData] = useState([]); // 필터링된 데이터 상태 추가
+
+
+  useEffect(() => {
+    getAllProducts(page, successFn, errorFn);
+  }, [page])
+
+  const successFn = res => {
+    // console.log("성공했을때", res);
+    setBoardAllData(res);
+    setFilteredData(res.products)
+  };
+  const errorFn = res => {
+    // console.log("실패", res);
+    alert(`${res.message} \n 에러코드(${res.errorCode})`);
+  };
+
 
   const getLength = () => {
     return boardData.length;
@@ -259,7 +194,7 @@ const AdminBoardPage = () => {
   };
 
   useEffect(() => {
-    console.log("페이지 변경됨:", page);
+    // console.log("페이지 변경됨:", page);
   }, [page]);
 
   const handleSearchOptionChange = e => {
@@ -272,25 +207,26 @@ const AdminBoardPage = () => {
 
   const handleSearchSubmit = e => {
     e.preventDefault();
-    const filtered = boardData.filter(item => {
+    const filtered = boardAllData.filter(item => {
       // 검색어가 포함된 항목만 필터링하여 반환
       return (
-        item.category.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        item.products.subCategory.toLowerCase().includes(searchKeyword.toLowerCase()) ||
         // item.rentalPrice.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-        item.nick.toLowerCase().includes(searchKeyword.toLowerCase())
+        item.products.nick.toLowerCase().includes(searchKeyword.toLowerCase())
         // 필터링 조건을 필요에 따라 추가
       );
     });
     setFilteredData(filtered);
   };
-  console.log(filteredData);
+  // console.log(filteredData);
+ 
 
   return (
     <BoardWrap>
       <HeaderWrap>
         <div className="header-title">
           <div className="title">상품 게시판</div>
-          <div className="total">총 32개</div>
+          <div className="total">총 {boardAllData.totalDisputeCount}개</div>
         </div>
         <div className="search-wrap">
           <form>
@@ -345,8 +281,8 @@ const AdminBoardPage = () => {
             <th>상품 관리</th>
           </tr>
         </thead>
-        {getPageItems().map((item, index) => (
-          <>
+        {boardData.map((item, index) => (
+          <React.Fragment key={index}>
             <tbody
               key={item.id}
               style={{
@@ -355,12 +291,12 @@ const AdminBoardPage = () => {
               }}
             >
               <tr className="board-data">
-                <td>{item.iproduct}</td>
-                <td>{item.category}</td>
-                <td>{item.rentalPrice}</td>
-                <td>{item.nick}</td>
-                <td>{item.view}</td>
-                <td>{item.date}</td>
+                <td>{item.products[0].iproduct}</td>
+                <td>{item.products[0].subCategory}</td>
+                <td>{item.products[0].pricePerDay}</td>
+                <td>{item.products[0].nick}</td>
+                <td>{item.products[0].view}</td>
+                <td>{item.products[0].createdAt}</td>
                 <td>
                   {item.productInquiry}
                   <button className="move">이동</button>
@@ -371,7 +307,7 @@ const AdminBoardPage = () => {
                 </td>
               </tr>
             </tbody>
-          </>
+          </React.Fragment>
         ))}
       </table>
       <div>

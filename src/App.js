@@ -172,7 +172,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/profile"
+          path="/profile/:iuser/:page"
           element={
             <Suspense fallback={<Loading />}>
               <LazyProfilePage />
