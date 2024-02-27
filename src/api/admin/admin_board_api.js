@@ -8,7 +8,7 @@ const path = `${SERVER_URL}/api`;
 export const getAllProducts = async(page, successFn, errorFn) => {
     try {
         // http://192.168.0.144:5226/api/admin/product
-        //                  /admin/product?page=1&type=1
+        //                  /admin/product?page=1&type=1////
         const url = `${path}/admin/product?page=${page}`
         const res = await jwtAxios.get(url);
         const status = res.status.toString()
