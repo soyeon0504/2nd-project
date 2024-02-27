@@ -9,12 +9,38 @@ const failPostDatas = () => {
   navigate("/");
 };
 
-export const getMoreProduct = async (search, pageNum, categoryId, subCategoryId, sortType) => {
+// MainMorePage.js
+export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sortType) => {
   try {
     let url;
-    console.log(search,pageNum, categoryId, subCategoryId, sortType)
-    if (sortType) url = `${path}/prod?sort=${sortType}&search=${search}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
-    else url = `${path}/prod?search=${search}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    console.log(pageNum, categoryId, subCategoryId, sortType)
+    if (sortType) url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    else url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    const res = await axios.get(url);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
+// MainMoreSearchPage.js
+export const getSearchProduct = async (
+  search,
+  pageNum,
+  categoryId,
+  subCategoryId,
+  sortType,
+  addr,
+) => {
+  try {
+    let url;
+    console.log(search, pageNum, categoryId, subCategoryId, sortType, addr);
+    if (sortType)
+      url = `${path}/prod?sort=${sortType}&search=${search}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}&addr=${addr}`;
+    else
+      url = `${path}/prod?search=${search}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}&addr=${addr}`;
     const res = await axios.get(url);
 
     return res.data;

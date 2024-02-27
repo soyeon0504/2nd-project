@@ -11,10 +11,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 const JoinLastPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // URL에서 닉네임 매개변수 추출
   const [nickname, setNickname] = useState("");
-
   useEffect(() => {
-    // URL에서 닉네임 매개변수 추출
     const searchParams = new URLSearchParams(location.search);
     const nicknameParam = searchParams.get("nick");
     setNickname(nicknameParam);
