@@ -2,138 +2,44 @@ import React, { useEffect, useState } from "react";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
 import Pagination from "../../components/Pagination";
 import { Modal } from "../../styles/admin/AdminChatHistoryStyle";
-const boardData = [
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-  {
-    id: 1,
-    iproduct: 115,
-    category: "노트북",
-    rentalPrice: "10,000원",
-    nick: "바보준서",
-    view: 650,
-    date: "2024-02-19",
-    productInquiry: "",
-    productManage: "",
-  },
-];
+import { getChatHistory } from "../../api/admin/admin_board_api";
+
+const chatData = {
+  "totalChatCount": 124,
+  "chats": [
+    {
+      "ichat": 222,
+      "category": "사기",
+      "nick": "우헤헹",
+      "createdAt": "2024-02-28T06:28:38.904Z"
+    }
+  ]
+}
+
+const initChatData = {
+  "totalChatCount": 0,
+  "chats": [
+    {
+      "ichat": 0,
+      "category": "string",
+      "nick": "string",
+      "createdAt": "2024-02-28T06:28:38.904Z"
+    }
+  ]
+}
 
 const AdminBoardPage = () => {
+  // 채팅 내역 데이터
+  const [chatHistoryData, setChatHistoryData] = useState({});
+  console.log("chatHistoryData", chatHistoryData)
+
   const searchOptions = ["전체", "닉네임", "카테고리"];
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
-  const [selectedSearchOption, setSelectedSearchOption] = useState("전체"); // 선택된 검색 옵션 상태
-  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
+  // const [selectedSearchOption, setSelectedSearchOption] = useState("전체"); // 선택된 검색 옵션 상태
+  // const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const getLength = function () {
-    return boardData.length;
+    return chatHistoryData.length;
   };
   const totalPage = Math.ceil(getLength() / limit);
 
@@ -156,70 +62,38 @@ const AdminBoardPage = () => {
   }
 
   // 모달창
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
   const toggleModal = () => {
     setModal(!modal);
   };
 
-  //   const handleSearchOptionChange = (e) => {
-  //     setSelectedSearchOption(e.target.value);
-  //   };
+  useEffect(() => {
+    getChatHistory(page, successFn, errorFn);
+  }, [page]);
 
-  //   const handleSearchKeywordChange = (e) => {
-  //     setSearchKeyword(e.target.value);
-  //   };
 
-  //   const handleSearchSubmit = (e) => {
-  //     e.preventDefault();
-  //     // 검색 기능 추가
-  //     console.log("검색 옵션:", selectedSearchOption);
-  //     console.log("검색어:", searchKeyword);
-  //   };
+  const successFn = res => {
+    console.log("성공했을때", res);
+    setChatHistoryData(res);
+    console.log(res)
+  };
+
+  const errorFn = res => {
+    console.log("실패", res);
+    alert(`${res.message} \n 에러코드(${res.errorCode})`);
+  };
+
+
 
   return (
     <BoardWrap>
       <HeaderWrap>
         <div className="header-title">
           <div className="title">채팅 내역</div>
-          <div className="total">총 32개</div>
+          <div className="total">총 {chatHistoryData.totalChatCount}개</div>
         </div>
-        {/* <div className="search-wrap">
-          <form>
-          <select
-              onChange={handleSearchOptionChange}
-              value={selectedSearchOption}
-            >
-              {searchOptions.map(option => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <input 
-            type="text" 
-            placeholder={`${
-              selectedSearchOption === "전체"
-                ? "검색어를 입력하세요."
-                : selectedSearchOption === "카테고리"
-                ? "카테고리를 입력하세요."
-                : selectedSearchOption + "을 입력하세요."
-            }`}
-              value={searchKeyword}
-              onChange={handleSearchKeywordChange}/>
-            <button onClick={handleSearchSubmit}>
-
-              <img src="/images/admin/search.svg" />
-            </button>
-          </form>
-        </div> */}
-        {/* <div className="bt-wrap">
-          <div>
-            <button onClick={() => setSortType(0)}>최신순</button>
-            <img src="/images/admin/line.svg" />
-            <button onClick={() => setSortType(2)}>조회순</button>
-          </div>
-        </div> */}
       </HeaderWrap>
+
       <table style={{ width: "100%" }}>
         <thead
           style={{ height: "50px", background: "#FFE6E6", fontSize: "16px" }}
@@ -227,15 +101,13 @@ const AdminBoardPage = () => {
           <tr>
             <th>번호</th>
             <th>카테고리</th>
-            {/* <th>대여 가격</th> */}
             <th>닉네임</th>
             <th>등록일</th>
-            {/* <th>상품 조회</th> */}
             <th>내역 관리</th>
-            <th>내역 삭제</th>
+            {/* <th>내역 삭제</th> */}
           </tr>
         </thead>
-        {boardData.map((item, index) => (
+        {chatHistoryData && chatHistoryData.chats && chatHistoryData.chats.map((item, index) => (
           <>
             <tbody
               key={item.id}
@@ -245,12 +117,12 @@ const AdminBoardPage = () => {
               }}
             >
               <tr className="board-data">
-                <td>{item.iproduct}</td>
+                <td>{item.ichat}</td>
                 <td>{item.category}</td>
                 {/* <td>{item.rentalPrice}</td> */}
                 <td>{item.nick}</td>
                 {/* <td>{item.view}</td> */}
-                <td>{item.date}</td>
+                <td>{item.createdAt}</td>
                 <td>
                   {item.productInquiry}
                   <div>
@@ -259,10 +131,10 @@ const AdminBoardPage = () => {
                     </button>
                   </div>
                 </td>
-                <td>
+                {/* <td>
                   {item.productManage}
                   <button className="delete">삭제</button>
-                </td>
+                </td> */}
               </tr>
             </tbody>
           </>
