@@ -107,6 +107,16 @@ export const MemberSearchForm = styled.div`
   }
 `;
 
+export const MemberSearchBt = styled.button`
+  width: 16px;
+  height: 16px;
+  background-image: url("/images/admin/bt_search.svg");
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+`;
+
 //report page
 export const ReportMain = styled.div`
   table {

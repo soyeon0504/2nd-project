@@ -4,17 +4,13 @@ import { jwtAxios } from "../../util/jwtUtil";
 
 const path = `${SERVER_URL}/api`;
 
-export const getAllProducts = async page => {
+export const getProducts = async page => {
   try {
     const url = `${path}/admin/user?page=${page}`;
     const res = await jwtAxios.get(url);
-    const status = res.status.toString();
-    if (status.charAt(0) === "2") {
-      successFn(res.data);
-    }
-    return res.data;
+    return Array.isArray(res.data) ? res.data : []; // Ensure that data is an array
   } catch (error) {
-    const res = error.response.data;
-    errorFn(res);
+    console.log(error);
+    return []; // Return an empty array in case of error
   }
 };

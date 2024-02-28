@@ -51,7 +51,7 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
               <ProfileName>{selectedProfile.profileName}</ProfileName>
               <p>{selectedProfile.productContent}</p>
             </ProfileInfoContainer>
-            ㅇㄴㄹㄴㅁㅇㄹㅁㄴㅇ
+            sadf
             <ChatText>
               {chatMessages.map((message, index) => (
                 <ChatMessage key={index} isSender={message.isSender}>

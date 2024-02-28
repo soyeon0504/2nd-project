@@ -197,7 +197,9 @@ const DetailsPage = () => {
   };
 
   const handleModifyProduct = () => {
-    navigate(`/modify?mc=${mainCategory}&sc=${subCategory}&productId=${productId}`);
+    navigate(
+      `/modify?mc=${mainCategory}&sc=${subCategory}&productId=${productId}`,
+    );
   };
 
   const handleDateSelect = (startDate, endDate) => {
@@ -264,7 +266,11 @@ const DetailsPage = () => {
             <ViewCount>
               조회수
               {productData.view.toLocaleString()}
-              <ReportImage src="/images/details/report.svg" alt="신고이미지" />
+              <ReportImage
+                src="/images/details/report.png
+              "
+                alt="신고이미지"
+              />
               <Report>신고하기</Report>
             </ViewCount>
 

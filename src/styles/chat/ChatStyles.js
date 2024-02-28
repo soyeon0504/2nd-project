@@ -105,6 +105,7 @@ export const ChatInput = styled.input`
 export const ProfileInfoContainer = styled.div`
   display: inline-block;
   margin-left: 10px;
+  margin-right: 200px;
 `;
 
 export const ChatText = styled.div`

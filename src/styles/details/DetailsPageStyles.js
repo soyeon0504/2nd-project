@@ -286,8 +286,9 @@ export const CautionsImage = styled.img`
   right: auto;
 `;
 export const ReportImage = styled.img`
-  margin-left: 480px;
+  margin-left: 540px;
   position: absolute;
+  width: 20px;
 `;
 export const HeaderText = styled.p`
   text-align: center;
