@@ -2,7 +2,7 @@
 import React from 'react'
 import { returnPaginationRagne } from '../util/paginationUtil'
 import { PaginationContainer } from '../styles/PaginationStyle';
-import "bootstrap/dist/css/bootstrap.css"
+// import "bootstrap/dist/css/bootstrap.css"
 
 
 const Pagination = (props) => {
