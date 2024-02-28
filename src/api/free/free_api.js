@@ -3,12 +3,27 @@ import { SERVER_URL } from "../config";
 import { jwtAxios } from "../../util/jwtUtil";
 
 // FreePage 전체 게시글 호출
-export const getFreeList = async ({ sendData }) => {
+export const getFreeList = async ({
+  page,
+  search,
+  type,
+  sort,
+  setFreeList,
+}) => {
   try {
-    const url = `${SERVER_URL}/api/board?page=${sendData.page}&search=${sendData.search}&type=${sendData.type}`;
+    let url = `${SERVER_URL}/api/board?page=${page}`;
+    if (search) {
+      url += `&search=${search}`;
+    }
+    if (type) {
+      url += `&type=${type}`;
+    }
+    if (sort) {
+      url += `&sort=${sort}`;
+    }
 
-    const res = await axios.get(url);
-    return res.data;
+    const res = await jwtAxios.get(url);
+    setFreeList([...res.data]);
   } catch (error) {
     console.log(error);
   }
@@ -27,11 +42,12 @@ export const getFreeData = async iboard => {
 };
 
 // 게시글 등록
-export const postFreeData = async () => {
+export const postFreeData = async ({ obj }) => {
   try {
-    const url = `${SERVER_URL}/api/board`;
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const res = await jwtAxios.get(url);
+    const url = `${SERVER_URL}/api/board`;
+    const res = await jwtAxios.get(url, obj, header);
     return res;
   } catch (error) {
     console.log(error);

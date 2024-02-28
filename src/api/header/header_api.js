@@ -4,8 +4,13 @@ import { SERVER_URL } from "../config";
 export const searchGet = async ({ sendData, successFn, failFn, errFn }) => {
   try {
     // console.log("sendData", sendData);
-    const url = `${SERVER_URL}/api/prod?search=${sendData.search}&page=${sendData.pageNum}&mc=${sendData.mc}&sc=${sendData.sc}`;
-
+    let url = `${SERVER_URL}/api/prod?search=${sendData.search}&page=${sendData.pageNum}`;
+    if (sendData.mc) {
+      url += `&mc=${sendData.mc}`;
+    }if (sendData.sc) {
+      url += `&sc=${sendData.sc}`;
+    }
+    
     const res = await axios.get(url);
     const resStatus = res.status.toString();
 

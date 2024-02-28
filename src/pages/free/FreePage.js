@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../layouts/Layout";
 import {
   BtSection,
@@ -152,45 +152,23 @@ const freeData = [
 ];
 
 const FreePage = () => {
-  // 검색 데이터 연동
-  const [type, setType] = useState(1);
-  const [search, setSearch] = useState("");
-  const searchWordRef = useRef(null);
-  const searchBtRef = useRef(null);
-
-  const handleType = e => {
-    const selectedOption = searchCate.find(item => item.id === e.target.value);
-    // setSelectedSubValue(selectedOption ? selectedOption.title : "");
-    setType(selectedOption ? selectedOption.id : "");
-  };
-  const handleChangeSearch = e => {
-    setSearch(e.target.value);
-  };
-  const handleKeyDown = e => {
-    // 키 다운 이벤트 처리 함수
-    if (e.key === "Enter") {
-      e.preventDefault();
-      searchBtRef.current.click(); // SearchBt 클릭 이벤트 호출
-    }
-  };
-  const onClickSearch = e => {
-    e.preventDefault();
-    // console.log("검색실행", search);
-    sessionStorage.setItem("searchValue", search);
-    const sendData = {
-      search: search,
-      type: type,
-      page: 1,
-    };
-    getFreeList({ sendData, failFn, errFn });
-    // navigate(`/more/${searchName}/${pageNum}`)
-  };
-
   // 데이터 연동
+  const [type, setType] = useState(1);
+  const [search, setSearch] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+
+  const [sort, setSort] = useState(null);
+
+  const [page, setPage] = useState(1); // 페이지네이션해야함!!!!!!
+
   const [freeList, setFreeList] = useState([]);
-  const freeListData = () => {
-    getFreeList({ setFreeList, failFn, errFn });
+
+  const freeListData = async () => {
+    await getFreeList({ page, search, type, sort, setFreeList });
   };
+  useEffect(() => {
+    freeListData();
+  }, [page, search, type, sort]);
 
   // table 헤더
   const columns = React.useMemo(() => [
@@ -215,30 +193,7 @@ const FreePage = () => {
       accessor: "createdAt",
     },
   ]);
-
-  // 페이지네이션
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    state: { pageIndex },
-  } = useTable(
-    {
-      columns,
-      data: freeList,
-      initialState: { pageIndex: 0 },
-      ...usePagination,
-    },
-    usePagination,
-  );
+  const headerKey = columns.map(header => header.accessor);
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -247,62 +202,61 @@ const FreePage = () => {
   };
   const moveToDetail = async _item => {
     const url = `/free/details?iboard=${_item.iboard}`;
-    const serverData = {
-      iboard: _item.iboard,
-    };
     navigate(url);
   };
 
-  const headerKey = columns.map(header => header.accessor);
+  console.log(search, type, sort);
   return (
     <Layout>
       <FreePageStyle>
         <FreeHeader>
           <p>자유게시판</p>
           <SearchSection>
-            <select onChange={handleType}>
+            <select onChange={e => setType(e.target.value)}>
               {searchCate.map(item => {
-                return <option key={item.id}>{item.title}</option>;
+                return (
+                  <option key={item.id} value={item.id}>
+                    {item.title}
+                  </option>
+                );
               })}
             </select>
             <FreeSearchForm>
               <input
-                ref={searchWordRef}
-                onChange={e => handleChangeSearch(e)}
-                onKeyDown={handleKeyDown}
                 type="text"
                 placeholder="검색어를 입력하세요"
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
               ></input>
               <button
-                ref={searchBtRef}
-                onClick={e => onClickSearch(e)}
                 type="button"
+                onClick={() => setSearch(inputValue)}
               ></button>
             </FreeSearchForm>
           </SearchSection>
         </FreeHeader>
         <FreeMain>
           <SortWrap>
-            <button>최신순</button>
+            <button onClick={() => setSort(0)}>최신순</button>
             <img src="/images/main/line.svg" />
-            <button>좋아요순</button>
+            <button onClick={() => setSort(1)}>좋아요순</button>
             <img src="/images/main/line.svg" />
-            <button>조회순</button>
+            <button onClick={() => setSort(2)}>조회순</button>
           </SortWrap>
           <table>
             <thead>
               <tr>
                 {columns.map(header => (
-                  <th key={header.Header}>{header.Header}</th>
+                  <th key={header.accessor}>{header.Header}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {freeList.map((item, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={() => moveToDetail(item)}>
                   {/* headerKey를 순회하면서 key를 가져옴 */}
                   {headerKey.map(key => (
-                    <td key={key + index} onClick={moveToDetail}>
+                    <td key={key + index}>
                       {item[key]} {/* key로 객체의 값을 출력 */}
                     </td>
                   ))}
@@ -313,46 +267,7 @@ const FreePage = () => {
           <BtSection>
             <button onClick={moveToRegister}>글쓰기</button>
           </BtSection>
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <PaginationContainer>
-              <PaginationButton
-                onClick={() => gotoPage(0)}
-                disabled={!canPreviousPage}
-              >
-                {"<<"}
-              </PaginationButton>
-              <PaginationButton
-                onClick={() => previousPage()}
-                disabled={!canPreviousPage}
-              >
-                {"<"}
-              </PaginationButton>
-              {Array.from(
-                { length: Math.floor(freeData.length / 12) + 1 },
-                (_, i) => (
-                  <PaginationButton
-                    key={i}
-                    className={pageIndex === i ? "active" : ""}
-                    onClick={() => gotoPage(i)}
-                  >
-                    {i + 1}
-                  </PaginationButton>
-                ),
-              )}
-              <PaginationButton
-                onClick={() => nextPage()}
-                disabled={!canNextPage}
-              >
-                {">"}
-              </PaginationButton>
-              <PaginationButton
-                onClick={() => gotoPage(pageCount - 1)}
-                disabled={!canNextPage}
-              >
-                {">>"}
-              </PaginationButton>
-            </PaginationContainer>
-          </div>
+          <div style={{ textAlign: "center", margin: "20px 0" }}></div>
         </FreeMain>
       </FreePageStyle>
     </Layout>

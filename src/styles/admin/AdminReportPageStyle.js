@@ -122,17 +122,24 @@ export const ReportMain = styled.div`
   table {
     width: 100%;
     text-align: center;
+    border-collapse: collapse;
   }
   thead {
     height: 60px;
     background: #ffe6e6;
     font-size: 18px;
   }
+  th {
+    border: 1px solid #bebebe;
+  }
   tbody {
     font-size: 18px;
   }
   tr {
     height: 60px;
+  }
+  td {
+    border: 1px solid #bebebe;
   }
   button {
     width: ${props => (props.width ? props.width : "65px")};
@@ -166,5 +173,8 @@ export const PaginationContent = styled(Pagination)`
   }
   .ant-pagination-item-active a:hover {
     color: #fff;
+  }
+  .ant-pagination-options {
+    display: none;
   }
 `;

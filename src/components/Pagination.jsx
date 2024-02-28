@@ -1,7 +1,7 @@
-import React from "react";
-import { returnPaginationRagne } from "../util/paginationUtil";
-import { PaginationContainer } from "../styles/PaginationStyle";
-import "bootstrap/dist/css/bootstrap.css";
+import React from 'react'
+import { returnPaginationRagne } from '../util/paginationUtil'
+import { PaginationContainer } from '../styles/PaginationStyle';
+// import "bootstrap/dist/css/bootstrap.css"
 
 const Pagination = props => {
   let array =
@@ -12,6 +12,7 @@ const Pagination = props => {
       props.siblings,
       props.onPageChange,
     ) || [];
+
 
   const handleButtonClick = value => {
     switch (value) {
