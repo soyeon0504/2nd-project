@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTable, usePagination } from "react-table";
-import styled from "@emotion/styled";
-
+import { getProducts } from "../../api/admin/admin_user_api";
 import {
-  ReportSearchBt,
+  MemberSearchBt,
   MemberSearchForm,
   MemberSearchWord,
   MemberTitle,
@@ -15,112 +14,50 @@ const AdminMemberPage = ({ activeBtn }) => {
   const membershipStatusOptions = ["전체", "정상", "정지"];
   const [memberData, setMemberData] = useState([]);
   const [selectedSearchOption, setSelectedSearchOption] = useState("전체");
-  const [selectedMembershipStatus, setSelectedMembershipStatus] =
-    useState("전체");
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const handleSearchOptionChange = e => {
-    setSelectedSearchOption(e.target.value);
-  };
-
-  const handleMembershipStatusChange = e => {
-    setSelectedMembershipStatus(e.target.value);
-  };
-
-  const handleSearchKeywordChange = e => {
-    setSearchKeyword(e.target.value);
-  };
-
-  const PaginationContainer = styled.div`
-    text-align: center;
-    margin-top: 20px;
-  `;
-
-  const PaginationButton = styled.button`
-    padding: 5px 10px;
-    font-size: 16px;
-    margin-right: 10px;
-    background-color: #ffffff;
-    border: none;
-    cursor: pointer;
-    &.active {
-      font-weight: bold;
-      background-color: #ffffff;
-      color: #fff;
-      background-color: #ffd4d4;
-    }
-
-    &:hover {
-      background-color: #ffd4d4;
-    }
-
-    &.next-page,
-    &.last-page {
-      margin-right: 20px;
-    }
-  `;
-
-  const MemberStatus = styled.span`
-    color: ${props => (props.isSuspended ? "#B6000B" : "#000")};
-  `;
-
   useEffect(() => {
-    // 더미 데이터 생성
-    const personalData = [
-      {
-        id: 1,
-        username: "hello123",
-        name: "배구이",
-        joinDate: "2024-02-01",
-        email: "green@naver.com",
-        penalty: -50,
-        membershipStatus: "정지",
-        managementStatus: "정지",
-      },
-      {
-        id: 2,
-        username: "goodbye456",
-        name: "경만이",
-        joinDate: "2024-02-01",
-        email: "blue@naver.com",
-        penalty: -20,
-        membershipStatus: "정상",
-        managementStatus: "정지",
-      },
-      // 나머지 데이터도 포함
-    ];
+    const fetchData = async () => {
+      try {
+        const page = 1;
+        const data = await getProducts(page);
+        setMemberData(data); // 여기서 데이터 설정
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-    setMemberData(personalData);
+    fetchData();
   }, []);
 
   const columns = React.useMemo(
     () => [
       {
-        Header: "회원번호",
-        accessor: "id",
-        width: 120,
+        Header: "유저 번호",
+        accessor: "iuser",
+        width: 100,
       },
       {
         Header: "아이디",
-        accessor: "username",
+        accessor: "uid",
         width: 150,
       },
       {
-        Header: "이름",
-        accessor: "name",
+        Header: "닉네임",
+        accessor: "nick",
         width: 150,
       },
       {
-        Header: "가입일자",
-        accessor: "joinDate",
-        width: 150,
+        Header: "가입일시",
+        accessor: "createdAt",
+        width: 200,
+        Cell: ({ value }) => new Date(value).toLocaleString(),
       },
       {
         Header: "이메일",
         accessor: "email",
         width: 300,
       },
-
       {
         Header: "벌점",
         accessor: "penalty",
@@ -128,12 +65,14 @@ const AdminMemberPage = ({ activeBtn }) => {
       },
       {
         Header: "회원상태",
-        accessor: "membershipStatus",
+        accessor: "status",
         width: 100,
         Cell: ({ row }) => (
-          <MemberStatus isSuspended={row.original.penalty <= -50}>
+          <span
+            style={{ color: row.original.penalty <= -50 ? "#B6000B" : "#000" }}
+          >
             {row.original.penalty > -50 ? "정상" : "정지"}
-          </MemberStatus>
+          </span>
         ),
       },
       {
@@ -164,51 +103,26 @@ const AdminMemberPage = ({ activeBtn }) => {
     [],
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    state: { pageIndex },
-  } = useTable(
-    {
-      columns,
-      data: memberData,
-      initialState: { pageIndex: 0 },
-      ...usePagination,
-    },
-    usePagination,
-  );
+  const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
+    useTable(
+      {
+        columns,
+        data: memberData,
+        initialState: { pageIndex: 0 },
+      },
+      usePagination,
+    );
+
+  const handleSearchOptionChange = e => {
+    setSelectedSearchOption(e.target.value);
+  };
+
+  const handleSearchKeywordChange = e => {
+    setSearchKeyword(e.target.value);
+  };
 
   const handleSearchSubmit = () => {
-    // 선택된 검색 옵션에 따라 검색 대상을 설정
-    let searchTarget = [];
-    if (selectedSearchOption === "전체") {
-      searchTarget = ["username", "name"];
-    } else if (selectedSearchOption === "이름") {
-      searchTarget = ["name"];
-    } else if (selectedSearchOption === "아이디") {
-      searchTarget = ["username"];
-    }
-
-    // 검색 결과 필터링
-    const filteredData = memberData.filter(member => {
-      return searchTarget.some(target => {
-        return member[target]
-          .toLowerCase()
-          .includes(searchKeyword.toLowerCase());
-      });
-    });
-
-    // 필터링된 결과 설정
-    setMemberData(filteredData);
+    // Your search logic here
   };
 
   return (
@@ -236,29 +150,22 @@ const AdminMemberPage = ({ activeBtn }) => {
               value={searchKeyword}
               onChange={handleSearchKeywordChange}
             />
-            <ReportSearchBt onClick={handleSearchSubmit} />
+            <MemberSearchBt onClick={handleSearchSubmit} />
           </MemberSearchForm>
-          <select
-            onChange={handleMembershipStatusChange}
-            value={selectedMembershipStatus}
-          >
-            {membershipStatusOptions.map(option => (
-              <option key={option} value={option}>
+          <select>
+            {/* Handle membership status change */}
+            {membershipStatusOptions.map((option, index) => (
+              <option key={index} value={option}>
                 {option}
               </option>
             ))}
           </select>
         </div>
       </MemberTitle>
-      {activeBtn === "개인 회원" && <h1></h1>}
 
       <table
         {...getTableProps()}
-        style={{
-          borderCollapse: "collapse",
-          width: "100%",
-          marginTop: "25px",
-        }}
+        style={{ borderCollapse: "collapse", width: "100%", marginTop: "25px" }}
       >
         <thead>
           {headerGroups.map(headerGroup => (
@@ -285,11 +192,11 @@ const AdminMemberPage = ({ activeBtn }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map(row => {
+          {page.map((row, rowIndex) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} key={row.id}>
-                {row.cells.map(cell => (
+              <tr {...row.getRowProps()} key={rowIndex}>
+                {row.cells.map((cell, cellIndex) => (
                   <td
                     {...cell.getCellProps()}
                     style={{
@@ -307,7 +214,7 @@ const AdminMemberPage = ({ activeBtn }) => {
                           ? "#FFF"
                           : "#FFF7F7",
                     }}
-                    key={cell.column.id}
+                    key={cellIndex} // Use cellIndex as key
                   >
                     {cell.render("Cell")}
                   </td>
@@ -317,41 +224,6 @@ const AdminMemberPage = ({ activeBtn }) => {
           })}
         </tbody>
       </table>
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <PaginationContainer>
-          <PaginationButton
-            onClick={() => gotoPage(0)}
-            disabled={!canPreviousPage}
-          >
-            {"<<"}
-          </PaginationButton>
-          <PaginationButton
-            onClick={() => previousPage()}
-            disabled={!canPreviousPage}
-          >
-            {"<"}
-          </PaginationButton>
-          {Array.from({ length: pageCount }, (_, i) => (
-            <PaginationButton
-              key={i}
-              className={pageIndex === i ? "active" : ""}
-              onClick={() => gotoPage(i)}
-            >
-              {i + 1}
-            </PaginationButton>
-          ))}
-          <PaginationButton onClick={() => nextPage()} disabled={!canNextPage}>
-            {">"}
-          </PaginationButton>
-          <PaginationButton
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-          >
-            {">>"}
-          </PaginationButton>
-        </PaginationContainer>
-        <span></span>
-      </div>
     </div>
   );
 };
