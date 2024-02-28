@@ -196,9 +196,6 @@ const UserProfile = () => {
     getProductList(iuser,page, successFn, errorFn);
   }, [iuser, page]);
 
-  // useEffect(() => {
-  //   getProductList(page, successFn, errorFn);
-  // }, [page]);
 
   const successFn = res => {
     console.log("성공했을때", res);
@@ -216,7 +213,16 @@ const UserProfile = () => {
     // alert(`${res.message} \n 에러코드(${res.errorCode})`);
   };
 
-
+  // 벌점 숫자별 색상
+  const getPenaltyColor = (penalty) => {
+    if (penalty >= 0 && penalty <= 20) {
+      return "green"; // 초록색
+    } else if (penalty >= 21 && penalty <= 30) {
+      return "orange"; // 주황색
+    } else if (penalty >= 31 && penalty <= 50) {
+      return "red"; // 빨간색
+    }
+  }
 
 
   return (
@@ -261,12 +267,12 @@ const UserProfile = () => {
                       <span>-</span>
                       <span
                         style={{
-                          color: "green",
+                          color: getPenaltyColor(userData.penalty),
                           fontWeight: "500",
                           fontSize: "25px",
                         }}
                       >
-                        <span>{userData.demerit}</span>
+                        <span>{userData.penalty}</span>
                       </span>
                       <span>점</span>
                     </div>
