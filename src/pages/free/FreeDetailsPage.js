@@ -38,27 +38,24 @@ const contentData = [
 
 const FreeDetailsPage = () => {
   // 데이터 연동(상세페이지)
-  // const [freeData, setFreeData] = useState(null);
-  // // const searchParams = new URLSearchParams(location.search);
-  // // const iboard = parseInt(searchParams.get("iboard"));
+  const [freeData, setFreeData] = useState(null);
+  const searchParams = new URLSearchParams(location.search);
+  const iboard = parseInt(searchParams.get("iboard"));
   // const iboard = useParams();
+  console.log(iboard);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getFreeData(iboard);
-  //       setFreeData(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching product data:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getFreeData(iboard);
+        setFreeData(res.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
 
-  //   fetchData();
-  // }, [iboard]);
-
-  // if (!freeData) {
-  //   return <div></div>;
-  // }
+    fetchData();
+  }, [iboard]);
 
   // 댓글 작성
 
@@ -75,13 +72,12 @@ const FreeDetailsPage = () => {
           <p>자유게시판</p>
           <GoToListBt onClick={MoveToList}></GoToListBt>
         </FreeHeader>
-
-        {contentData.map(item => (
-          <FreeDetailsMain key={item.title}>
+        {freeData && (
+          <FreeDetailsMain>
             <div style={{ width: "1110px" }}>
               <TitleSection>
-                <h1>{item.title}</h1>
-                <h2>{item.date}</h2>
+                <h1>{freeData.title}</h1>
+                <h2>{freeData.createdAt}</h2>
               </TitleSection>
 
               <ContentSection>
@@ -90,11 +86,11 @@ const FreeDetailsPage = () => {
                   <img src={`/images/kong.jpg`} alt="업로드이미지2" />
                   <img src={`/images/kong.jpg`} alt="업로드이미지3" />
                 </div>
-                <p>{item.content}</p>
+                <p>{freeData.contents}</p>
               </ContentSection>
 
               <ReviewSection>
-                <h1>댓글 {item.reviews.length}</h1>
+                {/* <h1>댓글 {freeData.comments.length}</h1> */}
                 <ReviewRegister>
                   <p>
                     저작권 등 다른 사람의 권리를 침해하거나 명예를 훼손하는
@@ -131,7 +127,7 @@ const FreeDetailsPage = () => {
                   </div>
                 </ReviewRegister>
 
-                {item.reviews.map(listItem => (
+                {/* {freeData.comments.map(listItem => (
                   <ReviewList key={listItem.text}>
                     <img src={`/images/kong.jpg`} alt="유저이미지" />
                     <div>
@@ -139,7 +135,7 @@ const FreeDetailsPage = () => {
                       <p>{listItem.text}</p>
                     </div>
                   </ReviewList>
-                ))}
+                ))} */}
                 <MoreBt>
                   <img src="/images/free/bt_more.svg" />
                 </MoreBt>
@@ -162,7 +158,7 @@ const FreeDetailsPage = () => {
               </ContentState>
             </SideSection>
           </FreeDetailsMain>
-        ))}
+        )}
       </FreeDetailsPageStyle>
     </Layout>
   );

@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getFreeList } from "../../api/free/free_api";
 import { usePagination, useTable } from "react-table";
+import { PaginationContent } from "../../styles/admin/AdminReportPageStyle";
 
 // search 카테고리
 const searchCate = [
@@ -195,6 +196,11 @@ const FreePage = () => {
   ]);
   const headerKey = columns.map(header => header.accessor);
 
+  // 페이지네이션
+  const handlePageChange = _tempPage => {
+    setPage(_tempPage);
+  };
+
   // 페이지 이동
   const navigate = useNavigate();
   const moveToRegister = () => {
@@ -267,7 +273,14 @@ const FreePage = () => {
           <BtSection>
             <button onClick={moveToRegister}>글쓰기</button>
           </BtSection>
-          <div style={{ textAlign: "center", margin: "20px 0" }}></div>
+          <div style={{ textAlign: "center", margin: "20px 0" }}>
+            <PaginationContent
+              current={page}
+              onChange={handlePageChange}
+              // total={reportLength}
+              pageSize={12}
+            />
+          </div>
         </FreeMain>
       </FreePageStyle>
     </Layout>
