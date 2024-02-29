@@ -12,9 +12,9 @@ const failPostDatas = () => {
 
 
 
-export const getMyRental = async (page,role) => {
+export const getMyRental = async (page,status,role) => {
   try {
-    const url = `${path}/prod?page=${page}&role=${role}`;
+    const url = `${path}/prod?role=${role}&status=${status}&page=${page}`;
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {
@@ -56,6 +56,28 @@ export const getProdReview = async () => {
   }
 }
 
+export const getMyBoard = async (page) => {
+  try {
+    const url = `${path}/board?page=${page}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+}
+
+export const getMyDispute = async (page) => {
+  try {
+    const url = `${path}/dispute?page=${page}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+}
+
 export const getMyUser = async (iuser) => {
   try {
     const url = `${path2}/user?tar=${iuser}`;
@@ -89,3 +111,24 @@ export const patchWithdraw = async (data) => {
   }
 };
 
+export const patchDispute = async (idispute) => {
+  try {
+    const url = `${path}/dispute?idispute=${idispute}`
+    const res = await jwtAxios.patch(url)
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/")
+  }
+}
+ 
+export const getReserve = async (role,page) => {
+  try {
+    const url = `${path}/reserve?role=${role}&page=${page}`
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/")
+  }
+}

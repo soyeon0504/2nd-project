@@ -42,14 +42,14 @@ const MyList = ({ activeBtn }) => {
       try {
         let result;
         if (activeBtn === "대여중" && activeButton === true) {
-          result = await getMyRental(1, 1);
+          result = await getMyRental(1, 1, 1);
         } else if (activeBtn === "대여중" && activeButton === false) {
-          result = await getMyRental(1, 2);
+          result = await getMyRental(2, 1, 1);
         } else if (activeBtn === "대여 완료" && activeButton === true) {
-          result = await getMyRental(1, 1);
+          result = await getMyRental(1, -1, 1);
           result = result.filter(item => item.istatus === 1);
         } else if (activeBtn === "대여 완료" && activeButton === false) {
-          result = await getMyRental(1, 2);
+          result = await getMyRental(2, -1, 1);
           result = result.filter(item => item.istatus === 1);
         }
         setData(result);

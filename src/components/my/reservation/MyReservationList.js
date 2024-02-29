@@ -16,12 +16,34 @@ import {
 } from "../../../styles/my/MyList";
 import { Link } from "react-router-dom";
 import MyMoreButton from "../MyMoreButton";
-import { getMyRental } from "../../../api/my/my_api";
+import { getMyRental, getReserve } from "../../../api/my/my_api";
+import { ModalBackground } from "../../joinpopup/JoinPopUp";
+import MyReservationModal from "./MyReservationModal";
+
+const contentData = [
+  {
+    "iproduct": 0,
+    "ipayment": 0,
+    "deposit": 0,
+    "totalPrice": 0,
+    "rentalEndDate": "2024-02-28",
+    "rentalStartDate": "2024-02-28",
+    "duration": 0,
+    "createdAt": "2024-02-28",
+    "status": "string",
+    "iuser": 0,
+    "nick": "string",
+    "userPic": "string",
+    "proStoredPic": "string"
+  }
+]
 
 const MyReservationList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(3);
+  const [showModal, setShowModal] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
 
   const handleButtonClick = buttonType => {
     setActiveButton(buttonType);
@@ -35,10 +57,9 @@ const MyReservationList = ({ activeBtn }) => {
     const fetchData = async () => {
       try {
         let result;
-        if (activeBtn === "예약 내역" && activeButton === true) {
-          result = await getMyRental(1, 1);
-        } else if (activeBtn === "예약 내역" && activeButton === false) {
-          result = await getMyRental(1, 2);
+        if (activeBtn === "예약 내역") {
+          result = await getReserve(1, pageNum);
+          // result = contentData;
         } 
         setData(result);
       } catch (error) {
@@ -49,7 +70,26 @@ const MyReservationList = ({ activeBtn }) => {
     fetchData();
   }, [activeButton, activeBtn]);
 
+  const openModal = () => {
+    setShowModal(true);
+  }
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const onConfirm = () => {
+    setShowModal(false);
+  }
+
   return (
+    <>
+    {showModal && (
+      <>
+      <MyReservationModal closeModal={closeModal} onConfirm={onConfirm}/>
+      <ModalBackground></ModalBackground>
+      </>
+    )}
     <MyListDiv>
       <MyListTop>
         <h2>예약 내역</h2>
@@ -73,7 +113,6 @@ const MyReservationList = ({ activeBtn }) => {
           <React.Fragment key={index}>
             {activeBtn === "예약 내역" && (
                 <MyListMid>
-                  <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
                     <MyListMidImg>
                       <img
                         src={`/pic/${item.productStoredPic}`}
@@ -94,23 +133,23 @@ const MyReservationList = ({ activeBtn }) => {
                         </span>
                       </div>
                     </MyListMidTxt>
-                  </Link>
-                  <MyListMidLast size={"1.2rem"}>
+                  <MyListMidLast  size={"1.4rem"}>
                     <p>{item.rentalStartDate}</p>
-                    <MyReservationBtDiv>
+                    <MyReservationBtDiv width={"15rem"}>
                         <MyManagementBt>취소</MyManagementBt>
-                        <MyManagementBtHover>결제</MyManagementBtHover>
+                        <MyManagementBtHover width={"80px"} onClick={openModal}>식별코드</MyManagementBtHover>
+                        
                     </MyReservationBtDiv>
                   </MyListMidLast>
                 </MyListMid>
             )}
           </React.Fragment>
         ))}
-
       <MyListBottom>
         <MyMoreButton handleLoadMore={handleLoadMore} />
       </MyListBottom>
     </MyListDiv>
+  </>
   );
 };
 
