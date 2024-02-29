@@ -73,8 +73,10 @@ const reportOptions = [
   // 신고 유형 옵션
   { value: "1", label: "상품신고" },
   { value: "2", label: "채팅신고" },
-  { value: "3", label: "거래신고" },
-  { value: "4", label: "신고" },
+  { value: "3", label: "결제신고" },
+  { value: "5", label: "유저신고" },
+  { value: "4", label: "게시판신고" },
+
   // 필요한만큼 추가
 ];
 
