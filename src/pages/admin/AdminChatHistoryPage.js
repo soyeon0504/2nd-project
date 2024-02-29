@@ -3,6 +3,7 @@ import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
 import Pagination from "../../components/Pagination";
 import { Modal } from "../../styles/admin/AdminChatHistoryStyle";
 import { getChatHistory } from "../../api/admin/admin_board_api";
+import { PaginationContent } from "../../styles/admin/AdminReportPageStyle";
 
 const chatData = {
   "totalChatCount": 124,
@@ -62,9 +63,11 @@ const AdminBoardPage = () => {
   }
 
   // 모달창
-  const [modal, setModal] = useState(true);
-  const toggleModal = () => {
-    setModal(!modal);
+  const [modal, setModal] = useState(false);
+  const [modalContent, setModalContent] = useState({});
+  const toggleModal = (content) => {
+    setModalContent(content); // 모달에 표시할 내용 업데이트
+  setModal(!modal);
   };
 
   useEffect(() => {
@@ -126,7 +129,7 @@ const AdminBoardPage = () => {
                 <td>
                   {item.productInquiry}
                   <div>
-                    <button className="move" onClick={toggleModal}>
+                    <button className="move" onClick={() => toggleModal(item)}>
                       내용
                     </button>
                   </div>
@@ -141,23 +144,19 @@ const AdminBoardPage = () => {
         ))}
       </table>
       {modal && (
-        <Modal>
-          <div className="overlay"></div>
+        <Modal toggleModal={toggleModal}>
           <div className="modal-content">
             <h2>hello</h2>
           </div>
-          <button className="close-modal" onClick={toggleModal}>
-            닫기
-          </button>
         </Modal>
       )}
       <div>
-        <Pagination
-          totalPage={totalPage}
-          page={page}
-          limit={limit}
-          siblings={5}
-          onPageChange={handlePageChange}
+      <PaginationContent
+          current={page}
+          onChange={handlePageChange}
+          total={chatHistoryData.totalChatCount}
+          // size={Math.floor(reportLength / 12) + 1}
+          pageSize={12}
         />
       </div>
     </BoardWrap>
