@@ -40,7 +40,7 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
 
   const handlePageChange = async _item => {
     if (isLogin) {
-      const url = `/details/${id}/${focus + 1}/${_item.iproduct}`;
+      const url = `/details?mc=${id}&sc=${focus + 1}&productId=${_item.iproduct}`;
 
       const serverData = {
         mainCategoryId: id,

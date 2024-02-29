@@ -1,63 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import styled from '@emotion/styled'
 import { MyListDiv, MyListTop } from '../../styles/my/MyList'
 import { useTable, usePagination } from 'react-table';
-import { Common } from '../../styles/CommonStyles';
-
-const PaginationContainer = styled.div`
-    text-align: center;
-    margin-top: 20px;
-  `;
-
-  const PaginationButton = styled.button`
-    padding: 5px 10px;
-    font-size: 16px;
-    margin-right: 20px;
-    border-radius: 3px;
-    border: 1px solid #2C39B5;
-    background-color: #F2F2FF;
-    color: #2C39B5;
-
-    :hover {
-      background-color: #E4E7FF;
-    }
-    &.active {
-      font-weight: bold;
-      background-color: #2C39B5;
-      color: #fff;
-    }
-  `;
-  const TrContaineer = styled.tr`
-    :hover {
-      background-color: #E4E7FF;
-    }
-  `
-
-  const DetailsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  height: ${(props) => (props.show ? 'auto' : '0')}; 
-  overflow: hidden;
-  padding: ${(props) => (props.show ? '10px' : '0')};
-  transition: .3s ease-in-out;
-  background-color: #F2F2FF;
-  color: #2C39B5;
-  border-bottom: ${props => (props.show ? `1px solid ${Common.color.primary}` : '0')};
-  p {
-    width: 780px;
-    font-size: 1.6rem;
-    /* white-space: pre-wrap; */
-  }
-`;
+import { getMyDispute } from '../../api/my/my_api';
+import MyModal from "../../components/my/interest/MyModal";
+import { DetailsContainer, PaginationButton, PaginationContainer, TrContaineer } from '../../styles/my/MyTable';
+import { ModalBackground } from '../../components/joinpopup/JoinPopUp';
 
 const contentData = [
   {
     idispute: 1,
     category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
+    createdAt: "2024.02.15",
+    reportedUserNick: "kong123",
     penalty: "-5점",
-    status: "반려",
+    status: "STAND_BY",
+    kind: "대기",
     details: `
       15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
       한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요.
@@ -68,11 +25,14 @@ const contentData = [
   {
     idispute: 2,
     category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
+    createdAt: "2024.02.15",
+    reportedUserNick: "kong123",
     penalty: "-5점",
-    status: "반려",
+    status: "cre",
+    kind: "대기",
     details: `
+      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
+      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요.
       15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
       한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요
     `,
@@ -80,121 +40,26 @@ const contentData = [
   {
     idispute: 3,
     category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
+    createdAt: "2024.02.15",
+    reportedUserNick: "kong123",
     penalty: "-5점",
-    status: "반려",
+    status: "STAND_BY",
+    kind: "대기",
     details: `
+      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
+      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요.
       15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
       한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요
     `,
   },
-  {
-    idispute: 4,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    created_at: "2024.02.15",
-    ireporter: "kong123",
-    penalty: "-15점",
-    status: "반려",
-    details: `15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-    한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요`,
-  },
 ]
 
 const MyReportPage = ({activeBtn}) => {
-  const [data, setData] = useState(contentData);
+  const [data, setData] = useState([]);
   const [expandedRowIndex, setExpandedRowIndex] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState();
+  const [pageNum, setPageNum] = useState(1);
 
   const columns  = React.useMemo(
     () => [
@@ -205,13 +70,13 @@ const MyReportPage = ({activeBtn}) => {
       },
       {
         Header: "날짜",
-        accessor: "created_at",
-        width: 120,
+        accessor: "createdAt",
+        width: 80,
       },
       {
         Header: "신고 아이디",
-        accessor: "ireporter",
-        width: 150,
+        accessor: "reportedUserNick",
+        width: 120,
       },
       {
         Header: "신고 카테고리",
@@ -225,7 +90,7 @@ const MyReportPage = ({activeBtn}) => {
       },
       {
         Header: "상태",
-        accessor: "status",
+        accessor: "kind",
         width: 80,
       }
     ],[]);
@@ -253,8 +118,43 @@ const MyReportPage = ({activeBtn}) => {
   );
 
   useEffect(() => {
-    setData(contentData);
+    const fetchData = async () => {
+      try {
+        const result = await getMyDispute(pageNum);
+        setData(result.disputes);
+      } catch (error) {
+        console.error(error);
+        setData(contentData);
+      }
+    };
+
+    fetchData();
   }, [activeBtn]);
+
+
+  const handleDisputeClick = async (itemToDelete) => {
+    try {
+      const disputeClick = await patchDispute(itemToDelete);
+      const updatedDispute = await getMyDispute(pageNum);
+      setData(updatedDispute);
+    } catch (error) {
+      console.error("Error dispute:", error);
+    }
+  };
+  
+  const handleDeleteClick = (item) => {
+    setShowModal(true);
+    setItemToDelete(item);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirm = async () => {
+    await handleDisputeClick(itemToDelete);
+    setShowModal(false);
+  };
 
   return (
     <MyListDiv>
@@ -313,7 +213,9 @@ const MyReportPage = ({activeBtn}) => {
                     }}
                     key={cell.column.id}
                   >
-                    {cell.render("Cell")}
+                    {cell.column.id === 'reportedUserNick' && !cell.value
+                      ? row.original.title
+                      : cell.render('Cell')}
                   </td>
                 ))}
               </TrContaineer>
@@ -321,6 +223,12 @@ const MyReportPage = ({activeBtn}) => {
                 <td colSpan={columns.length}>
                   <DetailsContainer show={isRowExpanded}>
                     <p>{row.original.details}</p>
+                    {row.original.status === "STAND_BY" && (
+                      <div>
+                        <span onClick={() => handleDeleteClick(row.original.idispute)}>철회</span>
+                      </div>
+                      
+                    )}
                   </DetailsContainer>
                 </td>
               </tr>
@@ -329,6 +237,18 @@ const MyReportPage = ({activeBtn}) => {
           })}
         </tbody>
       </table>
+      {showModal && (
+        <>
+        <MyModal onCancel={handleCancel} onConfirm={handleConfirm}  
+        txt={
+          <>
+            신고 내역을  <br />
+            철회하시겠습니까?
+          </>
+        }/>
+        <ModalBackground></ModalBackground>
+        </>
+      )}
       <div style={{ textAlign: "center", marginTop: "20px" }}>
       <PaginationContainer>
         <PaginationButton

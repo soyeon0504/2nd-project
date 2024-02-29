@@ -13,21 +13,35 @@ export const ChatBox = styled.div`
   width: 630px;
 
   height: auto;
-  max-height: 624px;
+  max-height: 615px;
   flex-shrink: 0;
   padding-left: 20px;
   padding-top: 15px;
   margin-right: 20px;
   border: 1px solid #777;
+  overflow: hidden; /* 넘치는 내용 숨김 */
+  overflow-y: auto; /* 내용이 넘칠 때 수직 스크롤 표시 */
+  position: relative;
 `;
 
 export const ChatProfileBox = styled.div`
   width: 600px;
   height: 90px;
   flex-shrink: 0;
-
+  justify-content: flex-end;
   cursor: pointer; /* 클릭 가능하도록 커서 스타일 지정 */
   pointer-events: auto; /* 클릭 이벤트 활성화 */
+`;
+
+export const ChatBtn = styled.img`
+  font-size: 14px;
+  position: absolute;
+  cursor: pointer; /* 클릭 가능하도록 커서 스타일 지정 */
+  pointer-events: auto; /* 클릭 이벤트 활성화 */
+  right: 0; /* 오른쪽 끝으로 이동 */
+  width: 5%;
+  top: 10px;
+  margin-right: 20px;
 `;
 
 export const ChatList = styled.div`
@@ -74,7 +88,6 @@ export const ChatBoxContainer = styled.div`
 `;
 
 export const ChatBoxContent = styled.div`
-  width: 600px;
   max-width: 100%;
   max-height: 550px;
   height: auto;
@@ -98,6 +111,8 @@ export const ChatInput = styled.input`
   background: #f2f2ff;
   padding-left: 10px;
   bottom: 10px;
+
+  z-index: 5;
 `;
 
 export const ProfileInfoContainer = styled.div`
@@ -116,6 +131,7 @@ export const ChatText = styled.div`
 export const ProfileName = styled.p`
   font-size: 16px;
   margin-bottom: 10px;
+  display: flex;
 `;
 
 export const ChatMessage = styled.div`

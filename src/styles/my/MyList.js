@@ -166,7 +166,7 @@ export const MyListMidLast = styled.div`
 export const MyReservationBtDiv = styled.div`
     display: flex ;
     justify-content: space-between !important;
-    width: 11rem !important; 
+    width: ${props => props.width ? props.width : "11rem"} !important; 
 `
 
 export const MyReviewDiv = styled.div`
@@ -239,6 +239,7 @@ export const MyManagementBt = styled.button`
 export const MyManagementBtHover = styled(MyManagementBt)`
   background-color: ${Common.color.primary} !important;
   color: #fff;
+  width: ${props => props.width ? props.width : "50px"};
 `
 export const CompManagementBt = styled.button`
   width: 110px;
