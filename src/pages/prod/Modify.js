@@ -171,7 +171,11 @@ const Modify = () => {
     marginLeft: "-150px",
   };
 
-  const { mainCategory, subCategory, productId } = useParams();
+  // const { mainCategory, subCategory, productId } = useParams();
+  const searchParams = new URLSearchParams(location.search);
+  const mainCategory = parseInt(searchParams.get("mc"));
+  const subCategory = parseInt(searchParams.get("sc"));
+  const productId = parseInt(searchParams.get("productId"));
   // get 한목록 가져오기
   // const [stays, setStays] = useState(initStateData);
   const [productData, setProductData] = useState(initStateData);

@@ -175,7 +175,7 @@ const MainMorePage = () => {
 
   const handlePageChangeDetails = async _item => {
     if (isLogin) {
-      const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
+      const url = `/details?mc=${_item.categories.mainCategory}&sc=${_item.categories.subCategory}&productId=${_item.iproduct}`;
       const serverData = {
         mainCategoryId: _item.categories.mainCategory,
         subCategoryId: _item.categories.subCategory,

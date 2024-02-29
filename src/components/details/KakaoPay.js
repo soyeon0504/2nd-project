@@ -2,15 +2,16 @@ import React from "react";
 import axios from "axios";
 
 const CLIENT_ID = "3B7D7A747D68961CEC9E";
-const REDIRECT_URI = "YOUR_REDIRECT_URI"; // 실제 사용하는 리다이렉션 URI로 대체해야 합니다.
-const CODE = "YOUR_AUTHORIZATION_CODE"; // OAuth 인증 코드
+const REDIRECT_URI = "YOUR_REDIRECT_URI"; // 테스트를 위한 리다이렉션 URI로 변경
+const CODE = "YOUR_AUTHORIZATION_CODE"; // 테스트를 위한 인증 코드로 변경
 
 const tokenUrl = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${CODE}`;
 
 const data = {
   cid: "TC0ONETIME",
-  partner_order_id: "YOUR_ORDER_ID",
-  partner_user_id: "YOUR_USER_ID",
+  // 수정: 테스트를 위해 임의의 값으로 변경
+  partner_order_id: "TEST_ORDER_123",
+  partner_user_id: "TEST_USER_123",
   item_name: "초코파이",
   quantity: "1",
   total_amount: "2200",

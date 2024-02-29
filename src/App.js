@@ -148,7 +148,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/modify/:mainCategory/:subCategory/:productId"
+          path="/modify"
           element={
             <Suspense fallback={<Loading />}>
               <LazyModify />
@@ -164,7 +164,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/details/:mainCategory/:subCategory/:productId"
+          path="/details"
           element={
             <Suspense fallback={<Loading />}>
               <LazyDetailsPage />
@@ -172,7 +172,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/profile"
+          path="/profile/:iuser/:page"
           element={
             <Suspense fallback={<Loading />}>
               <LazyProfilePage />

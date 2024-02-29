@@ -34,7 +34,7 @@ const LoginPage = () => {
   };
 
   // 커스터훅 사용하기
-  const { doLogin, isLogin, moveToPath } = useCustomLogin();
+  const { doLogin, isLogin, moveToPath, userAuth } = useCustomLogin();
 
   const dispatch = useDispatch();
 
@@ -49,12 +49,6 @@ const LoginPage = () => {
     }
   };
 
-  // const errorFn = error => {
-  //   console.log("서버 에러", error);
-  //   // openModal("비밀번호 에러", "비밀번호를 확인해주세요.", closeModal);
-  //   setShowModal(true);
-  // };
-
   const closeModal = () => {
     setShowModal(false);
   };
@@ -67,9 +61,6 @@ const LoginPage = () => {
   const closeIdFindModal = () => {
     setIdFindModal(false);
   };
-  // const ConfirmIdFindModal = _userNum => {
-  //   console.log("확인", _userNum)
-  // }
 
   // 비밀번호 변경 버튼 클릭
   const [pwFindModal, setPwFindModal] = useState(false);
@@ -86,14 +77,14 @@ const LoginPage = () => {
     navigate(`/join/step_1`);
   };
 
-  const successFn = result => {
-    console.log("성공", result);
-    moveToPath("/");
+  const successFn = async(result) => {
+    {
+      result.auth == 1 ? moveToPath("/") : moveToPath("/admin");
+    }
   };
 
   const failFn = result => {
     console.log("실패", result);
-    // alert("이메일 및 비밀번호 확인하세요.");
     setShowModal(true);
   };
 

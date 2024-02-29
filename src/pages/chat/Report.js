@@ -28,6 +28,18 @@ const ReportTitle = styled.div`
   font-weight: bold;
   margin: 20px 0px 40px;
 `;
+const ReportUser = styled.div`
+  font-size: 16px;
+  width: 100%;
+  line-height: 45px;
+  height: 50px;
+
+  place-items: center;
+
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgb(229, 229, 229);
+  border-top: 1px solid rgb(229, 229, 229);
+`;
 const ReportTitleSub = styled.div`
   font-size: 16px;
   margin-bottom: 10px;
@@ -61,8 +73,10 @@ const reportOptions = [
   // 신고 유형 옵션
   { value: "1", label: "상품신고" },
   { value: "2", label: "채팅신고" },
-  { value: "3", label: "거래신고" },
-  { value: "4", label: "신고" },
+  { value: "3", label: "결제신고" },
+  { value: "5", label: "유저신고" },
+  { value: "4", label: "게시판신고" },
+
   // 필요한만큼 추가
 ];
 
@@ -101,7 +115,7 @@ const Report = () => {
     <PageWrapper>
       <BoxWrapper>
         <ReportTitle>신고하기</ReportTitle>
-
+        <ReportUser>신고할유저 - 배구이 </ReportUser>
         <ReportTitleSub>신고 유형 선택</ReportTitleSub>
         <Select
           options={reportOptions}
