@@ -30,7 +30,7 @@ export const getFreeList = async ({
 };
 
 // 게시글 DetailsPage
-export const getFreeData = async iboard => {
+export const getFreeData = async (iboard) => {
   try {
     const url = `${SERVER_URL}/api/board/${iboard}`;
 
