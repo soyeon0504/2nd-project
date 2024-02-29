@@ -66,22 +66,22 @@ const MyInterestList = () => {
         <div>
         </div>
       </MyListTop>
-      {data.slice(0, viewMore).map((item, index) => (
+      {data && data.slice(0, viewMore).map((item, index) => (
         <React.Fragment key={index}>
             <MyListMid>
               <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
                 <MyListMidImg>
-                  <img src={`/pic/${item.prodPic}`}alt={item.title} />
+                  <img src={`/pic/${item.pic}`}alt={item.title} />
                 </MyListMidImg>
                 <MyListMidTxt>
                   <div>
                     <h2>{item.title}</h2>
                   </div>
                   <div>
-                    <p>{item.price} 원</p>
+                    <p>{item.rentalPrice} 원</p>
                   </div>
                   <div>
-                    <span>{item.deposit}</span>
+                    <span>{item.contents}</span>
                   </div>
                 </MyListMidTxt>
               </Link>

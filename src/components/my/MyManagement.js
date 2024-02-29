@@ -12,7 +12,7 @@ import {
   MyReservationBtDiv,
 } from "../../styles/my/MyList";
 import MyMoreButton from "./MyMoreButton";
-import { getMyRental } from "../../api/my/my_api";
+import { getMyBoard, getMyRental } from "../../api/my/my_api";
 import { Link } from "react-router-dom";
 import { deleteProduct } from "../../api/details/details_api";
 
@@ -40,8 +40,12 @@ const MyManagement = ({ activeBtn }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getMyRental(1, 1);
+        let result;
+        if (activeBtn === "등록 상품 관리") {
+          result = await getMyRental(1);
+        } 
         setData(result);
+        console.log(result);
       } catch (error) {
         console.error(error);
       }
@@ -54,12 +58,11 @@ const MyManagement = ({ activeBtn }) => {
     <MyListDiv>
       <MyListTop>
         {activeBtn === "등록 상품 관리" && <h2>등록 상품 관리</h2>}
-        {activeBtn === "등록 게시글" && <h2>등록 게시글</h2>}
       </MyListTop>
       {data &&
         data.slice(0, viewMore).map((item, index) => (
           <React.Fragment key={index}>
-             {activeBtn === "등록 상품 관리" ? (
+             {activeBtn === "등록 상품 관리" && (
               <MyListMid>
                   <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
                     <MyListMidImg>
@@ -80,40 +83,6 @@ const MyManagement = ({ activeBtn }) => {
                           대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
                           ({item.rentalDuration}일)
                         </span>
-                      </div>
-                    </MyListMidTxt>
-                  </Link>
-                  <MyListMidLast>
-                    <p>{item.rentalStartDate}</p>
-                    <MyReservationBtDiv>
-                      <MyManagementBt>수정</MyManagementBt>
-                      <MyManagementBtHover onClick={() => handleDeleteProduct(item.iproduct)}>삭제</MyManagementBtHover>
-                    </MyReservationBtDiv>
-                  </MyListMidLast>
-                </MyListMid>
-             ) : (
-              <MyListMid>
-                  <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
-                    <MyListMidImg>
-                      <img
-                        src={`/pic/${item.productStoredPic}`}
-                        alt={item.title}
-                      />
-                    </MyListMidImg>
-                    <MyListMidTxt height={"2rem"}>
-                      <div>
-                        <h2>{item.title}</h2>
-                      </div>
-                      <div>
-                        <dt>
-                          유리 깨끗하고 테두리는 생활기스 있지만 상태좋습니다
-                          사진으로 잘 보일 겁니다.
-                          확인해보세요.유리 깨끗하고 테두리는 생활기스 있지만 상태좋습니다
-                          사진으로 잘 보일 겁니다.
-                          확인해보세요 제발 유리 깨끗하고 테두리는 생활기스 있지만 상태좋습니다
-                          사진으로 잘 보일 겁니다.
-                          확인해보세요 제발
-                        </dt>
                       </div>
                     </MyListMidTxt>
                   </Link>
