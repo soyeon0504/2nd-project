@@ -11,41 +11,21 @@ import {
   ReviewSection,
   SideSection,
   TitleSection,
-  WriterBt,
   WriterSection,
+  CommentModifyBox,
 } from "../../styles/free/FreeDetailsPageStyle";
 import { FreeHeader } from "../../styles/free/FreePageStyle";
 import { GoToListBt } from "../../styles/free/FreeRegisterPageStyle";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteFreeData, getFreeData, getLike } from "../../api/free/free_api";
-import { postComment } from "../../api/free/comment_api";
+import {
+  deleteComment,
+  patchComment,
+  postComment,
+} from "../../api/free/comment_api";
 import { useSelector } from "react-redux";
-
-// 로그인 유저 == 게시글 작성자
-const UserButton = ({ userId, currentUserId, onDelete, onModify }) => {
-  const isCurrentUser = userId === currentUserId;
-
-  return (
-    <>
-      {isCurrentUser && (
-        <WriterBt>
-          <button
-            onClick={onModify}
-            style={{ background: "#fff", color: "#2c39b5" }}
-          >
-            수정
-          </button>
-          <button
-            onClick={onDelete}
-            style={{ background: "#2c39b5", color: "#fff" }}
-          >
-            삭제
-          </button>
-        </WriterBt>
-      )}
-    </>
-  );
-};
+import { UserBoardButton } from "../../components/free/UserBoardButton";
+import { UserCommentButton } from "../../components/free/UserCommentButton";
 
 const FreeDetailsPage = () => {
   const iuser = useSelector(state => state.loginSlice.iuser);
@@ -69,8 +49,8 @@ const FreeDetailsPage = () => {
 
   // 페이지 이동(게시글 수정)
   const handleModifyFree = () => {
-    navigate(`/free/modify?iboard=${iboard}`)
-  }
+    navigate(`/free/modify?iboard=${iboard}`);
+  };
 
   // 데이터 연동(게시글 삭제)
   const handleDeleteFree = async () => {
@@ -78,7 +58,7 @@ const FreeDetailsPage = () => {
     if (confirmDelete) {
       try {
         await deleteFreeData(iboard);
-        navigate(`/free`)
+        navigate(`/free`);
       } catch (error) {
         console.log("Error deleting product:", error);
       }
@@ -105,9 +85,50 @@ const FreeDetailsPage = () => {
   useEffect(() => {
     const commentData = async () => {
       await postComment(iboard, comment);
+      window.location.reload();
     };
-    commentData();
+    if (comment !== "") {
+      commentData();
+    }
   }, [comment]);
+
+  // 댓글 수정
+  const [commentBox, setCommentBox] = useState({});
+  const [modifyComment, setModifyComment] = useState({
+    iboardComment: "",
+    comment: "",
+  });
+  const [inputModifyValue, setInputModifyValue] = useState("");
+
+  const handleModifyComment = iboardComment => {
+    setCommentBox(prev => ({
+      ...prev,
+      [iboardComment]: !prev[iboardComment],
+    }));
+  };
+
+  const handleModifyButtonClick = (iboardComment, comment) => {
+    setModifyComment({ iboardComment, comment });
+  };
+
+  useEffect(() => {
+    const commentData = async () => {
+      await patchComment(modifyComment.iboardComment, modifyComment.comment);
+      window.location.reload();
+    };
+    if (modifyComment.comment !== "") {
+      commentData();
+    }
+  }, [modifyComment]);
+
+  // 댓글 삭제
+  const handleDeleteComment = async iboardComment => {
+    const confirmDelete = window.confirm("삭제하시겠습니까?");
+    if (confirmDelete) {
+      await deleteComment(iboardComment);
+      window.location.reload();
+    }
+  };
 
   // 날짜와 시간만 추출(댓글)
   const formatDate = dateString => {
@@ -134,6 +155,14 @@ const FreeDetailsPage = () => {
     time = result.time;
   }
 
+  // more 버튼
+  const [page, setPage] = useState(1);
+  const COMMENTS_PER_PAGE = 5;
+
+  const handleMoreButtonClick = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
   // 페이지 이동
   const navigate = useNavigate();
   const MoveToList = () => {
@@ -151,10 +180,16 @@ const FreeDetailsPage = () => {
           <FreeDetailsMain>
             <div style={{ width: "1110px" }}>
               <TitleSection>
-                <h1>{freeData.title}</h1>
-                <h2>
-                  {date} {time}
-                </h2>
+                <div style={{width:"950px"}}>
+                  <h1>{freeData.title}</h1>
+                  <h2>{date} {time}</h2>
+                </div>
+                <UserBoardButton
+                  userId={freeData.iuser}
+                  currentUserId={iuser}
+                  onModify={handleModifyFree}
+                  onDelete={handleDeleteFree}
+                />
               </TitleSection>
 
               <ContentSection>
@@ -169,12 +204,6 @@ const FreeDetailsPage = () => {
                 </div>
 
                 <p>{freeData.contents}</p>
-                <UserButton
-                  // userId={freeData.iuser}
-                  // currentUserId={iuser}
-                  onModify={handleModifyFree}
-                  onDelete={handleDeleteFree}
-                />
               </ContentSection>
 
               <ReviewSection>
@@ -197,12 +226,12 @@ const FreeDetailsPage = () => {
                     }}
                   >
                     <textarea
-                      maxLength={200}
+                      maxLength={500}
                       placeholder="댓글을 입력해주세요"
                       onChange={e => {
                         const inputText = e.target.value;
                         const inputLength = inputText.length;
-                        const maxLength = 200;
+                        const maxLength = 500;
                         const counterText = `${inputLength}/${maxLength}`;
 
                         // 입력된 글자수와 최대 글자수를 표시하는 부분
@@ -213,30 +242,68 @@ const FreeDetailsPage = () => {
                         setInputValue(inputText);
                       }}
                     />
-                    <span id="counter">0/200</span>
+                    <span id="counter">0/500</span>
                     <button onClick={() => setComment(inputValue)}>등록</button>
                   </div>
                 </ReviewRegister>
 
-                {freeData.comments.map(listItem => {
-                  const { date, time } = formatDate(listItem.createdAt);
-                  return (
-                    <ReviewList key={listItem.text}>
-                      <img src={`/pic/${listItem.userPic}`} alt="유저이미지" />
-                      <div style={{ width: "900px" }}>
-                        <h1>{listItem.nick}</h1>
-                        <p>{listItem.comment}</p>
-                      </div>
-                      <div style={{ textAlign: "end" }}>
-                        <h2>{date}</h2>
-                        <h2>{time}</h2>
-                      </div>
-                    </ReviewList>
-                  );
-                })}
-                <MoreBt>
-                  <img src="/images/free/bt_more.svg" />
-                </MoreBt>
+                {freeData.comments
+                  .slice(0, page * COMMENTS_PER_PAGE)
+                  .map(listItem => {
+                    const { date, time } = formatDate(listItem.createdAt);
+                    return (
+                      <ReviewList key={listItem.text}>
+                        <img
+                          src={`/pic/${listItem.userPic}`}
+                          alt="유저이미지"
+                        />
+                        <div style={{ width: "900px" }}>
+                          <h1>{listItem.nick}</h1>
+                          <p>{listItem.comment}</p>
+                          {commentBox[listItem.iboardComment] && (
+                            <CommentModifyBox>
+                              <textarea
+                                maxLength={500}
+                                placeholder="수정할 댓글을 입력해주세요"
+                                onChange={e =>
+                                  setInputModifyValue(e.target.value)
+                                }
+                              />
+                              <button
+                                onClick={() =>
+                                  handleModifyButtonClick(
+                                    listItem.iboardComment,
+                                    inputModifyValue,
+                                  )
+                                }
+                              >
+                                확인
+                              </button>
+                            </CommentModifyBox>
+                          )}
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <h2>{date}</h2>
+                          <h2>{time}</h2>
+                          <UserCommentButton
+                            userId={listItem.iuser}
+                            currentUserId={iuser}
+                            onModify={() =>
+                              handleModifyComment(listItem.iboardComment)
+                            }
+                            onDelete={() =>
+                              handleDeleteComment(listItem.iboardComment)
+                            }
+                          />
+                        </div>
+                      </ReviewList>
+                    );
+                  })}
+                {freeData.comments.length > page * COMMENTS_PER_PAGE && (
+                  <MoreBt onClick={handleMoreButtonClick}>
+                    <img src="/images/free/bt_more.svg" />
+                  </MoreBt>
+                )}
               </ReviewSection>
             </div>
 

@@ -9,6 +9,8 @@ export const FreeDetailsMain = styled.div`
   display: flex;
 `;
 export const TitleSection = styled.div`
+display: flex;
+justify-content: space-between;
   height: 80px;
   border-bottom: 1px solid #e4e7ff;
   padding-top: 15px;
@@ -50,6 +52,7 @@ export const ContentSection = styled.div`
 `;
 export const ReviewSection = styled.div`
   width: 1080px;
+  margin-bottom: 50px;
   h1 {
     margin-top: 10px;
     margin-bottom: 15px;
@@ -114,6 +117,7 @@ export const ReviewList = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 5px;
   img {
     margin-top: 10px;
     width: 50px;
@@ -147,10 +151,44 @@ export const ReviewList = styled.div`
     line-height: normal;
   }
 `;
+export const CommentModifyBox = styled.div`
+  width: 900px;
+  align-items: center;
+  margin-bottom: 7px;
+  padding: 5px;
+  border: 1px solid #e4e7ff;
+  textarea {
+    width: 820px;
+    height: 50px;
+    border: none;
+    resize: none;
+
+    color: #777;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  button{
+    width: 50px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #2c39b5;
+    background: #fff;
+
+    font-size: 15px;
+    color: #2c39b5;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+  }
+`;
 export const MoreBt = styled.div`
   text-align: center;
   img {
-    margin: 40px auto 30px;
+    margin: 40px auto 0px;
     cursor: pointer;
   }
 `;
@@ -201,9 +239,13 @@ export const ContentState = styled.div`
   }
 `;
 
-export const WriterBt = styled.div`
+export const BoardWriterBt = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: end;
   text-align: end;
-  padding-right: 40px;
+  padding-right: 20px;
+  padding-bottom: 10px;
   button {
     width: 50px;
     height: 25px;
@@ -217,4 +259,9 @@ export const WriterBt = styled.div`
     line-height: normal;
     cursor: pointer;
   }
+`;
+
+export const CommentWriterBt = styled(BoardWriterBt)`
+  margin-top: 5px;
+  padding-right: 0px;
 `;

@@ -18,7 +18,7 @@ export const patchComment = async (iboardComment,comment) => {
   try {
     const url = `${SERVER_URL}/api/board/comment`;
 
-    const res = await jwtAxios.post(url, { iboardComment, comment });
+    const res = await jwtAxios.patch(url, { iboardComment, comment });
     return res;
   } catch (error) {
     console.log(error);
@@ -30,7 +30,7 @@ export const deleteComment = async iboardComment => {
   try {
     const url = `${SERVER_URL}/api/board/comment/${iboardComment}`;
 
-    const res = await jwtAxios.post(url);
+    const res = await jwtAxios.delete(url);
     return res;
   } catch (error) {
     console.log(error);
