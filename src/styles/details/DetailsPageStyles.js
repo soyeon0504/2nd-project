@@ -41,8 +41,8 @@ export const BoxImg = styled.div`
 `;
 
 export const Title = styled.div`
-  width: 360px;
-  height: 77px;
+  width: 400px;
+  height: 90px;
   display: flex;
   color: #4b4b4b;
 
@@ -82,15 +82,19 @@ export const ViewCount = styled.div`
   margin-bottom: 40px;
 `;
 
-export const Report = styled.div`
-  /* position: absolute; */
+export const Report = styled.button`
   display: flex;
-  font-size: 14px;
-  margin-left: 510px;
+
+  margin-left: 480px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 15px;
+  color: #000;
 `;
 
 export const Address = styled.div`
-  width: 230px;
+  width: 280px;
   height: 80px;
   flex-shrink: 0;
   color: #777;
@@ -104,7 +108,8 @@ export const Address = styled.div`
 export const PriceContainer = styled.div`
   display: flex;
   border-bottom: 1px solid #2c39b5;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
+  margin-top: 50px;
 `;
 export const RentalText = styled.span`
   font-size: 18px;
@@ -136,6 +141,7 @@ export const InfoText = styled.span`
 export const DepositText = styled(InfoText)`
   color: #fa5050;
   padding-left: 20px;
+  margin-left: 5px;
 `;
 
 export const DetailedAddress = styled.div`
@@ -279,16 +285,16 @@ export const CautionText = styled.div`
 export const CautionImage = styled.img`
   margin-right: 10px;
 
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 `;
 export const CautionsImage = styled.img`
   margin-left: 50px;
   right: auto;
 `;
 export const ReportImage = styled.img`
-  margin-left: 540px;
-  position: absolute;
-  width: 20px;
+  /* margin-left: 490px; */
+
+  width: 17.5px;
 `;
 export const HeaderText = styled.p`
   text-align: center;
