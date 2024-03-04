@@ -96,31 +96,31 @@ const Pay = ({
             </Duration>
 
             <PriceRow>
-              <PriceLabel>
-                {productData.rentalPrice.toLocaleString()} 원 x{" "}
-                {paymentData.rentalDays}일
-              </PriceLabel>
+              <PriceLabel>일일 대여료</PriceLabel>
               <PriceValue>
+                {" "}
                 {(
+                  productData.rentalPrice &&
                   productData.rentalPrice * paymentData.rentalDays
-                ).toLocaleString()}{" "}
+                ).toLocaleString()}
                 원
               </PriceValue>
             </PriceRow>
 
             <PriceRow>
-              <PriceLabel> 보증금 </PriceLabel>
-              <PriceValue>{productData.deposit.toLocaleString()} 원</PriceValue>
+              <PriceLabel>렌탈일</PriceLabel>
+              <PriceValue> {paymentData.rentalDays}일</PriceValue>
             </PriceRow>
 
             <TotalPrice />
 
             <PriceRow>
-              <PriceLabel> 총 합계 </PriceLabel>
+              <PriceLabel>총합계</PriceLabel>
               <PriceValue>
+                {" "}
                 {(
-                  productData.rentalPrice * paymentData.rentalDays +
-                  productData.deposit
+                  productData.rentalPrice &&
+                  productData.rentalPrice * paymentData.rentalDays
                 ).toLocaleString()}{" "}
                 원
               </PriceValue>
