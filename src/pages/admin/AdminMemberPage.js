@@ -180,7 +180,7 @@ const AdminMemberPage = ({ activeBtn }) => {
                     textAlign: "center",
                     backgroundColor: "#FFE6E6",
                     fontWeight: "normal",
-                    fontSize: "16px",
+                    fontSize: "15px",
                     width: column.width,
                   }}
                   key={column.id}
