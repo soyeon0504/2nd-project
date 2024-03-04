@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { postChat } from "../../api/chat/chat_api"; // 'your-api-module'은 실제 API 요청을 담당하는 모듈입니다.
 import {
   ChatBoxContainer,
   ChatBoxWrapper,
@@ -23,7 +24,7 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
   const handleInputChange = e => {
     setInputMessage(e.target.value); // Update input message state
   };
-  const handleKeyPress = e => {
+  const handleKeyPress = async e => {
     if (e.key === "Enter" && inputMessage.trim() !== "") {
       // Send message when Enter key is pressed and input message is not empty
       const newMessage = {
@@ -32,6 +33,18 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
       }; // New message object
       setChatMessages([...chatMessages, newMessage]); // Add new message to chatMessages
       setInputMessage(""); // Clear input after sending message
+
+      // Send message to server via API request
+      try {
+        await postChat(
+          selectedProfile.id,
+          selectedProfile.productContent,
+          inputMessage,
+        );
+        console.log("Message sent successfully");
+      } catch (error) {
+        console.error("Failed to send message:", error);
+      }
     }
   };
 
@@ -71,7 +84,6 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
 
               <p>{selectedProfile.productContent}</p>
             </ProfileInfoContainer>
-            sadf
             <ChatText>
               {modalOpen && <Modal onClose={closeModal} />}
               <ChatBoxContent>
@@ -116,4 +128,5 @@ const ChatBoxComponent = ({ selectedProfile, messages }) => {
     </ChatBoxWrapper>
   );
 };
+
 export default ChatBoxComponent;

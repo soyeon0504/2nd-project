@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useTable, usePagination } from "react-table";
-import { getProducts } from "../../api/admin/admin_user_api";
+import { getProducts, deleteUser } from "../../api/admin/admin_user_api";
+import { Pagination } from "antd";
 import {
   MemberSearchBt,
   MemberSearchForm,
@@ -12,106 +12,53 @@ import {
 const AdminMemberPage = ({ activeBtn }) => {
   const searchOptions = ["전체", "이름", "아이디"];
   const membershipStatusOptions = ["전체", "정상", "정지"];
+  const reasonOptions = ["이유1", "이유2", "이유3"]; // 이유 옵션 추가
   const [memberData, setMemberData] = useState([]);
   const [selectedSearchOption, setSelectedSearchOption] = useState("전체");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const page = 1;
-        const data = await getProducts(page);
-        setMemberData(data); // 여기서 데이터 설정
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [currentPage, selectedSearchOption, searchKeyword]);
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "유저 번호",
-        accessor: "iuser",
-        width: 100,
-      },
-      {
-        Header: "아이디",
-        accessor: "uid",
-        width: 150,
-      },
-      {
-        Header: "닉네임",
-        accessor: "nick",
-        width: 150,
-      },
-      {
-        Header: "가입일시",
-        accessor: "createdAt",
-        width: 200,
-        Cell: ({ value }) => new Date(value).toLocaleString(),
-      },
-      {
-        Header: "이메일",
-        accessor: "email",
-        width: 300,
-      },
-      {
-        Header: "벌점",
-        accessor: "penalty",
-        width: 100,
-      },
-      {
-        Header: "회원상태",
-        accessor: "status",
-        width: 100,
-        Cell: ({ row }) => (
-          <span
-            style={{ color: row.original.penalty <= -50 ? "#B6000B" : "#000" }}
-          >
-            {row.original.penalty > -50 ? "정상" : "정지"}
-          </span>
-        ),
-      },
-      {
-        Header: "회원관리",
-        accessor: "managementStatus",
-        width: 100,
-        Cell: ({ value }) => (
-          <button
-            style={{
-              width: "58.328px",
-              height: "32px",
-              borderRadius: "8px",
-              background: "#B6000B",
-              fontSize: "14px",
-              color: "#fff",
-              border: "none",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-              cursor: "pointer",
-              zIndex: 1,
-            }}
-            onClick={() => console.log("버튼이 클릭되었습니다.")}
-          >
-            {value}
-          </button>
-        ),
-      },
-    ],
-    [],
-  );
+  const convertSearchTypeToNumber = type => {
+    switch (type) {
+      case "이름":
+        return 2;
+      case "아이디":
+        return 3;
+      default:
+        return 1; // 전체
+    }
+  };
 
-  const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
-    useTable(
-      {
-        columns,
-        data: memberData,
-        initialState: { pageIndex: 0 },
-      },
-      usePagination,
-    );
+  const convertReasonToNumber = reason => {
+    switch (reason) {
+      case "이유1":
+        return 1;
+      case "이유2":
+        return 2;
+      case "이유3":
+        return 3;
+      default:
+        return 1; // 기본값 설정
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const searchTypeNumber = convertSearchTypeToNumber(selectedSearchOption);
+      const data = await getProducts(
+        currentPage,
+        searchTypeNumber,
+        searchKeyword,
+      );
+      setMemberData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleSearchOptionChange = e => {
     setSelectedSearchOption(e.target.value);
@@ -121,8 +68,23 @@ const AdminMemberPage = ({ activeBtn }) => {
     setSearchKeyword(e.target.value);
   };
 
-  const handleSearchSubmit = () => {
-    // Your search logic here
+  const handleSearchSubmit = async () => {
+    setCurrentPage(1); // 검색 시에는 페이지를 1로 초기화
+    fetchData(); // 검색 버튼 클릭 시에만 데이터 요청
+  };
+
+  const handleMemberWithdrawal = async (userId, reason) => {
+    try {
+      const reasonNumber = convertReasonToNumber(reason);
+      const deletedUser = await deleteUser(userId, reasonNumber);
+      if (deletedUser) {
+        console.log("회원 탈퇴 성공:", deletedUser);
+      } else {
+        console.log("회원 탈퇴 실패: 삭제된 사용자 없음");
+      }
+    } catch (error) {
+      console.error("회원 탈퇴 실패:", error);
+    }
   };
 
   return (
@@ -135,8 +97,8 @@ const AdminMemberPage = ({ activeBtn }) => {
               onChange={handleSearchOptionChange}
               value={selectedSearchOption}
             >
-              {searchOptions.map(option => (
-                <option key={option} value={option}>
+              {searchOptions.map((option, index) => (
+                <option key={index} value={option}>
                   {option}
                 </option>
               ))}
@@ -153,9 +115,8 @@ const AdminMemberPage = ({ activeBtn }) => {
             <MemberSearchBt onClick={handleSearchSubmit} />
           </MemberSearchForm>
           <select>
-            {/* Handle membership status change */}
             {membershipStatusOptions.map((option, index) => (
-              <option key={index} value={option}>
+              <option key={index} value={index + 1}>
                 {option}
               </option>
             ))}
@@ -164,68 +125,98 @@ const AdminMemberPage = ({ activeBtn }) => {
       </MemberTitle>
 
       <table
-        {...getTableProps()}
-        style={{ borderCollapse: "collapse", width: "100%", marginTop: "25px" }}
+        style={{
+          borderCollapse: "collapse",
+          width: "100%",
+          marginTop: "25px",
+        }}
       >
         <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-              {headerGroup.headers.map(column => (
-                <th
-                  {...column.getHeaderProps()}
+          <tr>
+            <th style={tableHeaderStyle}>유저 번호</th>
+            <th style={tableHeaderStyle}>아이디</th>
+            <th style={tableHeaderStyle}>닉네임</th>
+            <th style={tableHeaderStyle}>가입일시</th>
+            <th style={tableHeaderStyle}>이메일</th>
+            <th style={tableHeaderStyle}>벌점</th>
+            <th style={tableHeaderStyle}>회원상태</th>
+            <th style={tableHeaderStyle}>회원관리</th>
+          </tr>
+        </thead>
+        <tbody>
+          {memberData.map((member, index) => (
+            <tr key={index}>
+              <td style={tableCellStyle}>{member.iuser}</td>
+              <td style={tableCellStyle}>{member.uid}</td>
+              <td style={tableCellStyle}>{member.nick}</td>
+              <td style={tableCellStyle}>
+                {new Date(member.createdAt).toLocaleString()}
+              </td>
+              <td style={tableCellStyle}>{member.email}</td>
+              <td style={tableCellStyle}>{member.penalty}</td>
+              <td style={tableCellStyle}>
+                <span
                   style={{
-                    padding: "10px",
-                    border: "1px solid #BEBEBE",
-                    height: "60px",
-                    textAlign: "center",
-                    backgroundColor: "#FFE6E6",
-                    fontWeight: "normal",
-                    fontSize: "15px",
-                    width: column.width,
+                    color: member.penalty <= -50 ? "#B6000B" : "#000",
                   }}
-                  key={column.id}
                 >
-                  {column.render("Header")}
-                </th>
-              ))}
+                  {member.penalty > -50 ? "정상" : "정지"}
+                </span>
+              </td>
+              <td style={tableCellStyle}>
+                <button
+                  style={managementButtonStyle}
+                  onClick={() => handleMemberWithdrawal(member.iuser)} // iuser 전달
+                >
+                  회원탈퇴
+                </button>
+              </td>
             </tr>
           ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row, rowIndex) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()} key={rowIndex}>
-                {row.cells.map((cell, cellIndex) => (
-                  <td
-                    {...cell.getCellProps()}
-                    style={{
-                      padding: "10px",
-                      border: "1px solid #BEBEBE",
-                      height: "60px",
-                      textAlign: "center",
-                      fontSize: "14px",
-                      backgroundColor:
-                        cell.column.id === "email"
-                          ? row.index % 2 === 0
-                            ? "#fff"
-                            : "#FFF7F7"
-                          : row.index % 2 === 0
-                          ? "#FFF"
-                          : "#FFF7F7",
-                    }}
-                    key={cellIndex} // Use cellIndex as key
-                  >
-                    {cell.render("Cell")}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
         </tbody>
       </table>
+
+      <Pagination
+        current={currentPage}
+        total={100}
+        onChange={page => setCurrentPage(page)}
+        pageSize={10}
+        showSizeChanger={false}
+        style={{ marginTop: "20px", textAlign: "center" }}
+      />
     </div>
   );
+};
+
+const tableHeaderStyle = {
+  padding: "10px",
+  border: "1px solid #BEBEBE",
+  height: "60px",
+  textAlign: "center",
+  backgroundColor: "#FFE6E6",
+  fontWeight: "normal",
+  fontSize: "16px",
+};
+
+const tableCellStyle = {
+  padding: "10px",
+  border: "1px solid #BEBEBE",
+  height: "60px",
+  textAlign: "center",
+  fontSize: "14px",
+};
+
+const managementButtonStyle = {
+  width: "90px",
+  height: "32px",
+  borderRadius: "8px",
+  background: "#B6000B",
+  fontSize: "14px",
+  color: "#fff",
+  border: "none",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+  cursor: "pointer",
+  zIndex: 1,
 };
 
 export default AdminMemberPage;
