@@ -1,3 +1,4 @@
+// 마이페이지 담당 - 최배근 
 import React, { useEffect, useState } from 'react'
 import Layout from "../../layouts/Layout";
 import MyCategory from "../../components/my/MyCategory";
