@@ -44,17 +44,17 @@ export const getFav = async iproduct => {
     failPostDatas("/");
   }
 };
-// export const getDisavled = async (iproduct, y, m) => {
-//   try {
-//     const url = `${path}/prod/disabled-date/${iproduct}?y=${y}&m=${m}`;
-//     const res = await jwtAxios.get(url);
+export const getDisavled = async (iproduct, y, m) => {
+  try {
+    const url = `${path}/prod/disabled-date/${iproduct}?y=${y}&m=${m}`;
+    const res = await jwtAxios.get(url);
 
-//     return res;
-//   } catch (error) {
-//     console.log(error);
-//     failPostDatas("/");
-//   }
-// };
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
 
 export const postProduct = async (
   iproduct,
