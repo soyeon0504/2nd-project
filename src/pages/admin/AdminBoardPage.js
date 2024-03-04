@@ -91,7 +91,7 @@ const category = [
 const SEARCH_OPTIONS = ["전체", "닉네임", "카테고리"];
 
 const SEARCH_OPTIONS_TEXT = [
-  "------------",
+  "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "카테고리를 입력해주세요",
 ];
@@ -167,14 +167,6 @@ const AdminBoardPage = () => {
   };
 
   const getSortedData = sortType => {
-    if (sortType === 0) {
-      if (selectedSearchOption != 0 && inputValue) {
-        getAllProducts(1, successFn, errorFn, selectedSearchOption, inputValue);
-      } else {
-        getAllProducts(1, successFn, errorFn);
-      }
-    } else if (sortType === 1) {
-      if (selectedSearchOption != 0 && inputValue) {
         getAllProducts(
           1,
           successFn,
@@ -182,11 +174,7 @@ const AdminBoardPage = () => {
           selectedSearchOption,
           inputValue,
           sortType,
-        );
-      } else {
-        // getAllProducts(1, successFn, errorFn, sortType);
-      }
-    }
+        )
   };
 
   useEffect(() => {
@@ -219,7 +207,7 @@ const AdminBoardPage = () => {
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
             value={selectedSearchOption === "전체" ? "--" : inputValue}
             onChange={handleSearchKeywordChange}
-            disabled={selectedSearchOption === 0}
+            // disabled={selectedSearchOption === 0}
           />
           <button onClick={handleSearchSubmit} type="submit">
             <img src="/images/admin/search.svg" />
@@ -298,6 +286,7 @@ const AdminBoardPage = () => {
           onChange={handlePageChange}
           total={boardAllData.totalDisputeCount}
           pageSize={12}
+          style={{paddingTop: "30px"}}
         />
       </div>
     </BoardWrap>

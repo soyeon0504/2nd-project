@@ -111,12 +111,14 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
               return (
                 <SwiperSlide key={`productSlide-${id}-${index}`}>
                   <div onClick={() => handlePageChange(item)}>
-                    <div className="like-wrap">
+                    {isLogin && (
+                      <div className="like-wrap">
                       <Like
                         isLiked={item.isLiked !== 0 ? true : false}
                         productId={item.iproduct}
                       />
                     </div>
+                    )}
                     <img src={`/pic/${item.prodMainPic}`} alt="" />
                     <div className="desc-wrap">
                       <span className="desc-title">{item.title}</span>

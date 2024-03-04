@@ -217,14 +217,19 @@ const UserProfile = () => {
 
   // 벌점 숫자별 색상
   const getPenaltyColor = (penalty) => {
-    if (penalty >= 0 && penalty <= 20) {
+    const absPenalty = Math.abs(penalty); // penalty의 절대값을 구합니다.
+  
+    if (absPenalty >= 0 && absPenalty <= 20) {
       return "green"; // 초록색
-    } else if (penalty >= 21 && penalty <= 30) {
+    } else if (absPenalty >= 21 && absPenalty <= 30) {
       return "orange"; // 주황색
-    } else if (penalty >= 31 && penalty <= 50) {
+    } else if (absPenalty >= 31 && absPenalty <= 50) {
       return "red"; // 빨간색
+    } else {
+      return "black"; // 범위를 벗어난 값일 경우 검정색 반환
     }
   }
+  
 
 
   return (
@@ -235,7 +240,6 @@ const UserProfile = () => {
           <Wrap>
             <Header>
               <div>프로필</div>
-              <div>테스트</div>
               <hr />
             </Header>
             {/* 유저 프로필 정보 */}
@@ -252,15 +256,15 @@ const UserProfile = () => {
                   <Rating>
                     <div>통합 별점</div>
                     <div className="rating-score">
-                      <span>5.0 /</span>
                       <span
                         style={{
                           color: "#2C39B5",
                           fontWeight: "500",
                         }}
-                      >
+                        >
                         {userData.rating}
                       </span>
+                      <span>/ 5.0</span>
                     </div>
                   </Rating>
                   <hr />

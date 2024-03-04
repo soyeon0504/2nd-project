@@ -5,7 +5,7 @@ export const ReportTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #c14b45;
+  /* border-bottom: 1px solid #c14b45; */
   padding-bottom: 17px;
   margin-bottom: 30px;
   h1 {
@@ -127,26 +127,28 @@ export const ReportMain = styled.div`
   thead {
     height: 60px;
     background: #ffe6e6;
-    font-size: 18px;
+    font-size: 16px;
   }
   th {
-    border: 1px solid #bebebe;
+    border: 2px solid #fff;
   }
   tbody {
     font-size: 18px;
   }
   tr {
+    font-weight: 400;
+    font-size: 16px;
     height: 60px;
   }
   td {
-    border: 1px solid #bebebe;
+    border: 2px solid #fff;
   }
   button {
     width: ${props => (props.width ? props.width : "65px")};
     height: 30px;
     background: #fff;
     border-radius: 8px;
-    border: 2px solid #79747e;
+    border: 1px solid #79747e;
     cursor: pointer;
 
     font-weight: bold;
