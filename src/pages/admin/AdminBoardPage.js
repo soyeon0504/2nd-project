@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
-import Pagination from "../../components/Pagination";
-import { getAllProducts } from "../../api/admin/admin_board_api";
+import { deleteProduct, getAllProducts } from "../../api/admin/admin_board_api";
+import { PaginationContent } from "../../styles/admin/AdminReportPageStyle";
 
 const boardData = [
   {
@@ -48,6 +48,8 @@ const AdminBoardPage = () => {
   const [type, setType] = useState();
   const [limit, setLimit] = useState(15);
 
+  const [boardLength, setBoardLength] = useState([]);
+
   const searchOptions = ["전체", "닉네임", "카테고리"];
   const [selectedSearchOption, setSelectedSearchOption] = useState("전체"); // 선택된 검색 옵션 상태
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
@@ -65,7 +67,6 @@ const AdminBoardPage = () => {
   };
 
   useEffect(() => {
-
     const sort = getSort(sortType);
     getAllProducts(page, successFn, errorFn, sort);
   }, [page, sortType]);
@@ -73,6 +74,7 @@ const AdminBoardPage = () => {
   const successFn = res => {
     console.log("성공했을때", res);
     setBoardAllData(res);
+    setBoardLength(res)
     // setFilteredData(res.products)
   };
   const errorFn = res => {
@@ -153,6 +155,10 @@ const AdminBoardPage = () => {
   };
   // console.log(filteredData);
 
+  const handleClickDelete = (iproduct) => {
+    const reason = 1;
+    deleteProduct(iproduct, reason, successFn, errorFn);
+  };
 
   
   return (
@@ -239,7 +245,7 @@ const AdminBoardPage = () => {
                   </td>
                   <td>
                     {item.productManage}
-                    <button className="delete">삭제</button>
+                    <button className="delete" onClick={e => {handleClickDelete(item.iproduct)}}>삭제</button>
                   </td>
                 </tr>
               </tbody>
@@ -247,12 +253,13 @@ const AdminBoardPage = () => {
           ))}
       </table>
       <div>
-        <Pagination
-          totalPage={totalPage}
-          page={page}
-          limit={limit}
-          siblings={5}
-          onPageChange={handlePageChange}
+        
+        <PaginationContent
+          current={page}
+          onChange={handlePageChange}
+          total={boardAllData.totalDisputeCount}
+          // size={Math.floor(reportLength / 12) + 1}
+          pageSize={12}
         />
       </div>
     </BoardWrap>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { BoardWrap, HeaderWrap } from '../../styles/admin/AdminBoardPageStyle'
 import Pagination from '../../components/Pagination'
-import { getFreeBoard } from '../../api/admin/admin_board_api'
+import { deleteFreeBoard, getFreeBoard } from '../../api/admin/admin_board_api'
+import { PaginationContent } from '../../styles/admin/AdminReportPageStyle'
 
 const boardData = {
   "totalBoardCount": 11,
@@ -34,6 +35,7 @@ const AdminFreeBoardPage = () => {
   const [type, setType] = useState();
   const [limit, setLimit] = useState(15);
 
+  
   const searchOptions = ["전체", "닉네임", "카테고리"];
   const [selectedSearchOption, setSelectedSearchOption] = useState("전체"); // 선택된 검색 옵션 상태
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
@@ -65,7 +67,7 @@ const AdminFreeBoardPage = () => {
     alert(`${res.message} \n 에러코드(${res.errorCode})`);
   };
 
-  const getLength = function () {
+  const getLength = () => {
     return freeBoardAllData.length;
   }
   const totalPage = Math.ceil(getLength() / limit)
@@ -115,7 +117,7 @@ const AdminFreeBoardPage = () => {
   
     const handleSearchSubmit = e => {
       // e.preventDefault();
-      const filtered =  boardAllData.products.filter(item => {
+      const filtered =  freeBoardAllData.boards.filter(item => {
         // 검색어가 포함된 항목만 필터링하여 반환
         if (typeof item.subCategory !== "string" || !item.subCategory) return false;
         return (
@@ -128,6 +130,11 @@ const AdminFreeBoardPage = () => {
         );
       });
       setFilteredData(filtered);
+    };
+
+    const handleClickDelete = (iboard) => {
+      const reason = 1;
+      deleteFreeBoard(iboard, reason, successFn, errorFn);
     };
 
   return (
@@ -209,21 +216,22 @@ const AdminFreeBoardPage = () => {
                   <button className='move'>이동</button>
                 </td>
                 <td>{item.productManage}
-                  <button className='delete'>삭제</button>
+                  <button className='delete' onClick={e => {handleClickDelete(item.iboard)}}>삭제</button>
                 </td>
               </tr>
             </tbody>
-                </React.Fragment>
+            </React.Fragment>
             ))}
       </table>
       <div>
-        <Pagination 
-          totalPage={totalPage} 
-          page={page} 
-          limit={limit} 
-          siblings={5} 
-          onPageChange={handlePageChange}/>      
-          </div>
+      <PaginationContent
+          current={page}
+          onChange={handlePageChange}
+          total={freeBoardAllData.totalBoardCount}
+          // size={Math.floor(reportLength / 12) + 1}
+          pageSize={12}
+        />
+      </div>
     </BoardWrap>
   )
 }

@@ -22,14 +22,14 @@ export const getAllProducts = async(page, successFn, errorFn) => {
     }
 }
 
-export const deleteProduct = async(successFn, errorFn) => {
+export const deleteProduct = async(iproduct, reason, successFn, errorFn) => {
     try {
-        // http://192.168.0.144:5226/api/admin/product
-        const url = `${path}/admin/product`
+        // http://192.168.0.144:5226/api/admin/product/102?reason=1
+        const url = `${path}/admin/product/${iproduct}?reason=${reason}`
         const res = await jwtAxios.delete(url);
         const status = res.status.toString()
         if(status.charAt(0) === "2") {
-            successFn(res.data)
+            successFn(res.data.result === 1)
         }
         return res.data;
     } catch (error) {
@@ -57,14 +57,14 @@ export const getFreeBoard = async(page, successFn, errorFn) => {
 }
 
 
-export const deletePost = async(successFn, errorFn) => {
+export const deleteFreeBoard = async(iboard, reason, successFn, errorFn) => {
     try {
-        // http://192.168.0.144:5226/api/admin/board
-        const url = `${path}/admin/board`
+        //                  /admin/board/41?reason=1
+        const url = `${path}/admin/board/${iboard}?reason=${reason}`
         const res = await jwtAxios.delete(url);
         const status = res.status.toString()
         if(status.charAt(0) === "2") {
-            successFn(res.data)
+            successFn(res.data.result === 1)
         }
         return res.data;
     } catch (error) {

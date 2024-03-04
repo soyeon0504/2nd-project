@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Pagination } from "antd";
 export const BoardWrap = styled.div`
   text-align: center;
   .move,
