@@ -235,6 +235,7 @@ const UserProfile = () => {
           <Wrap>
             <Header>
               <div>프로필</div>
+              <div>테스트</div>
               <hr />
             </Header>
             {/* 유저 프로필 정보 */}
