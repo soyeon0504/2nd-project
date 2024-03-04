@@ -33,7 +33,7 @@ import { useNavigate } from "react-router";
 // 오늘 날짜 출력
 import moment from "moment";
 
-//서버에서 돌려주는 값
+//초기데이터
 const initState = {
   mainPic: "", //메인 사진
   pics: [""], //서브 사진
@@ -42,10 +42,7 @@ const initState = {
     contents: "", // 내용 (1500자 제한)
     addr: "", //주소
     restAddr: "", // 나머지 주소
-    price: 0, //가격
-    rentalPrice: 0, //임대 가격
-    depositPer: 0, //보증금 비율
-    buyDate: "2024-01-31", //구매날짜
+    rentalPrice: 0, // 가격
     rentalStartDate: "2024-01-31", //임대시작
     rentalEndDate: "2024-01-31", // 임대 종료
     icategory: {
@@ -53,9 +50,10 @@ const initState = {
       mainCategory: 0, //메인카테고리
       subCategory: 1, //하위 카테고리
     },
-    inventory: 0, // 제고
+    hashTags: ["string"], // 해쉬 태그
   },
 };
+console.log(initState);
 
 // 초기값
 // const initState = {
@@ -517,6 +515,7 @@ const Write = () => {
               <div>
                 <div>
                   <input
+                    name="title"
                     type="text"
                     id="product"
                     maxLength={50}
@@ -622,6 +621,7 @@ const Write = () => {
               <div>
                 <div>
                   <textarea
+                    name="contents"
                     id="detail"
                     maxLength={1500}
                     {...register("contents")}
@@ -645,6 +645,7 @@ const Write = () => {
                   <div>
                     {inputs.map(input => (
                       <input
+                        name="icategory.subCategory"
                         key={input.id}
                         type="text"
                         value={input.value}
@@ -657,6 +658,7 @@ const Write = () => {
                     ))}
                     <input
                       type="text"
+                      name="hashTags"
                       // value={inputHash}
                       // onChange={handleInputChangeHash}
                       placeholder="#태그를작성해주세요"
@@ -664,6 +666,7 @@ const Write = () => {
                     ></input>
 
                     <input
+                      name="hashTags"
                       type="text"
                       value={inputHash1}
                       onChange={handleInputChangeHash1}
@@ -677,6 +680,7 @@ const Write = () => {
                     ></input>
                     <input
                       type="text"
+                      name="hashTags"
                       // value={inputHash3}
                       // onChange={handleInputChangeHash3}
                       value={str}
@@ -697,6 +701,7 @@ const Write = () => {
               <div>
                 <div>
                   <input
+                    name="rentalPrice"
                     className="showSpinner"
                     type="number"
                     id="quantity"

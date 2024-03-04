@@ -41,66 +41,45 @@ const btlist = [
 ];
 
 // 초기값
+// const initState = {
+//   mainPic: "",
+//   pics: [],
+//   title: "", //재목(50자 한정)
+//   contents: "", // 내용 (1500자 제한)
+//   addr: "", //주소
+//   restAddr: "", // 나머지 주소
+//   rentalPrice: "", //임대 가격
+//   rentalStartDate: "", //임대시작
+//   rentalEndDate: "", // 임대 종료
+//   icategory: {
+//     //카테고리숫자
+//     mainCategory: "1", //메인카테고리
+//     subCategory: "1", //하위 카테고리
+//   },
+
+//   hashtag: "", // 재고
+// };
+//초기데이터
 const initState = {
-  mainPic: "",
-  pics: [],
-  title: "", //재목(50자 한정)
-  contents: "", // 내용 (1500자 제한)
-  // addr: "", //주소
-  // restAddr: "", // 나머지 주소
-  price: "", //가격
-  rentalPrice: "", //임대 가격
-  depositPer: "50", //보증금 비율
-
-  buyDate: "", //구매날짜
-  rentalStartDate: "", //임대시작
-  rentalEndDate: "", // 임대 종료
-  icategory: {
-    //카테고리숫자
-    mainCategory: "1", //메인카테고리
-    subCategory: "1", //하위 카테고리
-  },
-
-  inventory: 1, // 재고
-};
-
-// 제품 정보 읽어온 데이터
-const initStateData = {
-  iuser: 2,
-  nick: "현빈대마왕",
-  userPic: "user/1/1c005a93-1284-455e-a25c-adfddb43c8cf.jpg",
-  iauth: 2,
-  iproduct: 316,
-  title: "테스트",
-  prodMainPic: "prod/main/316/60feacc2-6004-4d86-8302-04e5fdd2695d.jpg",
-  price: 1000,
-  rentalPrice: 100,
-  deposit: 500,
-  rentalStartDate: "2024-02-13",
-  rentalEndDate: "2024-02-21",
-  addr: "광주 서구 2순환로 2275",
-  restAddr: "하하",
-  prodLike: 0,
-  istatus: 0,
-  inventory: 3,
-  isLiked: 0,
-  view: 2,
-  categories: {
-    mainCategory: 1,
-    subCategory: 1,
-  },
-  contents: "사용감 죽이네",
-  prodSubPics: [
-    {
-      ipics: 215,
-      prodPics: "prod/316/67bb5c5e-47c1-4765-adc6-5f09f19f4c64.jpg",
+  mainPic: "", //메인 사진
+  pics: [""], //서브 사진
+  dto: {
+    title: "", //재목(50자 한정)
+    contents: "", // 내용 (1500자 제한)
+    addr: "", //주소
+    restAddr: "", // 나머지 주소
+    rentalPrice: 0, // 가격
+    rentalStartDate: "", //임대시작
+    rentalEndDate: "", // 임대 종료
+    icategory: {
+      //카테고리숫자
+      mainCategory: 1, //메인카테고리
+      subCategory: 1, //하위 카테고리
     },
-  ],
-  buyDate: "2024-02-11",
-  x: 126.826514037352,
-  y: 35.1594545934228,
-  reviews: [],
+    hashTags: [""], // 해쉬 태그
+  },
 };
+console.log(initState);
 
 // 검증 코드 yup
 const validationSchema = yup.object({
@@ -126,10 +105,10 @@ const validationSchema = yup.object({
     .min(3, "100원 이상 입력하세요")
     // .max(10, "21억까지만 입력하세요 ")
     .required("하루대여 가격은 필수 입력 사항입니다."),
-  inventory: yup
+    hashTags: yup
     .string("내용을 입력하세요.")
     .min(1, "1개 이상 입력하세요")
-    .required("소유 수량은 필수 입력 사항입니다."),
+    .required("# 필수 입력 사항입니다."),
   buyDate: yup
     .string("내용을 입력하세요.")
     .required("제품 구매일은 필수 입력 사항입니다."),
@@ -139,17 +118,17 @@ const validationSchema = yup.object({
   rentalEndDate: yup
     .string("내용을 입력하세요.")
     .required(" / 거래 종료 날짜는 필수 입력 사항입니다."),
-  // addr: yup
-  //   .string("내용 입력하세요.")
-  //   .min(2, "주소를 입력하세요")
-  //   .required(" 거래 주소는 필수 입력 사항입니다."),
-  // restAddr: yup
-  //   .string("내용을 입력하세요.")
-  //   .max(50, "50자까지만 입력하세요 ")
-  //   .required(" 상세 주소는 필수 입력 사항입니다."),
-  // mainPic: yup
-  //   .string("제품사진을 선택해주세요.")
-  //   .required("제품사진은 최소 1개이상 필수 입력 사항입니다."),
+  addr: yup
+    .string("내용 입력하세요.")
+    .min(2, "주소를 입력하세요")
+    .required(" 거래 주소는 필수 입력 사항입니다."),
+  restAddr: yup
+    .string("내용을 입력하세요.")
+    .max(50, "50자까지만 입력하세요 ")
+    .required(" 상세 주소는 필수 입력 사항입니다."),
+  mainPic: yup
+    .string("제품사진을 선택해주세요.")
+    .required("제품사진은 최소 1개이상 필수 입력 사항입니다."),
 });
 
 const Modify = () => {

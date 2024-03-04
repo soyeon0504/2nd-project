@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import {
-  MyListDiv,
-} from "../../styles/my/MyList";
-import styled from '@emotion/styled';
-import { Common } from '../../styles/CommonStyles';
+import React, { useState } from "react";
+import { MyListDiv } from "../../styles/my/MyList";
+import styled from "@emotion/styled";
+import { Common } from "../../styles/CommonStyles";
 import MyMoreButton from "../my/MyMoreButton";
 
 const CustomTxt = styled.div`
@@ -20,28 +18,29 @@ const CustomTxt = styled.div`
     font-size: 1.4rem;
   }
   cursor: pointer;
-`
+`;
 export const CustomSlide = styled.div`
   overflow: hidden;
-  max-height: ${(props) => (props.isopen ? '500px' : '0')};
+  max-height: ${props => (props.isopen ? "500px" : "0")};
   transition: max-height 0.5s ease-in-out;
   box-sizing: border-box;
-  border-bottom: ${props => (props.isopen ? `1px solid ${Common.color.primary}` : '0')};
+  border-bottom: ${props =>
+    props.isopen ? `1px solid ${Common.color.primary}` : "0"};
   dt {
     font-size: 1.4rem;
     padding: 1rem;
     white-space: pre-wrap;
   }
-`
+`;
 const CustomBottom = styled.div`
   margin-top: 2rem;
-`
+`;
 
 const contentData = [
   {
     id: 1,
-    title: '[회원탈퇴]',
-    content: '회원탈퇴는 어떻게 하나요?',
+    title: "[회원탈퇴]",
+    content: "회원탈퇴는 어떻게 하나요?",
     description: `    
     안녕하세요 [서비스명] 사용자 여러분,
     우리 서비스를 이용해 주셔서 감사합니다. 
@@ -70,8 +69,8 @@ const contentData = [
   },
   {
     id: 2,
-    title: '[거래문의]',
-    content: '거래를 취소하고 싶어요. 어떻게 하나요?',
+    title: "[거래문의]",
+    content: "거래를 취소하고 싶어요. 어떻게 하나요?",
     description: `    
     판/구매자의 거래 단계에 따라 아래 경로에서 가능합니다.
     [구매취소 방법]
@@ -96,8 +95,8 @@ const contentData = [
   },
   {
     id: 3,
-    title: '[대여내역]',
-    content: '대여내역은 어떻게 확인할 수 있나요?',
+    title: "[대여내역]",
+    content: "대여내역은 어떻게 확인할 수 있나요?",
     description: `    
     대여 내역을 확인하는 방법은 아래 경로를 통해 가능합니다.
 
@@ -110,8 +109,8 @@ const contentData = [
   },
   {
     id: 4,
-    title: '[대여취소]',
-    content: '대여취소는 어떻게 해야 되나요?',
+    title: "[대여취소]",
+    content: "대여취소는 어떻게 해야 되나요?",
     description: `    
     안녕하세요. [회사명 고객센터]입니다.
 
@@ -143,8 +142,8 @@ const contentData = [
   },
   {
     id: 5,
-    title: '[고객센터]',
-    content: '고객센터 전화번호와 운영시간을 알려주세요',
+    title: "[고객센터]",
+    content: "고객센터 전화번호와 운영시간을 알려주세요",
     description: `    
     고객센터 전화번호는 1803-3124 입니다.
     
@@ -160,7 +159,7 @@ const contentData = [
 const CustomList = () => {
   const [slideDownUp, setSlidDownUp] = useState(contentData.map(() => false));
 
-  const handleSlideDownToggle = (index) => {
+  const handleSlideDownToggle = index => {
     const newSlideDownUp = [...slideDownUp];
     newSlideDownUp[index] = !newSlideDownUp[index];
     setSlidDownUp(newSlideDownUp);
@@ -186,4 +185,4 @@ const CustomList = () => {
   );
 };
 
-export default CustomList
+export default CustomList;
