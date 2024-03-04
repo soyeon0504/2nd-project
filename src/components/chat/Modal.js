@@ -35,6 +35,7 @@ function Modal({ onClose }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseModal = () => {
+    setIsOpen(false);
     if (typeof onClose === "function") {
       onClose(); // 모달 닫기 함수 호출
     }
@@ -42,18 +43,17 @@ function Modal({ onClose }) {
 
   const handleReportClick = () => {
     console.log("신고하기 클릭됨");
-    <Link to="/report" />;
+    handleCloseModal();
   };
 
   const handleLeaveClick = () => {
     console.log("채팅방 나가기 클릭됨");
-    // 추가적인 작업 수행
   };
 
   return (
     <ModalContent>
       <ActionButtons>
-        <Button as={Link} to="/report">
+        <Button as={Link} to={`/report`} onClick={handleReportClick}>
           신고하기
         </Button>
         <Button onClick={handleLeaveClick}>채팅방 나가기</Button>

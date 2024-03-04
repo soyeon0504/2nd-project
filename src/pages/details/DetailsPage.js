@@ -31,9 +31,6 @@ import {
   InfoContainer,
   Address,
   DetailedAddress,
-  InfoLine,
-  InfoText,
-  PurchaseDateText,
   DepositText,
   DepositDetailText,
   MainContainer,
@@ -64,7 +61,14 @@ import {
 } from "../../styles/details/DetailsPageStyles";
 import { SideBar } from "../../components/SideBar";
 
-const UserDetails = ({ userId, currentUserId, onDelete, onModify }) => {
+const UserDetails = ({
+  userId,
+  currentUserId,
+  onDelete,
+  onModify,
+  iuser,
+  iproduct,
+}) => {
   const isCurrentUser = userId === currentUserId;
 
   return (
@@ -164,11 +168,13 @@ const DetailsPage = () => {
   const [showPayModal, setShowPayModal] = useState(false);
   const [productData, setProductData] = useState(null);
   const [rentalDays, setRentalDays] = useState(1);
+  const [isReportClicked, setIsReportClicked] = useState(false);
   const [paymentData, setPaymentData] = useState({
     rentPrice: 0,
     rentalDays: 1,
     deposit: 0,
   });
+
   const [rentalStartDate, setRentalStartDate] = useState(null);
   const [rentalEndDate, setRentalEndDate] = useState(null);
   // const { mainCategory, subCategory, productId } = useParams();
@@ -181,6 +187,12 @@ const DetailsPage = () => {
   const navigate = useNavigate();
   const togglePayModal = () => {
     setShowPayModal(!showPayModal);
+  };
+
+  const handleReportClick = () => {
+    setIsReportClicked(true);
+    // report/isure 경로로 이동
+    window.location.href = `/report/iuser=${productData.iuser}`;
   };
 
   const handleDeleteProduct = async () => {
@@ -201,6 +213,8 @@ const DetailsPage = () => {
       `/modify?mc=${mainCategory}&sc=${subCategory}&productId=${productId}`,
     );
   };
+
+  // const hashTags = productData.hashTags.map(tagData => tagData.tag).join(", ");
 
   const handleDateSelect = (startDate, endDate) => {
     setRentalStartDate(startDate);
@@ -246,8 +260,13 @@ const DetailsPage = () => {
           </BoxImg>
           <Box>
             <Title>
-              <ContentWrapper>{productData.title}</ContentWrapper>
+              <ContentWrapper>
+                {productData.title.length > 85
+                  ? `${productData.title.slice(0, 85)}`
+                  : productData.title}
+              </ContentWrapper>
               <UserDetails
+                productData={productData}
                 userId={productData.iuser}
                 currentUserId={iuser}
                 onDelete={handleDeleteProduct}
@@ -260,18 +279,27 @@ const DetailsPage = () => {
               />
             </Title>
             <PriceContainer>
-              <Price>{productData.rentalPrice.toLocaleString()} 원</Price>
+              <Price>
+                {productData && productData.rentalPrice
+                  ? productData.rentalPrice.toLocaleString()
+                  : null}{" "}
+                원
+              </Price>
+
               <RentalText>일일대여가</RentalText>
             </PriceContainer>
             <ViewCount>
               조회수
-              {productData.view.toLocaleString()}
-              <ReportImage
-                src="/images/details/report.png
-              "
-                alt="신고이미지"
-              />
-              <Report>신고하기</Report>
+              {productData && productData.view
+                ? productData.view.toLocaleString()
+                : null}
+              <Report onClick={handleReportClick}>
+                <ReportImage
+                  src="/images/details/report.png"
+                  alt="신고이미지"
+                />
+                신고하기
+              </Report>
             </ViewCount>
 
             <AddressContainer>
@@ -285,9 +313,14 @@ const DetailsPage = () => {
                   <PurchaseDateText>{productData.buyDate}</PurchaseDateText>
                 </InfoLine> */}
                 <div>
-                  <DepositText>보증금 (50%~100%)</DepositText>
+                  <DepositText> 해시태그</DepositText>
                   <DepositDetailText>
-                    {productData.deposit.toLocaleString()} 원
+                    #
+                    {productData && productData.hashTags
+                      ? productData.hashTags
+                          .map(tagData => tagData.tag)
+                          .join(", ")
+                      : ""}
                   </DepositDetailText>
                 </div>
               </InfoContainer>
@@ -297,7 +330,12 @@ const DetailsPage = () => {
                 isLiked={productData.isLiked}
                 productId={productData.iproduct}
               />
-              <BtnChat as={Link} to={`/chat/${productData.iuser}`}>
+              <BtnChat
+                as={Link}
+                to={`/chat/${productData.iuser}/${productData.iproduct}`}
+                sellerId={productData.iuser}
+                // productId={productData.iproduct}
+              >
                 채팅하기
               </BtnChat>
               <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
@@ -348,26 +386,25 @@ const DetailsPage = () => {
           <PayContainer>
             <Calendar onDateSelect={handleDateSelect} />
             <PayRow>
-              <PayLabel>
-                {productData.rentalPrice.toLocaleString()} 원 x {rentalDays}일
-              </PayLabel>
+              <PayLabel>일일 대여가 </PayLabel>
+
               <PayValue>
-                {(productData.rentalPrice * rentalDays).toLocaleString()} 원
+                {productData && productData.rentalPrice
+                  ? productData.rentalPrice.toLocaleString()
+                  : null}{" "}
+                원
               </PayValue>
             </PayRow>
             <PayRow>
-              <PayLabel>보증금</PayLabel>
-              <PayValue>{productData.deposit.toLocaleString()} 원</PayValue>
+              <PayLabel>렌탈일</PayLabel>
+              <PayValue>{rentalDays} 일</PayValue>
             </PayRow>
+
             <TotalPrice />
             <PayRow>
-              <PayLabel>총 합계</PayLabel>
+              <PayLabel>총합계</PayLabel>
               <PayValue>
-                {(
-                  productData.rentalPrice * rentalDays +
-                  productData.deposit
-                ).toLocaleString()}{" "}
-                원
+                {(productData.rentalPrice * rentalDays).toLocaleString()} 원
               </PayValue>
             </PayRow>
           </PayContainer>

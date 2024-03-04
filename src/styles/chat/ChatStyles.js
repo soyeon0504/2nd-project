@@ -15,7 +15,8 @@ export const ChatBox = styled.div`
   height: auto;
   max-height: 615px;
   flex-shrink: 0;
-  padding-left: 20px;
+  padding-left: 10px;
+  padding-right: 5px;
   padding-top: 15px;
   margin-right: 20px;
   border: 1px solid #777;
@@ -32,7 +33,6 @@ export const ChatProfileBox = styled.div`
   cursor: pointer; /* 클릭 가능하도록 커서 스타일 지정 */
   pointer-events: auto; /* 클릭 이벤트 활성화 */
 `;
-
 export const ChatBtn = styled.img`
   font-size: 14px;
   position: absolute;
@@ -64,7 +64,7 @@ export const ProductContent = styled.div`
   color: #777;
   font-size: 13px;
   font-weight: 400;
-  margin-left: 92px;
+  margin-left: 82px;
   margin-top: 20px;
   line-height: 15px; /* Match with height for accurate calculation */
   display: -webkit-box;
@@ -84,15 +84,23 @@ export const CurrentDate = styled.div`
 export const ChatBoxWrapper = styled.div``;
 
 export const ChatBoxContainer = styled.div`
+  display: flex;
   flex-direction: column;
+  justify-content: flex-end; // 새로운 메시지가 항상 하단에 위치하도록 설정합니다.
+
+  flex: 1;
+  overflow-y: auto; // 세로 스크롤이 필요할 경우 스크롤이 표시됩니다.
 `;
 
 export const ChatBoxContent = styled.div`
+  /* width: 600px; */
   max-width: 100%;
   max-height: 550px;
   height: auto;
   box-sizing: border-box;
   background-color: #fff;
+  z-index: 5;
+  min-height: 0; /* 컨테이너의 최소 높이를 0으로 설정합니다. */
 `;
 
 export const NoChatSelectedMessage = styled.p`
@@ -102,7 +110,7 @@ export const NoChatSelectedMessage = styled.p`
 `;
 
 export const ChatInput = styled.input`
-  width: 580px;
+  width: 600px;
   max-width: 100%; /* 최대 너비 설정 */
   height: 50px;
   border: 1px solid #ccc;
@@ -110,22 +118,22 @@ export const ChatInput = styled.input`
   font-size: 16px;
   background: #f2f2ff;
   padding-left: 10px;
-  bottom: 10px;
-
-  z-index: 5;
 `;
 
 export const ProfileInfoContainer = styled.div`
   display: inline-block;
   margin-left: 10px;
+  /* margin-right: 200px; */
 `;
 
 export const ChatText = styled.div`
-  max-height: 460px;
-  min-height: 460px;
+  max-height: 450px;
+  min-height: 455px;
+
   margin-bottom: 5px;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-right: 10px;
 `;
 
 export const ProfileName = styled.p`
@@ -135,10 +143,19 @@ export const ProfileName = styled.p`
 `;
 
 export const ChatMessage = styled.div`
-  position: relative;
-  margin-bottom: 10px;
-  padding: 10px;
+  background-color: #e5e5fe;
+  display: inline-block;
   border-radius: 10px;
-  background-color: ${({ isSender }) => (isSender ? "#DCF8C6" : "#E5E5EA")};
-  align-self: ${({ isSender }) => (isSender ? "flex-end" : "flex-start")};
+
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  text-align: right;
+`;
+
+export const ChatMessageWrapper = styled.div`
+  clear: both; /* 새로운 줄로 메시지를 배치합니다. */
+  overflow: hidden; /* 부모 요소의 높이를 계산하기 위해 사용됩니다. */
+  text-align: right;
+  padding-right: 5px;
 `;
