@@ -180,7 +180,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/chat/:iuser/:iproduct"
+          path="/chat/:iuser"
           element={
             <Suspense fallback={<Loading />}>
               <LazyChatPage />
@@ -188,7 +188,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/report/:iuser"
+          path="/report"
           element={
             <Suspense fallback={<Loading />}>
               <LazyReport />
