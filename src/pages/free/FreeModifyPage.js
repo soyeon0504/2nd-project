@@ -8,7 +8,6 @@ import {
   PhotoBt,
 } from "../../styles/free/FreeRegisterPageStyle";
 import { FreeHeader } from "../../styles/free/FreePageStyle";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
 import { useNavigate } from "react-router-dom";
