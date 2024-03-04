@@ -1,130 +1,104 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../layouts/Layout";
-import styled from "@emotion/styled";
-import Select from "react-select"; // 추가
-const PageWrapper = styled.div`
-  max-width: 1260px;
-  margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 100%;
-  display: flex;
-  -webkit-box-pack: center;
-  place-content: center;
-`;
-const BoxWrapper = styled.div`
-  width: 705px;
-  height: 858px;
-  /* background: #9c9d9e; */
-  padding: 18px;
-`;
+import styled from "styled-components";
 
-const ReportTitle = styled.div`
-  width: 600px;
-  height: 35px;
-  /* background: #2c2c2c; */
-  font-size: 30px;
-  color: rgb(24, 24, 24);
-  font-weight: bold;
-  margin: 20px 0px 40px;
-`;
-const ReportUser = styled.div`
-  font-size: 16px;
-  width: 100%;
-  line-height: 45px;
-  height: 50px;
-
-  place-items: center;
-
-  margin-bottom: 30px;
-  border-bottom: 1px solid rgb(229, 229, 229);
-  border-top: 1px solid rgb(229, 229, 229);
-`;
-const ReportTitleSub = styled.div`
-  font-size: 16px;
-  margin-bottom: 10px;
-`;
-const ReportText = styled.textarea`
-  width: 100%;
-  height: 20%;
-
-  resize: none;
-  outline: none;
-  padding: 16px 16px 90px;
-  border-radius: 6px;
-  background-color: rgb(250, 250, 250);
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  letter-spacing: normal;
-  color: rgb(51, 51, 51);
-  margin-bottom: 20px;
-`;
-
-const Notice = styled.div`
-  font-size: 14px;
-  color: rgb(51, 51, 51);
-`;
+import Select from "react-select";
+import { postReport } from "../../api/report/report_api";
+import { useParams } from "react-router-dom";
+import {
+  PageWrapper,
+  BoxWrapper,
+  ReportButton,
+  ReportTitle,
+  ReportTitleSub,
+  Notice,
+  ReportText,
+  ReportUser,
+} from "../../styles/chat/ReportStyles";
 
 const reportOptions = [
-  // 신고 유형 옵션
-  { value: "1", label: "상품신고" },
-  { value: "2", label: "채팅신고" },
-  { value: "3", label: "결제신고" },
-  { value: "5", label: "유저신고" },
-  { value: "4", label: "게시판신고" },
-
-  // 필요한만큼 추가
+  {
+    label: "분쟁",
+    options: [
+      { value: "1", label: "거래전 연락없음" },
+      { value: "2", label: "거래중 연락없음" },
+      { value: "3", label: "거짓 정보" },
+      { value: "4", label: "다른 제품" },
+      { value: "5", label: "비매너" },
+      { value: "6", label: "지각" },
+    ],
+  },
+  {
+    label: "사고",
+    options: [
+      { value: "7", label: "제품 손상" },
+      { value: "8", label: "제품 분실" },
+    ],
+  },
 ];
 
 const customStyles = {
   control: provided => ({
     ...provided,
     padding: "3px 3px",
-    border: "1px solid rgb(229, 229, 229)",
+    border: "1px solid #e5e5e5",
     borderRadius: "6px",
     fontSize: "18px",
     fontWeight: "bold",
-    color: "rgb(178, 178, 178)",
-
+    color: "#b2b2b2",
     marginBottom: "30px",
   }),
-  // 필요한만큼 추가
 };
-const ReportButton = styled.button`
-  // 버튼 스타일 설정
-  width: 100%;
-  height: 6%;
-  background: red;
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 18px;
-`;
 
 const Report = () => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [reportContent, setReportContent] = useState("");
+  const { productIdentity } = useParams(); // 제품의 PK를 받아옴
+
+  const handleReportSubmit = async () => {
+    try {
+      if (!selectedOption) {
+        alert("신고 사유를 선택해주세요.");
+        return;
+      }
+      if (!reportContent.trim()) {
+        alert("신고 내용을 입력해주세요.");
+        return;
+      }
+
+      const response = await postReport(
+        productIdentity, // 제품의 PK를 식별자로 사용
+        selectedOption.value,
+        reportContent,
+      );
+      console.log("신고가 접수되었습니다:", response);
+      alert("신고가 성공적으로 접수되었습니다.");
+    } catch (error) {
+      console.error("신고를 접수하는 도중 에러가 발생했습니다:", error);
+      alert("신고를 접수하는 도중 에러가 발생했습니다.");
+    }
+  };
+
   return (
     <PageWrapper>
       <BoxWrapper>
         <ReportTitle>신고하기</ReportTitle>
-        <ReportUser>신고할유저 - 배구이 </ReportUser>
-        <ReportTitleSub>신고 유형 선택</ReportTitleSub>
+        <ReportUser>신고 상태</ReportUser>
+        <ReportTitleSub>신고 사유 선택</ReportTitleSub>
         <Select
           options={reportOptions}
-          placeholder="신고 유형을 선택해주세요"
+          placeholder="신고 사유를 선택해주세요"
           styles={customStyles}
+          value={selectedOption}
+          onChange={setSelectedOption}
         />
         <ReportTitleSub>신고 내용</ReportTitleSub>
-        <ReportText placeholder="신고 내용을 입력해주세요" />
-        <ReportTitleSub>유의 사항</ReportTitleSub>
+        <ReportText
+          placeholder="신고 내용을 입력해주세요"
+          value={reportContent}
+          onChange={e => setReportContent(e.target.value)}
+        />
+        <ReportButton onClick={handleReportSubmit}>신고하기</ReportButton>
         <Notice>
           ・ 신고에 필요한 정보 외 개인정보를 포함하지 않도록 주의해주세요.
           <br />
@@ -132,7 +106,6 @@ const Report = () => {
           욕설 또는 폭언을 하지 말아주세요. <br />・ 접수는 24시간 가능하지만,
           답변은 9시 - 18시 사이에 순차적으로 받을 수 있어요.
         </Notice>
-        <ReportButton>신고하기</ReportButton>
       </BoxWrapper>
     </PageWrapper>
   );

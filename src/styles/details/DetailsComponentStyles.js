@@ -217,10 +217,10 @@ export const ProfileImg = styled.div`
 `;
 
 export const ProfileName = styled.div`
-  width: 70px;
+  width: 80px;
   height: 20px;
   color: #000;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
