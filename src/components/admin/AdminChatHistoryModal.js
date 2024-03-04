@@ -4,7 +4,8 @@ const AdminChatHistoryModal = ({ toggleModal }) => {
   return (
     <>
       <ModalOverlay onClick={toggleModal} />
-      <ModalContainer>
+      {ModalContainer && (
+        <ModalContainer>
         <div className="modal-content">
           <h2>신고된 채팅 내역</h2>
           <div className="chat-wrap">
@@ -20,15 +21,15 @@ const AdminChatHistoryModal = ({ toggleModal }) => {
             <div className="user-profile-wrap">
               <div className="profile-wrap">
                 <div className="user-profile">
-                  <img src="/image/kong.jpg" />
+                  <img src="/images/kong.jpg" />
                 </div>
-                <div className="user-nick">소연</div>
+                <div className="user-nick">USER</div>
               </div>
               <div className="user-chat-content">채팅 내역</div>
             </div>
           </div>
         </div>
-
+        
         <div>
           <div className="close-modal-wrap">
             <button className="close-modal" onClick={toggleModal}>
@@ -37,6 +38,8 @@ const AdminChatHistoryModal = ({ toggleModal }) => {
           </div>
         </div>
       </ModalContainer>
+      )}
+      
     </>
   );
 };
@@ -61,19 +64,20 @@ const ModalContainer = styled.div`
   text-align: center;
   border: 2px solid #777;
   border-radius: 20px;
-  width: 500px;
-  height: 600px;
+  width: 600px;
+  height: 650px;
   background-color: #fff;
   z-index: 999;
+  padding-top: 20px;
   .user-nick {
-    padding-top: 3px;
+    margin-top: 3px;
   }
   .profile-wrap {
     display: block;
   }
   .admin-profile-wrap {
     position: absolute;
-    width: 450px;
+    width: 500px;
     display: flex;
     justify-content: space-between;
     top: 50px;
@@ -83,6 +87,7 @@ const ModalContainer = styled.div`
       height: 50px;
       border: 1px solid #777;
       border-radius: 25px;
+      margin-left: 20px;
     }
     .admin-profile > img {
       width: 48px;
@@ -93,7 +98,7 @@ const ModalContainer = styled.div`
   .admin-chat-content {
     top: 50px;
     right: 80px;
-    width: 370px;
+    width: 450px;
     height: 50px;
     border: 1px solid #777;
     border-radius: 10px;
@@ -101,7 +106,7 @@ const ModalContainer = styled.div`
   }
   .user-profile-wrap {
     position: absolute;
-    width: 450px;
+    width: 500px;
     display: flex;
     justify-content: space-between;
     top: 120px;
@@ -111,6 +116,7 @@ const ModalContainer = styled.div`
       height: 50px;
       border: 1px solid #777;
       border-radius: 25px;
+      margin-right: 20px;
     }
     .user-profile > img {
       width: 50px;
@@ -121,7 +127,7 @@ const ModalContainer = styled.div`
   .user-chat-content {
     top: 120px;
     left: 80px;
-    width: 370px;
+    width: 450px;
     height: 50px;
     border: 1px solid #777;
     border-radius: 10px;
