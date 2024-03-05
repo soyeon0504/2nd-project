@@ -150,19 +150,22 @@ const AdminBoardPage = () => {
   };
 
   const handleClickDelete = async iproduct => {
-    try {
-      const reason = 1;
-      const res = await deleteProduct(iproduct, reason, errorFn);
-      getAllProducts(
-        page,
-        successFn,
-        errorFn,
-        selectedSearchOption,
-        inputValue,
-      );
-      setSearchKeyword(inputValue);
-    } catch (error) {
-      console.log(error);
+    const confirmDelete = window.confirm("해당 게시물을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        const reason = 1;
+        const res = await deleteProduct(iproduct, reason, errorFn);
+        getAllProducts(
+          page,
+          successFn,
+          errorFn,
+          selectedSearchOption,
+          inputValue,
+        );
+        setSearchKeyword(inputValue);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -210,7 +213,7 @@ const AdminBoardPage = () => {
             // disabled={selectedSearchOption === 0}
           />
           <button onClick={handleSearchSubmit} type="submit">
-            <img src="/images/admin/search.svg" />
+            <img src="/images/admin/bt_search.svg" />
           </button>
         </div>
         <div className="bt-wrap">
