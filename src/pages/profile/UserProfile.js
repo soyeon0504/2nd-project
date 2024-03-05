@@ -21,7 +21,7 @@ import {
 } from "../../styles/user/UserProfileStyle";
 import Layout from "../../layouts/Layout";
 import { SideBar } from "../../components/SideBar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MyMoreButton from "../../components/my/MyMoreButton";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { getUserProfile, getProductList } from "../../api/user/userProfile_api";
@@ -163,20 +163,15 @@ const UserProfile = () => {
 
   // 프로필 데이터
   const [userData, setUserData] = useState(initUserData);
-  console.log("userData", userData);
+  // console.log("userData", userData);
 
   // 제품 리스트 데이터
   const [userListData, setUserListData] = useState(initListData);
-  console.log("userListData", userListData);
+  // console.log("userListData", userListData);
   
   // 게시물 클릭시 상세페이지로 이동
-  const handlePageChangeDetails = async _item => {
-    const url = `/details/${_item.categories.mainCategory}/${_item.categories.subCategory}/${_item.iproduct}`;
-    const serverData = {
-      mainCategoryId: _item.categories.mainCategory,
-      subCategoryId: _item.categories.subCategory,
-      iproduct: _item.iproduct,
-    };
+  const handlePageChangeDetails = async (_item) => {
+    const url = `/details/${_item.icategory.mainCategory}/${_item.icategory.subCategory}/${_item.iproduct}`;
     navigate(url);
   };
   // more 버튼 클릭시 게시물 5개씩 더보기
@@ -186,7 +181,10 @@ const UserProfile = () => {
   };
 
   const { loginState } = useCustomLogin();
-  const iuser = loginState.iuser;
+  const location = useLocation();
+  const iuser = location.pathname.split("/")[2];
+
+  // const iuser = loginState.iuser;
   console.log("iuser", iuser);
 
   const [page, setPage] = useState(1);
@@ -243,7 +241,7 @@ const UserProfile = () => {
               <UserInfo>
                 <div className="profile-wrap">
                   <ProfileImg>
-                    <img src={userData.storedPic} />
+                    <img src={`/pic/${userData.storedPic}`} />
                   </ProfileImg>
                   <UserName>{userData.nick}</UserName>
                 </div>
@@ -291,26 +289,24 @@ const UserProfile = () => {
                 </Title>
                 <PostWrap
                   className="item-wrap"
-                  // key={`MainMore-item-${index}`}
-                  onClick={() => handlePageChangeDetails()}
                 >
-                  {userListData.slice(0, viewMore).map((userListData, index) => (
-                    <Post key={index}>
+                  {userListData.slice(0, viewMore).map((item, index) => (
+                    <Post key={index} onClick={() => handlePageChangeDetails(item)}>
                       <div>
                         <PostImg>
-                          <img src={userListData.prodMainPic} alt="Post Image" />
+                          <img src={`/pic/${item.prodMainPic}`} alt="Post Image" />
                         </PostImg>
                         <PostDesc>
-                          <div className="post-info-title">{userListData.title}</div>
-                          <div className="post-info-price">{userListData.rentalPrice}</div>
-                          <div className="post-info-date">{userListData.rentalStartDate}</div>
+                          <div className="post-info-title">{item.title}</div>
+                          <div className="post-info-price">{item.rentalPrice}</div>
+                          <div className="post-info-date">{item.rentalStartDate}</div>
                         </PostDesc>
                       </div>
                       <ProfileWrap>
                         <div>
-                          <img src={userListData.userPic} alt="Profile Image" />
+                          <img src={`/pic/${item.userPic}`} alt="Profile Image" />
                         </div>
-                        <div className="user-name">{userListData.nick}</div>
+                        <div className="user-name">{item.nick}</div>
                       </ProfileWrap>
                     </Post>
                   ))}

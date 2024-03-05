@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import StarRating from "./StarRating";
 import styled from "@emotion/styled";
 import { postReview } from "../../api/details/details_api";
+import { patchReview } from "../../api/my/my_api";
 
 const CancelButton = styled.button`
   width: 200px;
@@ -26,10 +27,11 @@ const CancelButton = styled.button`
 
 const SubmitButton = styled(CancelButton)``;
 
-const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
+const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting }) => {
+  const [review, setReview] = useState(contents);
+  const [rating, setRating] = useState(raiting);
 
+  
   const handleRate = async () => {
     if (rating === 0 || review.trim() === "") {
       // 별점과 리뷰가 입력되지 않은 경우, 리뷰 전송을 방지
@@ -37,11 +39,11 @@ const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
     }
     try {
       const userInputData = {
-        ipayment,
+        ireview,
         contents: review,
         rating,
       };
-      await postReview(userInputData); // API 호출
+      await patchReview(userInputData); // API 호출
       // 제출 후 입력란 초기화
       setRating(0);
       setReview("");
@@ -65,7 +67,7 @@ const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      ipayment={ipayment}
+      ireview={ireview}
       contentLabel="Review Form"
       style={{
         overlay: {
@@ -88,7 +90,7 @@ const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
         },
       }}
     >
-      <h2>상품리뷰 작성</h2>
+      <h2>상품리뷰 수정</h2>
       <form
         onSubmit={e => {
           e.preventDefault(); // 기본 폼 제출 방지
@@ -138,4 +140,4 @@ const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
   );
 };
 
-export default ReviewForm;
+export default ReviewFormModify;
