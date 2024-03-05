@@ -81,11 +81,8 @@ export const Rating = styled.div`
         font-size: 16px;
         color: #777;
     }
-    /* img {
-        padding-top: 10px;
-    } */
     .rating-score {
-        width: 90px;
+        width: 70px;
         display: flex;
         justify-content: space-between;
         font-size: 25px;
@@ -119,7 +116,7 @@ export const PostInfo = styled.div`
 `
 
 export const Title = styled.div`
-    width: 120px;
+    width: 110px;
     font-size: 16px;
     display: flex;
     justify-content: space-between;

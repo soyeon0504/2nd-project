@@ -91,7 +91,7 @@ const category = [
 const SEARCH_OPTIONS = ["전체", "닉네임", "카테고리"];
 
 const SEARCH_OPTIONS_TEXT = [
-  "------------",
+  // "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "카테고리를 입력해주세요",
 ];
@@ -118,23 +118,23 @@ const AdminBoardPage = () => {
   const handlePageChange = (value, page, totalPage) => {
     console.log(value);
     if (value === "first") {
-      getAllProducts(1, successFn, errorFn);
+      getAllProducts({page: 1, successFn, errorFn, sort: sortType});
       setPage(1);
     } else if (value === "prev") {
       if (page !== 1) {
-        getAllProducts(page - 1, successFn, errorFn);
+        getAllProducts({page: page - 1, successFn, errorFn, sort: sortType});
         setPage(page - 1);
       }
     } else if (value === "next") {
       if (page !== totalPage) {
-        getAllProducts(page + 1, successFn, errorFn);
+        getAllProducts({page: page + 1, successFn, errorFn, sort: sortType});
         setPage(page + 1);
       }
     } else if (value === "last") {
-      getAllProducts(totalPage, successFn, errorFn);
+      getAllProducts({page: totalPage, successFn, errorFn, sort: sortType});
       setPage(totalPage);
     } else {
-      getAllProducts(value, successFn, errorFn);
+      getAllProducts({page: value, successFn, errorFn, sort:sortType});
       setPage(value);
     }
   };
@@ -150,31 +150,27 @@ const AdminBoardPage = () => {
   };
 
   const handleClickDelete = async iproduct => {
-    try {
-      const reason = 1;
-      const res = await deleteProduct(iproduct, reason, errorFn);
-      getAllProducts(
-        page,
-        successFn,
-        errorFn,
-        selectedSearchOption,
-        inputValue,
-      );
-      setSearchKeyword(inputValue);
-    } catch (error) {
-      console.log(error);
+    const confirmDelete = window.confirm("해당 게시물을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        const reason = 1;
+        const res = await deleteProduct(iproduct, reason, errorFn);
+        getAllProducts(
+          page,
+          successFn,
+          errorFn,
+          selectedSearchOption,
+          inputValue,
+        );
+        setSearchKeyword(inputValue);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
+  const [sortType, setSortType] = useState();
   const getSortedData = sortType => {
-    if (sortType === 0) {
-      if (selectedSearchOption != 0 && inputValue) {
-        getAllProducts(1, successFn, errorFn, selectedSearchOption, inputValue);
-      } else {
-        getAllProducts(1, successFn, errorFn);
-      }
-    } else if (sortType === 1) {
-      if (selectedSearchOption != 0 && inputValue) {
         getAllProducts(
           1,
           successFn,
@@ -182,11 +178,8 @@ const AdminBoardPage = () => {
           selectedSearchOption,
           inputValue,
           sortType,
-        );
-      } else {
-        // getAllProducts(1, successFn, errorFn, sortType);
-      }
-    }
+        )
+        setSortType()
   };
 
   useEffect(() => {
@@ -217,12 +210,12 @@ const AdminBoardPage = () => {
           <input
             type="text"
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
-            value={selectedSearchOption === "전체" ? "--" : inputValue}
+            value={inputValue}
             onChange={handleSearchKeywordChange}
-            disabled={selectedSearchOption === 0}
+            // disabled={selectedSearchOption === 0}
           />
           <button onClick={handleSearchSubmit} type="submit">
-            <img src="/images/admin/search.svg" />
+            <img src="/images/admin/bt_search.svg" />
           </button>
         </div>
         <div className="bt-wrap">
@@ -268,7 +261,7 @@ const AdminBoardPage = () => {
                       ].title
                     }
                   </td>
-                  <td>{item.pricePerDay}</td>
+                  <td>{item.pricePerDay.toLocaleString()}</td>
                   <td>{item.nick}</td>
                   <td>{item.view}</td>
                   <td>{item.createdAt}</td>
@@ -298,6 +291,7 @@ const AdminBoardPage = () => {
           onChange={handlePageChange}
           total={boardAllData.totalDisputeCount}
           pageSize={12}
+          style={{paddingTop: "30px"}}
         />
       </div>
     </BoardWrap>

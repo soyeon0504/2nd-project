@@ -170,8 +170,6 @@ const MainPage = () => {
     fetchData();
   }, []);
 
-
-
   return (
     <>
       <Layout>

@@ -27,9 +27,9 @@ export const getProducts = async (page, type, search, status) => {
   }
 };
 
-export const deleteUser = async (userId, reason) => {
+export const deleteUser = async (iuser, reason) => {
   try {
-    const url = `${path}/admin/user/${userId}?reason=${reason}`;
+    const url = `${path}/admin/user/${iuser}?reason=${reason}`;
     const res = await jwtAxios.delete(url); // Changed method to DELETE
     return res.data?.user ?? null; // Assuming the response contains a single user object
   } catch (error) {

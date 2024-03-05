@@ -29,7 +29,7 @@ import {
 // 오늘 날짜 추적
 import moment from "moment";
 
-//서버에서 돌려주는 값
+// 1차 초기값
 // const initMoreData = {
 //   mainPic: "", //메인 사진
 //   pics: [""], //서브 사진
@@ -61,75 +61,80 @@ const btlist = [
   ["플레이스테이션", "닌텐도", "Wii", "XBOX", "기타"],
 ];
 
-// 초기값
+// 2차 초기값
 const initState = {
-  mainPic: "",
-  pics: [],
-  title: "", //재목(50자 한정)
-  contents: "", // 내용 (1500자 제한)
-  // addr: "", //주소
-  // restAddr: "", // 나머지 주소
-  price: "", //가격
-  rentalPrice: "", //임대 가격
-  depositPer: "", //보증금 비율
-
-  buyDate: "", //구매날짜
-  rentalStartDate: "", //임대시작
-  rentalEndDate: "", // 임대 종료
-  icategory: {
-    //카테고리숫자
-    mainCategory: "1", //메인카테고리
-    subCategory: "1", //하위 카테고리
+  mainPic: "", //메인 사진
+  pics: [""], //서브 사진
+  dto: {
+    title: "", //재목(50자 한정)
+    contents: "", // 내용 (1500자 제한)
+    addr: "", //주소
+    restAddr: "", // 나머지 주소
+    rentalPrice: 0, // 가격
+    rentalStartDate: "", //임대시작
+    rentalEndDate: "", // 임대 종료
+    icategory: {
+      //카테고리숫자
+      mainCategory: 1, //메인카테고리
+      subCategory: 1, //하위 카테고리
+    },
+    hashTags: [""], // 해쉬 태그
   },
-
-  inventory: 0, // 재고
-  hashtag: "#",
 };
+
 // 검증 코드 yup
 const validationSchema = yup.object({
+  //제목
   title: yup
     .string("내용을 입력하세요.")
     .min(2, "2자 이상 입력하세요")
     .max(50, "50자까지만 입력하세요 ")
     .required("제목은 필수 입력 사항입니다."),
+  //내용
   contents: yup
     .string("내용을 입력하세요.")
     .min(2, "2자 이상 입력하세요")
     .max(1500, "1500자까지만 입력하세요 ")
     .required("내용은 필수 입력 사항입니다."),
-  price: yup
+  //주소
+  addr: yup
+    .string("내용 입력하세요.")
+    .min(2, "주소를 입력하세요")
+    .required(" 거래 주소는 필수 입력 사항입니다."),
+  //상세 주소
+  restAddr: yup
     .string("내용을 입력하세요.")
-    .min(3, "100원 이상 입력하세요")
-    .required("가격은 필수 입력 사항입니다."),
-  depositPer: yup
-    .string("50% 이상 최대 100% 입력하세요.")
-    .required("보증금은 필수 입력 사항입니다."),
+    .max(50, "50자까지만 입력하세요 ")
+    .required(" 상세 주소는 필수 입력 사항입니다."),
+  //가격
   rentalPrice: yup
     .string("내용을 입력하세요.")
     .min(3, "100원 이상 입력하세요")
     // .max(10, "21억까지만 입력하세요 ")
     .required("하루대여 가격은 필수 입력 사항입니다."),
-  inventory: yup
-    .string("내용을 입력하세요.")
-    .min(1, "1개 이상 입력하세요")
-    .required("소유 수량은 필수 입력 사항입니다."),
-  buyDate: yup
-    .string("내용을 입력하세요.")
-    .required("제품 구매일은 필수 입력 사항입니다."),
+  //제품의 임대 시작 종료
   rentalStartDate: yup
     .string("내용을 입력하세요.")
     .required("거래 시작 날짜는 필수 입력 사항입니다."),
   rentalEndDate: yup
     .string("내용을 입력하세요.")
     .required(" / 거래 종료 날짜는 필수 입력 사항입니다."),
-  // addr: yup
-  //   .string("내용 입력하세요.")
-  //   .min(2, "주소를 입력하세요")
-  //   .required(" 거래 주소는 필수 입력 사항입니다."),
-  // restAddr: yup
-  //   .string("내용을 입력하세요.")
-  //   .max(50, "50자까지만 입력하세요 ")
-  //   .required(" 상세 주소는 필수 입력 사항입니다."),
+
+  price: yup
+    .string("내용을 입력하세요.")
+    .min(3, "100원 이상 입력하세요")
+    .required("가격은 필수 입력 사항입니다."),
+  // 헤쉬 태그
+  hashTags: yup
+    .string("제품사진을 선택해주세요.")
+    .test("has-hash", "제품 사진에 # 기호가 포함되어야 합니다.", value => {
+      return value && value.includes("#");
+    })
+    .required("제품사진은 최소 1개 이상 필수 입력 사항입니다."),
+
+  buyDate: yup
+    .string("내용을 입력하세요.")
+    .required("제품 구매일은 필수 입력 사항입니다."),
   mainPic: yup
     .string("제품사진을 선택해주세요.")
     .required("제품사진은 최소 1개이상 필수 입력 사항입니다."),
@@ -272,45 +277,17 @@ const Write = () => {
     setChangeBtn(0);
   };
 
-  const handleTextareaChange = event => {
-    const value = event.target.value;
-    setTextareaValue(value);
-  };
+  // const handleTextareaChange = event => {
+  //   const value = event.target.value;
+  //   setTextareaValue(value);
+  // };
 
-  const handleInputAction = event => {
-    // 최대 1500글자까지만 입력을 허용
-    const newValue = event.target.value.slice(0, 1500);
-    setInputValue(newValue);
-  };
+  // const handleInputAction = event => {
+  //   // 최대 1500글자까지만 입력을 허용
+  //   const newValue = event.target.value.slice(0, 1500);
+  //   setInputValue(newValue);
+  // };
 
-  const handleChange = e => {
-    // parseInt(파싱인트) = 문자열 정수 변환
-    let inputValue = parseInt(e.target.value, 10);
-    // 범위 제한
-    if (!isNaN(inputValue) && inputValue >= 50 && inputValue <= 100) {
-      inputValue = Math.round(inputValue / 10) * 10; //10 배수 증가
-      setValueDeposit(inputValue);
-    }
-  };
-  const handleDecrease = () => {
-    const v = valueDeoposit > 60 ? valueDeoposit - 10 : valueDeoposit;
-    // hook-form 의 전용함수 활용
-    setValue("depositPer", v);
-    // 아래는 값을 보관
-    setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : prevValue));
-
-    // setValueDeposit(prevValue => (prevValue > 60 ? prevValue - 10 : 50));
-  };
-
-  const handleIncrease = () => {
-    const v = valueDeoposit < 100 ? valueDeoposit + 10 : valueDeoposit;
-    // hook-form 의 전용함수 활용
-    setValue("depositPer", v);
-    // 아래는 값을 보관함.
-    setValueDeposit(prevValue =>
-      prevValue < 100 ? prevValue + 10 : prevValue,
-    );
-  };
   const [buyDateNow, setBuyDateNow] = useState(null);
   const handleChangeBuyDate = (date, dateString) => {
     setBuyDateNow(date);
@@ -365,10 +342,9 @@ const Write = () => {
           contents: data.contents, // 내용 (1500자 제한)
           addr: address, //주소
           restAddr: restAddress, // 나머지 주소
-          price: data.price, //가격
+
           rentalPrice: data.rentalPrice, //임대 가격
-          depositPer: data.depositPer, //보증금 비율
-          buyDate: data.buyDate, //구매날짜
+
           rentalStartDate: data.rentalStartDate, //임대시작
           rentalEndDate: data.rentalEndDate, // 임대 종료
           icategory: {
@@ -376,7 +352,7 @@ const Write = () => {
             mainCategory: data.icategory.mainCategory, //메인카테고리
             subCategory: data.icategory.subCategory, //하위 카테고리
           },
-          inventory: data.inventory,
+          hashTags: data.hashTags, //해쉬 태그
         }),
       ],
       // JSON 형식으로 설정
@@ -423,9 +399,8 @@ const Write = () => {
     setValue("title", ""); //제목
     setValue("contents", ""); //내용
     setValue("rentalPrice", ""); //대여금
-
-    setValue("restAddress", "");
-    setValue("adress", "");
+    setValue("restAddress", ""); //주소
+    setValue("adress", ""); //나머지주소
     setValue("hashTags", ""); //태그
   };
   //취소 버튼시 메인으로
@@ -439,6 +414,7 @@ const Write = () => {
     setCatchErr(true);
     console.log("gogo44444g");
   };
+
   //현재 날짜 추적 이전 날짜 막는 코드
   const [selectedDateRangeAll, setSelectedDateRangeAll] = useState(null);
   // 오늘 날짜
@@ -448,10 +424,10 @@ const Write = () => {
     return current && current < moment().startOf("day");
   };
   //태그관련
-  const handleInputChangeHash = e => {
-    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setInputHash(newValue);
-  };
+  // const handleInputChangeHash = e => {
+  //   const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+  //   setInputHash(newValue);
+  // };
   const handleInputChangeHash1 = e => {
     const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
     setInputHash1(newValue);
@@ -464,17 +440,27 @@ const Write = () => {
     const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
     setInputHash3(newValue);
   };
-  // 공백을 제거하는 함수 만들기
+
+  const handleInputChangeHash = e => {
+    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+    setInputHash(newValue);
+    handleChangeS(newValue);
+  };
+
+  //공백을 제거하는 함수 만들기
   let [str, setStr] = useState("");
   const handleChangeS = e => {
-    let newValue = e.target.value.trim(); // 입력 값에서 공백을 제거한 후 새로운 변수에 할당
-    setStr(newValue); // state 변수(str) 업데이트
+    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
+    setInputHash(newValue);
+
+    let newValue2 = e.target.value.trim(); // 입력 값에서 공백을 제거한 후 새로운 변수에 할당
+    setStr(newValue2); // state 변수(str) 업데이트
   };
 
   str = str.trim();
   let arr = str.split(" ");
   let result = arr.join("");
-  // console.log(result);
+  console.log("실행중", result);
 
   return (
     <Layout>
@@ -540,6 +526,7 @@ const Write = () => {
               <div>
                 <div>
                   <input
+                    name="title"
                     type="text"
                     id="product"
                     maxLength={50}
@@ -646,16 +633,16 @@ const Write = () => {
               <div>
                 <div>
                   <textarea
+                    name="contents"
                     id="detail"
                     maxLength={1500}
-                    {...register("contents")}
                     placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감,하자 유무) 등을 입력해 주세요."
                     // value={textareaValue}
                     // onChange={e => {
                     //   handleTextareaChange(e);
                     //   handleInputAction(e);
                     // }}
-                    // {...register("contents")}
+                    {...register("contents")}
                   />
 
                   <div style={{ color: "red" }}>
@@ -672,31 +659,35 @@ const Write = () => {
               </label>
               <PriceDiv>
                 <input
+                  name="hashTags"
                   type="text"
-                  // value={inputHash}
-                  // onChange={handleInputChangeHash}
+                  // value={str}
+                  // onChange={e => handleChangeS(e)}
                   placeholder="#태그를작성해주세요"
-                  {...register("hash")}
-                ></input>
-
+                  {...register("hashTags")}
+                />
+                <div style={{ color: "red" }}>
+                  {formState.errors.hashTags?.message}
+                </div>
                 <input
                   type="text"
+                  name="hashTags"
                   value={inputHash1}
                   onChange={handleInputChangeHash1}
                   placeholder="#닌테도"
                 ></input>
                 <input
                   type="text"
+                  name="hashTags"
                   value={inputHash2}
-                  onChange={handleInputChangeHash2}
+                  onKeyDown={handleInputChangeHash2}
                   placeholder="#이벤트"
                 ></input>
                 <input
                   type="text"
-                  // value={inputHash3}
-                  // onChange={handleInputChangeHash3}
-                  value={str}
-                  onChange={e => handleChangeS(e)}
+                  name="hashTags"
+                  // value={str}
+                  // onChange={e => handleChangeS(e)}
                   placeholder="#전자제품"
                 />
               </PriceDiv>
@@ -708,19 +699,20 @@ const Write = () => {
               <div>
                 <div>
                   <input
+                    name="rentalPrice"
                     className="showSpinner"
                     type="number"
                     id="quantity"
                     placeholder="숫자만 입력"
-                    {...register("inventory")}
+                    {...register("rentalPrice")}
                   />
                   <div style={{ color: "red" }}>
-                    {formState.errors.inventory?.message}
+                    {formState.errors.rentalPrice?.message}
                   </div>
                 </div>
               </div>
             </ListDiv>
-            <ListDiv>
+            {/* <ListDiv>
               <label htmlFor="dateInput">
                 <p>제품 구매일</p> <p>*</p>
               </label>
@@ -743,7 +735,7 @@ const Write = () => {
                   </div>
                 </div>
               </div>
-            </ListDiv>
+            </ListDiv> */}
             <ListDiv>
               <label htmlFor="rentalday">
                 <p>거래 가능 날짜</p> <p>*</p>
@@ -776,8 +768,8 @@ const Write = () => {
                   />
 
                   <div style={{ color: "red" }}>
-                    {formState.errors.rentalStartDate?.message}
-                    {formState.errors.rentalEndDate?.message}
+                    {/* {formState.errors.rentalStartDate?.message} */}
+                    {/* {formState.errors.rentalEndDate?.message} */}
                   </div>
                 </div>
               </div>
@@ -788,14 +780,15 @@ const Write = () => {
               </label>
               <div>
                 <input
+                  name="addr"
                   type="text"
-                  // {...register("addr")}
                   value={address}
                   placeholder="주소 검색을 해주세요."
                   onClick={handleClickButton}
                   id="adress"
                   readOnly
                   onChange={handleChangeAddress}
+                  {...register("addr")}
                 />
 
                 {catchErr && address === "" && (
@@ -806,12 +799,12 @@ const Write = () => {
                 </div> */}
 
                 <input
-                  type="text"
-                  value={restAddress}
-                  placeholder="상세 주소를 입력해주세요."
-                  // {...register("restAddr")}
                   name="restAddress"
+                  type="text"
+                  // value={restAddress}
+                  placeholder="상세 주소를 입력해주세요."
                   onChange={handleChangeRestAddress}
+                  {...register("restAddr")}
                 />
                 <div style={{ color: "red" }}>
                   {formState.errors.restAddr?.message}

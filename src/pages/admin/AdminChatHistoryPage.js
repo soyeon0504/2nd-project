@@ -149,6 +149,7 @@ const AdminChatHistoryPage = () => {
           onChange={handlePageChange}
           total={chatHistoryData.totalChatCount}
           pageSize={12}
+          style={{paddingTop: "30px"}}
         />
       </div>
     </BoardWrap>

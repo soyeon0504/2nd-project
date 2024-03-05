@@ -169,11 +169,37 @@ const UserProfile = () => {
   const [userListData, setUserListData] = useState(initListData);
   // console.log("userListData", userListData);
   
-  // 게시물 클릭시 상세페이지로 이동
-  const handlePageChangeDetails = async (_item) => {
-    const url = `/details/${_item.icategory.mainCategory}/${_item.icategory.subCategory}/${_item.iproduct}`;
-    navigate(url);
+
+  // details 페이지로 이동
+  const { isLogin } = useCustomLogin();
+
+  // const handlePageChangeDetails = async item => {
+  //   console.log(item)
+  //   if (isLogin) {
+  //     // const serverData = {
+  //     //   mainCategoryId: item.categories.mainCategory,
+  //     //   subCategoryId: item.categories.subCategory,
+  //     //   iproduct: item.iproduct,
+  //     // };
+  //     const url = `/details?mc=${item.categories.mainCategory}&sc=${item.categories.subCategory}&productId=${item.iproduct}`;
+  //     // console.log(serverData);
+  //     // const res = getProductDetail(serverData);
+  //     navigate(url);
+  //     // console.log(res);
+  //   } else {
+  //     setLoginState(true);
+  //   }
+  // };
+
+  const handlePageChangeDetails = async (item) => {
+    if (isLogin) {
+      const url = `/details/${item.iproduct}`; // 상대방의 제품 아이디를 파라미터로 전달
+      navigate(url);
+    } else {
+      setLoginState(true);
+    }
   };
+
   // more 버튼 클릭시 게시물 5개씩 더보기
   const [viewMore, setViewMore] = useState(4);
   const handleLoadMore = () => {
@@ -215,14 +241,19 @@ const UserProfile = () => {
 
   // 벌점 숫자별 색상
   const getPenaltyColor = (penalty) => {
-    if (penalty >= 0 && penalty <= 20) {
+    const absPenalty = Math.abs(penalty); // penalty의 절대값을 구합니다.
+  
+    if (absPenalty >= 0 && absPenalty <= 20) {
       return "green"; // 초록색
-    } else if (penalty >= 21 && penalty <= 30) {
+    } else if (absPenalty >= 21 && absPenalty <= 30) {
       return "orange"; // 주황색
-    } else if (penalty >= 31 && penalty <= 50) {
+    } else if (absPenalty >= 31 && absPenalty <= 50) {
       return "red"; // 빨간색
+    } else {
+      return "black"; // 범위를 벗어난 값일 경우 검정색 반환
     }
   }
+  
 
 
   return (
@@ -233,7 +264,6 @@ const UserProfile = () => {
           <Wrap>
             <Header>
               <div>프로필</div>
-              <div>테스트</div>
               <hr />
             </Header>
             {/* 유저 프로필 정보 */}
@@ -250,15 +280,15 @@ const UserProfile = () => {
                   <Rating>
                     <div>통합 별점</div>
                     <div className="rating-score">
-                      <span>5.0 /</span>
                       <span
                         style={{
                           color: "#2C39B5",
                           fontWeight: "500",
                         }}
-                      >
+                        >
                         {userData.rating}
                       </span>
+                      <span>/ 5.0</span>
                     </div>
                   </Rating>
                   <hr />
@@ -290,23 +320,25 @@ const UserProfile = () => {
                 <PostWrap
                   className="item-wrap"
                 >
-                  {userListData.slice(0, viewMore).map((item, index) => (
-                    <Post key={index} onClick={() => handlePageChangeDetails(item)}>
+
+                  {userListData.slice(0, viewMore).map((userListItem, index) => (
+                    <Post key={index} onClick={() => handlePageChangeDetails(userListItem)}>
                       <div>
                         <PostImg>
-                          <img src={`/pic/${item.prodMainPic}`} alt="Post Image" />
+                          <img src={`/pic/${userListItem.prodMainPic}`} alt="Post Image" />
                         </PostImg>
                         <PostDesc>
-                          <div className="post-info-title">{item.title}</div>
-                          <div className="post-info-price">{item.rentalPrice}</div>
-                          <div className="post-info-date">{item.rentalStartDate}</div>
+                          <div className="post-info-title">{userListItem.title}</div>
+                          <div className="post-info-price">{userListItem.rentalPrice.toLocaleString()}</div>
+                          <div className="post-info-date">{userListItem.rentalStartDate}</div>
                         </PostDesc>
                       </div>
                       <ProfileWrap>
                         <div>
-                          <img src={`/pic/${item.userPic}`} alt="Profile Image" />
+
+                          <img src={`/pic/${userListItem.userPic}`} alt="Profile Image" />
                         </div>
-                        <div className="user-name">{item.nick}</div>
+                        <div className="user-name">{userListItem.nick}</div>
                       </ProfileWrap>
                     </Post>
                   ))}

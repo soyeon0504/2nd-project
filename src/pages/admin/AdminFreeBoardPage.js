@@ -30,7 +30,7 @@ const initFreeBoardData = {
 const SEARCH_OPTIONS = ["전체", "닉네임", "제목"];
 
 const SEARCH_OPTIONS_TEXT = [
-  "------------",
+  "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "제목을 입력해주세요",
 ];
@@ -53,10 +53,6 @@ const AdminFreeBoardPage = () => {
     alert(`${res.message} \n 에러코드(${res.errorCode})`);
   };
 
-  // const getLength = () => {
-  //   return freeBoardAllData.length;
-  // }
-  // const totalPage = Math.ceil(getLength() / limit)
 
   const handlePageChange = (value, page, totalPage) => {
     console.log(value);
@@ -83,9 +79,20 @@ const AdminFreeBoardPage = () => {
   };
 
   
-  const handleSearchOptionChange = e => setSelectedSearchOption(e.target.value);
+  const handleSearchOptionChange = e => {
+  const selectedOption = e.target.value;
+  setSelectedSearchOption(selectedOption);
+  if (selectedOption === "전체") {
+    // 전체 옵션이 선택된 경우에는 모든 데이터를 요청합니다.
+    getFreeBoard(1, successFn, errorFn);
+    setSearchKeyword("");
+    setInputValue("");
+  }
+}
 
   const handleSearchKeywordChange = e => setInputValue(e.target.value);
+
+  
 
   const handleSearchSubmit = () => {
     getFreeBoard(1, successFn, errorFn, selectedSearchOption, inputValue);
@@ -94,6 +101,8 @@ const AdminFreeBoardPage = () => {
   };
 
   const handleClickDelete = async iboard => {
+    const confirmDelete = window.confirm("해당 게시물을 삭제하시겠습니까?");
+    if (confirmDelete) {
     try {
       const reason = 1;
       const res = await deleteFreeBoard(iboard, reason, errorFn);
@@ -108,17 +117,10 @@ const AdminFreeBoardPage = () => {
     } catch (error) {
       console.log(error);
     }
+  }
   };
 
   const getSortedData = sortType => {
-    if (sortType === 0) {
-      if (selectedSearchOption != 0 && inputValue) {
-        getFreeBoard(1, successFn, errorFn, selectedSearchOption, inputValue);
-      } else {
-        getFreeBoard(1, successFn, errorFn);
-      }
-    } else if (sortType === 1) {
-      if (selectedSearchOption != 0 && inputValue) {
         getFreeBoard(
           1,
           successFn,
@@ -126,11 +128,7 @@ const AdminFreeBoardPage = () => {
           selectedSearchOption,
           inputValue,
           sortType,
-        );
-      } else {
-        // getAllProducts(1, successFn, errorFn, sortType);
-      }
-    }
+        )
   };
 
   useEffect(() => {
@@ -162,12 +160,12 @@ const AdminFreeBoardPage = () => {
             <input
             type="text"
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
-            value={selectedSearchOption === "전체" ? "--" : inputValue}
+            value={inputValue}
             onChange={handleSearchKeywordChange}
-            disabled={selectedSearchOption === 0}
+            // disabled={selectedSearchOption === 0}
           />
             <button onClick={handleSearchSubmit} type="submit">
-              <img src="/images/admin/search.svg" />
+              <img src="/images/admin/bt_search.svg" />
             </button>
         </div>
             <div className="bt-wrap">
@@ -227,6 +225,7 @@ const AdminFreeBoardPage = () => {
           onChange={handlePageChange}
           total={freeBoardAllData.totalBoardCount}
           pageSize={12}
+          style={{paddingTop: "30px"}}
         />
       </div>
     </BoardWrap>

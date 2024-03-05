@@ -13,7 +13,7 @@ export const ChatBox = styled.div`
   width: 630px;
 
   height: auto;
-  max-height: 615px;
+  max-height: 627px;
   flex-shrink: 0;
   padding-left: 10px;
   padding-right: 5px;
@@ -21,7 +21,7 @@ export const ChatBox = styled.div`
   margin-right: 20px;
   border: 1px solid #777;
   overflow: hidden; /* 넘치는 내용 숨김 */
-  overflow-y: auto; /* 내용이 넘칠 때 수직 스크롤 표시 */
+  /* overflow-y: auto; 내용이 넘칠 때 수직 스크롤 표시 */
   position: relative;
 `;
 
@@ -64,8 +64,8 @@ export const ProductContent = styled.div`
   color: #777;
   font-size: 13px;
   font-weight: 400;
-  margin-left: 82px;
-  margin-top: 20px;
+  margin-left: 95px;
+  margin-top: 10px;
   line-height: 15px; /* Match with height for accurate calculation */
   display: -webkit-box;
   -webkit-line-clamp: 3; /* Show up to 3 lines */
@@ -96,7 +96,8 @@ export const ChatBoxContent = styled.div`
   /* width: 600px; */
   max-width: 100%;
   max-height: 550px;
-  height: auto;
+  min-height: 550px;
+  height: 550px;
   box-sizing: border-box;
   background-color: #fff;
   z-index: 5;
@@ -128,8 +129,8 @@ export const ProfileInfoContainer = styled.div`
 
 export const ChatText = styled.div`
   max-height: 450px;
-  min-height: 455px;
-
+  min-height: 450px;
+  height: 450px;
   margin-bottom: 5px;
   overflow-y: auto;
   overflow-x: hidden;

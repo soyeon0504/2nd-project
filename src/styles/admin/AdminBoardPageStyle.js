@@ -50,7 +50,9 @@ export const HeaderWrap = styled.div`
         width: 100px;
         height: 40px;
         border: 1px solid #bebebe;
-        border-radius: 5px;
+        border-right: none;
+        border-radius: 5px 0 0 5px;
+        border-top-left-radius: none;
       }
       input {
         width: 300px;
@@ -60,6 +62,7 @@ export const HeaderWrap = styled.div`
         padding-left: 15px;
         color: #000;
         font-size: 16px;
+        border-radius: 0 5px 5px 0;
         ::placeholder {
           color: #bebebe;
           letter-spacing: 1.5px;
@@ -104,25 +107,5 @@ export const HeaderWrap = styled.div`
       height: 20px;
       margin-top: 5px;
     }
-  }
-`;
-
-export const Modal = styled.div`
-  top: 0;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  border: 2px solid #777;
-  border-radius: 20px;
-  width: 500px;
-  height: 600px;
-  .close-modal {
-    width: 60px;
-    height: 30px;
-    font-size: 15px;
-    border-radius: 5px;
-    background-color: #c14b45;
-    display: flex;
-    justify-content: center;
   }
 `;

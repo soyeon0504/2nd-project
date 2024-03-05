@@ -5,7 +5,7 @@ export const ReportTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #c14b45;
+  /* border-bottom: 1px solid #c14b45; */
   padding-bottom: 17px;
   margin-bottom: 30px;
   h1 {
@@ -17,6 +17,7 @@ export const ReportTitle = styled.div`
     height: 30px;
     border: 1px solid #c14b45;
     cursor: pointer;
+    letter-spacing: 1px;
   }
 `;
 
@@ -36,6 +37,7 @@ export const ReportSearchWord = styled.input`
 
   color: rgb(0, 0, 0);
   font-size: 16px;
+  letter-spacing: 1.5px;
 `;
 
 export const ReportSearchBt = styled.button`
@@ -97,6 +99,7 @@ export const MemberSearchForm = styled.div`
     border: none;
     background-color: transparent;
     border-right: 1px solid #bebebe;
+    border-radius: 5px 0 0 5px;
   }
 
   > input {
@@ -104,6 +107,7 @@ export const MemberSearchForm = styled.div`
     border: none;
     color: rgb(0, 0, 0);
     font-size: 16px;
+    letter-spacing: 1.5px;
   }
 `;
 
@@ -127,36 +131,38 @@ export const ReportMain = styled.div`
   thead {
     height: 60px;
     background: #ffe6e6;
-    font-size: 18px;
+    font-size: 16px;
   }
   th {
-    border: 1px solid #bebebe;
+    border: 2px solid #fff;
   }
   tbody {
     font-size: 18px;
   }
   tr {
+    font-weight: 400;
+    font-size: 16px;
     height: 60px;
   }
   td {
-    border: 1px solid #bebebe;
+    border: 2px solid #fff;
   }
   button {
     width: ${props => (props.width ? props.width : "65px")};
     height: 30px;
     background: #fff;
     border-radius: 8px;
-    border: 2px solid #79747e;
+    border: 1px solid #79747e;
     cursor: pointer;
 
     font-weight: bold;
     color: #79747e;
   }
   button:hover {
-    border: 2px solid #b6000b;
-    color: #b6000b;
-    /* background: #ffe6e6; */
-  }
+      color: #fff;
+      background-color: #b6000b;
+      border: 2px solid #b6000b;
+    }
 `;
 
 export const PaginationContent = styled(Pagination)`
