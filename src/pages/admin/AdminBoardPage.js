@@ -91,7 +91,7 @@ const category = [
 const SEARCH_OPTIONS = ["전체", "닉네임", "카테고리"];
 
 const SEARCH_OPTIONS_TEXT = [
-  "검색어를 입력해주세요",
+  // "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "카테고리를 입력해주세요",
 ];
@@ -118,23 +118,23 @@ const AdminBoardPage = () => {
   const handlePageChange = (value, page, totalPage) => {
     console.log(value);
     if (value === "first") {
-      getAllProducts(1, successFn, errorFn);
+      getAllProducts({page: 1, successFn, errorFn, sort: sortType});
       setPage(1);
     } else if (value === "prev") {
       if (page !== 1) {
-        getAllProducts(page - 1, successFn, errorFn);
+        getAllProducts({page: page - 1, successFn, errorFn, sort: sortType});
         setPage(page - 1);
       }
     } else if (value === "next") {
       if (page !== totalPage) {
-        getAllProducts(page + 1, successFn, errorFn);
+        getAllProducts({page: page + 1, successFn, errorFn, sort: sortType});
         setPage(page + 1);
       }
     } else if (value === "last") {
-      getAllProducts(totalPage, successFn, errorFn);
+      getAllProducts({page: totalPage, successFn, errorFn, sort: sortType});
       setPage(totalPage);
     } else {
-      getAllProducts(value, successFn, errorFn);
+      getAllProducts({page: value, successFn, errorFn, sort:sortType});
       setPage(value);
     }
   };
@@ -169,6 +169,7 @@ const AdminBoardPage = () => {
     }
   };
 
+  const [sortType, setSortType] = useState();
   const getSortedData = sortType => {
         getAllProducts(
           1,
@@ -178,6 +179,7 @@ const AdminBoardPage = () => {
           inputValue,
           sortType,
         )
+        setSortType()
   };
 
   useEffect(() => {
@@ -208,7 +210,7 @@ const AdminBoardPage = () => {
           <input
             type="text"
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
-            value={selectedSearchOption === "전체" ? "--" : inputValue}
+            value={inputValue}
             onChange={handleSearchKeywordChange}
             // disabled={selectedSearchOption === 0}
           />
@@ -259,7 +261,7 @@ const AdminBoardPage = () => {
                       ].title
                     }
                   </td>
-                  <td>{item.pricePerDay}</td>
+                  <td>{item.pricePerDay.toLocaleString()}</td>
                   <td>{item.nick}</td>
                   <td>{item.view}</td>
                   <td>{item.createdAt}</td>

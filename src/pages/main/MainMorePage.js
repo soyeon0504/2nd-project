@@ -5,8 +5,7 @@ import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
-import { getMoreProduct } from "../../api/main/mainMore_api";
-import { getProductDetail } from "../../api/main/main_api";
+import { getMoreProduct, getProdListCount } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import JoinPopUp, {
@@ -133,7 +132,8 @@ const MainMorePage = () => {
   const [regionNum, setRegionNum] = useState(null);
   const [districtNum, setDistrictNum] = useState(null);
 
-  const fetchData = async (pageNum, _sortType) => {
+  const fetchData = async (pageNum, _sortType, iuser) => {
+    // const countRes = await getProdListCount(iuser);
     try {
       const res = await getMoreProduct(
         pageNum,
@@ -143,6 +143,8 @@ const MainMorePage = () => {
       );
       setDatas(res);
       console.log(res);
+      console.log("Total Product Count:", countRes);
+
     } catch (error) {
       console.log(error);
     }
@@ -233,6 +235,8 @@ const MainMorePage = () => {
         <div className="header-wrap">
           <div className="header-cate-wrap">
             <div>{title || "Default Title"}</div>
+            <div>{}</div>
+            <div>개</div>
           </div>
           <div>
             <div className="bt-wrap">
