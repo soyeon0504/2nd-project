@@ -101,6 +101,8 @@ const AdminFreeBoardPage = () => {
   };
 
   const handleClickDelete = async iboard => {
+    const confirmDelete = window.confirm("해당 게시물을 삭제하시겠습니까?");
+    if (confirmDelete) {
     try {
       const reason = 1;
       const res = await deleteFreeBoard(iboard, reason, errorFn);
@@ -114,6 +116,7 @@ const AdminFreeBoardPage = () => {
       setSearchKeyword(inputValue);
     } catch (error) {
       console.log(error);
+      }
     }
   };
 
@@ -162,7 +165,7 @@ const AdminFreeBoardPage = () => {
             disabled={selectedSearchOption === 0}
           />
             <button onClick={handleSearchSubmit} type="submit">
-              <img src="/images/admin/search.svg" />
+              <img src="/images/admin/bt_search.svg" />
             </button>
         </div>
             <div className="bt-wrap">

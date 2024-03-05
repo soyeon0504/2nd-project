@@ -335,7 +335,7 @@ const AdminReportPage = ({ activeBtn }) => {
           <ReportSearchForm>
             <ReportSearchWord
               type="text"
-              placeholder={"아이디를 입력하세요."}
+              placeholder={"아이디를 입력하세요"}
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
             ></ReportSearchWord>
