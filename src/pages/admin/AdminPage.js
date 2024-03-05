@@ -48,9 +48,9 @@ const AdminPage = () => {
       list: ["상품 게시판", "자유 게시판"],
     },
     {
-      title: "채팅",
+      title: "채팅 내역",
       name: ["chat"],
-      list: ["채팅 내역"],
+      list: ["신고 채팅 내역"],
     },
   ];
 
@@ -98,7 +98,7 @@ const AdminPage = () => {
           (name === "accident" && subItem === "사고 신고") ||
           (name === "prod" && subItem === "상품 게시판") ||
           (name === "free" && subItem === "자유 게시판") ||
-          (name === "chat" && subItem === "채팅 내역")
+          (name === "chat" && subItem === "신고 채팅 내역")
         );
       });
 
@@ -152,7 +152,7 @@ const AdminPage = () => {
             ) : null} */}
             {activeBtn === "상품 게시판" && <AdminBoardPage />}
             {activeBtn === "자유 게시판" && <AdminFreeBoardPage />}
-            {activeBtn === "채팅 내역" && <AdminChatHistoryPage />}
+            {activeBtn === "신고 채팅 내역" && <AdminChatHistoryPage />}
           </div>
         </Flex>
       </div>

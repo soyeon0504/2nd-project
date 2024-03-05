@@ -116,8 +116,8 @@ const AdminFreeBoardPage = () => {
       setSearchKeyword(inputValue);
     } catch (error) {
       console.log(error);
-      }
     }
+  }
   };
 
   const getSortedData = sortType => {
@@ -160,9 +160,9 @@ const AdminFreeBoardPage = () => {
             <input
             type="text"
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
-            value={selectedSearchOption === "전체" ? "" : inputValue}
+            value={inputValue}
             onChange={handleSearchKeywordChange}
-            disabled={selectedSearchOption === 0}
+            // disabled={selectedSearchOption === 0}
           />
             <button onClick={handleSearchSubmit} type="submit">
               <img src="/images/admin/bt_search.svg" />

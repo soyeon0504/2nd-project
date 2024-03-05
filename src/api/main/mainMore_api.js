@@ -14,6 +14,7 @@ export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sortTyp
   try {
     let url;
     console.log(pageNum, categoryId, subCategoryId, sortType)
+    // api/prod?sort=1&page=1&mc=1&sc=1
     if (sortType) url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     else url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
     const res = await axios.get(url);
@@ -24,6 +25,23 @@ export const getMoreProduct = async (pageNum, categoryId, subCategoryId, sortTyp
     failPostDatas("/");
   }
 };
+export const getProdListCount = async (iuser) => {
+  {
+    try {
+      let url;
+      console.log(pageNum, categoryId, subCategoryId, sortType)
+      
+      if (sortType) url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+      else url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+      const res = await axios.get(url);
+  
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      failPostDatas("/");
+    }
+  }
+  };
 
 // MainMoreSearchPage.js
 export const getSearchProduct = async (
