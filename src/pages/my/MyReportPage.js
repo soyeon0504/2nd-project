@@ -1,58 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { MyListDiv, MyListTop } from '../../styles/my/MyList'
 import { useTable, usePagination } from 'react-table';
-import { getMyDispute } from '../../api/my/my_api';
+import { getMyDispute, patchDispute } from '../../api/my/my_api';
 import MyModal from "../../components/my/interest/MyModal";
 import { DetailsContainer, PaginationButton, PaginationContainer, TrContaineer } from '../../styles/my/MyTable';
 import { ModalBackground } from '../../components/joinpopup/JoinPopUp';
-
-const contentData = [
-  {
-    idispute: 1,
-    category: "잠수(구매전)",
-    createdAt: "2024.02.15",
-    reportedUserNick: "kong123",
-    penalty: "-5점",
-    status: "STAND_BY",
-    kind: "대기",
-    details: `
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요.
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요
-    `,
-  },
-  {
-    idispute: 2,
-    category: "잠수(구매전)",
-    createdAt: "2024.02.15",
-    reportedUserNick: "kong123",
-    penalty: "-5점",
-    status: "cre",
-    kind: "대기",
-    details: `
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요.
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요
-    `,
-  },
-  {
-    idispute: 3,
-    category: "잠수(구매전)",
-    createdAt: "2024.02.15",
-    reportedUserNick: "kong123",
-    penalty: "-5점",
-    status: "STAND_BY",
-    kind: "대기",
-    details: `
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요.
-      15일 14시에 중앙로역에서 만나기로 했는데 안 나왔어요.
-      한시간동안 기다렸는데 연락도 없고!!! 아주 나쁜 놈이네요
-    `,
-  },
-]
 
 const MyReportPage = ({activeBtn}) => {
   const [data, setData] = useState([]);
@@ -90,7 +42,7 @@ const MyReportPage = ({activeBtn}) => {
       },
       {
         Header: "상태",
-        accessor: "kind",
+        accessor: "status",
         width: 80,
       }
     ],[]);
@@ -124,7 +76,6 @@ const MyReportPage = ({activeBtn}) => {
         setData(result.disputes);
       } catch (error) {
         console.error(error);
-        setData(contentData);
       }
     };
 
@@ -136,9 +87,9 @@ const MyReportPage = ({activeBtn}) => {
     try {
       const disputeClick = await patchDispute(itemToDelete);
       const updatedDispute = await getMyDispute(pageNum);
-      setData(updatedDispute);
+      setData(updatedDispute.disputes);
     } catch (error) {
-      console.error("Error dispute:", error);
+      console.error("handleDisputeClick 함수에서 오류 발생:", error);
     }
   };
   
