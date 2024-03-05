@@ -276,8 +276,13 @@ const AdminReportPage = ({ activeBtn }) => {
   useEffect(() => {
     const stateData = async () => {
       await postDispute(idispute, type);
+      await reportListData();
+      setType(null);
+      setIdispute(null);
     };
-    stateData();
+    if (type !== null && idispute !== null) {
+      stateData();
+    }
   }, [idispute, type]);
 
   // 상태변경 or 상태확인 버튼 클릭
@@ -414,7 +419,7 @@ const AdminReportPage = ({ activeBtn }) => {
                 <td>{item.reportedUserUid}</td>
                 <td>{item.reportedUserNick}</td>
                 <td style={{ cursor: "pointer" }}>{item.category}</td>
-                <td>{item.createdAt}</td>
+                <td>{new Date(item.createdAt).toLocaleString()}</td>
                 <td>{item.reporterUid}</td>
                 <td>{item.penalty}</td>
                 <td>{item.status} </td>

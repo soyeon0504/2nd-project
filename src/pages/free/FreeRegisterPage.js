@@ -90,7 +90,7 @@ const FreeRegisterPage = () => {
         formData.append("storedPic", file);
       });
       await Promise.all(imagePromises);
-      postFreeData({ obj: formData });
+      await postFreeData({ obj: formData });
       navigate(`/free`);
     }
 
