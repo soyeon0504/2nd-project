@@ -53,8 +53,8 @@ const customStyles = {
 const Report = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [reportContent, setReportContent] = useState("");
-  const { productIdentity } = useParams(); // 제품의 PK를 받아옴
 
+  const { iproduct } = useParams();
   const handleReportSubmit = async () => {
     try {
       if (!selectedOption) {
@@ -67,7 +67,7 @@ const Report = () => {
       }
 
       const response = await postReport(
-        productIdentity, // 제품의 PK를 식별자로 사용
+        iproduct, // 제품의 PK를 식별자로 사용
         selectedOption.value,
         reportContent,
       );
@@ -83,7 +83,7 @@ const Report = () => {
     <PageWrapper>
       <BoxWrapper>
         <ReportTitle>신고하기</ReportTitle>
-        <ReportUser>신고 상태</ReportUser>
+        <ReportUser productId={iproduct}>신고 상태</ReportUser>
         <ReportTitleSub>신고 사유 선택</ReportTitleSub>
         <Select
           options={reportOptions}

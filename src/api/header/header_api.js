@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import { jwtAxios } from "../../util/jwtUtil";
 
 export const searchGet = async ({ sendData, successFn, failFn, errFn }) => {
   try {
@@ -11,7 +12,7 @@ export const searchGet = async ({ sendData, successFn, failFn, errFn }) => {
       url += `&sc=${sendData.sc}`;
     }
     
-    const res = await axios.get(url);
+    const res = await jwtAxios.get(url);
     const resStatus = res.status.toString();
 
     if (resStatus.charAt(0) === "2") {
