@@ -11,6 +11,7 @@ import { LoginState } from "../../styles/header/HeaderStyle";
 import { DivisionLine } from "../../styles/login/LoginPageStyle";
 import { AdminTitle } from "../../styles/admin/AdminPageStyle";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import AdminReservepage from "./AdminReservepage";
 
 const AllWidth = styled.div`
   width: 1260px;
@@ -48,9 +49,9 @@ const AdminPage = () => {
       list: ["상품 게시판", "자유 게시판"],
     },
     {
-      title: "채팅 내역",
-      name: ["chat"],
-      list: ["신고 채팅 내역"],
+      title: "내역 관리",
+      name: ["chat","reserve"],
+      list: ["신고 채팅 내역","예약 취소 내역"],
     },
   ];
 
@@ -98,7 +99,8 @@ const AdminPage = () => {
           (name === "accident" && subItem === "사고 신고") ||
           (name === "prod" && subItem === "상품 게시판") ||
           (name === "free" && subItem === "자유 게시판") ||
-          (name === "chat" && subItem === "신고 채팅 내역")
+          (name === "chat" && subItem === "신고 채팅 내역") || 
+          (name === "reserve" && subItem === "예약 취소 내역")
         );
       });
 
@@ -132,27 +134,17 @@ const AdminPage = () => {
             {activeBtn === "개인 회원" && (
               <AdminMemberPage
                 activeBtn={activeBtn}
-                setActiveBtn={setActiveBtn}
-                handleSubItemClick={handleSubItemClick}
               />
             )}
             {activeBtn === "분쟁 신고" || activeBtn === "사고 신고" ? (
               <AdminReportPage
                 activeBtn={activeBtn}
-                setActiveBtn={setActiveBtn}
-                handleSubItemClick={handleSubItemClick}
               />
             ) : null}
-            {/* {activeBtn === "상품 게시판" || activeBtn === "자유 게시판" ? (
-              <AdminBoardPage
-                activeBtn={activeBtn}
-                setActiveBtn={setActiveBtn}
-                handleSubItemClick={handleSubItemClick}
-              />
-            ) : null} */}
             {activeBtn === "상품 게시판" && <AdminBoardPage />}
             {activeBtn === "자유 게시판" && <AdminFreeBoardPage />}
             {activeBtn === "신고 채팅 내역" && <AdminChatHistoryPage />}
+            {activeBtn === "예약 취소 내역" && <AdminReservepage activeBtn={activeBtn} />}
           </div>
         </Flex>
       </div>

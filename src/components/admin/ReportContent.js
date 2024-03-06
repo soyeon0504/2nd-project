@@ -33,6 +33,7 @@ const ReportContentStyle = styled.div`
     img {
       width: 40px;
       height: 40px;
+      cursor: pointer;
     }
   `;
   const ContentMain = styled.div`

@@ -67,3 +67,13 @@ export const idOverlapPost = async (
     idPostFail();
   }
 };
+
+// 본인인증 요청
+export const verificationPost = async (obj) => {
+  try {
+    const res = await axios.post(`${SERVER_URL}/api/usr/verification`, obj);
+    return res.data;
+  } catch (error) {
+    failPostDatas("/")
+  }
+}

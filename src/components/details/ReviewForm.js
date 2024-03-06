@@ -76,7 +76,7 @@ const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
           width: "65%", // 모달 창 너비를 조정합니다.
           maxWidth: "480px", // 최대 너비를 설정합니다.
           margin: "auto", // 중앙 정렬을 합니다.
-          maxHeight: "32%", // 모달 창의 최대 높이를 설정합니다.
+          maxHeight: "40%", // 모달 창의 최대 높이를 설정합니다.
 
           overflowY: "auto", // 내용이 모달 창을 벗어날 경우 스크롤을 추가합니다.
           top: "10%", // 모달이 상단에서 10% 위치에 나타나도록 설정

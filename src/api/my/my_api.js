@@ -155,9 +155,9 @@ export const getReserve = async (role,page) => {
   }
 }
 
-export const getProd = async (targetIuser,page) => {
+export const getProd = async (targetIuser) => {
   try {
-    const url = `${path}/prod2?targetIuser=${targetIuser}&page=${page}`
+    const url = `${path}/prod2?targetIuser=${targetIuser}`
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {
@@ -220,7 +220,7 @@ export const getPaymentData = async (ipayment) => {
   }
 }
 
-export const patchReview = async data => {
+export const patchReview = async (data) => {
   try {
     const url = `${path2}/pay/review?ireview=${data.ireview}&contents=${data.contents}&rating=${data.rating}`;
     const res = await jwtAxios.patch(url, data);
@@ -230,3 +230,14 @@ export const patchReview = async data => {
     failPostDatas("/");
   }
 };
+
+export const deletePay = async (ipay) => {
+  try {
+    const url = `${path2}/pay/${ipay}?div=3`;
+    const res = await jwtAxios.delete(url);
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+}

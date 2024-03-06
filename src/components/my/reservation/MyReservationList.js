@@ -3,6 +3,7 @@ import {
   MyListBottom,
   MyListDiv,
   MyListMid,
+  MyListMidEnd,
   MyListMidImg,
   MyListMidLast,
   MyListMidTxt,
@@ -13,9 +14,10 @@ import {
   MyReservationBtDiv,
 } from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
-import { getCode, getReserve } from "../../../api/my/my_api";
+import { deletePay, getCode, getReserve } from "../../../api/my/my_api";
 import { ModalBackground } from "../../joinpopup/JoinPopUp";
 import MyReservationModal from "./MyReservationModal";
+import MyModal from "../interest/MyModal";
 
 const contentData = [
   {
@@ -40,6 +42,8 @@ const MyReservationList = ({ activeBtn }) => {
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(1);
   const [showModal, setShowModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState();
 
   const handleButtonClick = buttonType => {
     setActiveButton(buttonType);
@@ -108,6 +112,41 @@ const MyReservationList = ({ activeBtn }) => {
     setShowModal(false);
   };
 
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString();
+  };
+
+  const handleDeleteReserve = async (ipayment) => {
+    try {
+      const DeleteReserve = await deletePay(ipayment); 
+      let updateReserve;
+      if (activeBtn === "예약 내역" && activeButton === true) {
+        updateReserve = await getReserve(1, viewMore);
+      } else if (activeBtn === "예약 내역" && activeButton === false) {
+        updateReserve = await getReserve(2, viewMore)
+      }
+      setData(updateReserve);
+    } catch (error) {
+      console.error("Error deletePay:", error);
+    }
+  } 
+
+  const handleDeleteClick = (ipayment) => {
+    setDeleteModal(true);
+    setItemToDelete(ipayment);
+  };
+
+  const handleCancel = () => {
+    setDeleteModal(false);
+  };
+
+  const handleConfirm = async () => {
+    if (itemToDelete) {
+      await handleDeleteReserve(itemToDelete);
+      setDeleteModal(false);
+    }
+  };
+
   return (
     <>
     {showModal && (
@@ -116,6 +155,18 @@ const MyReservationList = ({ activeBtn }) => {
       <ModalBackground></ModalBackground>
       </>
     )}
+    {deleteModal && (
+        <>
+        <MyModal onCancel={handleCancel} onConfirm={handleConfirm}  
+        txt={
+          <>
+            이 예약을  <br />
+            취소하시겠습니까?
+          </>
+        }/>
+        <ModalBackground></ModalBackground>
+        </>
+      )}
     <MyListDiv>
       <MyListTop>
         <h2>예약 내역</h2>
@@ -139,6 +190,8 @@ const MyReservationList = ({ activeBtn }) => {
           <React.Fragment key={index}>
             {activeBtn === "예약 내역" && (
                 <MyListMid>
+                    <MyListMidEnd />
+                    {item.status === "CANCELED" && <h2>취소 대기중</h2>}
                     <MyListMidImg>
                       <img
                         src={`/pic/${item.proStoredPic}`}
@@ -150,7 +203,7 @@ const MyReservationList = ({ activeBtn }) => {
                         <h2>{item.title}</h2>
                       </div>
                       <div>
-                        <p>{item.totalPrice} 원</p>
+                        <p>{formatNumberWithCommas(item.totalPrice)} 원</p>
                       </div>
                       <div>
                         <span>
@@ -161,10 +214,15 @@ const MyReservationList = ({ activeBtn }) => {
                     </MyListMidTxt>
                   <MyListMidLast  size={"1.4rem"}>
                     <p>{item.createdAt}</p>
-                    <MyReservationBtDiv width={"15rem"}>
-                        <MyManagementBt>취소</MyManagementBt>
-                        <MyManagementBtHover width={"80px"} onClick={openModal}>식별코드</MyManagementBtHover>
-                    </MyReservationBtDiv>
+                    {item.status === "CANCELED" ? (<></>) 
+                    : (
+                      <>
+                        <MyReservationBtDiv width={"15rem"}>
+                            <MyManagementBt onClick={()=>handleDeleteClick(item.ipayment)}>취소</MyManagementBt>
+                            <MyManagementBtHover width={"80px"} onClick={openModal}>식별코드</MyManagementBtHover>
+                        </MyReservationBtDiv>
+                      </>
+                    )}
                   </MyListMidLast>
                 </MyListMid>
             )}

@@ -148,7 +148,7 @@ const MyList = ({ activeBtn }) => {
                       <div>
                         <span>
                           대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                          ({item.rentalDuration}일)
+                          ({item.duration}일)
                         </span>
                       </div>
                     </MyListMidTxt>
@@ -185,7 +185,7 @@ const MyList = ({ activeBtn }) => {
                       <div>
                         <span>
                           대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                          ({item.rentalDuration}일)
+                          ({item.duration}일)
                         </span>
                       </div>
                     </MyListMidTxt>
@@ -207,7 +207,7 @@ const MyList = ({ activeBtn }) => {
                     </button>
                   )}
                   {activeButton === false && (
-                     <Link to={`/details/mc=${item.mainCategory}/sc=${item.subCategory}/${item.iproduct}`}>
+                     <Link to={`/details?mc=${item.mainCategory}&sc=${item.subCategory}&productId=${item.iproduct}`}>
                         <button>
                           <p>리뷰 보기</p>
                         </button>
