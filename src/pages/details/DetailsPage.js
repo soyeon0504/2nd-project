@@ -334,7 +334,6 @@ const DetailsPage = () => {
                 <div>
                   <DepositText> 해시태그</DepositText>
                   <DepositDetailText>
-                    #
                     {productData && productData.hashTags
                       ? productData.hashTags
                           .map(tagData => tagData.tag)
