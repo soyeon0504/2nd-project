@@ -12,6 +12,8 @@ import { deleteMyReview, getMyReview } from "../../../api/my/my_api";
 import { MyReviewDiv, MyReviewImg, MyReviewTxt,MyReviewTitle } from "../../../styles/my/MyReview";
 import { Link } from "react-router-dom";
 import ReviewFormModify from "../../details/ReviewFormModify";
+import MyModal from "../interest/MyModal";
+import { ModalBackground } from "../../joinpopup/JoinPopUp";
 
 const MyReviewList = ({ activeBtn }) => {
   const [data, setData] = useState([]);
@@ -19,6 +21,8 @@ const MyReviewList = ({ activeBtn }) => {
   const [selectedPaymentId, setSelectedPaymentId] = useState(null);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [reviewFormData, setReviewFormData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState();
 
   const handleLoadMore = async () => {
     try {
@@ -33,20 +37,33 @@ const MyReviewList = ({ activeBtn }) => {
     }
   };
 
-  const handleDeleteReview = async (ireview) => {
-    const confirmDelete = window.confirm("삭제 하시겠습니까?");
-    if (confirmDelete) {
-      try {
-        await deleteMyReview(rev,ireview);
+  const handleDeleteReviewClick = async (ireview) => {
+    try {
+      await deleteMyReview(rev,ireview);
         const updatedResult = await getMyReview(1);
         setData(updatedResult);
-      } catch (error) {
-        console.error("Error deleting product:", error);
-      }
+    } catch (error) {
+      console.error("Error deleteBoard:", error);
     }
   };
 
-  const openReviewForm = ireview => {
+  const handleDeleteReview = (ireview) => {
+    setShowModal(true);
+    setItemToDelete(ireview);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirm = async () => {
+    if (itemToDelete) {
+      await handleDeleteReviewClick(itemToDelete);
+      setShowModal(false);
+    }
+  };
+
+  const openReviewForm = (ireview) => {
     const selectedItem = data.find(item => item.ireview === ireview);
     setSelectedPaymentId(ireview);
     setIsReviewFormOpen(true);
@@ -78,6 +95,18 @@ const MyReviewList = ({ activeBtn }) => {
 
   return (
     <MyListDiv>
+      {showModal && (
+        <>
+        <MyModal onCancel={handleCancel} onConfirm={handleConfirm}  
+        txt={
+          <>
+            후기을  <br />
+            삭제하시겠습니까?
+          </>
+        }/>
+        <ModalBackground></ModalBackground>
+        </>
+      )}
       {isReviewFormOpen && (
         <ReviewFormModify
           isOpen={isReviewFormOpen}

@@ -49,7 +49,7 @@ export const MyListMid = styled.div`
   margin-top: 2.3rem;
   height: 12rem;
   width: 98rem;
-  a > h2 {
+  >h2, a > h2 {
     position: absolute;
     top: 4rem;
     right: 40rem;
@@ -181,9 +181,9 @@ export const MyReviewDiv = styled.div`
       height: 30px;
       border: 0;
       border-radius: 5px;
-      background-color: #fcd508;
+      background-color: #f6b65a;
       color: #fff;
-      z-index: 99;
+      z-index: 9;
     }
 `
 

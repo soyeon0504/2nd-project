@@ -29,6 +29,16 @@ const MyModalDiv = styled.div`
     div {
         display: flex;
         gap: 20px;
+        :nth-of-type(1) {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            img {
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+            }
+        }
     }
 `
 export const Confirm = styled.button`
@@ -50,16 +60,19 @@ export const Cancel = styled(Confirm)`
     border: 2px solid #2c39b5;
 `
 
-const MyModal = ({ txt,onCancel, onConfirm }) => {
+const AdminReserve = ({ txt,onCancel, onConfirm, onClose }) => {
   return (
     <MyModalDiv>
       <p>{txt}</p>
       <div>
-        <Cancel onClick={onCancel}>아니요</Cancel>
-        <Confirm onClick={onConfirm}>예</Confirm>
+        <img src="/images/admin/bt_close.svg" onClick={onClose}></img>
+      </div>
+      <div>
+        <Cancel onClick={onCancel}>거절</Cancel>
+        <Confirm onClick={onConfirm}>수락</Confirm>
       </div>
     </MyModalDiv>
   );
 };
 
-export default MyModal;
+export default AdminReserve;
