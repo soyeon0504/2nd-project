@@ -1,15 +1,9 @@
 import React from 'react'
-import CustomBtn from '../../components/customer/CustomBtn'
 import CustomList from '../../components/customer/CustomList'
 
-export const CustomerFAQPage = ({activeBtn, setActiveBtn, handleSubItemClick}) => {
+export const CustomerFAQPage = () => {
   return (
     <>
-        {/* <CustomBtn 
-        activeBtn={activeBtn} 
-        setActiveBtn={setActiveBtn} 
-        onButtonClick={handleSubItemClick}
-        /> */}
         <CustomList />
     </>
   )

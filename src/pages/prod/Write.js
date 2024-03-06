@@ -32,7 +32,8 @@ import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 // 오늘 이전날 선택불가
 import moment from "moment";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router";
 
 const btlist = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
