@@ -70,6 +70,7 @@ export const MyListMid = styled.div`
 `;
 
 
+
   >h2, a > h2 {
 
     position: absolute;
@@ -85,6 +86,7 @@ export const MyListMid = styled.div`
     cursor: pointer;
   }
 `;
+
 
 
 
@@ -109,6 +111,7 @@ export const MyListMidImg = styled.div`
     object-fit: cover;
   }
 `;
+
 
 export const MyListMidTxt = styled.div`
   display: flex;
@@ -151,7 +154,11 @@ export const MyListMidTxt = styled.div`
 
 export const MyListMidLast = styled.div`
 
+
+export const MyListMidTxt = styled.div`
   display: flex;
+
+
   align-items: ${props => (props.location ? props.location : "end")};
   justify-content: space-between;
   flex-direction: ${props => (props.direction ? props.direction : "column")};
@@ -279,4 +286,6 @@ export const CompManagementBtHover = styled(CompManagementBt)`
   background-color: transparent !important;
   color: #fcd508;
   border: 1px solid #fcd508 !important;
+
 `
+

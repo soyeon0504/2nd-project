@@ -31,8 +31,11 @@ import {
   idOverlapPost,
   joinPost,
   nickOverlapPost,
+  verificationGet,
+  verificationPost,
 } from "../../api/join/join_api";
 import VerificationModal from "../../components/joinpopup/VerificationModal";
+import VerificationOk from "../../components/joinpopup/VerificationOk";
 
 const JoinPage = () => {
   // 중복확인(닉네임)
@@ -48,7 +51,7 @@ const JoinPage = () => {
       nick: nickname,
     };
     nickOverlapPost(obj, () => {
-      setIsValid(1); 
+      setIsValid(2); 
       nickPostSuccess();
     }, nickPostFail);
   };
@@ -89,7 +92,7 @@ const JoinPage = () => {
       nick: "nickname",
     };
     idOverlapPost(obj, () => {
-      setIsValid(1);
+      setIsValid(2);
       idPostSuccess();
     }, idPostFail);
   };
@@ -219,8 +222,18 @@ const JoinPage = () => {
   // 본인 인증 버튼
   const [verificationModal, setVerificationModal] = useState(false);
   const [verificationId, setVerificationId] = useState("");
-  const [verificationResult, setVerificationResult] = useState(null);
-  
+  const [resultOk, setResultOk] = useState(false);
+  const [verifiData, setVerifiData] = useState();
+  const [verifiResultModal, setVerifiResultModal] = useState(false);
+   
+  const verifiResultonConfirm = () => {
+    setVerifiResultModal(true);
+  }
+
+  const verifiResultClose = () => {
+    setVerifiResultModal(false);
+  }
+
   const verificationConfirm = () => {
     setVerificationModal(true);
   };
@@ -228,16 +241,23 @@ const JoinPage = () => {
     setVerificationModal(false);
   };
 
-  const handleVerifiConfirm = async (userData) => {
+  const onVerifiConfirm = async (id) => {
     try {
       let result;
-      result = await verificationPost(userData);
-      setVerificationId(result.id);
+      result = await verificationGet(id);
+      
+      if (result) {
+        setVerifiData(result);
+        setVerificationModal(false);
+        setResultOk(true);
+      } else {
+        console.log("Result is empty");
+      }
     } catch (error) {
       console.log(error);
     }
-  } 
- 
+  }
+  
   // 데이터 연동(회원가입)
   const handleSubmitJoin = async () => {
     const formData = new FormData();
@@ -271,6 +291,10 @@ const JoinPage = () => {
 
       formData.append("pic", file);
     }
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
+
     try {
       joinPost({obj: formData});
       navigate(`/join/step_3?nick=${nickname}`);
@@ -345,7 +369,17 @@ const JoinPage = () => {
 
       {verificationModal && (
         <>
-          <VerificationModal closeModal={closeVerificationModal} onConfirm={handleVerifiConfirm}/>
+          <VerificationModal closeModal={closeVerificationModal} 
+          onConfirm={onVerifiConfirm} 
+          verificationId={verificationId}
+          setVerificationId={setVerificationId}/>
+          <ModalBackground></ModalBackground>
+        </>
+      )}
+
+      {verifiResultModal && (
+        <>
+          <VerificationOk closeModal={verifiResultClose} verifiData={verifiData}/>
           <ModalBackground></ModalBackground>
         </>
       )}
@@ -540,17 +574,17 @@ const JoinPage = () => {
                   name="phoneNumber"
                   {...register("phoneNumber")}
                 />
-                <ConfirmBt width={"130px"} type="button"
-                onClick={()=> {
-                  if (verificationResult !== null) {
-                    // 본인 인증 성공 시 처리
-                    handleSuccessVerification();
-                  } else {
-                    verificationConfirm();
-                  }}
-                }>
-                   {verificationResult !== null ? "본인 결과 확인" : "본인 인증 확인"}
-                </ConfirmBt>
+                {resultOk === true ? (
+                  <ConfirmBt width={"130px"} type="button"
+                  onClick={()=> {verifiResultonConfirm()}}>
+                    본인 결과 확인
+                  </ConfirmBt>
+                ) : (
+                  <ConfirmBt width={"130px"} type="button"
+                  onClick={()=> {verificationConfirm()}}>
+                     본인 인증 확인
+                  </ConfirmBt>
+                )}
               </JoinElementInput>
               <InputValid>{formState.errors.phoneNumber?.message}</InputValid>
             </JoinElementInputBox>
