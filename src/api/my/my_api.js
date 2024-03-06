@@ -43,9 +43,9 @@ export const getMyReview = async (page) => {
   }
 }
 
-export const deleteMyReview = async (rev, ireview) => {
+export const deleteMyReview = async (rev) => {
   try {
-    const url = `${path2}/pay/review?rev=${rev}&ireview=${ireview}`;
+    const url = `${path2}/pay/review?rev=${rev}`;
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {

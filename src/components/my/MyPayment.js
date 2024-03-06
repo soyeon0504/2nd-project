@@ -27,7 +27,7 @@ const MyModalDiv = styled.div`
         padding: 2rem;
         border: 1px solid ${Common.color.primary};
         border-radius: 1rem;
-        height: 19rem;
+        height: 17rem;
         width: 78rem;
     }
     >div:nth-of-type(2) {
@@ -122,9 +122,6 @@ const MyPayment = ({data,onConfirm}) => {
             </div>
             <div>
                 <p>결제수단: {data.method}</p>
-            </div>
-            <div>
-                <p>내 식별코드: {data.myPaymentCode} / 거래자 식별코드: {data.code}</p>
             </div>
             <MyPaymentLast>
                 <span>보증금</span>
