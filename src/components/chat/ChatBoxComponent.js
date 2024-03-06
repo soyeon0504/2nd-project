@@ -21,7 +21,7 @@ const ChatBoxComponent = ({ selectedProfile }) => {
   const [inputMessage, setInputMessage] = useState(""); // 입력 메시지를 저장하는 상태
   const [chatMessages, setChatMessages] = useState([]); // 채팅 메시지를 저장하는 상태
   const [modalOpen, setModalOpen] = useState(false); // 모달 열림 상태를 관리하는 상태
-  const [stompClient, setStompClient] = useState(null); // STOMP 클라이언트 상태 추가
+  const [stompClient, setStompClient] = useState(null); // STOMP5 클라이언트 상태 추가
   const chatContainerRef = useRef(null); // 채팅 스크롤을 위한 ref 추가
   const memberInfo = getCookie("member");
   const authToken = memberInfo ? memberInfo.accessToken : "your_default_token";
@@ -48,7 +48,7 @@ const ChatBoxComponent = ({ selectedProfile }) => {
       // client.activate();
       // STOMP 클라이언트 생성
       const stomp = new Client({
-        brokerURL: "ws://localhost:8080/ws", // WebSocket 연결 주소
+        brokerURL: "ws://192.168.0.144:5226/ws", // WebSocket 연결 주소
         connectHeaders: {
           Authorization: `Bearer ${authToken}`, // AccessToken 헤더에 추가
         },
@@ -57,8 +57,8 @@ const ChatBoxComponent = ({ selectedProfile }) => {
           console.log(str);
         },
         reconnectDelay: 200000, // 자동 재연결 딜레이
-        heartbeatIncoming: 4000, // Heartbeat 수신 주기
-        heartbeatOutgoing: 4000, // Heartbeat 발신 주기
+        heartbeatIncoming: 40000, // Heartbeat 수신 주기
+        heartbeatOutgoing: 40000, // Heartbeat 발신 주기
       });
       console.log("연결확인", stomp);
       stomp.onStompError = () => {
