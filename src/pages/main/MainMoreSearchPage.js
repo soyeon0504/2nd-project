@@ -330,6 +330,12 @@ const MainMoreSearchPage = () => {
                   handlePageChangeDetails(item);
                 }}
               >
+                <div className="like-wrap">
+                  <Like
+                    isLiked={item.isLiked !== 0 ? true : false}
+                    productId={item.iproduct}
+                  />
+                </div>
                 <img
                   className="item-image"
                   src={`/pic/${item.prodMainPic}`}

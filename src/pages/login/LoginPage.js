@@ -17,27 +17,22 @@ import JoinPopUp, {
   ModalBackground,
 } from "../../components/joinpopup/JoinPopUp";
 import IdFind from "../../components/login/IdFind";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PwFind from "../../components/login/PwFind";
-
+import { getKakaoLoginLink } from "../../api/login/kakao_api";
 const initState = {
   uid: "",
   upw: "",
 };
-
 const LoginPage = () => {
   const [loginParam, setLoginParam] = useState(initState);
-
   const handleChange = e => {
     loginParam[e.target.name] = e.target.value;
     setLoginParam({ ...loginParam });
   };
-
   // 커스터훅 사용하기
   const { doLogin, isLogin, moveToPath, userAuth } = useCustomLogin();
-
   const dispatch = useDispatch();
-
   const [showModal, setShowModal] = useState(false);
   const handleClick = async () => {
     // dispatch(login(loginParam));
@@ -48,11 +43,9 @@ const LoginPage = () => {
       console.log("login error");
     }
   };
-
   const closeModal = () => {
     setShowModal(false);
   };
-
   // 아이디 찾기 버튼 클릭
   const [idFindModal, setIdFindModal] = useState(false);
   const handleIdFind = () => {
@@ -61,7 +54,6 @@ const LoginPage = () => {
   const closeIdFindModal = () => {
     setIdFindModal(false);
   };
-
   // 비밀번호 변경 버튼 클릭
   const [pwFindModal, setPwFindModal] = useState(false);
   const handlePwFind = () => {
@@ -70,37 +62,31 @@ const LoginPage = () => {
   const closePwFindModal = () => {
     setPwFindModal(false);
   };
-
   // 회원가입 페이지 이동
   const navigate = useNavigate();
   const handleJoin = () => {
     navigate(`/join/step_1`);
   };
-
   const successFn = async(result) => {
     {
       result.auth == 1 ? moveToPath("/") : moveToPath("/admin");
     }
   };
-
   const failFn = result => {
     console.log("실패", result);
     setShowModal(true);
   };
-
   const [idFail, setIdFail] = useState(false);
   const [pwFail, setPwFail] = useState(false);
   const [loginFail, setLoginFail] = useState(false);
   const errorFn = error => {
     console.log("서버 에러입니다.", error);
-
     if (error.response && error.response.status === 456) {
       setPwFail(true);
     }
     if (error.response && error.response.status === 455) {
       setIdFail(true);
     }
-
     if (error.response && error.response.status === 400) {
       setLoginFail(true);
     }
@@ -114,7 +100,8 @@ const LoginPage = () => {
   const closeLoginModal = () => {
     setLoginFail(false);
   };
-
+    // 카카오 로그인
+    const kakaoLogin = getKakaoLoginLink()
   return (
     <Layout>
       {idFail && (
@@ -183,6 +170,8 @@ const LoginPage = () => {
               paddingRight: "30px",
             }}
           >
+            <li><Link to={kakaoLogin}>카카오로그인</Link></li>
+            <DivisionLine></DivisionLine>
             <li onClick={handleIdFind}>아이디 찾기</li>
             {idFindModal && (
               <>
@@ -216,5 +205,4 @@ const LoginPage = () => {
     </Layout>
   );
 };
-
 export default LoginPage;
