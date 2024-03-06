@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getCountSearchProduct, getMoreProduct } from "../../api/main/mainMore_api";
 import { SideBar } from "../../components/SideBar";
-import { MoreWrap } from "../../styles/main/mainMoreStyle";
-import { Pagination } from "antd";
-import Layout from "../../layouts/Layout";
-import { getMoreProduct, getProdListCount } from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
-import useCustomLogin from "../../hooks/useCustomLogin";
 import JoinPopUp, {
   ModalBackground,
 } from "../../components/joinpopup/JoinPopUp";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import Layout from "../../layouts/Layout";
+import { PaginationBlue } from "../../styles/free/FreePageStyle";
+import { MoreWrap } from "../../styles/main/mainMoreStyle";
 
 const region = [
   {
@@ -117,9 +116,14 @@ const MainMorePage = () => {
   // const urlParseArr = pathname.split("/");
   // const parseMainCategory = parseInt(urlParseArr[3]);
   // const parseSubCategory = parseInt(urlParseArr[4]);
+  const searchValue = sessionStorage.getItem("searchValue");
   const searchParams = new URLSearchParams(location.search);
   const parseMainCategory = parseInt(searchParams.get("mc"));
   const parseSubCategory = parseInt(searchParams.get("sc"));
+
+  const [addr, setAddr] = useState("");
+  const [totalPage, setTotalPage] = useState(null);
+
 
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
@@ -132,8 +136,7 @@ const MainMorePage = () => {
   const [regionNum, setRegionNum] = useState(null);
   const [districtNum, setDistrictNum] = useState(null);
 
-  const fetchData = async (pageNum, _sortType, iuser) => {
-    // const countRes = await getProdListCount(iuser);
+  const fetchData = async (pageNum, _sortType) => {
     try {
       const res = await getMoreProduct(
         pageNum,
@@ -143,8 +146,6 @@ const MainMorePage = () => {
       );
       setDatas(res);
       console.log(res);
-      console.log("Total Product Count:", countRes);
-
     } catch (error) {
       console.log(error);
     }
@@ -171,6 +172,20 @@ const MainMorePage = () => {
   const handlePageChange = _tempPage => {
     setPageNum(_tempPage);
   };
+
+  const listCountData = async () => {
+    await getCountSearchProduct(
+      searchValue,
+      parseMainCategory,
+      parseSubCategory,
+      addr,
+      setTotalPage,
+    );
+  };
+  useEffect(() => {
+    listCountData();
+  }, [searchValue, parseMainCategory, parseSubCategory, addr]);
+
   // details 페이지로 이동
   const { isLogin } = useCustomLogin();
   const [loginState, setLoginState] = useState(false);
@@ -186,7 +201,6 @@ const MainMorePage = () => {
       // console.log(serverData);
       // const res = getProductDetail(serverData);
       navigate(url);
-      // console.log(res);
     } else {
       setLoginState(true);
     }
@@ -197,7 +211,7 @@ const MainMorePage = () => {
   };
 
   // 제품 갯수
-  const totalPosts = filterData.length; //최대 16개
+  // const totalPosts = filterData.length; //최대 16개
 
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
@@ -235,8 +249,7 @@ const MainMorePage = () => {
         <div className="header-wrap">
           <div className="header-cate-wrap">
             <div>{title || "Default Title"}</div>
-            <div>{}</div>
-            <div>개</div>
+            <div>{totalPage}개</div>
           </div>
           <div>
             <div className="bt-wrap">
@@ -304,10 +317,10 @@ const MainMorePage = () => {
             ))}
         </div>
         <div className="pagination">
-          <Pagination
+          <PaginationBlue
             current={pageNum}
             onChange={handlePageChange}
-            total={totalPosts}
+            total={totalPage}
             pageSize={16}
           />
         </div>
