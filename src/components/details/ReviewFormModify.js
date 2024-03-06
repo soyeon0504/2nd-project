@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import StarRating from "./StarRating";
 import styled from "@emotion/styled";
-import { postReview } from "../../api/details/details_api";
-import { patchReview } from "../../api/my/my_api";
+import { getMyReview, patchReview } from "../../api/my/my_api";
 
 const CancelButton = styled.button`
   width: 200px;
@@ -27,7 +26,7 @@ const CancelButton = styled.button`
 
 const SubmitButton = styled(CancelButton)``;
 
-const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting }) => {
+const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting, setData }) => {
   const [review, setReview] = useState(contents);
   const [rating, setRating] = useState(raiting);
 
@@ -44,9 +43,9 @@ const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting }
         rating,
       };
       await patchReview(userInputData); // API 호출
-      // 제출 후 입력란 초기화
-      setRating(0);
-      setReview("");
+      console.log(rating);
+      const updatedResult = await getMyReview(1);
+      setData(updatedResult);
       // 모달 닫기 요청
       onRequestClose();
     } catch (error) {

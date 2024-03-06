@@ -10,8 +10,6 @@ const failPostDatas = () => {
   navigate("/");
 };
 
-
-
 export const getMyRental = async (role,status,page) => {
   try {
     const url = `${path}/prod?role=${role}&status=${status}&page=${page}`;

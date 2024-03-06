@@ -83,10 +83,10 @@ const MyList = ({ activeBtn }) => {
           result = await getMyRental(2, 1, viewMore);
         } else if (activeBtn === "대여 완료" && activeButton === true) {
           result = await getMyRental(1, -1, viewMore);
-          result = result.filter(item => item.status === "EXPIRED");
+          // result = result.filter(item => item.status === "EXPIRED");
         } else if (activeBtn === "대여 완료" && activeButton === false) {
           result = await getMyRental(2, -1, viewMore);
-          result = result.filter(item => item.status === "EXPIRED");
+          // result = result.filter(item => item.status === "EXPIRED");
         }
         setData(result);
       } catch (error) {

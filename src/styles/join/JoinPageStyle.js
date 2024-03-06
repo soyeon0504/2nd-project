@@ -193,3 +193,17 @@ export const SaveBt = styled(CancelBt)`
   color: #fff;
   cursor: pointer;
 `;
+
+export const VerifiBt = styled.button`
+  width: 320px;
+  height: 50px;
+  border-radius: 10px;
+  background: #2c39b5;
+  color: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: 1px solid #2c39b5;
+`;

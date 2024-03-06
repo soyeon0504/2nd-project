@@ -190,8 +190,8 @@ const MyReservationList = ({ activeBtn }) => {
           <React.Fragment key={index}>
             {activeBtn === "예약 내역" && (
                 <MyListMid>
-                    <MyListMidEnd />
-                    {item.status === "CANCELED" && <h2>취소 대기중</h2>}
+                    {item.status === "CANCELED" && <MyListMidEnd />}
+                    {item.status === "CANCELED" && <h2>예약 취소</h2>}
                     <MyListMidImg>
                       <img
                         src={`/pic/${item.proStoredPic}`}

@@ -73,10 +73,6 @@ const MyReviewList = ({ activeBtn }) => {
       raiting: selectedItem.raiting,
     });
   };
-  console.log(reviewFormData.raiting);
-  console.log(reviewFormData.contents);
-  console.log(reviewFormData.ireview);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +88,7 @@ const MyReviewList = ({ activeBtn }) => {
     };
     fetchData();
   }, [activeBtn]);
+  console.log(data);
 
   return (
     <MyListDiv>
@@ -115,6 +112,7 @@ const MyReviewList = ({ activeBtn }) => {
           contents={reviewFormData.contents}
           ireview={reviewFormData.ireview}
           raiting={reviewFormData.raiting}
+          setData={setData}
         />
       )}
       <MyListTop>

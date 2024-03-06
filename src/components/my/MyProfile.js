@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { Common } from "../../styles/CommonStyles";
-import { getMyRental, getMyReview, getMyUser, getProd, getProd2 } from "../../api/my/my_api";
+import { getMyRental, getMyReview, getMyUser, getProd } from "../../api/my/my_api";
 import { useSelector } from "react-redux";
 
 const ProfileDiv = styled.div`

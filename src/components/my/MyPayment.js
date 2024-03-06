@@ -98,6 +98,10 @@ export const MyPaymentLast = styled.div`
 `
 
 const MyPayment = ({data,onConfirm}) => {
+    const formatNumberWithCommas = (number) => {
+        return number.toLocaleString();
+      };
+      
   return (
     <MyModalDiv>
       <div>
@@ -124,11 +128,11 @@ const MyPayment = ({data,onConfirm}) => {
             </div>
             <MyPaymentLast>
                 <span>보증금</span>
-                <span>{data.deposit} 원</span>
+                <span>{formatNumberWithCommas(data.deposit)} 원</span>
             </MyPaymentLast>
             <MyPaymentLast bbottom={"none"} ptop={"0px"}>
                 <span>총 합계</span>
-                <span>{data.totalPrice} 원</span>
+                <span>{formatNumberWithCommas(data.totalPrice)} 원</span>
             </MyPaymentLast>
         </MyPaymentTxt>   
       </div>
