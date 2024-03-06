@@ -10,7 +10,7 @@ const AdminChatHistoryModal = ({ toggleModal }) => {
           <h2>신고된 채팅 내역</h2>
           <div className="chat-wrap">
             <div className="admin-profile-wrap">
-              <div className="admin-chat-content">채팅 내역</div>
+              <div className="admin-chat-content">안녕하세요.</div>
               <div className="profile-wrap">
                 <div className="admin-profile">
                   <img src="/images/admin/admin_profile.png" />
@@ -25,7 +25,7 @@ const AdminChatHistoryModal = ({ toggleModal }) => {
                 </div>
                 <div className="user-nick">USER</div>
               </div>
-              <div className="user-chat-content">채팅 내역</div>
+              <div className="user-chat-content">제품이 사진과 달라서 허위매물 신고합니다.</div>
             </div>
           </div>
         </div>
@@ -103,6 +103,8 @@ const ModalContainer = styled.div`
     border: 1px solid #777;
     border-radius: 10px;
     background-color: #ffe6e6;
+    font-size: 17px;
+  
   }
   .user-profile-wrap {
     position: absolute;
