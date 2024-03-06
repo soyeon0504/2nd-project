@@ -14,6 +14,8 @@ const LazyJoinFirstPage = lazy(() => import("./pages/join/JoinFirstPage"));
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
 const LazyJoinLastPage = lazy(() => import("./pages/join/JoinLastPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
+const LazyKaKaoPage = lazy(() => import("./pages/login/KakaoRedirectPage"));
+//const LazyKakaoModifyPage = lazy(() => import("./pages/join/KakaoModifyPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 
@@ -100,6 +102,22 @@ const App = () => {
             </Suspense>
           }
         ></Route>
+        <Route
+          path="/login/kakao"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyKaKaoPage />
+            </Suspense>
+          }
+        ></Route>
+        {/* <Route
+          path="/login/kakao/modify"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyKakaoModifyPage />
+            </Suspense>
+          }
+        ></Route> */}
 
         <Route
           path="/join/step_1"

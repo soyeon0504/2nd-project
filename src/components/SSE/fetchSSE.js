@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 // import FetchSSEModal from './FetchSSEModal';
 
 const FetchSSE = () => {
+
 //   const path2 = `${SERVER_URL}/api`;
 //   const url = `${path2}/sse/connect`;
 //   const memberInfo = getCookie("member");
@@ -53,6 +54,7 @@ const FetchSSE = () => {
 //     )}
 //   </div>
 //   );
+
 };
 
 export default FetchSSE;

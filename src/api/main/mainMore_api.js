@@ -93,9 +93,9 @@ export const getCountSearchProduct = async (
   setTotalPage,
 ) => {
   try {
-    let url = `${path}/prod/count?mc=${categoryId}`;
-    if (search) {
-      url += `&search=${search}`;
+    let url = `${path}/prod/count?search=${search}`;
+    if (categoryId) {
+      url += `&mc=${categoryId}`;
     }
     if (subCategoryId) {
       url += `&sc=${subCategoryId}`;
@@ -110,3 +110,4 @@ export const getCountSearchProduct = async (
     console.log(error);
   }
 };
+
