@@ -18,7 +18,11 @@ export const getChatList = async page => {
 export const postChat = async (iuser, iproduct) => {
   try {
     const url = `${SERVER_URL}/api/chat/room/${iuser}?iproduct=${iproduct}`;
-    await jwtAxios.post(url);
+    const result = await jwtAxios.post(url);
+
+    if (result.status === 200) {
+      return 1;
+    }
   } catch (error) {
     console.error(error);
     throw new Error("Failed to post chat");

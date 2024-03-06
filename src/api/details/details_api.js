@@ -69,6 +69,7 @@ export const postProduct = async (
       paymentMethod,
       rentalStartDate,
       rentalEndDate,
+      paymentDetailId,
     };
     const res = await jwtAxios.post(url, data);
     return res;
@@ -77,6 +78,7 @@ export const postProduct = async (
     failPostDatas("/");
   }
 };
+
 // 쿼리 문자열로 전송 방식
 // export const postReview = async (ipayment, contents, rating) => {
 //   try {

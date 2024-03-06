@@ -183,7 +183,7 @@ const DetailsPage = () => {
   const mainCategory = parseInt(searchParams.get("mc"));
   const subCategory = parseInt(searchParams.get("sc"));
   const productId = parseInt(searchParams.get("productId"));
-
+  const [createdChatRoom, setCreatedChatRoom] = useState(null);
   const iuser = useSelector(state => state.loginSlice.iuser);
   const navigate = useNavigate();
   const togglePayModal = () => {
@@ -193,18 +193,21 @@ const DetailsPage = () => {
   const handleReportClick = () => {
     setIsReportClicked(true);
     // report/isure 경로로 이동
-    window.location.href = `/report/iproduct=${productData.iproduct}`;
+    navigate(`/report/iproduct=${productData.iproduct}`);
   };
 
   const handleChatButtonClick = async () => {
     try {
       // 채팅방 생성 API 호출
       const { iuser, iproduct } = productData;
-      await postChat(iuser, iproduct);
+      const result = await postChat(iuser, iproduct);
 
       // API 호출이 성공하면 채팅 페이지로 이동
-      const chatUrl = `chat/${iuser}/${iproduct}`;
-      window.location.href = chatUrl;
+      if (result === 1) {
+        // 생성된 채팅방 정보를 상태에 저장
+        setCreatedChatRoom({ iuser, iproduct });
+        navigate(`/chat/${iuser}/${iproduct}`);
+      }
     } catch (error) {
       console.error("Failed to create chat room:", error);
       // 에러 처리

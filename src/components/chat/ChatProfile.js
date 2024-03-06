@@ -46,7 +46,7 @@ const ChatProfile = ({ onProfileSelect }) => {
     <>
       {chatList.map(data => (
         <ChatProfileBox
-          key={data.id}
+          key={data.ichat}
           onClick={() => handleProfileSelect(data)}
           selected={selectedProfile && selectedProfile.id === data.id}
         >
