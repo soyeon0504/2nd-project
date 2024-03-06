@@ -5,11 +5,11 @@ import CustomList from '../../components/customer/CustomList'
 export const CustomerFAQPage = ({activeBtn, setActiveBtn, handleSubItemClick}) => {
   return (
     <>
-        <CustomBtn 
+        {/* <CustomBtn 
         activeBtn={activeBtn} 
         setActiveBtn={setActiveBtn} 
         onButtonClick={handleSubItemClick}
-        />
+        /> */}
         <CustomList />
     </>
   )
