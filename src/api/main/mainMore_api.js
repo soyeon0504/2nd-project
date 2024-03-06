@@ -32,23 +32,38 @@ export const getMoreProduct = async (
     failPostDatas("/");
   }
 };
-export const getProdListCount = async iuser => {
-  {
-    try {
-      let url;
-      console.log(pageNum, categoryId, subCategoryId, sortType);
 
-      if (sortType)
-        url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
-      else
-        url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
-      const res = await axios.get(url);
 
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      failPostDatas("/");
+export const getProdListCount = async ({
+  page,
+  successFn,
+  errorFn,
+  search,
+  setTotalPage
+}) => {
+  try {
+    let url = `${path}/prod?count`;
+    if (search) {
+      url += `?search=${search}`;
     }
+    if (categoryId) {
+      url += `&mc=${categoryId}`;
+    }
+    if (subCategoryId) {
+      url += `&sc=${subCategoryId}`;
+    }
+    if (addr) {
+      url += `&addr=${addr}`;
+    }
+    const res = await jwtAxios.get(base_url);
+    const status = res.status.toString();
+    setTotalPage(res.data.result);
+    if (status.charAt(0) === "2") successFn(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    // failPostDatas("/");
+    errorFn(error);
   }
 };
 

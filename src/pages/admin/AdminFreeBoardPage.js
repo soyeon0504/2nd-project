@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { BoardWrap, HeaderWrap } from '../../styles/admin/AdminBoardPageStyle'
 import Pagination from '../../components/Pagination'
 import { deleteFreeBoard, getFreeBoard } from '../../api/admin/admin_board_api'
@@ -37,6 +38,11 @@ const SEARCH_OPTIONS_TEXT = [
 
 
 const AdminFreeBoardPage = () => {
+  // 게시물 이동
+  const navigate = useNavigate();
+  const moveToDetail = iboard => {
+    navigate(`/free/details?iboard=${iboard}`);
+  };
   // 전체 자유게시판 데이터
   const [freeBoardAllData, setFreeBoardAllData] = useState([]);
   const [page, setPage] = useState(1);
@@ -53,31 +59,18 @@ const AdminFreeBoardPage = () => {
     alert(`${res.message} \n 에러코드(${res.errorCode})`);
   };
 
-
-  const handlePageChange = (value, page, totalPage) => {
-    console.log(value);
-    if (value === "first") {
-      getFreeBoard(1, successFn, errorFn)
-      setPage(1);
-    } else if (value === "prev") {
-      if (page !== 1) {
-        getFreeBoard(page - 1, successFn, errorFn)
-        setPage(page - 1);
-      }
-    } else if (value === "next") {
-      if (page !== totalPage) {
-        getFreeBoard(page + 1, successFn, errorFn)
-        setPage(page + 1);
-      }
-    } else if (value === "last") {
-      getFreeBoard(totalPage, successFn, errorFn)
-      setPage(totalPage);
-    } else {
-      getFreeBoard(value, successFn, errorFn)
-      setPage(value);
-    }
-  };
-
+// 페이지네이션
+const handlePageChange = _tempPage => {
+  setPage(_tempPage);
+  getFreeBoard(
+    _tempPage,
+    successFn, 
+    errorFn, 
+    selectedSearchOption, 
+    inputValue,
+    sortType
+    );
+};
   
   const handleSearchOptionChange = e => {
   const selectedOption = e.target.value;
@@ -92,14 +85,14 @@ const AdminFreeBoardPage = () => {
 
   const handleSearchKeywordChange = e => setInputValue(e.target.value);
 
-  
-
   const handleSearchSubmit = () => {
     getFreeBoard(1, successFn, errorFn, selectedSearchOption, inputValue);
     setSearchKeyword(inputValue);
     setPage(1);
   };
-
+ 
+  
+  // 게시글 삭제
   const handleClickDelete = async iboard => {
     const confirmDelete = window.confirm("해당 게시물을 삭제하시겠습니까?");
     if (confirmDelete) {
@@ -120,15 +113,17 @@ const AdminFreeBoardPage = () => {
   }
   };
 
-  const getSortedData = sortType => {
-        getFreeBoard(
-          1,
-          successFn,
-          errorFn,
-          selectedSearchOption,
-          inputValue,
-          sortType,
-        )
+  const [sortType, setSortType] = useState();
+  const getSortedData = newSortType => {
+    setSortType(newSortType); // 정렬 상태 변경
+    getFreeBoard(
+      1, // 첫 페이지부터 데이터를 가져옴
+      successFn,
+      errorFn,
+      selectedSearchOption,
+      inputValue,
+      newSortType // 변경된 정렬 상태를 함께 전달
+    );
   };
 
   useEffect(() => {
@@ -206,10 +201,9 @@ const AdminFreeBoardPage = () => {
                 <td>{item.title}</td>
                 <td>{item.nick}</td>
                 <td>{item.view}</td>
-                <td>{item.createdAt}</td>
-                <td>{item.postInquiry}
+                <td>{new Date(item.createdAt).toLocaleString()}</td>                <td>{item.postInquiry}
                 <td>{item.postManage}</td>
-                  <button className='move'>이동</button>
+                  <button className='move' onClick={() => moveToDetail(item.iboard)}>이동</button>
                 </td>
                 <td>{item.productManage}
                   <button className='delete' onClick={e => {handleClickDelete(item.iboard)}}>삭제</button>
