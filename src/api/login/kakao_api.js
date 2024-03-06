@@ -2,14 +2,14 @@
 import axios from "axios";
 import { SERVER_URL } from "../config";
 // 앱 등록시 Rest 키 값(절대 오픈 금지)
-const rest_api_key = "18b1120b1e489cb77a9ddc578db9af9a";
+const client_id = "beae94b18549648a1e9a98b4e0d945b2";
 // 카카오 로그인 통과시 이동할 주소
 const redirect_uri = "http://localhost:3000/login/kakao";
 // 카카오 로그인 문서 참조
 const auth_code_path = "https://kauth.kakao.com/oauth/authorize";
 const response_type = "code"
 const authParam = new URLSearchParams({
-  rest_api_key, redirect_uri, response_type
+    client_id, redirect_uri, response_type
 })
 // 카카오 로그인시 활용
 export const getKakaoLoginLink = () => {
@@ -25,8 +25,10 @@ export const getAccessToken = async authCode => {
     },
   };
   const params = {
-   
-   
+    grant_type: "authorization_code",
+    client_id: client_id,
+    redirect_uri: redirect_uri,
+    code: authCode,
   };
   const res = await axios.post(access_token_url, params, header);
   const accessToken = res.data.access_token;
