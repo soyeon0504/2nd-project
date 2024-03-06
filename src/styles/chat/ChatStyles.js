@@ -21,7 +21,7 @@ export const ChatBox = styled.div`
   margin-right: 20px;
   border: 1px solid #777;
   overflow: hidden; /* 넘치는 내용 숨김 */
-  /* overflow-y: auto; 내용이 넘칠 때 수직 스크롤 표시 */
+  overflow-y: auto;
   position: relative;
 `;
 
