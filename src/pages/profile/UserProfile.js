@@ -159,16 +159,20 @@ const initListData = [
 ]
 
 const UserProfile = () => {
-  const navigate = useNavigate(`/details/`);
+  const navigate = useNavigate();
+  const moveToDetail = (mainCategory, subCategory, iproduct) => {
+    navigate(`/details?mc=${mainCategory}&sc=${subCategory}&productId=${iproduct}`)
+  }
 
   // 프로필 데이터
   const [userData, setUserData] = useState(initUserData);
-  console.log("userData", userData);
+  // console.log("userData", userData);
 
   // 제품 리스트 데이터
   const [userListData, setUserListData] = useState(initListData);
-  console.log("userListData", userListData);
+  // console.log("userListData", userListData);
   
+
   // details 페이지로 이동
   const { isLogin } = useCustomLogin();
 
@@ -208,6 +212,7 @@ const UserProfile = () => {
   const { loginState } = useCustomLogin();
   const location = useLocation();
   const iuser = location.pathname.split("/")[2];
+
   // const iuser = loginState.iuser;
   console.log("iuser", iuser);
 
@@ -318,23 +323,27 @@ const UserProfile = () => {
                 <PostWrap
                   className="item-wrap"
                 >
-                  {userListData.slice(0, viewMore).map((userListItem, index) => (
-                    <Post key={index} onClick={() => handlePageChangeDetails(userListItem)}>
+
+                  {userListData.slice(0, viewMore).map((item, index) => (
+                    <Post key={index} onClick={() => moveToDetail(item.icategory.mainCategory,item.icategory.subCategory,item.iproduct)}>
+
                       <div>
                         <PostImg>
-                          <img src={`/pic/${userListItem.prodMainPic}`} alt="Post Image" />
+                          <img src={`/pic/${item.prodMainPic}`} alt="Post Image" />
                         </PostImg>
                         <PostDesc>
-                          <div className="post-info-title">{userListItem.title}</div>
-                          <div className="post-info-price">{userListItem.rentalPrice.toLocaleString()}</div>
-                          <div className="post-info-date">{userListItem.rentalStartDate}</div>
+                          <div className="post-info-title">{item.title}</div>
+                          <div className="post-info-price">{item.rentalPrice.toLocaleString()}</div>
+                          <div className="post-info-date">{item.rentalStartDate}</div>
                         </PostDesc>
                       </div>
                       <ProfileWrap>
                         <div>
-                          <img src={`/pic/${userListItem.userPic}`} alt="Profile Image" />
+
+                          <img src={`/pic/${item.userPic}`} alt="Profile Image" />
+
                         </div>
-                        <div className="user-name">{userListItem.nick}</div>
+                        <div className="user-name">{item.nick}</div>
                       </ProfileWrap>
                     </Post>
                   ))}

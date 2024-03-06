@@ -12,6 +12,7 @@ import {
 } from "../../styles/free/FreePageStyle";
 import { useNavigate } from "react-router-dom";
 import { getFreeList } from "../../api/free/free_api";
+import { SideBar } from "../../components/SideBar";
 
 // search 카테고리
 const searchCate = [
@@ -157,7 +158,7 @@ const FreePage = () => {
 
   const [sort, setSort] = useState(null);
 
-  const [page, setPage] = useState(1); // 페이지네이션해야함!!!!!!
+  const [page, setPage] = useState(1);
 
   const [freeList, setFreeList] = useState([]);
   const [freeLength, setFreeLength] = useState([]);
@@ -183,7 +184,7 @@ const FreePage = () => {
     },
     {
       Header: "좋아요",
-      accessor: "isLiked",
+      accessor: "boardLikeCnt",
       width: '10%',
     },
     {
@@ -217,6 +218,7 @@ const FreePage = () => {
   console.log(search, type, sort);
   return (
     <Layout>
+      <SideBar />
       <FreePageStyle>
         <FreeHeader>
           <p>자유게시판</p>

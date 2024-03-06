@@ -56,12 +56,10 @@ export const Chat = styled.button`
   cursor: pointer;
 `;
 
-export const Like = styled.button`
-  width: 40px;
-  height: 40px;
-
-  background: url("/images/main/heart.svg");
-
+export const FreeBoard = styled.button`
+  width: 25px;
+  height: 25px;
+  background: url("/images/main/board.svg") center;
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;

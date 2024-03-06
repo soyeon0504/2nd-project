@@ -14,9 +14,7 @@ export const getAllProducts = async (
   sort,
 ) => {
   try {
-    // http://192.168.0.144:5226/api/admin/product
     //                  /admin/product?page=${page}&type=${type}////
-    console.log(type, search, sort);
     let base_url = `${path}/admin/product?page=${page}`;
     if (type && search) base_url += `&type=${type}&search=${search}`;
     if (sort && sort !== 0) base_url += `&sort=${sort}`;

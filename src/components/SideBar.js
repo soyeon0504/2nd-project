@@ -3,6 +3,7 @@ import {
   ButtonWrap,
   Call,
   Chat,
+  FreeBoard,
   Like,
   Profile,
   SideBarWrap,
@@ -36,15 +37,10 @@ export const SideBar = ({ setSelectedItem, setActiveBtn }) => {
               <p>채팅</p>
             </div>
           </Link>
-          <Link
-            to="/my?interest"
-            onClick={() => {
-              handleLinkClick("관심 목록");
-            }}
-          >
+          <Link to="/free">
             <div>
-              <Like></Like>
-              <p>관심</p>
+              <FreeBoard></FreeBoard>
+              <p>게시판</p>
             </div>
           </Link>
           <Link
