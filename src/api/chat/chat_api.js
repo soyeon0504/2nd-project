@@ -4,13 +4,27 @@ import { jwtAxios } from "../../util/jwtUtil";
 
 const path = `${SERVER_URL}/api`;
 
-export const postChat = async (iuser, iproduct) => {
+export const getChatList = async page => {
   try {
-    const url = `${path}/chat/room/${iuser}?iproduct=${iproduct}`;
-    const res = await jwtAxios.post(url, data);
+    const url = `${path}/chat?page=${page}`;
+    const res = await jwtAxios.get(url);
+
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const postChat = async (iuser, iproduct) => {
+  try {
+    const url = `${SERVER_URL}/api/chat/room/${iuser}?iproduct=${iproduct}`;
+    const result = await jwtAxios.post(url);
+
+    if (result.status === 200) {
+      return 1;
+    }
+  } catch (error) {
+    console.error(error);
     throw new Error("Failed to post chat");
   }
 };

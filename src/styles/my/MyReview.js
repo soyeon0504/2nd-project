@@ -18,7 +18,7 @@ export const MyReviewDiv = styled.div`
 export const MyReviewImg = styled.div`
   width: 10rem;
   height: 10rem;
-  border-radius: 5rem;
+  border-radius: 1rem;
   overflow: hidden;
   img {
     width: 100%;
@@ -32,6 +32,9 @@ export const MyReviewTxt = styled.div`
   flex-direction: column;
   width: 60rem;
   height: 10rem;
+  div {
+    height: 4rem;
+  }
   h2 {
     height: 2.2rem;
     font-size: 1.7rem;
@@ -62,28 +65,42 @@ export const MyReviewTitle = styled.div`
     position: absolute;
     top: 1rem;
     right: 1rem;
-    button {
-        cursor: pointer;
+    z-index: 3;
+    p {
         display: flex;
         align-items: center;
-        padding: 0.5rem;
-        font-size: 1rem;
+        padding: 0.8rem;
+        font-size: 1.4rem;
         line-height: 1rem;
         background-color: transparent;
         border-radius: 3px;
         border: 1px solid ${Common.color.primary};
         :hover {
-            background-color: ${Common.color.primary};
-            color: #fff;
-            img {
-                content: url("/images/mytitle_button_hover.svg"); 
-            }
+          background-color: ${Common.color.primary};
+          color: #fff;
         }
-        img {
+    }
+    button {
+      cursor: pointer;
+       display: flex;
+        align-items: center;
+        padding: 0.8rem;
+        font-size: 1.4rem;
+        line-height: 1rem;
+        background-color: transparent;
+        border-radius: 3px;
+        border: 1px solid ${Common.color.primary};
+        :hover {
+          background-color: ${Common.color.primary};
+          color: #fff;
+
+        }
+         img {
             padding-left: 0.5rem;
             object-fit: cover;
         }
     }
+       
 `
 
 export const MyReviewPlus = styled.div`

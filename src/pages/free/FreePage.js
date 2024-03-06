@@ -12,6 +12,7 @@ import {
 } from "../../styles/free/FreePageStyle";
 import { useNavigate } from "react-router-dom";
 import { getFreeList } from "../../api/free/free_api";
+import { SideBar } from "../../components/SideBar";
 
 // search 카테고리
 const searchCate = [
@@ -157,7 +158,7 @@ const FreePage = () => {
 
   const [sort, setSort] = useState(null);
 
-  const [page, setPage] = useState(1); // 페이지네이션해야함!!!!!!
+  const [page, setPage] = useState(1);
 
   const [freeList, setFreeList] = useState([]);
   const [freeLength, setFreeLength] = useState([]);
@@ -174,22 +175,27 @@ const FreePage = () => {
     {
       Header: "제목",
       accessor: "title",
+      width: '45%',
     },
     {
       Header: "닉네임",
       accessor: "nick",
+      width: '10%',
     },
     {
       Header: "좋아요",
-      accessor: "isLiked",
+      accessor: "boardLikeCnt",
+      width: '10%',
     },
     {
       Header: "조회수",
       accessor: "view",
+      width: '10%',
     },
     {
       Header: "업로드 날짜",
       accessor: "createdAt",
+      width: '25%',
     },
   ]);
   const headerKey = columns.map(header => header.accessor);
@@ -212,6 +218,7 @@ const FreePage = () => {
   console.log(search, type, sort);
   return (
     <Layout>
+      <SideBar />
       <FreePageStyle>
         <FreeHeader>
           <p>자유게시판</p>
@@ -232,7 +239,7 @@ const FreePage = () => {
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}
                 onKeyPress={e => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     e.preventDefault();
                     setSearch(inputValue);
                   }
@@ -247,17 +254,37 @@ const FreePage = () => {
         </FreeHeader>
         <FreeMain>
           <SortWrap>
-            <button onClick={() => setSort(0)}>최신순</button>
+            <button
+              onClick={() => setSort(0)}
+              style={{
+                fontWeight: sort === 0 ? "bold" : "normal",
+                color: sort === 0 ? "#2c39b5" : "",
+              }}
+            >
+              최신순
+            </button>
             <img src="/images/main/line.svg" />
-            <button onClick={() => setSort(1)}>좋아요순</button>
+            <button
+              onClick={() => setSort(1)}
+              style={{ fontWeight: sort === 1 ? "bold" : "normal",
+              color: sort === 1 ? "#2c39b5" : "", }}
+            >
+              좋아요순
+            </button>
             <img src="/images/main/line.svg" />
-            <button onClick={() => setSort(2)}>조회순</button>
+            <button
+              onClick={() => setSort(2)}
+              style={{ fontWeight: sort === 2 ? "bold" : "normal",
+              color: sort === 2 ? "#2c39b5" : "", }}
+            >
+              조회순
+            </button>
           </SortWrap>
           <table>
             <thead>
               <tr>
                 {columns.map(header => (
-                  <th key={header.accessor}>{header.Header}</th>
+                  <th key={header.accessor} style={{ width: header.width }}>{header.Header}</th>
                 ))}
               </tr>
             </thead>

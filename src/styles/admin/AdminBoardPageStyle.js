@@ -50,7 +50,9 @@ export const HeaderWrap = styled.div`
         width: 100px;
         height: 40px;
         border: 1px solid #bebebe;
-        border-radius: 5px;
+        border-right: none;
+        border-radius: 5px 0 0 5px;
+        border-top-left-radius: none;
       }
       input {
         width: 300px;
@@ -60,6 +62,7 @@ export const HeaderWrap = styled.div`
         padding-left: 15px;
         color: #000;
         font-size: 16px;
+        border-radius: 0 5px 5px 0;
         ::placeholder {
           color: #bebebe;
           letter-spacing: 1.5px;

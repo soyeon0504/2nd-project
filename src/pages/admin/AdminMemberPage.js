@@ -6,6 +6,7 @@ import {
   MemberSearchForm,
   MemberSearchWord,
   MemberTitle,
+  PaginationContent,
   SearchOptionSelect,
 } from "../../styles/admin/AdminReportPageStyle";
 
@@ -106,8 +107,8 @@ const AdminMemberPage = ({ activeBtn }) => {
             <MemberSearchWord
               placeholder={`${
                 selectedSearchOption === "전체"
-                  ? "검색어를 입력하세요."
-                  : selectedSearchOption + "을 입력하세요."
+                  ? "검색어를 입력하세요"
+                  : selectedSearchOption + "을 입력하세요"
               }`}
               value={searchKeyword}
               onChange={handleSearchKeywordChange}
@@ -176,7 +177,7 @@ const AdminMemberPage = ({ activeBtn }) => {
         </tbody>
       </table>
 
-      <Pagination
+      <PaginationContent
         current={currentPage}
         total={100}
         onChange={page => setCurrentPage(page)}
@@ -190,20 +191,20 @@ const AdminMemberPage = ({ activeBtn }) => {
 
 const tableHeaderStyle = {
   padding: "10px",
-  border: "1px solid #BEBEBE",
+  border: "2px solid #fff",
   height: "60px",
   textAlign: "center",
   backgroundColor: "#FFE6E6",
-  fontWeight: "normal",
+  fontWeight: "700",
   fontSize: "16px",
 };
 
 const tableCellStyle = {
   padding: "10px",
-  border: "1px solid #BEBEBE",
+  border: "2px solid #fff",
   height: "60px",
   textAlign: "center",
-  fontSize: "14px",
+  fontSize: "16px",
 };
 
 const managementButtonStyle = {

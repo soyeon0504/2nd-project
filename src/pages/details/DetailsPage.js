@@ -6,6 +6,7 @@ import { getProduct, deleteProduct } from "../../api/details/details_api";
 import Calendar from "../../components/details/Calendar";
 import Like from "../../components/details/Like";
 import SellerProfile from "../../components/details/SellerProfile";
+import { postChat } from "../../api/chat/chat_api";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Pay from "../../components/details/Pay";
@@ -182,7 +183,7 @@ const DetailsPage = () => {
   const mainCategory = parseInt(searchParams.get("mc"));
   const subCategory = parseInt(searchParams.get("sc"));
   const productId = parseInt(searchParams.get("productId"));
-
+  const [createdChatRoom, setCreatedChatRoom] = useState(null);
   const iuser = useSelector(state => state.loginSlice.iuser);
   const navigate = useNavigate();
   const togglePayModal = () => {
@@ -192,7 +193,25 @@ const DetailsPage = () => {
   const handleReportClick = () => {
     setIsReportClicked(true);
     // report/isure 경로로 이동
-    window.location.href = `/report/iuser=${productData.iuser}`;
+    navigate(`/report/iproduct=${productData.iproduct}`);
+  };
+
+  const handleChatButtonClick = async () => {
+    try {
+      // 채팅방 생성 API 호출
+      const { iuser, iproduct } = productData;
+      const result = await postChat(iuser, iproduct);
+
+      // API 호출이 성공하면 채팅 페이지로 이동
+      if (result === 1) {
+        // 생성된 채팅방 정보를 상태에 저장
+        setCreatedChatRoom({ iuser, iproduct });
+        navigate(`/chat/${iuser}/${iproduct}`);
+      }
+    } catch (error) {
+      console.error("Failed to create chat room:", error);
+      // 에러 처리
+    }
   };
 
   const handleDeleteProduct = async () => {
@@ -330,14 +349,7 @@ const DetailsPage = () => {
                 isLiked={productData.isLiked}
                 productId={productData.iproduct}
               />
-              <BtnChat
-                as={Link}
-                to={`/chat/${productData.iuser}/${productData.iproduct}`}
-                sellerId={productData.iuser}
-                // productId={productData.iproduct}
-              >
-                채팅하기
-              </BtnChat>
+              <BtnChat onClick={handleChatButtonClick}>채팅하기</BtnChat>
               <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
             </Container>
             {showPayModal && (

@@ -23,7 +23,7 @@ export const getProductFirst = async () => {
 export const getProduct = async (mainCategoryId, subCategoryId) => {
   try {
     const url = `${path}/prod/main?mc=${mainCategoryId}&sc=${subCategoryId}`;
-    const res = await jwtAxios.get(url);
+    const res = await axios.get(url);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -36,18 +36,6 @@ export const getProductDetail = async serverData => {
   try {
     const url = `${path}/prod/${serverData.mainCategoryId}/${serverData.subCategoryId}/{iproduct}?iproduct=${serverData.iproduct}`;
     const res = await axios.get(url);
-    return res.data;
-  } catch (error) {
-    console.log(error);
-    failPostDatas("/");
-  }
-};
-
-export const getMoreProduct = async (categoryId, subCategoryId, pageNum) => {
-  try {
-    const url = `${path}/prod/${categoryId}/${subCategoryId}?page=${pageNum}`;
-    const res = await axios.get(url);
-
     return res.data;
   } catch (error) {
     console.log(error);

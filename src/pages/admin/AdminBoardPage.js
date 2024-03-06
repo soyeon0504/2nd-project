@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { deleteProduct, getAllProducts } from "../../api/admin/admin_board_api";
 import { BoardWrap, HeaderWrap } from "../../styles/admin/AdminBoardPageStyle";
 import { PaginationContent } from "../../styles/admin/AdminReportPageStyle";
@@ -91,53 +92,40 @@ const category = [
 const SEARCH_OPTIONS = ["전체", "닉네임", "카테고리"];
 
 const SEARCH_OPTIONS_TEXT = [
-  "검색어를 입력해주세요",
+  // "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "카테고리를 입력해주세요",
 ];
 
 const AdminBoardPage = () => {
+  const navigate = useNavigate();
+  const moveToDetail = (mainCategory, subCategory, iproduct) => {
+    navigate(`/details?mc=${mainCategory}&sc=${subCategory}&productId=${iproduct}`)
+  }
   // 전체 게시물 데이터
   const [boardAllData, setBoardAllData] = useState([]);
   const [page, setPage] = useState(1);
   const [selectedSearchOption, setSelectedSearchOption] = useState(0); // 선택된 검색 옵션 상태
   const [inputValue, setInputValue] = useState(""); // 검색어 상태
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
-  // const [sortType, setSortType] = useState(0); // 최신순, 조회순 정렬
-
-  // 백엔드에서 제공하는 sort 값을 받아오는 함수
-  // const getSort = sortType => {
-  //   // 예시로 '조회수 많은순 내림차순'을 반환
-  //   if (sortType === 1) return "조회순";
-  //   else return "최신순"; // 기본값은 최신순
-  // };
+  
   const successFn = res => setBoardAllData(res);
 
   const errorFn = res => alert(`${res.message} \n 에러코드(${res.errorCode})`);
 
-  const handlePageChange = (value, page, totalPage) => {
-    console.log(value);
-    if (value === "first") {
-      getAllProducts(1, successFn, errorFn);
-      setPage(1);
-    } else if (value === "prev") {
-      if (page !== 1) {
-        getAllProducts(page - 1, successFn, errorFn);
-        setPage(page - 1);
-      }
-    } else if (value === "next") {
-      if (page !== totalPage) {
-        getAllProducts(page + 1, successFn, errorFn);
-        setPage(page + 1);
-      }
-    } else if (value === "last") {
-      getAllProducts(totalPage, successFn, errorFn);
-      setPage(totalPage);
-    } else {
-      getAllProducts(value, successFn, errorFn);
-      setPage(value);
-    }
+  // 페이지네이션
+  const handlePageChange = _tempPage => {
+    setPage(_tempPage);
+    getAllProducts(
+      _tempPage,
+      successFn, 
+      errorFn, 
+      selectedSearchOption, 
+      inputValue,
+      sortType
+      );
   };
+
 
   const handleSearchOptionChange = e => setSelectedSearchOption(e.target.value);
 
@@ -148,33 +136,39 @@ const AdminBoardPage = () => {
     setSearchKeyword(inputValue);
     setPage(1);
   };
-
+  
+  // 게시글 삭제
   const handleClickDelete = async iproduct => {
-    try {
-      const reason = 1;
-      const res = await deleteProduct(iproduct, reason, errorFn);
-      getAllProducts(
-        page,
-        successFn,
-        errorFn,
-        selectedSearchOption,
-        inputValue,
-      );
-      setSearchKeyword(inputValue);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getSortedData = sortType => {
+    const confirmDelete = window.confirm("해당 게시물을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        const reason = 1;
+        const res = await deleteProduct(iproduct, reason, errorFn);
         getAllProducts(
-          1,
+          page,
           successFn,
           errorFn,
           selectedSearchOption,
           inputValue,
-          sortType,
-        )
+        );
+        setSearchKeyword(inputValue);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const [sortType, setSortType] = useState();
+  const getSortedData = newSortType => {
+    setSortType(newSortType); // 정렬 상태 변경
+    getAllProducts(
+      1, // 첫 페이지부터 데이터를 가져옴
+      successFn,
+      errorFn,
+      selectedSearchOption,
+      inputValue,
+      newSortType // 변경된 정렬 상태를 함께 전달
+    );
   };
 
   useEffect(() => {
@@ -205,12 +199,12 @@ const AdminBoardPage = () => {
           <input
             type="text"
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
-            value={selectedSearchOption === "전체" ? "--" : inputValue}
+            value={inputValue}
             onChange={handleSearchKeywordChange}
             // disabled={selectedSearchOption === 0}
           />
           <button onClick={handleSearchSubmit} type="submit">
-            <img src="/images/admin/search.svg" />
+            <img src="/images/admin/bt_search.svg" />
           </button>
         </div>
         <div className="bt-wrap">
@@ -256,13 +250,15 @@ const AdminBoardPage = () => {
                       ].title
                     }
                   </td>
-                  <td>{item.pricePerDay}</td>
+                  <td>{item.pricePerDay.toLocaleString()}</td>
                   <td>{item.nick}</td>
                   <td>{item.view}</td>
-                  <td>{item.createdAt}</td>
-                  <td>
+                  <td>{new Date(item.createdAt).toLocaleString()}</td>                  <td>
                     {item.productInquiry}
-                    <button className="move">이동</button>
+                    <button 
+                    className="move"
+                    onClick={() => moveToDetail(item.mainCategory,item.subCategory,item.iproduct)}
+                    >이동</button>
                   </td>
                   <td>
                     {item.productManage}

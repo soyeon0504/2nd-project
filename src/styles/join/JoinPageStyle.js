@@ -140,7 +140,7 @@ export const ShowPasswordImg = styled.img`
   cursor: pointer;
 `;
 export const ConfirmBt = styled.button`
-  width: 105px;
+  width: ${props => props.width ? props.width : "105px"};
   height: 36px;
   border-radius: 5px;
   border: 1px solid #2c39b5;
@@ -181,12 +181,12 @@ export const CancelBt = styled.button`
   background: #f2f2ff;
   border: none;
   cursor: pointer;
-
   color: #2c39b5;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  border: 1px solid #2c39b5;
 `;
 export const SaveBt = styled(CancelBt)`
   background: #2c39b5;

@@ -4,12 +4,16 @@ import { SideBar } from "../../components/SideBar";
 import { MoreWrap } from "../../styles/main/mainMoreStyle";
 import { Pagination } from "antd";
 import Layout from "../../layouts/Layout";
-import { getSearchProduct } from "../../api/main/mainMore_api";
+import {
+  getCountSearchProduct,
+  getSearchProduct,
+} from "../../api/main/mainMore_api";
 import Like from "../../components/details/Like";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import JoinPopUp, {
   ModalBackground,
 } from "../../components/joinpopup/JoinPopUp";
+import { PaginationBlue } from "../../styles/free/FreePageStyle";
 
 const region = [
   {
@@ -138,7 +142,7 @@ const MainMoreSearchPage = () => {
   const parseMainCategory = parseInt(searchParams.get("mc"));
   const parseSubCategory = parseInt(searchParams.get("sc"));
 
-  // 데이터 연동
+  // 데이터 연동(목록 불러오기)
   const fetchData = async (pageNum, _sortType, _addr) => {
     try {
       const res = await getSearchProduct(
@@ -164,54 +168,67 @@ const MainMoreSearchPage = () => {
   ]);
 
   const handleRegionChange = e => {
-    const selectedOption = region.find(item => item.id === e.target.value);
-    setRegionValue(selectedOption ? selectedOption.title : "");
     const selectedRegionValueId = parseInt(e.target.value);
-    const selectedRegionValue = region.find(
-      item => item.id === selectedRegionValueId,
-    );
-    if (selectedRegionValue) {
+    const selectedOption = region.find(item => item.id === selectedRegionValueId);
+    setRegionValue(selectedOption ? selectedOption.title : "");
+    if (selectedOption) {
       const selectedDistrictValueId = selectedRegionValueId - 1;
       const selectedDistrictValue = district[selectedDistrictValueId];
-
       setSelectedDistrict(selectedDistrictValue);
     }
   };
 
   const [districtValue, setDistrictValue] = useState("");
   const handleDistrictChange = e => {
+    const selectedRegionValueId = parseInt(e.target.value);
     const selectedOption = selectedDistrict.find(
-      item => item.title === e.target.value,
-    );
+      item => item.id === selectedRegionValueId);
     setDistrictValue(selectedOption ? selectedOption.title : "");
   };
 
-  const [addr, setAddr] = useState(null);
+  const [addr, setAddr] = useState("");
   useEffect(() => {
     if (!regionValue && !districtValue) {
       setAddr(null);
-    } else if (regionValue && !districtValue) {
+    } if (regionValue && !districtValue) {
       setAddr(regionValue);
-    } else if (regionValue && districtValue) {
+    } if (regionValue && districtValue) {
       setAddr(`${regionValue}_${districtValue}`);
     }
   }, [regionValue, districtValue]);
 
+  console.log(addr)
+
+  // 데이터연동(페이지네이션)
+  const [pageNum, setPageNum] = useState(1);
+  const [totalPage, setTotalPage] = useState(null);
 
   const handlePageChange = _tempPage => {
     setPageNum(_tempPage);
   };
 
-
-  // 페이지 번호
-  const [pageNum, setPageNum] = useState(1);
-  // 정렬
-  const [sortType, setSortType] = useState(0);
-  //추후 초기 값 세팅 필요
+  const listCountData = async () => {
+    await getCountSearchProduct(
+      searchValue,
+      parseMainCategory,
+      parseSubCategory,
+      addr,
+      setTotalPage,
+    );
+  };
   useEffect(() => {
-    if (sortType !== 0) fetchData(pageNum, sortType);
-    else fetchData(pageNum);
-  }, [pageNum, sortType]);
+    listCountData();
+  }, [searchValue, parseMainCategory, parseSubCategory, addr]);
+
+  // 정렬
+  const [sortType, setSortType] = useState(null);
+
+  useEffect(() => {
+    if (!sortType && !addr) fetchData(pageNum, null, null);
+    if (!sortType && addr) fetchData(pageNum, null, addr);
+    if (sortType && !addr) fetchData(pageNum, sortType, null);
+    if (sortType && addr) fetchData(pageNum, sortType, addr);
+}, [pageNum, sortType, addr]);
 
   // useEffect(() => {
   //   const regionData = datas.filter(item =>
@@ -240,7 +257,6 @@ const MainMoreSearchPage = () => {
     navigate(`/login`);
   };
 
-
   return (
     <Layout>
       {loginState && (
@@ -254,14 +270,30 @@ const MainMoreSearchPage = () => {
         <div className="header-wrap">
           <div className="header-cate-wrap" style={{ flexDirection: "column" }}>
             <div>검색어 : {searchValue}</div>
-            <div>{datas.length}개</div>
+            <div>{totalPage}개</div>
           </div>
           <div>
             <div className="bt-wrap">
               <div>
-                <button onClick={() => setSortType(0)}>최신순</button>
+                <button
+                  onClick={() => setSortType(0)}
+                  style={{
+                    fontWeight: sortType === 0 ? "bold" : "normal",
+                    color: sortType === 0 ? "#2c39b5" : "",
+                  }}
+                >
+                  최신순
+                </button>
                 <img src="/images/main/line.svg" />
-                <button onClick={() => setSortType(2)}>조회순</button>
+                <button
+                  onClick={() => setSortType(2)}
+                  style={{
+                    fontWeight: sortType === 2 ? "bold" : "normal",
+                    color: sortType === 2 ? "#2c39b5" : "",
+                  }}
+                >
+                  조회순
+                </button>
               </div>
             </div>
             <div className="region-wrap">
@@ -277,15 +309,12 @@ const MainMoreSearchPage = () => {
                   );
                 })}
               </select>
-              <select
-                onChange={handleDistrictChange}
-                defaultValue=""
-              >
+              <select onChange={handleDistrictChange} defaultValue="">
                 <option value="" disabled hidden>
                   전체
                 </option>
-                {selectedDistrict.map(listItem => {
-                  return <option key={listItem.id}>{listItem.title}</option>;
+                {selectedDistrict.map(item => {
+                  return <option key={item.id} value={item.id}>{item.title}</option>;
                 })}
               </select>
             </div>
@@ -301,6 +330,12 @@ const MainMoreSearchPage = () => {
                   handlePageChangeDetails(item);
                 }}
               >
+                <div className="like-wrap">
+                  <Like
+                    isLiked={item.isLiked !== 0 ? true : false}
+                    productId={item.iproduct}
+                  />
+                </div>
                 <img
                   className="item-image"
                   src={`/pic/${item.prodMainPic}`}
@@ -320,11 +355,11 @@ const MainMoreSearchPage = () => {
             ))}
         </div>
         <div className="pagination">
-          <Pagination
+          <PaginationBlue
             current={pageNum}
             onChange={handlePageChange}
-            total={Math.floor(state.result.length / 16) + 1}
-            pageSize={10}
+            total={totalPage}
+            pageSize={16}
           />
         </div>
       </MoreWrap>

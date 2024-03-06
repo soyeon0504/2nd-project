@@ -17,6 +17,7 @@ import MyMoreButton from "./MyMoreButton";
 import { getMyRental, getPaymentData } from "../../api/my/my_api";
 import { ModalBackground } from "../joinpopup/JoinPopUp";
 import MyPayment from "./MyPayment";
+import { Link } from "react-router-dom";
 
 const MyList = ({ activeBtn }) => {
   const [activeButton, setActiveButton] = useState(true);
@@ -96,7 +97,9 @@ const MyList = ({ activeBtn }) => {
     fetchData();
   }, [activeButton, activeBtn]);
 
-
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString();
+  };
 
   return (
     <MyListDiv>
@@ -140,23 +143,25 @@ const MyList = ({ activeBtn }) => {
                         <h2>{item.title}</h2>
                       </div>
                       <div>
-                        <p>{item.totalPrice} 원</p>
+                        <p>{formatNumberWithCommas(item.totalPrice)} 원</p>
                       </div>
                       <div>
                         <span>
                           대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                          ({item.rentalDuration}일)
+                          ({item.duration}일)
                         </span>
                       </div>
                     </MyListMidTxt>
                   </a>
-                  <MyListMidLast location={"center"} size={"1.2rem"}>
-                    <p>거래자</p>
-                    <MyListProfileImg>
-                      <img src={`/pic/${item.userPic}`} />
-                    </MyListProfileImg>
-                    <span>{item.nick}</span>
-                  </MyListMidLast>
+                  <Link to={`../profile/${item.iuser}/1`}>
+                    <MyListMidLast location={"center"} size={"1.2rem"}>
+                      <p>거래자</p>
+                      <MyListProfileImg>
+                        <img src={`/pic/${item.userPic}`} />
+                      </MyListProfileImg>
+                      <span>{item.nick}</span>
+                    </MyListMidLast>
+                  </Link>
                 </MyListMid>
             ) : (
               <>
@@ -175,23 +180,25 @@ const MyList = ({ activeBtn }) => {
                         <h2>{item.title}</h2>
                       </div>
                       <div>
-                        <p>{item.totalPrice} 원 </p>
+                        <p>{formatNumberWithCommas(item.totalPrice)} 원 </p>
                       </div>
                       <div>
                         <span>
                           대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                          ({item.rentalDuration}일)
+                          ({item.duration}일)
                         </span>
                       </div>
                     </MyListMidTxt>
                   </a>
-                  <MyListMidLast location={"center"} size={"1.2rem"}>
-                    <p>거래자</p>
-                    <MyListProfileImg>
-                      <img src={`/pic/${item.userPic}`} />
-                    </MyListProfileImg>
-                    <span>{item.nick}</span>
-                  </MyListMidLast> 
+                  <Link to={`../profile/${item.iuser}/1`}>
+                    <MyListMidLast location={"center"} size={"1.2rem"}>
+                    {activeButton === true ? <p>거래자</p> : <p>판매자</p>}
+                      <MyListProfileImg>
+                        <img src={`/pic/${item.userPic}`} />
+                      </MyListProfileImg>
+                      <span>{item.nick}</span>
+                    </MyListMidLast> 
+                  </Link>
                 </MyListMid>
                 <MyReviewDiv>
                   {activeButton === true && (
@@ -200,11 +207,11 @@ const MyList = ({ activeBtn }) => {
                     </button>
                   )}
                   {activeButton === false && (
-                    //  <Link to={`/details/${item.categories.mainCategory}/${item.categories.subCategory}/${item.iproduct}`}>
+                     <Link to={`/details?mc=${item.mainCategory}&sc=${item.subCategory}&productId=${item.iproduct}`}>
                         <button>
                           <p>리뷰 보기</p>
                         </button>
-                    // </Link>
+                    </Link>
                   )}
                 </MyReviewDiv>
               </>

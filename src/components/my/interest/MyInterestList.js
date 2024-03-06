@@ -8,7 +8,7 @@ import MyModal from "./MyModal";
 import { ModalBackground } from "../../joinpopup/JoinPopUp";
 
 
-const MyInterestList = () => {
+const MyInterestList = ({activeBtn}) => {
   const [data, setData] = useState([]);
   const [viewMore, setViewMore] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +17,7 @@ const MyInterestList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getMyInterest(1);
+        const result = await getMyInterest(viewMore);
         setData(result);
       } catch (error) {
         console.error(error);
@@ -25,22 +25,28 @@ const MyInterestList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [activeBtn]);
 
   const handleFavoriteClick = async (iproduct) => {
     try {
       const favResult = await getFav(iproduct);
 
-      const updatedResult = await getMyInterest(viewMore);
+      const updatedResult = await getMyInterest(1);
       setData(updatedResult);
-
+      setViewMore(1);
     } catch (error) {
       console.error("Error favoriting:", error);
     }
   };
 
-  const handleLoadMore = () => {
-    setViewMore((prevViewMore) => prevViewMore + 1);
+  const handleLoadMore = async () => {
+    try {
+      const result = await getMyInterest(viewMore + 1);
+      setData(prevData => [...prevData, ...result]);
+      setViewMore(prevViewMore => prevViewMore + 1);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDeleteClick = (item) => {

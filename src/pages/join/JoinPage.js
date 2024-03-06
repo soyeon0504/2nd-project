@@ -32,6 +32,7 @@ import {
   joinPost,
   nickOverlapPost,
 } from "../../api/join/join_api";
+import VerificationModal from "../../components/joinpopup/VerificationModal";
 
 const JoinPage = () => {
   // 중복확인(닉네임)
@@ -46,7 +47,10 @@ const JoinPage = () => {
       uid: "userId123",
       nick: nickname,
     };
-    nickOverlapPost(obj, nickPostSuccess, nickPostFail);
+    nickOverlapPost(obj, () => {
+      setIsValid(1); 
+      nickPostSuccess();
+    }, nickPostFail);
   };
   const NickOverlapBt = e => {
     e.preventDefault();
@@ -77,13 +81,17 @@ const JoinPage = () => {
   const [idConfirmModal, setIdConfirmModal] = useState(false);
   const [idFailModal, setIdFailModal] = useState(false);
   const [idNullModal, setIdNullModal] = useState(false);
+  
   const IdOverlap = () => {
     const obj = {
       div: 2,
       uid: userId,
       nick: "nickname",
     };
-    idOverlapPost(obj, idPostSuccess, idPostFail);
+    idOverlapPost(obj, () => {
+      setIsValid(1);
+      idPostSuccess();
+    }, idPostFail);
   };
   const IdOverlapBt = e => {
     e.preventDefault();
@@ -197,6 +205,7 @@ const JoinPage = () => {
   const phoneNumber = watch("phoneNumber");
   const [address, setAddress] = useState("");
   const [restAddress, setRestAddress] = useState("");
+  const [isValid, setIsValid] = useState(0);
   const email = watch("email");
 
 
@@ -207,29 +216,43 @@ const JoinPage = () => {
     setRestAddress(e.target.value);
   };
 
-  // 휴대폰 번호 확인 버튼
-  const [showPhoneModal, setShowPhoneModal] = useState(false);
-  const phoneNumberConfirm = () => {
-    setShowPhoneModal(true);
+  // 본인 인증 버튼
+  const [verificationModal, setVerificationModal] = useState(false);
+  const [verificationId, setVerificationId] = useState("");
+  const [verificationResult, setVerificationResult] = useState(null);
+  
+  const verificationConfirm = () => {
+    setVerificationModal(true);
   };
-  const closePhoneModal = () => {
-    setShowPhoneModal(false);
+  const closeVerificationModal = () => {
+    setVerificationModal(false);
   };
 
+  const handleVerifiConfirm = async (userData) => {
+    try {
+      let result;
+      result = await verificationPost(userData);
+      setVerificationId(result.id);
+    } catch (error) {
+      console.log(error);
+    }
+  } 
+ 
   // 데이터 연동(회원가입)
   const handleSubmitJoin = async () => {
     const formData = new FormData();
     const dto = new Blob(
       [
         JSON.stringify({
-          nick: nickname,
-          uid: userId,
-          upw: password,
-          phone: phoneNumber,
           addr: address,
           restAddr: restAddress,
+          uid: userId,
+          upw: password,
+          nick: nickname,
+          phone: phoneNumber,
           email: email,
-          isValid: 2
+          isValid: isValid,
+          iverificationInfo: verificationId,
         }),
       ],
       { type: "application/json" },
@@ -320,19 +343,9 @@ const JoinPage = () => {
         </>
       )}
 
-      {showPhoneModal && (
+      {verificationModal && (
         <>
-          {formState.errors.phoneNumber || phoneNumber === "" ? (
-            <JoinPopUp
-              txt="휴대폰 인증에 실패하셨습니다."
-              onConfirm={closePhoneModal}
-            />
-          ) : (
-            <JoinPopUp
-              txt="휴대폰 인증이 완료되었습니다."
-              onConfirm={closePhoneModal}
-            />
-          )}
+          <VerificationModal closeModal={closeVerificationModal} onConfirm={handleVerifiConfirm}/>
           <ModalBackground></ModalBackground>
         </>
       )}
@@ -527,8 +540,16 @@ const JoinPage = () => {
                   name="phoneNumber"
                   {...register("phoneNumber")}
                 />
-                <ConfirmBt onClick={phoneNumberConfirm} type="button">
-                  휴대폰 인증
+                <ConfirmBt width={"130px"} type="button"
+                onClick={()=> {
+                  if (verificationResult !== null) {
+                    // 본인 인증 성공 시 처리
+                    handleSuccessVerification();
+                  } else {
+                    verificationConfirm();
+                  }}
+                }>
+                   {verificationResult !== null ? "본인 결과 확인" : "본인 인증 확인"}
                 </ConfirmBt>
               </JoinElementInput>
               <InputValid>{formState.errors.phoneNumber?.message}</InputValid>

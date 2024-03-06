@@ -38,10 +38,22 @@ const FreeModifyPage = () => {
     }
   };
 
+  // 삭제할 이미지 pk값 저장
+  const [ipics,setIpics] = useState([])
+
   const removeImgList = _index => {
+    const removedImg = image[_index];
     const arr = image.filter((item, index) => index !== _index);
+
+    const match = freeData.pic.find(pic => pic.boardPic === removedImg.boardPic);
+    if (match) {
+      setIpics(prevIpics => [...prevIpics, match.ipics]);
+    }
+
     setImage(arr);
   };
+  console.log(ipics)
+
 
   // 데이터 연동(게시글 불러오기)
   const searchParams = new URLSearchParams(location.search);
@@ -87,6 +99,7 @@ const FreeModifyPage = () => {
       iboard: iboard,
       title: title,
       contents: contents,
+      ipics: ipics,
     };
 
     formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
@@ -107,7 +120,7 @@ const FreeModifyPage = () => {
         formData.append("storedPic", file);
       });
       await Promise.all(imagePromises);
-      putFreeData({ obj: formData });
+      await putFreeData({ obj: formData });
       navigate(`/free/details?iboard=${iboard}`);
     }
   };

@@ -113,7 +113,7 @@ const ChatBox = ({ selectedProfile }) => {
             placeholder="메시지를 입력하세요"
             value={inputMessage} // Bind input value to state
             onChange={handleInputChange} // Handle input change
-            onKeyPress={handleㅁKeyPress} // Handle Enter key press
+            onKeyPress={handleKeyPress} // Handle Enter key press
           />
         </ChatBoxContainer>
       ) : (
