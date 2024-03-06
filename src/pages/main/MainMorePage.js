@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getCountSearchProduct, getMoreProduct } from "../../api/main/mainMore_api";
+import { getMoreProduct, getProdListCount } from "../../api/main/mainMore_api";
 import { SideBar } from "../../components/SideBar";
 import Like from "../../components/details/Like";
 import JoinPopUp, {
@@ -174,17 +174,19 @@ const MainMorePage = () => {
   };
 
   const listCountData = async () => {
-    await getCountSearchProduct(
-      searchValue,
+    await getProdListCount(
+      // searchValue,
       parseMainCategory,
       parseSubCategory,
       addr,
+      // successFn,
+      // errorFn,
       setTotalPage,
     );
   };
   useEffect(() => {
     listCountData();
-  }, [searchValue, parseMainCategory, parseSubCategory, addr]);
+  }, [parseMainCategory, parseSubCategory, addr]);
 
   // details 페이지로 이동
   const { isLogin } = useCustomLogin();

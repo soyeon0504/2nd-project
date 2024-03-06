@@ -34,36 +34,28 @@ export const getMoreProduct = async (
 };
 
 
-export const getProdListCount = async ({
-  page,
-  successFn,
-  errorFn,
-  search,
+export const getProdListCount = async (
+  categoryId,
+  subCategoryId,
+  addr,
+  // successFn,
+  // errorFn,
   setTotalPage
-}) => {
+) => {
   try {
-    let url = `${path}/prod?count`;
-    if (search) {
-      url += `?search=${search}`;
-    }
-    if (categoryId) {
-      url += `&mc=${categoryId}`;
-    }
-    if (subCategoryId) {
-      url += `&sc=${subCategoryId}`;
-    }
+    let url = `${path}/prod/count?mc=${categoryId}&sc=${subCategoryId}`;
     if (addr) {
       url += `&addr=${addr}`;
     }
-    const res = await jwtAxios.get(base_url);
-    const status = res.status.toString();
+    const res = await jwtAxios.get(url);
+    // const status = res.status.toString();
     setTotalPage(res.data.result);
-    if (status.charAt(0) === "2") successFn(res.data);
+    // if (status.charAt(0) === "2") successFn(res.data);
     return res.data;
   } catch (error) {
     console.log(error);
     // failPostDatas("/");
-    errorFn(error);
+    // errorFn(error);
   }
 };
 
