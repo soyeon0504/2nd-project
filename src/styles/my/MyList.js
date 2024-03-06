@@ -41,7 +41,6 @@ export const MyListTopButton = styled.button`
   cursor: pointer;
 `;
 
-
 export const MyListMid = styled.div`
   display: flex;
   gap: 2rem;
@@ -54,7 +53,8 @@ export const MyListMid = styled.div`
   margin-top: 2.3rem;
   height: 12rem;
   width: 98rem;
-  >h2, a > h2 {
+  > h2,
+  a > h2 {
     position: absolute;
     top: 4rem;
     right: 40rem;
@@ -68,27 +68,6 @@ export const MyListMid = styled.div`
     cursor: pointer;
   }
 `;
-
-
-
-  >h2, a > h2 {
-
-    position: absolute;
-    top: 4rem;
-    right: 40rem;
-    font-size: 3rem;
-    font-weight: 600;
-    color: #fff;
-  }
-  a {
-    display: flex;
-    gap: 2rem;
-    cursor: pointer;
-  }
-`;
-
-
-
 
 export const MyListMidEnd = styled.div`
   position: absolute;
@@ -112,7 +91,6 @@ export const MyListMidImg = styled.div`
   }
 `;
 
-
 export const MyListMidTxt = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,7 +98,7 @@ export const MyListMidTxt = styled.div`
   height: 10rem;
   gap: 1rem;
   h2 {
-    height: ${props => (props.height ? props.height : "3.5rem")};;
+    height: ${props => (props.height ? props.height : "3.5rem")};
     font-size: 1.4rem;
     font-weight: 400;
   }
@@ -153,12 +131,7 @@ export const MyListMidTxt = styled.div`
 `;
 
 export const MyListMidLast = styled.div`
-
-
-export const MyListMidTxt = styled.div`
   display: flex;
-
-
   align-items: ${props => (props.location ? props.location : "end")};
   justify-content: space-between;
   flex-direction: ${props => (props.direction ? props.direction : "column")};
@@ -181,7 +154,6 @@ export const MyListMidTxt = styled.div`
     font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
   button {
-
     z-index: 99;
     background: none;
     border: 0;
@@ -198,27 +170,27 @@ export const MyListMidTxt = styled.div`
 `;
 
 export const MyReservationBtDiv = styled.div`
-    display: flex ;
-    justify-content: space-between !important;
-    width: ${props => props.width ? props.width : "11rem"} !important; 
-`
+  display: flex;
+  justify-content: space-between !important;
+  width: ${props => (props.width ? props.width : "11rem")} !important;
+`;
 
 export const MyReviewDiv = styled.div`
-    display: flex;
-    margin-top: 10px;
-    justify-content: end;
-    width: 980px;
-    button {
-      cursor: pointer;
-      width: 110px;
-      height: 30px;
-      border: 0;
-      border-radius: 5px;
-      background-color: #f6b65a;
-      color: #fff;
-      z-index: 9;
-    }
-`
+  display: flex;
+  margin-top: 10px;
+  justify-content: end;
+  width: 980px;
+  button {
+    cursor: pointer;
+    width: 110px;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #f6b65a;
+    color: #fff;
+    z-index: 9;
+  }
+`;
 
 export const MyListProfileImg = styled.div`
   width: 6rem !important;
@@ -268,24 +240,22 @@ export const MyManagementBt = styled.button`
   border-radius: 5px;
   border: 1px solid ${Common.color.primary} !important;
   color: ${Common.color.primary};
-`
+`;
 
 export const MyManagementBtHover = styled(MyManagementBt)`
   background-color: ${Common.color.primary} !important;
   color: #fff;
-  width: ${props => props.width ? props.width : "50px"};
-`
+  width: ${props => (props.width ? props.width : "50px")};
+`;
 export const CompManagementBt = styled.button`
   width: 110px;
   height: 30px;
   border-radius: 5px;
   background-color: #fcd508 !important;
   color: #fff;
-`
+`;
 export const CompManagementBtHover = styled(CompManagementBt)`
   background-color: transparent !important;
   color: #fcd508;
   border: 1px solid #fcd508 !important;
-
-`
-
+`;
