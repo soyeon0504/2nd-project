@@ -4,6 +4,7 @@ import { getAccessToken, getMemberWithAccessToken } from '../../api/login/kakao_
 import { useDispatch } from 'react-redux';
 import { login } from '../../slices/loginSlice';
 import useCustomLogin from '../../hooks/useCustomLogin';
+
 const KakaoRedirectPage = () => {
     const [uRLSearchParams, setURLSearchParams] = useSearchParams();
   // 인증코드 파악하기
@@ -25,10 +26,10 @@ const KakaoRedirectPage = () => {
         // 소셜회원이 아니라면
         if (memberInfo && !memberInfo.social) {
           // 첫페이지로 이동
-          moveToPath("/");
+          moveToPath("/login");
         } else {
           // 정보 수정창으로 이동
-          moveToPath("/login/kakao/modify");
+          moveToPath("/join/step_1");
         }
       });
     });

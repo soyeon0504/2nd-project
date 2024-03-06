@@ -166,7 +166,7 @@ const LoginPage = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              gap: "50px",
+              gap: "30px",
               paddingRight: "30px",
             }}
           >
