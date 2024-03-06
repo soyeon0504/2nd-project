@@ -10,7 +10,6 @@ export const MYListDivs = styled.div`
   background: ${Common.color.p500};
   border-radius: 1rem;
   padding: 2rem;
-
 `;
 
 export const MyListTop = styled.div`
@@ -55,7 +54,9 @@ export const MyListMid = styled.div`
   margin-top: 2.3rem;
   height: 12rem;
   width: 98rem;
+
   >h2, a > h2 {
+
     position: absolute;
     top: 4rem;
     right: 40rem;
@@ -69,6 +70,7 @@ export const MyListMid = styled.div`
     cursor: pointer;
   }
 `;
+
 
 export const MyListMidEnd = styled.div`
   position: absolute;
@@ -132,6 +134,7 @@ export const MyListMidTxt = styled.div`
 `;
 
 export const MyListMidLast = styled.div`
+
   display: flex;
   align-items: ${props => (props.location ? props.location : "end")};
   justify-content: space-between;
@@ -155,6 +158,7 @@ export const MyListMidLast = styled.div`
     font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
   button {
+
     z-index: 99;
     background: none;
     border: 0;
@@ -192,6 +196,7 @@ export const MyReviewDiv = styled.div`
       z-index: 9;
     }
 `
+
 
 export const MyListProfileImg = styled.div`
   width: 6rem !important;
