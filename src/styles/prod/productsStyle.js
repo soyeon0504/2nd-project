@@ -6,9 +6,43 @@ export const AllWidth = styled.div`
   margin: 0 auto;
 `;
 
-export const PriceDiv = styled.div`
+export const HashDiv = styled.div`
   justify-content: space-between;
+  width: 86%;
+
+  input {
+    width: 20rem !important;
+    margin-right: 8px;
+  }
+`;
+export const HadhPriceDiv = styled.div`
+  width: 2000px;
+  height: 3000px;
+  display: block;
+  justify-content: space-between;
+
   width: 86rem;
+  .css-hchrte > div {
+    width: 7rem !important;
+  }
+  #hadh {
+  }
+  .hadh {
+    width: 20rem !important;
+    margin-right: 8px;
+  }
+  span {
+    margin-left: 5px;
+    margin-top: 5px;
+    font-size: 1.8rem;
+  }
+`;
+export const PriceDiv = styled.div`
+  /* justify-content: space-between; */
+  display: flex !important;
+  flex-wrap: wrap !important;
+  width: 86rem;
+
   input {
     width: 20rem !important;
     margin-right: 8px;
@@ -67,6 +101,7 @@ export const PriceDiv = styled.div`
 
 export const ListDiv = styled.div`
   display: flex;
+
   margin-top: 6rem;
 
   :nth-of-type(1) {
@@ -88,7 +123,7 @@ export const ListDiv = styled.div`
   }
   > div {
     display: flex;
-
+    flex-wrap: wrap;
     flex-direction: ${props => (props.direction ? props.direction : "none")};
     gap: 1rem;
 

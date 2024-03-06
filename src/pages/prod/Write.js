@@ -1,57 +1,38 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import Layout from "../../layouts/Layout";
 import { SideBar } from "../../components/SideBar";
 import Mytitle from "../../components/my/Mytitle";
-import Layout from "../../layouts/Layout";
+import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { ArrowRightOutlined, CalendarOutlined } from "@ant-design/icons";
-import { DatePicker } from "antd";
-import koKR from "antd/lib/date-picker/locale/ko_KR";
-import DaumPostcode from "react-daum-postcode";
-import { useNavigate } from "react-router";
-import { postprod } from "../../api/prod/prod_api";
-import { Modal } from "../../components/address/Address";
+import MyDatePicker from "./MyDatePicker";
 import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
+import { Modal } from "../../components/address/Address";
+import DaumPostcode from "react-daum-postcode";
+import Calendar from "../../components/details/Calendar";
+import { DatePicker } from "antd";
+import { CalendarOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import koKR from "antd/lib/date-picker/locale/ko_KR";
 import {
   AllWidth,
   BtWrap,
   BtnColor,
   BtnColorSub,
+  HashDiv,
   ListDiv,
   PriceDiv,
   ProductImgBt,
   ProductImgMap,
+  ProductImgMapBt,
   Resets,
 } from "../../styles/prod/productsStyle";
-// 오늘 날짜 추적
+import { failPostDatas, postprod } from "../../api/prod/prod_api";
+import dayjs from "dayjs";
+// 오늘 이전날 선택불가
 import moment from "moment";
-
-// 1차 초기값
-// const initMoreData = {
-//   mainPic: "", //메인 사진
-//   pics: [""], //서브 사진
-//   dto: {
-//     title: "", //재목(50자 한정)
-//     contents: "", // 내용 (1500자 제한)
-//     addr: "", //주소
-//     restAddr: "", // 나머지 주소
-//     price: 0, //가격
-//     rentalPrice: 0, //임대 가격
-//     depositPer: 0, //보증금 비율
-//     buyDate: "2024-01-31", //구매날짜
-//     rentalStartDate: "2024-01-31", //임대시작
-//     rentalEndDate: "2024-01-31", // 임대 종료
-//     icategory: {
-//       //카테고리숫자
-//       mainCategory: 0, //메인카테고리
-//       subCategory: 1, //하위 카테고리
-//     },
-//     inventory: 1, // 제고
-//   },
-// };
+import { useNavigate } from "react-router";
 
 const btlist = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -61,80 +42,62 @@ const btlist = [
   ["플레이스테이션", "닌텐도", "Wii", "XBOX", "기타"],
 ];
 
-// 2차 초기값
+// 초기값
 const initState = {
-  mainPic: "", //메인 사진
-  pics: [""], //서브 사진
-  dto: {
-    title: "", //재목(50자 한정)
-    contents: "", // 내용 (1500자 제한)
-    addr: "", //주소
-    restAddr: "", // 나머지 주소
-    rentalPrice: 0, // 가격
-    rentalStartDate: "", //임대시작
-    rentalEndDate: "", // 임대 종료
-    icategory: {
-      //카테고리숫자
-      mainCategory: 1, //메인카테고리
-      subCategory: 1, //하위 카테고리
-    },
-    hashTags: [""], // 해쉬 태그
+  mainPic: "",
+  pics: [],
+  title: "", //재목(50자 한정)
+  contents: "", // 내용 (1500자 제한)
+  // addr: "", //주소
+  // restAddr: "", // 나머지 주소
+  // price: "", //가격
+  rentalPrice: "", //임대 가격
+  // depositPer: "50", //보증금 비율
+
+  // buyDate: "", //구매날짜
+  rentalStartDate: "", //임대시작
+  rentalEndDate: "", // 임대 종료
+  icategory: {
+    //카테고리숫자
+    mainCategory: "1", //메인카테고리
+    subCategory: "1", //하위 카테고리
   },
 };
-
 // 검증 코드 yup
 const validationSchema = yup.object({
-  //제목
   title: yup
     .string("내용을 입력하세요.")
     .min(2, "2자 이상 입력하세요")
     .max(50, "50자까지만 입력하세요 ")
     .required("제목은 필수 입력 사항입니다."),
-  //내용
   contents: yup
     .string("내용을 입력하세요.")
     .min(2, "2자 이상 입력하세요")
     .max(1500, "1500자까지만 입력하세요 ")
     .required("내용은 필수 입력 사항입니다."),
-  //주소
-  addr: yup
-    .string("내용 입력하세요.")
-    .min(2, "주소를 입력하세요")
-    .required(" 거래 주소는 필수 입력 사항입니다."),
-  //상세 주소
-  restAddr: yup
-    .string("내용을 입력하세요.")
-    .max(50, "50자까지만 입력하세요 ")
-    .required(" 상세 주소는 필수 입력 사항입니다."),
-  //가격
+
   rentalPrice: yup
     .string("내용을 입력하세요.")
     .min(3, "100원 이상 입력하세요")
     // .max(10, "21억까지만 입력하세요 ")
     .required("하루대여 가격은 필수 입력 사항입니다."),
-  //제품의 임대 시작 종료
+
   rentalStartDate: yup
     .string("내용을 입력하세요.")
     .required("거래 시작 날짜는 필수 입력 사항입니다."),
   rentalEndDate: yup
     .string("내용을 입력하세요.")
     .required(" / 거래 종료 날짜는 필수 입력 사항입니다."),
-
-  price: yup
+  // 주석 해제했다 ( 받은 코드 )
+  addr: yup
+    .string("내용 입력하세요.")
+    .min(2, "주소를 입력하세요")
+    .required(" 거래 주소는 필수 입력 사항입니다."),
+  restAddr: yup
     .string("내용을 입력하세요.")
-    .min(3, "100원 이상 입력하세요")
-    .required("가격은 필수 입력 사항입니다."),
-  // 헤쉬 태그
-  hashTags: yup
-    .string("제품사진을 선택해주세요.")
-    .test("has-hash", "제품 사진에 # 기호가 포함되어야 합니다.", value => {
-      return value && value.includes("#");
-    })
-    .required("제품사진은 최소 1개 이상 필수 입력 사항입니다."),
+    .max(50, "50자까지만 입력하세요 ")
+    .required(" 상세 주소는 필수 입력 사항입니다."),
 
-  buyDate: yup
-    .string("내용을 입력하세요.")
-    .required("제품 구매일은 필수 입력 사항입니다."),
   mainPic: yup
     .string("제품사진을 선택해주세요.")
     .required("제품사진은 최소 1개이상 필수 입력 사항입니다."),
@@ -169,10 +132,11 @@ const Write = () => {
   const [address, setAddress] = useState("");
   const [restAddress, setRestAddress] = useState("");
   const handleChangeAddress = e => {
-    setAddress(e.target.value);
+    // Yup 관리 (아래의 구문은 yup 으로 관리하려고 하는 것이다.)
+    setValue("addr", e.target.value);
   };
   const handleChangeRestAddress = e => {
-    setRestAddress(e.target.value);
+    setRestAddress("address", e.target.value);
   };
 
   const navigate = useNavigate();
@@ -190,21 +154,17 @@ const Write = () => {
   const [textareaValues, setTextareaValues] = useState("");
   const [btData, setBtData] = useState([]);
 
-  // # 이외에 기호 안들어가게 만든 조건식
-  const [inputHash, setInputHash] = useState("");
-  const [inputHash1, setInputHash1] = useState("");
-  const [inputHash2, setInputHash2] = useState("");
-  const [inputHash3, setInputHash3] = useState("");
-
   // 카테고리
   const [btListPk, setBtListPk] = useState(btlist);
-  // 범위 선정
-  const [valueDeoposit, setValueDeposit] = useState(40); //초기값
+
   // 글자수제한
   const [inputValue, setInputValue] = useState("");
 
   // 주소 검색 모달창
   const [addrModal, setAddrModal] = useState(false);
+
+  // 오늘 이전날 선택불가
+  const [selectedDateRangeAll, setSelectedDateRangeAll] = useState(null);
 
   const handleSelectAddress = data => {
     const selectedAddress = data.address;
@@ -277,34 +237,15 @@ const Write = () => {
     setChangeBtn(0);
   };
 
-  // const handleTextareaChange = event => {
-  //   const value = event.target.value;
-  //   setTextareaValue(value);
-  // };
+  const handleTextareaChange = event => {
+    const value = event.target.value;
+    setTextareaValue(value);
+  };
 
-  // const handleInputAction = event => {
-  //   // 최대 1500글자까지만 입력을 허용
-  //   const newValue = event.target.value.slice(0, 1500);
-  //   setInputValue(newValue);
-  // };
-
-  const [buyDateNow, setBuyDateNow] = useState(null);
-  const handleChangeBuyDate = (date, dateString) => {
-    setBuyDateNow(date);
-    // date: moment 객체 (선택된 날짜)
-    // dateString: 선택된 날짜를 문자열로 표현한 값
-    // console.log("Selected Date:", dateString);
-
-    var today = new Date();
-    var comparisonDate = new Date(dateString);
-    // 오늘 날짜가 comparisonDate 이전인지 확인
-    if (today > comparisonDate) {
-      setValue("buyDate", dateString);
-    } else {
-      alert("오늘 이전 날짜를 선택해주세요.");
-      setValue("buyDate", "");
-      setBuyDateNow(null);
-    }
+  const handleInputAction = event => {
+    // 최대 1500글자까지만 입력을 허용
+    const newValue = event.target.value.slice(0, 1500);
+    setInputValue(newValue);
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -322,9 +263,7 @@ const Write = () => {
   }, [selectCate]);
 
   useEffect(() => {
-    setValue("buyDate", "");
-    setValue("rentalStartDate", "");
-    setValue("rentalEndDate", "");
+    // setValue("buyDate", "");
   }, []);
   useEffect(() => {
     setBtData(btListPk[selectCate]);
@@ -332,8 +271,18 @@ const Write = () => {
 
   // 확인 버튼 선택시 실행
   const handleSubmitMy = async data => {
-    console.log(data);
-    console.log("gogog");
+    // console.log("================== 확인 : ", data);
+
+    const hashArr = [];
+
+    for (let i = 1; i <= 10; i++) {
+      const temp = data["hashTags" + i];
+      if (temp !== "") {
+        hashArr.push("#" + temp);
+      }
+    }
+    // console.log(hashArr);
+
     const formData = new FormData();
     const dto = new Blob(
       [
@@ -352,7 +301,8 @@ const Write = () => {
             mainCategory: data.icategory.mainCategory, //메인카테고리
             subCategory: data.icategory.subCategory, //하위 카테고리
           },
-          hashTags: data.hashTags, //해쉬 태그
+
+          hashTags: hashArr,
         }),
       ],
       // JSON 형식으로 설정
@@ -375,7 +325,6 @@ const Write = () => {
       formData.append("pics", file);
     });
     await Promise.all(imagePromises);
-    console.log("뭔데");
     postprod({ product: formData, successFn, failFn, errorFn });
   };
 
@@ -396,12 +345,20 @@ const Write = () => {
     // failPostDatas("/");
   };
   const handleReset = () => {
-    setValue("title", ""); //제목
-    setValue("contents", ""); //내용
-    setValue("rentalPrice", ""); //대여금
-    setValue("restAddress", ""); //주소
-    setValue("adress", ""); //나머지주소
-    setValue("hashTags", ""); //태그
+    setSelectedDateRange([]);
+    setValue("rentalStartDate", "");
+    setValue("rentalEndDate", "");
+    setValue("mainPic", "");
+    setValue("pics", []);
+
+    setValue("icategory.mainCategory", 0);
+    setValue("icategory.subCategory", 0);
+    setSelectCate(0);
+    setChangeBtn(0);
+    setAddress("");
+    setRestAddress("");
+    setUploadImgBefore(`${process.env.PUBLIC_URL}/images/join/join_img.svg`);
+    setImageBefore([]);
   };
   //취소 버튼시 메인으로
   const quest = useNavigate();
@@ -412,62 +369,19 @@ const Write = () => {
   const [catchErr, setCatchErr] = useState(false);
   const handleNotValid = e => {
     setCatchErr(true);
-    console.log("gogo44444g");
   };
-
-  //현재 날짜 추적 이전 날짜 막는 코드
-  const [selectedDateRangeAll, setSelectedDateRangeAll] = useState(null);
-  // 오늘 날짜
+  // 오늘 이전날 선택불가
   const today = moment();
   // 오늘 이전 날짜를 비활성화하는 함수
   const disabledDate = current => {
     return current && current < moment().startOf("day");
   };
-  //태그관련
-  // const handleInputChangeHash = e => {
-  //   const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-  //   setInputHash(newValue);
-  // };
-  const handleInputChangeHash1 = e => {
-    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setInputHash1(newValue);
-  };
-  const handleInputChangeHash2 = e => {
-    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setInputHash2(newValue);
-  };
-  const handleInputChangeHash3 = e => {
-    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setInputHash3(newValue);
-  };
-
-  const handleInputChangeHash = e => {
-    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setInputHash(newValue);
-    handleChangeS(newValue);
-  };
-
-  //공백을 제거하는 함수 만들기
-  let [str, setStr] = useState("");
-  const handleChangeS = e => {
-    const newValue = e.target.value.replace(/[?.;:|*~`!^\-_+<>@$%&"]/g, "");
-    setInputHash(newValue);
-
-    let newValue2 = e.target.value.trim(); // 입력 값에서 공백을 제거한 후 새로운 변수에 할당
-    setStr(newValue2); // state 변수(str) 업데이트
-  };
-
-  str = str.trim();
-  let arr = str.split(" ");
-  let result = arr.join("");
-  console.log("실행중", result);
-
   return (
     <Layout>
       <SideBar />
       <AllWidth>
         <div>
-          <Mytitle title={"등록 정보"} />
+          <Mytitle title={"기본 정보"} />
         </div>
         <div>
           <form onSubmit={handleSubmit(handleSubmitMy)}>
@@ -526,7 +440,6 @@ const Write = () => {
               <div>
                 <div>
                   <input
-                    name="title"
                     type="text"
                     id="product"
                     maxLength={50}
@@ -537,7 +450,7 @@ const Write = () => {
                     {formState.errors.title?.message}
                   </div>
                 </div>
-                {/* <h2>({textareaValues.length}/50)</h2> */}
+
                 <h2>최대 50자입니다.</h2>
               </div>
             </ListDiv>
@@ -598,7 +511,6 @@ const Write = () => {
                         clickbtn={selectCate === 4}
                         onClick={() => {
                           handleButtonClick(4);
-                          // handleChangeBtn(4);
                         }}
                       >
                         게임 기기
@@ -633,16 +545,12 @@ const Write = () => {
               <div>
                 <div>
                   <textarea
-                    name="contents"
                     id="detail"
+                    //수정중
+                    // onKeyDown={handleInputAction}
                     maxLength={1500}
-                    placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감,하자 유무) 등을 입력해 주세요."
-                    // value={textareaValue}
-                    // onChange={e => {
-                    //   handleTextareaChange(e);
-                    //   handleInputAction(e);
-                    // }}
                     {...register("contents")}
+                    placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감,하자 유무) 등을 입력해 주세요."
                   />
 
                   <div style={{ color: "red" }}>
@@ -650,92 +558,99 @@ const Write = () => {
                   </div>
                 </div>
 
+                {/* <h2>({textareaValue.length}/1500)</h2> */}
                 <h2>최대 1500자입니다.</h2>
               </div>
             </ListDiv>
             <ListDiv>
               <label>
-                <p>해쉬태그</p> <p>*</p>
+                <p>해시태그</p>
               </label>
-              <PriceDiv>
+              <HashDiv>
                 <input
-                  name="hashTags"
                   type="text"
-                  // value={str}
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags1")}
+                />
+
+                <input
+                  type="text"
                   // onChange={e => handleChangeS(e)}
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags2")}
+                />
+
+                <input
+                  type="text"
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags3")}
+                />
+
+                <input
+                  type="text"
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags4")}
+                />
+
+                <input
+                  type="text"
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags5")}
+                />
+
+                <input
+                  type="text"
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags6")}
+                />
+
+                <input
+                  type="text"
+                  placeholder="태그를작성해주세요"
+                  {...register("hashTags7")}
+                />
+
+                <input
+                  type="text"
                   placeholder="#태그를작성해주세요"
-                  {...register("hashTags")}
+                  {...register("hashTags8")}
                 />
-                <div style={{ color: "red" }}>
-                  {formState.errors.hashTags?.message}
-                </div>
+
                 <input
                   type="text"
-                  name="hashTags"
-                  value={inputHash1}
-                  onChange={handleInputChangeHash1}
-                  placeholder="#닌테도"
-                ></input>
-                <input
-                  type="text"
-                  name="hashTags"
-                  value={inputHash2}
-                  onKeyDown={handleInputChangeHash2}
-                  placeholder="#이벤트"
-                ></input>
-                <input
-                  type="text"
-                  name="hashTags"
-                  // value={str}
-                  // onChange={e => handleChangeS(e)}
-                  placeholder="#전자제품"
+                  placeholder="#태그를작성해주세요"
+                  {...register("hashTags9")}
                 />
-              </PriceDiv>
+
+                <input
+                  type="text"
+                  placeholder="#태그를작성해주세요"
+                  {...register("hashTags10")}
+                />
+              </HashDiv>
             </ListDiv>
             <ListDiv>
-              <label htmlFor="quantity">
-                <p>1일 대여가격</p> <p>*</p>
+              <label>
+                <p>가격</p> <p>*</p>
               </label>
-              <div>
+              <PriceDiv>
                 <div>
-                  <input
-                    name="rentalPrice"
-                    className="showSpinner"
-                    type="number"
-                    id="quantity"
-                    placeholder="숫자만 입력"
-                    {...register("rentalPrice")}
-                  />
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="숫자만 입력 가능합니다"
+                      {...register("rentalPrice")}
+                    />
+                    <span>원</span>
+                  </div>
                   <div style={{ color: "red" }}>
                     {formState.errors.rentalPrice?.message}
                   </div>
+                  <p>1일 대여가격</p>
                 </div>
-              </div>
+              </PriceDiv>
             </ListDiv>
-            {/* <ListDiv>
-              <label htmlFor="dateInput">
-                <p>제품 구매일</p> <p>*</p>
-              </label>
-              <div>
-                <div>
-                  <DatePicker
-                    style={inputStyle}
-                    placeholder={["구매일"]}
-                    format="YYYY-MM-DD"
-                    autoFocus={true}
-                    suffixIcon={
-                      <CalendarOutlined style={{ color: "#2C39B5" }} />
-                    }
-                    onChange={handleChangeBuyDate}
-                    value={buyDateNow}
-                  />
 
-                  <div style={{ color: "red" }}>
-                    {formState.errors.buyDate?.message}
-                  </div>
-                </div>
-              </div>
-            </ListDiv> */}
             <ListDiv>
               <label htmlFor="rentalday">
                 <p>거래 가능 날짜</p> <p>*</p>
@@ -747,7 +662,6 @@ const Write = () => {
                 >
                   <DatePicker.RangePicker
                     onChange={handleDateRangeChange}
-                    onFocus={setSelectedDateRangeAll}
                     value={selectedDateRange}
                     format="YYYY-MM-DD"
                     style={inputStyleCalendar}
@@ -768,8 +682,8 @@ const Write = () => {
                   />
 
                   <div style={{ color: "red" }}>
-                    {/* {formState.errors.rentalStartDate?.message} */}
-                    {/* {formState.errors.rentalEndDate?.message} */}
+                    {formState.errors.rentalStartDate?.message}
+                    {formState.errors.rentalEndDate?.message}
                   </div>
                 </div>
               </div>
@@ -780,31 +694,29 @@ const Write = () => {
               </label>
               <div>
                 <input
-                  name="addr"
                   type="text"
+                  {...register("addr")}
                   value={address}
                   placeholder="주소 검색을 해주세요."
                   onClick={handleClickButton}
                   id="adress"
                   readOnly
                   onChange={handleChangeAddress}
-                  {...register("addr")}
                 />
 
                 {catchErr && address === "" && (
                   <div style={{ color: "red" }}>주소를 검색해주세요.</div>
                 )}
+                {/* 기본 코드  */}
                 {/* <div style={{ color: "red" }}>
                   {formState.errors.addr?.message}
                 </div> */}
 
                 <input
-                  name="restAddress"
                   type="text"
-                  // value={restAddress}
                   placeholder="상세 주소를 입력해주세요."
-                  onChange={handleChangeRestAddress}
                   {...register("restAddr")}
+                  onChange={handleChangeRestAddress}
                 />
                 <div style={{ color: "red" }}>
                   {formState.errors.restAddr?.message}
@@ -822,15 +734,14 @@ const Write = () => {
             </ListDiv>
             <BtSection>
               <CancelBt onClick={handleCancel}>취소</CancelBt>
-              {address && restAddress ? (
+              <SaveBt type="submit">저장</SaveBt>
+              {/* {address && restAddress ? (
                 <SaveBt type="submit">저장</SaveBt>
               ) : (
                 <SaveBt onClick={handleNotValid}>저장</SaveBt>
-              )}
+              )} */}
             </BtSection>
           </form>
-
-          {/* <ModalMin title={"기업 홍보 게시물 등록 하시 겠습니까."} deletes={"삭제"} registration={"등록"}/> */}
         </div>
       </AllWidth>
     </Layout>

@@ -18,7 +18,7 @@ const Flex = styled.div`
   display: flex;
   margin-bottom: 9rem;
   > div:nth-of-type(2) {
-    width: 1020px;
+    width: 1260px;
     margin-left: 105px;
     display: flex;
     flex-direction: column;
@@ -69,10 +69,9 @@ const CustomerServicePage = () => {
       <SideBar />
         <AllWidth>
             <div>
-                <Mytitle title={"고객센터"} />
+                <Mytitle title={"자주 묻는 질문 FAQ"} />
             </div>
             <Flex>
-              <CustomerCategory custCate={custCate} selectedState={selectedState} onSubItemClick={handleSubItemClick}/>
               <div>
               {activeBtn === "대여 FAQ" && <CustomerFAQPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} />}
               {activeBtn === "공지사항" || activeBtn === "1:1 문의하기" ? 
