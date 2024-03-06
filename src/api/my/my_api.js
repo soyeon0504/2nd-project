@@ -45,6 +45,28 @@ export const getMyReview = async (page) => {
   }
 }
 
+export const deleteMyReview = async (rev, ireview) => {
+  try {
+    const url = `${path2}/pay/review?rev=${rev}&ireview=${ireview}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+}
+
+export const patchMyReview = async (ireview,contents,rating) => {
+  try {
+    const url = `${path2}/pay/review?ireview=${ireview}&contents=${contents}&rating=${rating}`;
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+}
+
 export const getProdReview = async () => {
   try {
     const url = `${path}/prod/review`;
@@ -133,9 +155,31 @@ export const getReserve = async (role,page) => {
   }
 }
 
-export const getProd = async (page) => {
+export const getProd = async (targetIuser,page) => {
   try {
-    const url = `${path}/prod2?page=${page}`
+    const url = `${path}/prod2?targetIuser=${targetIuser}&page=${page}`
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/")
+  }
+}
+
+export const getProd2 = async (iuser, page) => {
+  try {
+    const url = `${path2}/prod/list?iuser=${iuser}&page=${page}`
+    const res = await jwtAxios.get(url);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/")
+  }
+}
+
+export const getListCount = async (iproduct) => {
+  try {
+    const url = `${path2}/prod/review/count?iproduct=${iproduct}`
     const res = await jwtAxios.get(url);
     return res.data;
   } catch (error) {
@@ -162,7 +206,6 @@ export const getCode = async (code) => {
     return res.data;
   } catch (error) {
     console.log(error);
-    failPostDatas("/")
   }
 }
 
@@ -176,3 +219,14 @@ export const getPaymentData = async (ipayment) => {
     failPostDatas("/")
   }
 }
+
+export const patchReview = async data => {
+  try {
+    const url = `${path2}/pay/review?ireview=${data.ireview}&contents=${data.contents}&rating=${data.rating}`;
+    const res = await jwtAxios.patch(url, data);
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};

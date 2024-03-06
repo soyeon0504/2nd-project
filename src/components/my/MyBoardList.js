@@ -52,6 +52,7 @@ const MyBoardList = ({ activeBtn }) => {
         Header: "날짜",
         accessor: "createdAt",
         width: 100,
+        Cell: ({ value }) => new Date(value).toLocaleString(),
       },
       {
         Header: "제목",
@@ -98,7 +99,7 @@ const MyBoardList = ({ activeBtn }) => {
       try {
         let result;
         if (activeBtn === "등록 게시글") {
-          result = await getMyBoard();
+          result = await getMyBoard(1);
         } 
         setData(result.list)
         // setData(contentData.list)

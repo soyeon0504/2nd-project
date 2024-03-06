@@ -49,7 +49,7 @@ export const MyListMid = styled.div`
   margin-top: 2.3rem;
   height: 12rem;
   width: 98rem;
-  h2, a > h2 {
+  a > h2 {
     position: absolute;
     top: 4rem;
     right: 40rem;
