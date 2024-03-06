@@ -69,6 +69,25 @@ export const MyListMid = styled.div`
   }
 `;
 
+
+  >h2, a > h2 {
+
+    position: absolute;
+    top: 4rem;
+    right: 40rem;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  a {
+    display: flex;
+    gap: 2rem;
+    cursor: pointer;
+  }
+`;
+
+
+
 export const MyListMidEnd = styled.div`
   position: absolute;
   top: 0;
@@ -131,6 +150,7 @@ export const MyListMidTxt = styled.div`
 `;
 
 export const MyListMidLast = styled.div`
+
   display: flex;
   align-items: ${props => (props.location ? props.location : "end")};
   justify-content: space-between;
@@ -154,6 +174,7 @@ export const MyListMidLast = styled.div`
     font-size: ${props => (props.size ? props.size : "1.4rem")};
   }
   button {
+
     z-index: 99;
     background: none;
     border: 0;
