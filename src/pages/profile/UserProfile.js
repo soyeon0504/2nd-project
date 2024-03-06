@@ -166,12 +166,13 @@ const UserProfile = () => {
 
   // 프로필 데이터
   const [userData, setUserData] = useState(initUserData);
-  console.log("userData", userData);
+  // console.log("userData", userData);
 
   // 제품 리스트 데이터
   const [userListData, setUserListData] = useState(initListData);
-  console.log("userListData", userListData);
+  // console.log("userListData", userListData);
   
+
   // details 페이지로 이동
   const { isLogin } = useCustomLogin();
 
@@ -211,6 +212,7 @@ const UserProfile = () => {
   const { loginState } = useCustomLogin();
   const location = useLocation();
   const iuser = location.pathname.split("/")[2];
+
   // const iuser = loginState.iuser;
   console.log("iuser", iuser);
 
@@ -321,8 +323,10 @@ const UserProfile = () => {
                 <PostWrap
                   className="item-wrap"
                 >
+
                   {userListData.slice(0, viewMore).map((item, index) => (
                     <Post key={index} onClick={() => moveToDetail(item.icategory.mainCategory,item.icategory.subCategory,item.iproduct)}>
+
                       <div>
                         <PostImg>
                           <img src={`/pic/${item.prodMainPic}`} alt="Post Image" />
@@ -335,7 +339,9 @@ const UserProfile = () => {
                       </div>
                       <ProfileWrap>
                         <div>
+
                           <img src={`/pic/${item.userPic}`} alt="Profile Image" />
+
                         </div>
                         <div className="user-name">{item.nick}</div>
                       </ProfileWrap>

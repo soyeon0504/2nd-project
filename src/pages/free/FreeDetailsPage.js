@@ -13,6 +13,7 @@ import {
   TitleSection,
   WriterSection,
   CommentModifyBox,
+  BoardLike,
 } from "../../styles/free/FreeDetailsPageStyle";
 import { FreeHeader } from "../../styles/free/FreePageStyle";
 import { GoToListBt } from "../../styles/free/FreeRegisterPageStyle";
@@ -26,6 +27,8 @@ import {
 import { useSelector } from "react-redux";
 import { UserBoardButton } from "../../components/free/UserBoardButton";
 import { UserCommentButton } from "../../components/free/UserCommentButton";
+import { SideBar } from "../../components/SideBar";
+import FreeBoardLike from "../../components/free/FreeBoardLike";
 
 const FreeDetailsPage = () => {
   const iuser = useSelector(state => state.loginSlice.iuser);
@@ -39,6 +42,7 @@ const FreeDetailsPage = () => {
       try {
         const res = await getFreeData(iboard);
         setFreeData(res.data);
+        setLike(res.data.isLiked);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -66,17 +70,11 @@ const FreeDetailsPage = () => {
   };
 
   // 데이터 연동(좋아요)
-  // const [like,setLike] = useState(false)
-  // const handleClickLike = () => {
-  //   setLike(prev => !prev)
-  // }
-
-  // useEffect(() => {
-  //   const likeData = async() => {
-  //       await getLike(iboard)
-  //   }
-  //   likeData()
-  // },[like])
+  const [like, setLike] = useState(null);
+  const handleClickLike = async () => {
+    await getLike(iboard);
+    window.location.reload();
+  };
 
   // 댓글 작성
   const [comment, setComment] = useState("");
@@ -171,6 +169,7 @@ const FreeDetailsPage = () => {
 
   return (
     <Layout>
+      <SideBar />
       <FreeDetailsPageStyle>
         <FreeHeader>
           <p>자유게시판</p>
@@ -180,9 +179,11 @@ const FreeDetailsPage = () => {
           <FreeDetailsMain>
             <div style={{ width: "1110px" }}>
               <TitleSection>
-                <div style={{width:"950px"}}>
+                <div style={{ width: "950px" }}>
                   <h1>{freeData.title}</h1>
-                  <h2>{date} {time}</h2>
+                  <h2>
+                    {date} {time}
+                  </h2>
                 </div>
                 <UserBoardButton
                   userId={freeData.iuser}
@@ -204,6 +205,25 @@ const FreeDetailsPage = () => {
                 </div>
 
                 <p>{freeData.contents}</p>
+
+                <BoardLike>
+                  <h1>좋아요</h1>
+                  {like ? (
+                    <img
+                      src="/images/free/like_full.svg"
+                      onClick={handleClickLike}
+                    />
+                  ) : (
+                    <img
+                      src="/images/free/like.svg"
+                      onClick={handleClickLike}
+                    />
+                  )}
+                  {/* <FreeBoardLike
+                    isLiked={freeData.isLiked !== 0 ? true : false}
+                    iboard={iboard}
+                  /> */}
+                </BoardLike>
               </ContentSection>
 
               <ReviewSection>
@@ -319,8 +339,18 @@ const FreeDetailsPage = () => {
               <ContentState>
                 <h1>좋아요</h1>
                 <div>
-                  <img src="/images/free/like.svg" />
-                  <h1>{freeData.isLiked}</h1>
+                  {like ? (
+                    <img
+                      src="/images/free/like_full.svg"
+                      onClick={handleClickLike}
+                    />
+                  ) : (
+                    <img
+                      src="/images/free/like.svg"
+                      onClick={handleClickLike}
+                    />
+                  )}
+                  <h1>{freeData.boardLikeCount}</h1>
                 </div>
               </ContentState>
               <ContentState>

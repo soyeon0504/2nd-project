@@ -9,8 +9,8 @@ export const FreeDetailsMain = styled.div`
   display: flex;
 `;
 export const TitleSection = styled.div`
-display: flex;
-justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
   height: 80px;
   border-bottom: 1px solid #e4e7ff;
   padding-top: 15px;
@@ -169,7 +169,7 @@ export const CommentModifyBox = styled.div`
     font-weight: 400;
     line-height: normal;
   }
-  button{
+  button {
     width: 50px;
     height: 30px;
     margin-left: 10px;
@@ -237,6 +237,11 @@ export const ContentState = styled.div`
     width: 40px;
     justify-content: space-between;
   }
+  img {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
 `;
 
 export const BoardWriterBt = styled.div`
@@ -264,4 +269,23 @@ export const BoardWriterBt = styled.div`
 export const CommentWriterBt = styled(BoardWriterBt)`
   margin-top: 5px;
   padding-right: 0px;
+`;
+
+export const BoardLike = styled.div`
+  display: flex;
+  height: 30px;
+  justify-content: end;
+  align-items: center;
+  h1 {
+    margin-right: 10px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }
 `;

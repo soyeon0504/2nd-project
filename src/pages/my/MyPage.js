@@ -54,8 +54,8 @@ const MyPage = () => {
     },
     {
       title: "후기 관리",
-      name: ["myreview","prodreview"],
-      list: ["내 작성 후기", "내 상품 후기"],
+      name: ["myreview"],
+      list: ["내 작성 후기"],
     },
     {
       title: "내역 관리",
@@ -99,7 +99,6 @@ const MyPage = () => {
           (name === 'myboard' && subItem === '등록 게시글') ||
           (name === 'interest' && subItem === '관심 목록') ||
           (name === 'myreview' && subItem === '내 작성 후기') ||
-          (name === 'prodreview' && subItem === '내 상품 후기') ||
           (name === 'reservation' && subItem === '예약 내역') ||
           (name === 'report' && subItem === '신고 내역') ||
           (name === 'info' && subItem === '회원정보 수정') ||
@@ -128,9 +127,9 @@ const MyPage = () => {
             ( <MyRentalPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
         {activeBtn === "등록 상품 관리" && ( <MyManagementPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} /> )}
         {activeBtn === "등록 게시글" && ( <MyBoardPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} /> )}
-        {activeBtn === "관심 목록" && ( <MyInterestPage /> )}
-        {activeBtn === "내 작성 후기" || activeBtn === "내 상품 후기" ? 
-            ( <MyReviewPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> ) : null}
+        {activeBtn === "관심 목록" && ( <MyInterestPage activeBtn={activeBtn}/> )}
+        {activeBtn === "내 작성 후기" && 
+            ( <MyReviewPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} handleSubItemClick={handleSubItemClick} /> )}
         {activeBtn === "예약 내역" && ( <MyReservationPage activeBtn={activeBtn} setActiveBtn={setActiveBtn} />)} 
         {activeBtn === "신고 내역" && ( <MyReportPage activeBtn={activeBtn} />)} 
         {activeBtn === "회원정보 수정" && ( <MyInfoPage /> )}

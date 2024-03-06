@@ -3,20 +3,17 @@ import {
   MyListBottom,
   MyListDiv,
   MyListMid,
-  MyListMidEnd,
   MyListMidImg,
   MyListMidLast,
   MyListMidTxt,
-  MyListProfileImg,
   MyListTop,
   MyListTopButton,
   MyManagementBt,
   MyManagementBtHover,
   MyReservationBtDiv,
 } from "../../../styles/my/MyList";
-import { Link } from "react-router-dom";
 import MyMoreButton from "../MyMoreButton";
-import { getCode, getMyRental, getReserve } from "../../../api/my/my_api";
+import { getCode, getReserve } from "../../../api/my/my_api";
 import { ModalBackground } from "../../joinpopup/JoinPopUp";
 import MyReservationModal from "./MyReservationModal";
 
@@ -73,8 +70,7 @@ const MyReservationList = ({ activeBtn }) => {
         } else if (activeBtn === "예약 내역" && activeButton === false) {
           result = await getReserve(2, viewMore)
         }
-        // setData(result);
-        setData(contentData)
+        setData(result);
       } catch (error) {
         console.error(error);
       }
@@ -95,10 +91,21 @@ const MyReservationList = ({ activeBtn }) => {
     try {
       const result = await getCode(selectCode);
       setData(result);
-      setShowModal(false);
     } catch (error) {
       console.error(error);
     }
+    try {
+      let result;
+      if (activeBtn === "예약 내역" && activeButton === true) {
+        result = await getReserve(1, viewMore);
+      } else if (activeBtn === "예약 내역" && activeButton === false) {
+        result = await getReserve(2, viewMore)
+      }
+      setData(result);
+    } catch (error) {
+      console.error(error);
+    }
+    setShowModal(false);
   };
 
   return (
@@ -134,7 +141,7 @@ const MyReservationList = ({ activeBtn }) => {
                 <MyListMid>
                     <MyListMidImg>
                       <img
-                        src={`/pic/${item.productStoredPic}`}
+                        src={`/pic/${item.proStoredPic}`}
                         alt={item.title}
                       />
                     </MyListMidImg>
@@ -143,21 +150,20 @@ const MyReservationList = ({ activeBtn }) => {
                         <h2>{item.title}</h2>
                       </div>
                       <div>
-                        <p>{item.price} 원</p>
+                        <p>{item.totalPrice} 원</p>
                       </div>
                       <div>
                         <span>
                           대여기간 : {item.rentalStartDate} ~ {item.rentalEndDate}{" "}
-                          ({item.rentalDuration}일)
+                          ({item.duration}일)
                         </span>
                       </div>
                     </MyListMidTxt>
                   <MyListMidLast  size={"1.4rem"}>
-                    <p>{item.rentalStartDate}</p>
+                    <p>{item.createdAt}</p>
                     <MyReservationBtDiv width={"15rem"}>
                         <MyManagementBt>취소</MyManagementBt>
                         <MyManagementBtHover width={"80px"} onClick={openModal}>식별코드</MyManagementBtHover>
-                        
                     </MyReservationBtDiv>
                   </MyListMidLast>
                 </MyListMid>
