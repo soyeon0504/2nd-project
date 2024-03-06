@@ -121,7 +121,7 @@ const AdminChatHistoryPage = () => {
                   <td>{item.ichat}</td>
                   <td>{item.category}</td>
                   <td>{item.nick}</td>
-                  <td>{item.createdAt}</td>
+                  <td>{new Date(item.createdAt).toLocaleString()}</td>
                   <td>
                     {item.productInquiry}
                     <div>
