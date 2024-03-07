@@ -17,7 +17,8 @@ import { postChat } from "../../api/chat/chat_api"; // 채팅 생성 API import
 import { getCookie } from "../../util/cookieUtil"; // 쿠키 유틸 함수 import
 import { Client } from "@stomp/stompjs"; // STOMP 클라이언트 추가
 
-const ChatBoxComponent = ({ selectedProfile }) => {
+const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
+  console.log("====== ChatBoxComponent ======", chatTextArr);
   const [inputMessage, setInputMessage] = useState(""); // 입력 메시지를 저장하는 상태
   const [chatMessages, setChatMessages] = useState([]); // 채팅 메시지를 저장하는 상태
   const [modalOpen, setModalOpen] = useState(false); // 모달 열림 상태를 관리하는 상태
@@ -174,6 +175,28 @@ const ChatBoxComponent = ({ selectedProfile }) => {
             <ChatText>
               {modalOpen && <Modal onClose={toggleModal} />}
               <ChatBoxContent>
+                {/* 기존글 출력하기 */}
+                {chatTextArr.map((item, index) => (
+                  <ChatMessageWrapper
+                    key={index}
+                    style={{
+                      justifyContent:
+                        item.isender === selectedProfile.otherPersonIuser
+                          ? "flex-end"
+                          : "flex-start",
+                    }}
+                  >
+                    <ChatMessage
+                      style={{
+                        backgroundColor: item.isender ? "#a3d8f4" : "#f1f0f0",
+                        alignSelf: item.isender ? "flex-start" : "flex-end",
+                      }}
+                    >
+                      {item.senderNick} : {item.msg}
+                    </ChatMessage>
+                  </ChatMessageWrapper>
+                ))}
+
                 {chatMessages.map((message, index) => (
                   <ChatMessageWrapper
                     key={index}
@@ -191,7 +214,7 @@ const ChatBoxComponent = ({ selectedProfile }) => {
                         alignSelf: message.isSender ? "flex-end" : "flex-start",
                       }}
                     >
-                      {message.text}
+                      {message.msg}
                     </ChatMessage>
                   </ChatMessageWrapper>
                 ))}
