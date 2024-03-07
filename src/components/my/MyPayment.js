@@ -7,7 +7,7 @@ const MyModalDiv = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000;
+    z-index: 10000;
     gap: 10px;
     width: 820px;
     height: 270px;
@@ -122,9 +122,6 @@ const MyPayment = ({data,onConfirm}) => {
             </div>
             <div>
                 <p>결제수단: {data.method}</p>
-            </div>
-            <div>
-                <p>내 식별코드: {data.myPaymentCode} / 거래자 식별코드: {data.code}</p>
             </div>
             <MyPaymentLast>
                 <span>보증금</span>

@@ -14,10 +14,11 @@ import {
   MyReservationBtDiv,
 } from "../../../styles/my/MyList";
 import MyMoreButton from "../MyMoreButton";
-import { deletePay, getCode, getReserve } from "../../../api/my/my_api";
+import { deletePay, getCode, getPaymentData, getReserve } from "../../../api/my/my_api";
 import { ModalBackground } from "../../joinpopup/JoinPopUp";
 import MyReservationModal from "./MyReservationModal";
 import MyModal from "../interest/MyModal";
+import MyCodeModal from "../interest/MyCodeModal";
 
 const contentData = [
   {
@@ -44,6 +45,8 @@ const MyReservationList = ({ activeBtn }) => {
   const [showModal, setShowModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState();
+  const [showCodeModal, setShowCodeModal] = useState(false);
+  const [codeData, setCodeData] = useState(false);
 
   const handleButtonClick = buttonType => {
     setActiveButton(buttonType);
@@ -147,6 +150,25 @@ const MyReservationList = ({ activeBtn }) => {
     }
   };
 
+  const handleShowCode = async (ipayment) => {
+    try {
+      const paymentResult = await getPaymentData(ipayment);
+      setCodeData(paymentResult);
+      console.log(codeData);
+    } catch (error) {
+      console.error(error);
+    }
+    setShowCodeModal(true);
+  }
+
+  const handleCodeCancel = () => {
+    setShowCodeModal(false);
+  }
+ 
+  const handleCodeConfirm = () => {
+    setShowCodeModal(false);
+  }
+
   return (
     <>
     {showModal && (
@@ -164,6 +186,13 @@ const MyReservationList = ({ activeBtn }) => {
             취소하시겠습니까?
           </>
         }/>
+        <ModalBackground></ModalBackground>
+        </>
+      )}
+      {showCodeModal && (
+        <>
+        <MyCodeModal txt={codeData.myPaymentCode}
+        onCancel={handleCodeCancel} onConfirm={handleCodeConfirm} />  
         <ModalBackground></ModalBackground>
         </>
       )}
@@ -190,6 +219,7 @@ const MyReservationList = ({ activeBtn }) => {
           <React.Fragment key={index}>
             {activeBtn === "예약 내역" && (
                 <MyListMid>
+                    <a onClick={() =>handleShowCode(item.ipayment)}>
                     {item.status === "CANCELED" && <MyListMidEnd />}
                     {item.status === "CANCELED" && <h2>예약 취소</h2>}
                     <MyListMidImg>
@@ -212,6 +242,7 @@ const MyReservationList = ({ activeBtn }) => {
                         </span>
                       </div>
                     </MyListMidTxt>
+                    </a>
                   <MyListMidLast  size={"1.4rem"}>
                     <p>{item.createdAt}</p>
                     {item.status === "CANCELED" ? (<></>) 

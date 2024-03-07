@@ -35,7 +35,7 @@ const ProfileImg = styled.div`
   width: 13rem;
   height: 13rem;
   box-sizing: border-box;
-  border-radius: 10px;
+  border-radius: 8rem;
   overflow: hidden;
   img {
     width: 100%;
