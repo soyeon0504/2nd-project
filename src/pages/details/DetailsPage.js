@@ -61,6 +61,7 @@ import {
   Report,
 } from "../../styles/details/DetailsPageStyles";
 import { SideBar } from "../../components/SideBar";
+import PayPage from "../pay/PayPage";
 
 const UserDetails = ({
   userId,
@@ -166,7 +167,6 @@ const ProductSlider = ({ productData }) => {
 };
 
 const DetailsPage = () => {
-  const [showPayModal, setShowPayModal] = useState(false);
   const [productData, setProductData] = useState(null);
   const [rentalDays, setRentalDays] = useState(1);
   const [isReportClicked, setIsReportClicked] = useState(false);
@@ -186,9 +186,6 @@ const DetailsPage = () => {
   const [createdChatRoom, setCreatedChatRoom] = useState(null);
   const iuser = useSelector(state => state.loginSlice.iuser);
   const navigate = useNavigate();
-  const togglePayModal = () => {
-    setShowPayModal(!showPayModal);
-  };
 
   const handleReportClick = () => {
     setIsReportClicked(true);
@@ -271,6 +268,22 @@ const DetailsPage = () => {
     return <div></div>;
   }
 
+  const handlePayPage = () => {
+    // Check if all required data is available
+    if (productData && paymentData && rentalStartDate && rentalEndDate) {
+      navigate("/payment", {
+        state: {
+          productData,
+          paymentData,
+          rentalStartDate,
+          rentalEndDate,
+        },
+      });
+    } else {
+      console.error("Some required data is missing.");
+    }
+  };
+
   return (
     <Layout>
       <SideBar />
@@ -351,20 +364,8 @@ const DetailsPage = () => {
                 productId={productData.iproduct}
               />
               <BtnChat onClick={handleChatButtonClick}>채팅하기</BtnChat>
-              <BtnPay onClick={togglePayModal}>결제하기</BtnPay>
+              <BtnPay onClick={handlePayPage}>결제하기</BtnPay>
             </Container>
-            {showPayModal && (
-              <Box visible={showPayModal} onCancel={togglePayModal}>
-                <Pay
-                  productData={productData}
-                  paymentData={paymentData}
-                  rentalStartDate={rentalStartDate}
-                  rentalEndDate={rentalEndDate}
-                  onClose={togglePayModal}
-                  onDateSelect={handleDateSelect}
-                />
-              </Box>
-            )}
           </Box>
         </SubContainer>
         <MainContainer>

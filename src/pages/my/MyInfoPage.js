@@ -78,7 +78,7 @@ const MyInfoPage = () => {
   const [nickOverlapConfirm, setNickOverlapConfirm] = useState(false);
   const [nickOverlapFail, setNickOverlapFail] = useState(false);
   const [nickConfirmModal, setNickConfirmModal] = useState(false);
-  const [nickFailModal, setNickFail] = useState(false);
+  const [nickFailModal, setNickFailModal] = useState(false);
 
   const NickOverlap = async () => {
     const obj = {

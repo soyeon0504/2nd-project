@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 // import { EventSourcePolyfill } from 'event-source-polyfill';
 // import { SERVER_URL } from '../../api/config';
 // import { getCookie } from '../../util/cookieUtil';
@@ -13,7 +13,7 @@ const FetchSSE = () => {
 //   const memberInfo = getCookie("member");
 //   const authToken = memberInfo ? memberInfo.accessToken : 'your_default_token';
 //   const [ticket, setTicket] = useState([]);
-//   const [closeModal, setCloseModal] = useState(true);
+//   const [closeModal, setCloseModal] = useState(false);
 
 //   useEffect(() => {
 //     const eventSource = new EventSourcePolyfill(url, {
@@ -26,6 +26,7 @@ const FetchSSE = () => {
 //     // SSE 엔드포인트에서 데이터 수신을 처리하는 이벤트 리스너
 //     eventSource.onmessage = (event) => {
 //       const data = JSON.parse(event.data);
+//       setCloseModal(true);
 //       console.log('Received data:', data);
 //       // setTicket(JSON.stringify(data));
 //     };
@@ -47,7 +48,7 @@ const FetchSSE = () => {
 
 //   return (
 //     <div>
-//     {ticket && closeModal && (
+//     {closeModal && (
 //       <>
 //        <FetchSSEModal onConfirm={handleConfirm}/>
 //        <ModalBackground></ModalBackground>

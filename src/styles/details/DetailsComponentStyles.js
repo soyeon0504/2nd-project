@@ -18,17 +18,9 @@ export const StyledButton = styled.button`
 
 // Pay styles
 export const Overlay = styled.div`
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 100;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 1260px;
+  margin: 0 auto;
+  margin-bottom: 9rem;
 `;
 
 export const ModalContainer = styled.div`
@@ -37,36 +29,23 @@ export const ModalContainer = styled.div`
 `;
 
 export const Box = styled.div`
-  padding: 22px;
   width: 470px;
-  height: 240px;
+  margin: 0 auto;
   display: flex;
-  align-items: flex-start;
-
+  justify-content: center;
+  align-items: center;
   border-bottom: 1px solid ${Common.color.primary};
-  /* 모달이 상단에 위치하도록 수정 */
-  position: fixed;
-  top: 200px; /* 원하는 높이로 수정 */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  background-color: #fff;
 `;
 
 export const SubBox = styled.div`
   padding: 20px;
-  width: 470px;
-  max-height: 380px;
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-
-  position: fixed;
-  top: 440px; /* 원하는 높이로 수정 */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  background-color: #fff;
+  width: 470px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Image = styled.img`

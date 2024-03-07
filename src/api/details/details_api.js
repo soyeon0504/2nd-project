@@ -96,7 +96,7 @@ export const postKakaoReady = async (
       rentalEndDate,
     };
     const res = await jwtAxios.post(url, data);
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
     failPostDatas("/");
