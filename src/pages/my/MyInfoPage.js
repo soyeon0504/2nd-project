@@ -22,7 +22,7 @@ import { getMyUser, putMyInfo } from '../../api/my/my_api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import JoinPopUp, { ModalBackground } from '../../components/joinpopup/JoinPopUp';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { nickOverlapPost } from '../../api/join/join_api';
 
 const MyInfoPage = () => {

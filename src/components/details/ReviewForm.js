@@ -25,6 +25,7 @@ const CancelButton = styled.button`
 `;
 
 const SubmitButton = styled(CancelButton)``;
+Modal.setAppElement('#root');
 
 const ReviewForm = ({ isOpen, onRequestClose, ipayment }) => {
   const [rating, setRating] = useState(0);

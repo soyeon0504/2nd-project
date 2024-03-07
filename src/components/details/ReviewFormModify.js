@@ -26,11 +26,11 @@ const CancelButton = styled.button`
 
 const SubmitButton = styled(CancelButton)``;
 
-const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting, setData }) => {
+const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, rating, setData }) => {
   const [review, setReview] = useState(contents);
-  const [rating, setRating] = useState(raiting);
+  const [ratingModify, setRatingModify] = useState(rating);
 
-  
+  console.log(ratingModify);
   const handleRate = async () => {
     if (rating === 0 || review.trim() === "") {
       // 별점과 리뷰가 입력되지 않은 경우, 리뷰 전송을 방지
@@ -43,7 +43,6 @@ const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting, 
         rating,
       };
       await patchReview(userInputData); // API 호출
-      console.log(rating);
       const updatedResult = await getMyReview(1);
       setData(updatedResult);
       // 모달 닫기 요청
@@ -58,7 +57,7 @@ const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting, 
     // 모달 닫기 요청
     onRequestClose();
     // 입력 초기화
-    setRating(0);
+    setRatingModify(0);
     setReview("");
   };
 
@@ -105,8 +104,8 @@ const ReviewFormModify = ({ isOpen, onRequestClose, contents, ireview, raiting, 
         >
           <StarRating
             totalStars={5}
-            rating={rating}
-            onRate={setRating}
+            rating={ratingModify}
+            onRate={setRatingModify}
             isReviewing
           />
         </div>

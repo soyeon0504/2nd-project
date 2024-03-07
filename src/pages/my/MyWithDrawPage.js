@@ -5,7 +5,7 @@ import { BtSection, CancelBt,  SaveBt } from '../../styles/join/JoinPageStyle'
 import { patchWithdraw } from "../../api/my/my_api";
 import styled from '@emotion/styled';
 import useCustomLogin from '../../hooks/useCustomLogin';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import JoinPopUp, { ModalBackground } from '../../components/joinpopup/JoinPopUp';
 
 const MyWithDrawPw = styled.div`
