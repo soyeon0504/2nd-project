@@ -99,7 +99,7 @@ const Calendar = ({ onDateSelect }) => {
           </span>
         }
         disabledDate={disabledDate} // 비활성화된 날짜 설정
-        dateRender={dateCellRender} // 날짜 셀 렌더링
+        cellRender={dateCellRender} // 날짜 셀 렌더링
       />
     </div>
   );

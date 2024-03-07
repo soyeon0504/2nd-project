@@ -103,6 +103,19 @@ export const postKakaoReady = async (
   }
 };
 
+//카카오페이 결제진행
+
+export const getKakaoPay = async (paymentDetailId, pgToken) => {
+  try {
+    const url = `${path}/pay/kakao/success/${paymentDetailId}?pg-token=${pgToken}`;
+    const res = await jwtAxios.get(url, data);
+    return res;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
+
 export const postReview = async data => {
   try {
     const url = `${path}/pay/review`;

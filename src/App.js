@@ -217,7 +217,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/report/:iuser"
+          path="/report/:iproduct"
           element={
             <Suspense fallback={<Loading />}>
               <LazyReport />

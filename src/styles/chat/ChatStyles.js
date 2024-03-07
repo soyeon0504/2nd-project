@@ -64,7 +64,7 @@ export const ProductContent = styled.div`
   color: #777;
   font-size: 13px;
   font-weight: 400;
-  margin-left: 95px;
+  margin-left: 90px;
   margin-top: 10px;
   line-height: 15px; /* Match with height for accurate calculation */
   display: -webkit-box;
@@ -96,8 +96,8 @@ export const ChatBoxContent = styled.div`
   /* width: 600px; */
   max-width: 100%;
   max-height: 550px;
-  min-height: 550px;
-  height: 550px;
+  /* min-height: 550px; */
+  height: 540px;
   box-sizing: border-box;
   background-color: #fff;
   z-index: 5;
