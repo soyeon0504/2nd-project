@@ -33,6 +33,28 @@ export const getMoreProduct = async (
   }
 };
 
+export const getLoginMoreProduct = async (
+  pageNum,
+  categoryId,
+  subCategoryId,
+  sortType,
+) => {
+  try {
+    let url;
+    console.log(pageNum, categoryId, subCategoryId, sortType);
+    // api/prod?sort=1&page=1&mc=1&sc=1
+    if (sortType)
+      url = `${path}/prod?sort=${sortType}&page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    else
+      url = `${path}/prod?page=${pageNum}&mc=${categoryId}&sc=${subCategoryId}`;
+    const res = await jwtAxios.get(url);
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
 
 export const getProdListCount = async (
   categoryId,

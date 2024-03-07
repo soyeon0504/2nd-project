@@ -5,6 +5,7 @@ import { getFav } from "../../api/details/details_api";
 function Like({ isLiked, productId }) {
   const [liked, setLiked] = useState(isLiked);
 
+
   useEffect(() => {
     setLiked(isLiked);
   }, [isLiked]);

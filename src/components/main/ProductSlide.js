@@ -40,7 +40,9 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
 
   const handlePageChange = async _item => {
     if (isLogin) {
-      const url = `/details?mc=${id}&sc=${focus + 1}&productId=${_item.iproduct}`;
+      const url = `/details?mc=${id}&sc=${focus + 1}&productId=${
+        _item.iproduct
+      }`;
 
       const serverData = {
         mainCategoryId: id,
@@ -113,22 +115,26 @@ const ProductSlide = ({ btList, title, desc, id, data }) => {
                   <div onClick={() => handlePageChange(item)}>
                     {isLogin && (
                       <div className="like-wrap">
-                      <Like
-                        isLiked={item.isLiked !== 0 ? true : false}
-                        productId={item.iproduct}
-                      />
-                    </div>
+                        <Like
+                          isLiked={item.isLiked !== 0 ? true : false}
+                          productId={item.iproduct}
+                        />
+                      </div>
                     )}
                     <img src={`/pic/${item.prodMainPic}`} alt="" />
                     <div className="desc-wrap">
                       <span className="desc-title">{item.title}</span>
-
-                      <hr/>
-                <div className="desc-price">
+                      <hr />
+                      <div className="desc-price">
                         {item.rentalPrice.toLocaleString()}
                       </div>
-                      <div className="desc-ad">{item.addr}</div>
-                      <div className="view">조회수{item.view}</div>
+                      <div className="ad-view-wrap">
+                        <div className="desc-ad">{item.addr}</div>
+                        <div className="view">조회수{item.view}</div>
+                      </div>
+                      {item.hashTags.map((tagData, tagIndex) => (
+                        <span key={tagIndex} className="hash-tag">{tagData.tag}</span>
+                      ))}
                     </div>
                   </div>
                 </SwiperSlide>

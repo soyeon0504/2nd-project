@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getMoreProduct, getProdListCount } from "../../api/main/mainMore_api";
+import { getLoginMoreProduct, getMoreProduct, getProdListCount } from "../../api/main/mainMore_api";
 import { SideBar } from "../../components/SideBar";
 import Like from "../../components/details/Like";
 import JoinPopUp, {
@@ -109,7 +109,10 @@ const region = [
 
 const MainMorePage = () => {
   const navigate = useNavigate(`/details/`); // useNavigate 훅을 사용하여 navigate 함수 가져오기
-
+  
+  const { isLogin } = useCustomLogin();
+  const [loginState, setLoginState] = useState(false);
+  
   const location = useLocation();
   const { pathname, state } = location;
   const { title } = location.state || {};
@@ -124,6 +127,7 @@ const MainMorePage = () => {
   const [addr, setAddr] = useState("");
   const [totalPage, setTotalPage] = useState(null);
 
+  
 
   // 페이지 번호
   const [pageNum, setPageNum] = useState(1);
@@ -138,12 +142,10 @@ const MainMorePage = () => {
 
   const fetchData = async (pageNum, _sortType) => {
     try {
-      const res = await getMoreProduct(
-        pageNum,
-        parseMainCategory,
-        parseSubCategory,
-        _sortType,
-      );
+      let res = await getMoreProduct(pageNum,parseMainCategory,parseSubCategory,_sortType);
+      // if(isLogin) {
+      //   res = await getLoginMoreProduct();
+      // }
       setDatas(res);
       console.log(res);
     } catch (error) {
@@ -188,10 +190,8 @@ const MainMorePage = () => {
     listCountData();
   }, [parseMainCategory, parseSubCategory, addr]);
 
-  // details 페이지로 이동
-  const { isLogin } = useCustomLogin();
-  const [loginState, setLoginState] = useState(false);
-
+ 
+    // details 페이지로 이동
   const handlePageChangeDetails = async _item => {
     if (isLogin) {
       const url = `/details?mc=${_item.categories.mainCategory}&sc=${_item.categories.subCategory}&productId=${_item.iproduct}`;
@@ -211,9 +211,6 @@ const MainMorePage = () => {
     setLoginState(false);
     navigate(`/login`);
   };
-
-  // 제품 갯수
-  // const totalPosts = filterData.length; //최대 16개
 
   useEffect(() => {
     if (sortType !== 0) fetchData(pageNum, sortType);
@@ -292,9 +289,8 @@ const MainMorePage = () => {
               <div
                 className="item-wrap"
                 key={`MainMore-item-${index}`}
-
-                onClick={() => handlePageChangeDetails(item)}>
-
+                onClick={() => handlePageChangeDetails(item)}
+              >
                 <div className="like-wrap">
                   <Like
                     isLiked={item.isLiked !== 0 ? true : false}
@@ -308,12 +304,17 @@ const MainMorePage = () => {
                 />
                 <div className="desc-wrap">
                   <span className="desc-title">{item.title}</span>
-                  <hr/>
+                  <hr />
                   <div className="desc-price">
                     {item.rentalPrice.toLocaleString()}
                   </div>
-                  <div className="desc-addr">{item.addr}</div>
-                  <div className="view">조회수{item.view}</div>
+                  <div className="ad-view-wrap">
+                    <div className="desc-ad">{item.addr}</div>
+                    <div className="view">조회수{item.view}</div>
+                  </div>
+                  {item.hashTags.map((tagData, tagIndex) => (
+                        <span key={tagIndex} className="hash-tag">{tagData.tag}</span>
+                      ))}
                 </div>
               </div>
             ))}

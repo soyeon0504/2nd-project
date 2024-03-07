@@ -20,6 +20,18 @@ export const getProductFirst = async () => {
     failPostDatas("/");
   }
 };
+
+export const getLoginProductFirst = async () => {
+  try {
+    const url = `${path}/prod/main?mc=1&mc=2&mc=3&mc=4&mc=5&sc=1&sc=1&sc=1&sc=1&sc=1`;
+    const res = await jwtAxios.get(url);
+    console.log(res);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    failPostDatas("/");
+  }
+};
 export const getProduct = async (mainCategoryId, subCategoryId) => {
   try {
     const url = `${path}/prod/main?mc=${mainCategoryId}&sc=${subCategoryId}`;
