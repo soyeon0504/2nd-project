@@ -27,7 +27,7 @@ const MyModalDiv = styled.div`
         padding: 2rem;
         border: 1px solid ${Common.color.primary};
         border-radius: 1rem;
-        height: 17rem;
+        height: 19rem;
         width: 78rem;
     }
     >div:nth-of-type(2) {
