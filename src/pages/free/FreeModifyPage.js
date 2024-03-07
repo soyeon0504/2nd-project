@@ -95,11 +95,12 @@ const FreeModifyPage = () => {
   // 데이터 연동(게시글 수정)
   const handleModifyBoard = async () => {
     const formData = new FormData();
+    const ipicsToUse = ipics.length === 0 ? [0] : ipics;
     const dto = {
       iboard: iboard,
       title: title,
       contents: contents,
-      ipics: ipics,
+      ipics: ipicsToUse,
     };
 
     formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
