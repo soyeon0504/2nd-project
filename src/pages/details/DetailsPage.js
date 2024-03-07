@@ -73,7 +73,7 @@ const UserDetails = ({
   const isCurrentUser = userId === currentUserId;
 
   return (
-    <div style={{ position: "absolute", marginLeft: "500px", top: "20px" }}>
+    <div style={{ position: "absolute", marginLeft: "550px", top: "20px" }}>
       {isCurrentUser && (
         <>
           <span
