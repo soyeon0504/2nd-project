@@ -166,7 +166,7 @@ const ProductSlider = ({ productData }) => {
 };
 
 const DetailsPage = () => {
-  const [showPayModal, setShowPay] = useState(false);
+  const [showPayModal, setShowPayModal] = useState(false);
   const [productData, setProductData] = useState(null);
   const [rentalDays, setRentalDays] = useState(1);
   const [isReportClicked, setIsReportClicked] = useState(false);
