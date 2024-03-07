@@ -81,7 +81,7 @@ const AdminMemberPage = ({ activeBtn }) => {
       if (deletedUser) {
         console.log("회원 탈퇴 성공:", deletedUser);
       } else {
-        console.log("회원 탈퇴 실패: 삭제된 사용자 없음");
+        console.log("회원 탈퇴 실패: 삭제된 사용자 없음", deleteUser);
       }
     } catch (error) {
       console.error("회원 탈퇴 실패:", error);

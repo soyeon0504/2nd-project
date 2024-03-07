@@ -193,7 +193,9 @@ const DetailsPage = () => {
   const handleReportClick = () => {
     setIsReportClicked(true);
     // report/isure 경로로 이동
-    navigate(`/report/iproduct=${productData.iproduct}`);
+    navigate(`/report/${productData.iproduct}`, {
+      state: { title: productData.title },
+    });
   };
 
   const handleChatButtonClick = async () => {

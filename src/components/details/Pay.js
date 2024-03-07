@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { postProduct, postKakaoReady } from "../../api/details/details_api"; // Import postKakaoReady API
+import {
+  postProduct,
+  postKakaoReady,
+  getKakaoPay,
+} from "../../api/details/details_api"; // Import postKakaoReady API
 import {
   Box,
   Image,
@@ -36,11 +40,13 @@ const Pay = ({
   const [phoneClicked, setPhoneClicked] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null); // 결제 상태 추가
   const [paymentDetailId, setPaymentDetailId] = useState(null); // 결제 상세 ID 추가
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 결제 방법을 선택했을 때의 처리를 담당하는 함수입니다.
   const handlePaymentMethodClick = method => {
     setSelectedPaymentMethod(method);
 
+    setIsModalOpen(true);
     // 선택된 결제 방법에 따라 해당 결제 방법을 강조하기 위해 각각의 결제 방법 상태를 업데이트합니다.
     setKakaoPayClicked(method === "kakaoPay");
     setCardClicked(method === "credit-card");
@@ -68,7 +74,7 @@ const Pay = ({
       if (res.status === 200) {
         const { nextRequestUrl, id } = res.data;
         // 카카오페이 API에서 받은 URL로 이동합니다.
-        window.open(nextRequestUrl);
+        window.location.href = nextRequestUrl; // 현재 창에서 이동
         setPaymentDetailId(id); // 결제 상세 ID를 저장합니다.
       } else {
         // 실패 시 오류 처리
@@ -82,7 +88,6 @@ const Pay = ({
     }
   };
 
-  // 결제하기 버튼 클릭 시 호출되는 핸들러
   const handlePayment = async () => {
     try {
       if (!selectedPaymentMethod) {
@@ -117,21 +122,34 @@ const Pay = ({
         // 카카오페이 결제 준비가 완료된 경우에만 진행합니다.
         // 이후에는 pg_token을 백엔드로 전송하여 결제 완료를 처리합니다.
         // pg_token은 백엔드에서 카카오페이 API로 요청할 때 필요한 값입니다.
-        const pgToken = new URLSearchParams(window.location.search).get(
-          "pg-token",
-        );
+
+        // URL에서 pg_token 값을 추출합니다.
+        const urlParams = new URLSearchParams(window.location.search);
+        const pgToken = urlParams.get("pg_token");
+
         if (!pgToken) {
           alert("카카오페이 결제가 완료되지 않았습니다.");
           return;
         }
-        // TODO: pgToken을 백엔드로 전송하여 결제 완료 처리
+
+        // 우리 서버로 pg_token 값을 포함하여 리다이렉션합니다.
+        const kakaoPayRes = await getKakaoPay(paymentDetailId, pgToken);
+        if (kakaoPayRes.status === 200) {
+          alert("카카오페이 결제가 완료되었습니다.");
+          onClose();
+        } else {
+          alert("카카오페이 결제 과정에서 오류가 발생했습니다.");
+          console.error(
+            "카카오페이 결제 과정에서 오류가 발생했습니다.",
+            kakaoPayRes,
+          );
+        }
       }
     } catch (error) {
       alert("결제 과정에서 오류가 발생했습니다.");
       console.error("결제 과정에서 오류가 발생했습니다.", error);
     }
   };
-
   return (
     <>
       <Overlay>
