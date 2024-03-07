@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom';
-import { getAccessToken, getMemberWithAccessToken } from '../../api/login/kakao_api';
-import { useDispatch } from 'react-redux';
-import { login } from '../../slices/loginSlice';
-import useCustomLogin from '../../hooks/useCustomLogin';
+import React, { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  getAccessToken,
+  getMemberWithAccessToken,
+} from "../../api/login/kakao_api";
+import { useDispatch } from "react-redux";
+import { login } from "../../slices/loginSlice";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { idOverlapPost } from "../../api/join/join_api";
 
 const KakaoRedirectPage = () => {
-    const [uRLSearchParams, setURLSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [uRLSearchParams, setURLSearchParams] = useSearchParams();
   // 인증코드 파악하기
   const authCode = uRLSearchParams.get("code");
   // 로그인 과정을 위한 loginSlice 을 통해서 로그인시도
@@ -19,24 +24,48 @@ const KakaoRedirectPage = () => {
       console.log("access Token", accessToken);
       // 개인 정보 호출
       getMemberWithAccessToken(accessToken).then(memberInfo => {
-        console.log("-------------------");
-        console.log(memberInfo);
         // API 백엔드 서버로 로그인을 시도합니다.
         dispatch(login(memberInfo));
-        // 소셜회원이 아니라면
-        if (memberInfo && !memberInfo.social) {
-          // 첫페이지로 이동
-          moveToPath("/login");
-        } else {
-          // 정보 수정창으로 이동
-          moveToPath("/join/step_1");
+
+        // 사용자의 닉네임과 이메일을 가져옵니다.
+        const nickname = memberInfo["properties"]["nickname"];
+        const email = memberInfo["kakao_account"]["email"];
+
+        const uniqueID = memberInfo.id;
+        console.log("Unique ID: ", uniqueID);
+        console.log("Nickname: ", nickname);
+        console.log("Email: ", email);
+
+        // 기존회원 유무 확인
+        const IdOverlap = () => {
+          const obj = {
+            div: 2,
+            uid: uniqueID,
+            nick: "nickname",
+          };
+          idOverlapPost(
+            obj,
+            () => {
+              idPostSuccess();
+            },
+            idPostFail,
+          );
+        };
+
+        const idPostSuccess = () => {
+            navigate(`/join/kakao?UniqueID=${uniqueID}`)
+        }
+        const idPostFail = () => {
+            navigate(``)
         }
       });
     });
   }, [authCode]);
   return (
-    <div><h1>카카오 리다이렉트 페이지</h1>
-    <div>{authCode}</div></div>
-  )
-}
-export default KakaoRedirectPage
+    <div>
+      <h1>카카오 리다이렉트 페이지</h1>
+      <div>{authCode}</div>
+    </div>
+  );
+};
+export default KakaoRedirectPage;

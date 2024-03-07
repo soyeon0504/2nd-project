@@ -2,16 +2,16 @@ import styled from "@emotion/styled";
 import React from "react";
 
 export const ModalBackground = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.5);
-z-index: 999;
-`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+`;
 
-const JoinPopUp = ({ txt, onConfirm }) => {
+const JoinPopUp = ({ txt, txt2, onConfirm }) => {
   const JoinPopUp = styled.div`
     position: fixed;
     top: 50%;
@@ -24,6 +24,7 @@ const JoinPopUp = ({ txt, onConfirm }) => {
     display: flex;
 
     flex-direction: column;
+    text-align:center;
     justify-content: center;
     align-items: center;
     gap: 30px;
@@ -56,7 +57,11 @@ const JoinPopUp = ({ txt, onConfirm }) => {
 
   return (
     <JoinPopUp>
-      <b>{txt}</b>
+      <div>
+        <b>{txt}</b>
+        <br />
+        <b>{txt2}</b>
+      </div>
       <button onClick={onConfirm}>확인</button>
     </JoinPopUp>
   );

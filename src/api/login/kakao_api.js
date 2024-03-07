@@ -9,9 +9,10 @@ const redirect_uri = "http://localhost:3000/login/kakao";
 const auth_code_path = "https://kauth.kakao.com/oauth/authorize";
 const response_type = "code";
 const authParam = new URLSearchParams({
-
-    client_id, redirect_uri, response_type
-})
+  client_id,
+  redirect_uri,
+  response_type,
+});
 
 // 카카오 로그인시 활용
 export const getKakaoLoginLink = () => {
@@ -40,10 +41,25 @@ export const getAccessToken = async authCode => {
 };
 // Access Token 으로 회원정보 가져오기
 export const getMemberWithAccessToken = async accessToken => {
-  console.log("백엔드에 회원 등록을 위한 액세스 토큰 전달 ", accessToken);
-  const res = await axios.get(
-    `${SERVER_URL}/api/user/kakao?accessToken=${accessToken}`,
-  );
-
-  return res.data;
+  const response = await fetch("https://kapi.kakao.com/v2/user/me", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (response.ok) {
+    const memberInfo = await response.json();
+    // const uniqueID = memberInfo.id;
+    // console.log("Unique ID: ", uniqueID);
+    return memberInfo;
+  } else {
+    throw new Error("Failed to get member info");
+  }
 };
+// export const getMemberWithAccessToken = async accessToken => {
+//   console.log("백엔드에 회원 등록을 위한 액세스 토큰 전달 ", accessToken);
+//   const res = await axios.get(
+//     `${SERVER_URL}/api/user/kakao?accessToken=${accessToken}`,
+//   );
+
+//   return res.data;
+// };
