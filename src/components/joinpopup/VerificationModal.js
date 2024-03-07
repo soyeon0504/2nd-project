@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { IdBox, LoginBox, Logo, LogoZone } from "../../styles/login/LoginPageStyle";
-import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
+import { BtSection, CancelBt, SaveBt, VerifiBt } from "../../styles/join/JoinPageStyle";
+import { verificationGet, verificationPost } from "../../api/join/join_api";
 
 const VerificationStyle = styled.div`
   position: fixed;
@@ -17,17 +18,18 @@ const VerificationStyle = styled.div`
   border-radius: 10px;
 `;
 
-const VerificationModal = ({ closeModal, onConfirm }) => {
+const VerificationModal = ({ closeModal, onConfirm, setVerificationId, verificationId }) => {
+  const [resultOk, setResultOk] = useState(false)
   const [userData, setUserData] = useState({
     userName: "",
-    userNum: "",
-    userBirth: "",
+    userPhone: "",
+    userBirthday: "",
   });
 
   const handleChange = (fieldName, value) => {
     let sanitizedValue;
   
-    if (fieldName === "userNum" || fieldName === "userBirth") {
+    if (fieldName === "userPhone" || fieldName === "userBirthday") {
       const numRegex = /^[0-9]*$/;
       if (!numRegex.test(value)) {
         return;
@@ -47,6 +49,21 @@ const VerificationModal = ({ closeModal, onConfirm }) => {
     }));
   };
 
+  const handleVerifiConfirm = async (userData) => {
+    if (!userData.userName || !userData.userPhone || !userData.userBirthday) {
+      return;
+    }
+    try {
+      let result;
+      result = await verificationPost(userData);
+      setVerificationId(result.id);
+      setResultOk(true);
+    } catch (error) {
+      console.log(error);
+      // 에러 발생 시 본인 확인 완료 문구 표시
+      setResultOk(true);
+    }
+  };
 
   return (
     <VerificationStyle>
@@ -54,10 +71,16 @@ const VerificationModal = ({ closeModal, onConfirm }) => {
         <Logo src="/images/logo.svg" style={{ marginBottom: "20px" }} />
       </LogoZone>
       <LoginBox height={"340px"} mgbtm={"50px"}>
-        <p>
-            본인인증을 위해 <br />
-            정보 입력을 해주세요.
-        </p>
+        {resultOk ? (
+          <p>
+          본인인증 완료해주세요. 
+          </p>
+        ) : (
+          <p>
+          본인인증을 위해 <br />
+          정보 입력을 해주세요.
+          </p>
+        )}
         <IdBox
           type="text"
           placeholder="이름 예) 홍길동"
@@ -67,19 +90,27 @@ const VerificationModal = ({ closeModal, onConfirm }) => {
         <IdBox
           type="text"
           placeholder="휴대폰 번호 예) 01000000000"
-          value={userData.userNum}
-          onChange={(e) => handleChange("userNum", e.target.value)}
+          value={userData.userPhone}
+          onChange={(e) => handleChange("userPhone", e.target.value)}
         />
         <IdBox
           type="number"
           placeholder="생일 예) 20240301"
-          value={userData.userBirth}
-          onChange={(e) => handleChange("userBirth", e.target.value)}
+          value={userData.userBirthday}
+          onChange={(e) => handleChange("userBirthday", e.target.value)}
         />
 
         <BtSection width={"380px"}>
-          <CancelBt onClick={closeModal}>닫기</CancelBt>
-          <SaveBt onClick={() => onConfirm(userData)}>확인</SaveBt>
+          {resultOk ? (
+              <VerifiBt onClick={()=> onConfirm(verificationId)}>본인 확인 완료</VerifiBt>
+            ) : (
+              <>
+                <CancelBt onClick={closeModal}>닫기</CancelBt>
+                <SaveBt onClick={() => handleVerifiConfirm(userData)}>
+                  확인
+                </SaveBt>
+              </>
+            )}
         </BtSection>
       </LoginBox>
     </VerificationStyle>

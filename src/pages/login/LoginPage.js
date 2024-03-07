@@ -90,6 +90,9 @@ const LoginPage = () => {
     if (error.response && error.response.status === 400) {
       setLoginFail(true);
     }
+    if (error.response && error.response.status === 494) {
+      setLoginFail(true);
+    }
   };
   const closeIdModal = () => {
     setIdFail(false);
@@ -119,7 +122,8 @@ const LoginPage = () => {
       {loginFail && (
         <>
           <JoinPopUp
-            txt="로그인에 실패하였습니다."
+            txt="잘못된 범위의 값을"
+            txt2="입력하였습니다."
             onConfirm={closeLoginModal}
           />
           <ModalBackground></ModalBackground>
@@ -139,7 +143,7 @@ const LoginPage = () => {
           <IdBox
             type="text"
             maxLength={15}
-            placeholder="아이디"
+            placeholder="아이디 4~15자 이내"
             name="uid"
             value={loginParam.uid}
             onChange={e => handleChange(e)}
@@ -147,7 +151,7 @@ const LoginPage = () => {
           <PwBox
             type="password"
             maxLength={20}
-            placeholder="비밀번호"
+            placeholder="비밀번호 8~20자 이내"
             name="upw"
             value={loginParam.upw}
             onChange={e => handleChange(e)}
@@ -166,7 +170,7 @@ const LoginPage = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              gap: "50px",
+              gap: "30px",
               paddingRight: "30px",
             }}
           >

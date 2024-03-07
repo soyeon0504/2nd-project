@@ -13,16 +13,10 @@ const apiPaths = {
 };
 
 // API 호출 함수
-export const postReport = async (identity, reason, option) => {
+export const postReport = async data => {
   try {
-    const endpoint = apiPaths[option];
-    if (!endpoint) {
-      console.error("올바르지 않은 옵션입니다.");
-      throw new Error("올바르지 않은 옵션입니다.");
-    }
-
-    const url = `${path}/${endpoint}?identity=${identity}&reason=${reason}`;
-    const res = await jwtAxios.post(url);
+    const url = `${path}/dispute/product`;
+    const res = await jwtAxios.post(url, data);
 
     if (res.status === 200) {
       console.log("신고가 성공적으로 접수되었습니다.");

@@ -39,7 +39,7 @@ const MyReviewList = ({ activeBtn }) => {
 
   const handleDeleteReviewClick = async (ireview) => {
     try {
-      await deleteMyReview(rev,ireview);
+      await deleteMyReview(ireview);
         const updatedResult = await getMyReview(1);
         setData(updatedResult);
     } catch (error) {
@@ -70,14 +70,9 @@ const MyReviewList = ({ activeBtn }) => {
     setReviewFormData({
       contents: selectedItem.contents,
       ireview,
-      raiting: selectedItem.raiting,
+      rating: selectedItem.rating,
     });
   };
-  console.log(reviewFormData.raiting);
-  console.log(reviewFormData.contents);
-  console.log(reviewFormData.ireview);
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -92,6 +87,7 @@ const MyReviewList = ({ activeBtn }) => {
     };
     fetchData();
   }, [activeBtn]);
+  console.log(data);
 
   return (
     <MyListDiv>
@@ -114,7 +110,8 @@ const MyReviewList = ({ activeBtn }) => {
           ipayment={selectedPaymentId}
           contents={reviewFormData.contents}
           ireview={reviewFormData.ireview}
-          raiting={reviewFormData.raiting}
+          rating={reviewFormData.rating}
+          setData={setData}
         />
       )}
       <MyListTop>
@@ -136,12 +133,12 @@ const MyReviewList = ({ activeBtn }) => {
                   <div>
                     <MyReviewTxt>
                         <h2>{item.nick}</h2>
-                        <p>별점: {item.raiting}점</p>
+                        <p>별점: {item.rating}점</p>
                         <span>{item.contents}</span>
                     </MyReviewTxt>
                   </div>
                   <MyReviewTitle>
-                        <Link to={`../details/mc=${item.mainCategory}/sc=${item.subCategory}/${item.iproduct}`}>
+                        <Link to={`../details?mc=${item.mainCategory}&sc=${item.subCategory}&productId=${item.iproduct}`}>
                           <div>
                             <p>{item.title}
                             </p>

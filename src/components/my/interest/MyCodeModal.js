@@ -49,16 +49,16 @@ export const Cancel = styled(Confirm)`
     border: 2px solid #2c39b5;
 `
 
-const MyModal = ({ txt,onCancel, onConfirm }) => {
+const MyCodeModal = ({ txt,onCancel, onConfirm }) => {
   return (
     <MyModalDiv>
-      <p>{txt}</p>
+      <p>내 식별코드: {txt}</p>
       <div>
-        <Cancel onClick={onCancel}>아니요</Cancel>
-        <Confirm onClick={onConfirm}>예</Confirm>
+        <Cancel onClick={onCancel}>닫기</Cancel>
+        <Confirm onClick={onConfirm}>확인</Confirm>
       </div>
     </MyModalDiv>
   );
 };
 
-export default MyModal;
+export default MyCodeModal;

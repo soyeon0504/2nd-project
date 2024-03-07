@@ -83,13 +83,22 @@ export const MoreWrap = styled.div`
         font-weight: 500;
         font-size: 20px;
       }
-      .desc-ad {
+      .ad-view-wrap {
+        display: flex;
+        justify-content: space-between;
+        .desc-ad {
         color: #777;
         font-size: 14px;
       }
       .view {
         color: #777;
         font-size: 12px;
+      }
+      }
+      .hash-tag {
+        right: 0;
+        color: #777;
+        font-size: 15px;
       }
     }
   }

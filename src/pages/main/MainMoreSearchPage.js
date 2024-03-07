@@ -160,6 +160,7 @@ const MainMoreSearchPage = () => {
     }
   };
   const [datas, setDatas] = useState(state.result);
+  
 
   // 지역 카테고리 선택
   const [regionValue, setRegionValue] = useState("");

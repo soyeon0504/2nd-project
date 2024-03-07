@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import Layout from "../../layouts/Layout";
-import styled from "styled-components";
+import { useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom"; // useParams를 추가하여 사용
 
 import Select from "react-select";
 import { postReport } from "../../api/report/report_api";
-import { useParams } from "react-router-dom";
 import {
   PageWrapper,
   BoxWrapper,
@@ -54,7 +53,10 @@ const Report = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [reportContent, setReportContent] = useState("");
 
-  const { iproduct } = useParams();
+  // useParams 훅을 사용하여 URL 파라미터에서 iproduct 값을 가져옴
+  const { iproduct } = useParams(); // useParams로 iproduct 값을 가져옴
+  const location = useLocation();
+  const { title } = location.state;
   const handleReportSubmit = async () => {
     try {
       if (!selectedOption) {
@@ -66,11 +68,13 @@ const Report = () => {
         return;
       }
 
-      const response = await postReport(
-        iproduct, // 제품의 PK를 식별자로 사용
-        selectedOption.value,
-        reportContent,
-      );
+      const mappedReasonValue = selectedOption.value; // 선택된 옵션의 숫자값 가져오기
+
+      const response = await postReport({
+        reason: mappedReasonValue,
+        identity: iproduct,
+        details: reportContent,
+      });
       console.log("신고가 접수되었습니다:", response);
       alert("신고가 성공적으로 접수되었습니다.");
     } catch (error) {
@@ -83,7 +87,7 @@ const Report = () => {
     <PageWrapper>
       <BoxWrapper>
         <ReportTitle>신고하기</ReportTitle>
-        <ReportUser productId={iproduct}>신고 상태</ReportUser>
+        <ReportUser>신고상품: {title}</ReportUser>
         <ReportTitleSub>신고 사유 선택</ReportTitleSub>
         <Select
           options={reportOptions}

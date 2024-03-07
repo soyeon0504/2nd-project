@@ -92,7 +92,7 @@ const category = [
 const SEARCH_OPTIONS = ["전체", "닉네임", "카테고리"];
 
 const SEARCH_OPTIONS_TEXT = [
-  // "검색어를 입력해주세요",
+  "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "카테고리를 입력해주세요",
 ];

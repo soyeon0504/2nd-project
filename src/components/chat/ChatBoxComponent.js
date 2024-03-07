@@ -13,7 +13,7 @@ import {
   ChatBtn,
 } from "../../styles/chat/ChatStyles";
 import Modal from "./Modal";
-import { postChat } from "../../api/chat/chat_api"; // 채팅 생성 API import
+import { postChat, getChat } from "../../api/chat/chat_api"; // 채팅 생성 API import
 
 import { getCookie } from "../../util/cookieUtil"; // 쿠키 유틸 함수 import
 import { Client } from "@stomp/stompjs"; // STOMP 클라이언트 추가
@@ -21,7 +21,7 @@ const ChatBoxComponent = ({ selectedProfile }) => {
   const [inputMessage, setInputMessage] = useState(""); // 입력 메시지를 저장하는 상태
   const [chatMessages, setChatMessages] = useState([]); // 채팅 메시지를 저장하는 상태
   const [modalOpen, setModalOpen] = useState(false); // 모달 열림 상태를 관리하는 상태
-  const [stompClient, setStompClient] = useState(null); // STOMP 클라이언트 상태 추가
+  const [stompClient, setStompClient] = useState(null); // STOMP5 클라이언트 상태 추가
   const chatContainerRef = useRef(null); // 채팅 스크롤을 위한 ref 추가
   const memberInfo = getCookie("member");
   const authToken = memberInfo ? memberInfo.accessToken : "your_default_token";
@@ -29,26 +29,8 @@ const ChatBoxComponent = ({ selectedProfile }) => {
   // WebSocket 연결 함수 정의
   const connectToChat = async () => {
     try {
-      // const client = new Client({
-      //   brokerURL: "ws://localhost:8080/ws",
-      //   connectHeaders: {
-      //     Authorization: `Bearer ${authToken}`, // AccessToken 헤더에 추가
-      //   },
-      //   onConnect: () => {
-      //     client.subscribe("/topic/test01", message =>
-      //       console.log(`Received: ${message.body}`),
-      //     );
-      //     client.publish({
-      //       destination: "/topic/test01",
-      //       body: "First Message",
-      //     });
-      //   },
-      // });
-
-      // client.activate();
-      // STOMP 클라이언트 생성
       const stomp = new Client({
-        brokerURL: "ws://localhost:8080/ws", // WebSocket 연결 주소
+        brokerURL: "ws://192.168.0.144:5226/ws", // WebSocket 연결 주소
         connectHeaders: {
           Authorization: `Bearer ${authToken}`, // AccessToken 헤더에 추가
         },
@@ -56,9 +38,9 @@ const ChatBoxComponent = ({ selectedProfile }) => {
         debug: str => {
           console.log(str);
         },
-        reconnectDelay: 200000, // 자동 재연결 딜레이
-        heartbeatIncoming: 4000, // Heartbeat 수신 주기
-        heartbeatOutgoing: 4000, // Heartbeat 발신 주기
+        reconnectDelay: 20000, // 자동 재연결 딜레이
+        heartbeatIncoming: 40000, // Heartbeat 수신 주기
+        heartbeatOutgoing: 40000, // Heartbeat 발신 주기
       });
       console.log("연결확인", stomp);
       stomp.onStompError = () => {
@@ -69,7 +51,7 @@ const ChatBoxComponent = ({ selectedProfile }) => {
         console.log("WebSocket 연결이 열렸습니다.");
 
         // 구독 대상 설정
-        const subscriptionDestination = selectedProfile.isSeller
+        const subscriptionDestination = selectedProfile.iuser
           ? `/exchange/chat.exchange/room.${selectedProfile.iuser}`
           : `/exchange/chat.exchange/room.${selectedProfile.iuser}`;
 
@@ -107,6 +89,40 @@ const ChatBoxComponent = ({ selectedProfile }) => {
     };
   }, [selectedProfile]); // 선택된 프로필이 변경될 때마다 useEffect 다시 실행
 
+  const enterChatRoom = async () => {
+    try {
+      const chatResult = await postChat(
+        selectedProfile.iuser,
+        selectedProfile.iproduct,
+      );
+
+      if (chatResult === 1) {
+        // 채팅방 입장 API 호출
+        const enterChatResult = await getChat(selectedProfile.ichatRoom, 1);
+
+        if (enterChatResult === 1) {
+          console.log("채팅방 입장 성공");
+
+          // Chat API 호출
+          try {
+            await jwtAxios.post(`chat.send.${selectedProfile.ichatRoom}`, {
+              message: "채팅 시작합니다.",
+            });
+            console.log("채팅 메시지 전송 성공");
+          } catch (error) {
+            console.error("채팅 메시지 전송 실패:", error);
+          }
+        } else {
+          console.error("채팅방 입장 실패");
+        }
+      } else {
+        console.error("채팅방 생성 실패");
+      }
+    } catch (error) {
+      console.error("채팅방 입장 중 오류:", error);
+    }
+  };
+
   // 스크롤을 맨 아래로 이동하는 함수
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -129,20 +145,21 @@ const ChatBoxComponent = ({ selectedProfile }) => {
       };
 
       // Chat API 호출
-      // try {
-      //   await jwtAxios.post(`chat.send.${selectedProfile.ichatRoom}`, {
-      //     message: inputMessage,
-      //   });
-      //   console.log("채팅 메시지 전송 성공");
-      // } catch (error) {
-      //   console.error("채팅 메시지 전송 실패:", error);
-      // }
+      try {
+        await jwtAxios.post(`chat.send.${selectedProfile.ichatRoom}`, {
+          message: inputMessage,
+        });
+        console.log("채팅 메시지 전송 성공");
+      } catch (error) {
+        console.error("채팅 메시지 전송 실패:", error);
+      }
 
       setChatMessages(prevMessages => [...prevMessages, newMessage]);
       setInputMessage(""); // 입력 메시지 초기화
       scrollToBottom();
     }
   };
+
   // 모달 열기/닫기 토글 핸들러
   const toggleModal = () => {
     setModalOpen(prevModalOpen => !prevModalOpen);

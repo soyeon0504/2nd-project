@@ -37,7 +37,7 @@ import {
 import VerificationModal from "../../components/joinpopup/VerificationModal";
 import VerificationOk from "../../components/joinpopup/VerificationOk";
 
-const JoinPage = () => {
+const JoinKakaoPage = () => {
   // 중복확인(닉네임)
   const [nickOverlapConfirm, setNickOverlapConfirm] = useState(false);
   const [nickConfirmModal, setNickConfirmModal] = useState(false);
@@ -79,48 +79,6 @@ const JoinPage = () => {
     setNickNullModal(false);
   };
 
-  // 중복확인(아이디)
-  const [idOverlapConfirm, setIdOverlapConfirm] = useState(false);
-  const [idConfirmModal, setIdConfirmModal] = useState(false);
-  const [idFailModal, setIdFailModal] = useState(false);
-  const [idNullModal, setIdNullModal] = useState(false);
-  
-  const IdOverlap = () => {
-    const obj = {
-      div: 2,
-      uid: userId,
-      nick: "nickname",
-    };
-    idOverlapPost(obj, () => {
-      setIsValid(2);
-      idPostSuccess();
-    }, idPostFail);
-  };
-  const IdOverlapBt = e => {
-    e.preventDefault();
-    IdOverlap();
-  };
-  const idPostSuccess = () => {
-    setIdOverlapConfirm(true);
-    setIdConfirmModal(true);
-  };
-  const closeIdConfirmModal = () => {
-    setIdConfirmModal(false);
-  };
-  const idPostFail = () => {
-    setIdFailModal(true);
-  };
-  const closeIdFailModal = () => {
-    setIdFailModal(false);
-  };
-  const idNullBt = () => {
-    setIdNullModal(true);
-  };
-  const closeIdNullBt = () => {
-    setIdNullModal(false);
-  };
-
-
   // 이미지 업로드
   const [uploadImg, setUploadImg] = useState(
     `${process.env.PUBLIC_URL}/images/join/join_img.svg`,
@@ -136,17 +94,6 @@ const JoinPage = () => {
       // FB 파일을 보관
       setUploadImgFile(file); // 파일 1개 추가 끝
     }
-  };
-
-  // 비밀번호 보이기/감추기
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-
-  const handleTogglePassword = () => {
-    setShowPassword(prev => !prev);
-  };
-  const handleTogglePasswordConfirm = () => {
-    setShowPasswordConfirm(prev => !prev);
   };
 
   // 주소 검색 모달창
@@ -172,20 +119,6 @@ const JoinPage = () => {
       .string()
       .max(20, "20자까지만 입력하세요 ")
       .required("닉네임은 필수 입력 사항입니다."),
-    userId: yup
-      .string()
-      .min(4, "4자 이상 입력하세요.")
-      .max(15, "15자까지만 입력하세요 ")
-      .required("아이디는 필수 입력 사항입니다."),
-    password: yup
-      .string()
-      .required("비밀번호는 필수 입력 사항입니다.")
-      .min(8, "8자 이상 입력하세요.")
-      .max(20, "20자까지만 입력하세요 "),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "비밀번호가 일치하지 않습니다.")
-      .required("비밀번호 확인은 필수 입력 사항입니다."),
     phoneNumber: yup
       .string()
       .matches(phoneRegExp, "전화번호가 올바르지 않습니다.")
@@ -201,10 +134,17 @@ const JoinPage = () => {
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
+
+  
+  const searchParams = new URLSearchParams(location.search);
+  const accessToken  = searchParams.get("accessToken");
+  const userId = accessToken.substring(0, 8);
+  const startIndex = accessToken.length - 8;
+  const password = accessToken.substring(startIndex);
+//   console.log("userId",userId,"password",password)
+
   const [photo, setPhoto] = useState("");
   const nickname = watch("nickname");
-  const userId = watch("userId");
-  const password = watch("password");
   const phoneNumber = watch("phoneNumber");
   const [address, setAddress] = useState("");
   const [restAddress, setRestAddress] = useState("");
@@ -342,31 +282,6 @@ const JoinPage = () => {
         </>
       )}
 
-      {idConfirmModal && (
-        <>
-          <JoinPopUp
-            txt="사용 가능한 아이디입니다."
-            onConfirm={closeIdConfirmModal}
-          />
-          <ModalBackground></ModalBackground>
-        </>
-      )}
-      {idFailModal && (
-        <>
-          <JoinPopUp
-            txt="사용할 수 없는 아이디입니다."
-            onConfirm={closeIdFailModal}
-          />
-          <ModalBackground></ModalBackground>
-        </>
-      )}
-      {idNullModal && (
-        <>
-          <JoinPopUp txt="4글자 이상 입력해주세요." onConfirm={closeIdNullBt} />
-          <ModalBackground></ModalBackground>
-        </>
-      )}
-
       {verificationModal && (
         <>
           <VerificationModal closeModal={closeVerificationModal} 
@@ -472,97 +387,6 @@ const JoinPage = () => {
 
           <JoinElement>
             <JoinElementTxt>
-              <p>아이디</p>
-              <span>*</span>
-            </JoinElementTxt>
-            <JoinElementInputBox>
-              <JoinElementInput width="440px">
-                <input
-                  type="text"
-                  minLength={4}
-                  maxLength={15}
-                  placeholder="4~15자 이내"
-                  name="userId"
-                  {...register("userId")}
-                />
-                {!userId || userId.length < 4 ? (
-                  <ConfirmBt onClick={idNullBt} type="button">
-                    중복확인
-                  </ConfirmBt>
-                ) : (
-                  <ConfirmBt onClick={IdOverlapBt} type="button">
-                    중복 확인
-                  </ConfirmBt>
-                )}
-              </JoinElementInput>
-              <InputValid>{formState.errors.userId?.message}</InputValid>
-              {catchErr && !idOverlapConfirm && !formState.errors.userId && (
-                <InputValid>아이디 중복 확인을 해주세요.</InputValid>
-              )}
-            </JoinElementInputBox>
-          </JoinElement>
-
-          <JoinElement>
-            <JoinElementTxt>
-              <p>비밀번호</p>
-              <span>*</span>
-            </JoinElementTxt>
-            <JoinElementInputBox>
-              <JoinElementInput>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  minLength={8}
-                  maxLength={20}
-                  placeholder="특수문자 포함 8~20자 이내"
-                  name="password"
-                  {...register("password")}
-                />
-                <ShowPasswordBt type="button" onClick={handleTogglePassword}>
-                  {showPassword ? (
-                    <ShowPasswordImg src="/images/join/eye_open.png" />
-                  ) : (
-                    <ShowPasswordImg src="/images/join/eye_close.png" />
-                  )}
-                </ShowPasswordBt>
-              </JoinElementInput>
-              <InputValid>{formState.errors.password?.message}</InputValid>
-            </JoinElementInputBox>
-          </JoinElement>
-
-          <JoinElement>
-            <JoinElementTxt>
-              <p>비밀번호 확인</p>
-              <span>*</span>
-            </JoinElementTxt>
-            <JoinElementInputBox>
-              <JoinElementInput>
-                <input
-                  type={showPasswordConfirm ? "text" : "password"}
-                  minLength={8}
-                  maxLength={20}
-                  placeholder="비밀번호 확인"
-                  name="confirmPassword"
-                  {...register("confirmPassword")}
-                />
-                <ShowPasswordBt
-                  type="button"
-                  onClick={handleTogglePasswordConfirm}
-                >
-                  {showPasswordConfirm ? (
-                    <ShowPasswordImg src="/images/join/eye_open.png" />
-                  ) : (
-                    <ShowPasswordImg src="/images/join/eye_close.png" />
-                  )}
-                </ShowPasswordBt>
-              </JoinElementInput>
-              <InputValid>
-                {formState.errors.confirmPassword?.message}
-              </InputValid>
-            </JoinElementInputBox>
-          </JoinElement>
-
-          <JoinElement>
-            <JoinElementTxt>
               <p>휴대폰 번호</p>
               <span>*</span>
             </JoinElementTxt>
@@ -662,4 +486,4 @@ const JoinPage = () => {
     </Layout>
   );
 };
-export default JoinPage;
+export default JoinKakaoPage;

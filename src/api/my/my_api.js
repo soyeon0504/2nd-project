@@ -10,8 +10,6 @@ const failPostDatas = () => {
   navigate("/");
 };
 
-
-
 export const getMyRental = async (role,status,page) => {
   try {
     const url = `${path}/prod?role=${role}&status=${status}&page=${page}`;
@@ -45,10 +43,10 @@ export const getMyReview = async (page) => {
   }
 }
 
-export const deleteMyReview = async (rev, ireview) => {
+export const deleteMyReview = async (rev) => {
   try {
-    const url = `${path2}/pay/review?rev=${rev}&ireview=${ireview}`;
-    const res = await jwtAxios.get(url);
+    const url = `${path2}/pay/review?rev=${rev}`;
+    const res = await jwtAxios.delete(url);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -59,7 +57,7 @@ export const deleteMyReview = async (rev, ireview) => {
 export const patchMyReview = async (ireview,contents,rating) => {
   try {
     const url = `${path2}/pay/review?ireview=${ireview}&contents=${contents}&rating=${rating}`;
-    const res = await jwtAxios.get(url);
+    const res = await jwtAxios.patch(url);
     return res.data;
   } catch (error) {
     console.log(error);
