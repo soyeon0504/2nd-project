@@ -235,6 +235,10 @@ const DetailsPage = () => {
     );
   };
 
+  const handleProfile = iuser => {
+    navigate(`profile/${iuser}/1`);
+  };
+
   // const hashTags = productData.hashTags.map(tagData => tagData.tag).join(", ");
 
   const handleDateSelect = (startDate, endDate) => {
@@ -297,6 +301,7 @@ const DetailsPage = () => {
                 sellerName={productData.nick}
                 profileImage={`/pic/${productData.userPic}`}
                 iuser={productData.iuser}
+                onClick={handleProfile}
               />
             </Title>
             <PriceContainer>
