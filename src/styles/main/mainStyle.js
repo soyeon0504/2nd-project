@@ -33,7 +33,7 @@ export const MainWrap = styled.div`
       cursor: pointer;
     }
     .desc-wrap {
-      line-height: 30px;
+      line-height: 40px;
       text-align: left;
       .desc-title {
         width: 300px;
@@ -45,10 +45,7 @@ export const MainWrap = styled.div`
         white-space: nowrap;
       }
       hr {
-
         width: 300px;
-        /* background-color: #2C39B5; */
-
         border: 1px solid #2c39b5;
         margin: 0;
       }
@@ -56,13 +53,22 @@ export const MainWrap = styled.div`
         font-weight: 500;
         font-size: 20px;
       }
-      .desc-address {
+      .ad-view-wrap {
+        display: flex;
+        justify-content: space-between;
+        .desc-ad {
         color: #777;
         font-size: 14px;
       }
       .view {
         color: #777;
         font-size: 12px;
+      }
+      }
+      .hash-tag {
+        right: 0;
+        color: #777;
+        font-size: 15px;
       }
     }
     .like-wrap {

@@ -5,7 +5,8 @@ import { SideBar } from "../../components/SideBar";
 import ProductSlide from "../../components/main/ProductSlide";
 import Layout from "../../layouts/Layout";
 import { MainWrap } from "../../styles/main/mainStyle";
-import { getMoreProduct, getProduct, getProductFirst } from "../../api/main/main_api";
+import { getLoginProductFirst, getMoreProduct, getProduct, getProductFirst } from "../../api/main/main_api";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initData = [
   [
@@ -150,11 +151,17 @@ const sectionTitle = [
 
 const MainPage = () => {
   const [productData, setProductData] = useState(null);
-  console.log(productData)
+  const {isLogin} = useCustomLogin();
+  console.log(productData);
+  console.log("로그인체크",isLogin);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getProductFirst(); 
+
+        let res = await getProductFirst(); 
+        if(isLogin){
+          res = await getLoginProductFirst();
+        }
         console.log(res);
         const newData = [...new Array(5)].map((item,index)=>{
           const found = res.filter((element)=> element.categories.mainCategory-1 === index);
