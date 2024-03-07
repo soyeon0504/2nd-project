@@ -32,7 +32,8 @@ import { failPostDatas, postprod } from "../../api/prod/prod_api";
 import dayjs from "dayjs";
 // 오늘 이전날 선택불가
 import moment from "moment";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router";
 
 const btlist = [
   ["스마트워치", "태블릿", "갤럭시", "아이폰"],
@@ -708,9 +709,9 @@ const Write = () => {
                   <div style={{ color: "red" }}>주소를 검색해주세요.</div>
                 )}
                 {/* 기본 코드  */}
-                {/* <div style={{ color: "red" }}>
+                <div style={{ color: "red" }}>
                   {formState.errors.addr?.message}
-                </div> */}
+                </div>
 
                 <input
                   type="text"
