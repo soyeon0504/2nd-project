@@ -709,9 +709,9 @@ const Write = () => {
                   <div style={{ color: "red" }}>주소를 검색해주세요.</div>
                 )}
                 {/* 기본 코드  */}
-                {/* <div style={{ color: "red" }}>
+                <div style={{ color: "red" }}>
                   {formState.errors.addr?.message}
-                </div> */}
+                </div>
 
                 <input
                   type="text"

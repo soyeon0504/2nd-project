@@ -11,7 +11,7 @@ import { DatePicker } from "antd";
 import koKR from "antd/lib/date-picker/locale/ko_KR";
 import DaumPostcode from "react-daum-postcode";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+
 import { GetProd, postprod, putProd } from "../../api/prod/prod_api";
 import { Modal } from "../../components/address/Address";
 import { BtSection, CancelBt, SaveBt } from "../../styles/join/JoinPageStyle";
@@ -169,10 +169,10 @@ const Modify = () => {
       setValue("hashTags" + (index + 1), hashItem.tag.replace("#", ""));
       console.log("==============", "hashTags" + (index + 1), hashItem.tag);
     });
-    _data.hashTags.map((hashItem, index) => {
-      setValue("hashTags" + (index + 1), hashItem.tag.replace("##", ""));
-      console.log("==============", "hashTags" + (index + 1), hashItem.tag);
-    });
+    // _data.hashTags.map((hashItem, index) => {
+    //   setValue("hashTags" + (index + 1), hashItem.tag.replace("##", ""));
+    //   console.log("==============", "hashTags" + (index + 1), hashItem.tag);
+    // });
   };
   const fetchData = async () => {
     try {
@@ -972,13 +972,6 @@ const Modify = () => {
               )} */}
             </BtSection>
           </form>
-          <button
-            onClick={() => {
-              handleClickGet();
-            }}
-          >
-            get
-          </button>
         </div>
       </AllWidth>
     </Layout>
