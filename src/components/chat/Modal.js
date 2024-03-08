@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled"; // 이모션에서 styled를 불러옵니다.
 import { Link } from "react-router-dom";
+import { delChat } from "../../api/chat/chat_api";
 
 const ModalContent = styled.div`
   background-color: #e5e5fe;
@@ -46,17 +47,24 @@ function Modal({ onClose }) {
     handleCloseModal();
   };
 
-  const handleLeaveClick = () => {
-    console.log("채팅방 나가기 클릭됨");
+  const handleDeleteChat = async ichat => {
+    try {
+      // ichat을 인수로 전달하여 채팅을 삭제합니다.
+      const response = await delChat(ichat);
+      console.log("Chat deleted successfully:", response);
+      // 채팅을 삭제한 후 추가적인 작업을 수행할 수 있습니다.
+    } catch (error) {
+      console.error("Failed to delete chat:", error);
+      // 채팅 삭제 실패 시 추가적인 처리를 수행할 수 있습니다.
+    }
   };
-
   return (
     <ModalContent>
       <ActionButtons>
         <Button as={Link} to={`/report`} onClick={handleReportClick}>
           신고하기
         </Button>
-        <Button onClick={handleLeaveClick}>채팅방 나가기</Button>
+        <Button onClick={handleDeleteChat}>채팅방 나가기</Button>
       </ActionButtons>
     </ModalContent>
   );

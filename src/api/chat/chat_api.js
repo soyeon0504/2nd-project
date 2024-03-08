@@ -50,11 +50,8 @@ export const getChat = async (ichat, page) => {
 export const delChat = async ichat => {
   try {
     const url = `${path}/chat/${ichat}`;
-    const result = await jwtAxios.delete(url);
-
-    if (result.status === 200) {
-      return 1;
-    }
+    const res = await jwtAxios.delete(url);
+    return res;
   } catch (error) {
     console.error(error);
     throw new Error("Failed to post chat");

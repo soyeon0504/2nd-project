@@ -17,7 +17,7 @@ import {
 // ChatProfile 컴포넌트에서 API를 호출하기 위한 함수를 import
 import { getChatList, getChat } from "../../api/chat/chat_api";
 
-const ChatProfile = ({ onProfileSelect, setChatTextArr }) => {
+const ChatProfile = ({ onProfileSelect, setChatTextArrg }) => {
   const [chatList, setChatList] = useState([]);
 
   const [selectedProfile, setSelectedProfile] = useState(null);

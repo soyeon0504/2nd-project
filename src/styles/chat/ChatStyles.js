@@ -19,7 +19,8 @@ export const ChatBox = styled.div`
   padding-right: 5px;
   padding-top: 15px;
   margin-right: 20px;
-  border: 1px solid #777;
+  border: 1px solid #808080;
+  border-radius: 2px;
   overflow: hidden; /* 넘치는 내용 숨김 */
   overflow-y: auto;
   position: relative;
@@ -151,12 +152,12 @@ export const ChatMessage = styled.div`
   padding: 10px;
   margin-bottom: 10px;
   font-size: 13px;
-  text-align: right;
+  /* text-align: right; */
 `;
 
 export const ChatMessageWrapper = styled.div`
   clear: both; /* 새로운 줄로 메시지를 배치합니다. */
   overflow: hidden; /* 부모 요소의 높이를 계산하기 위해 사용됩니다. */
-  text-align: right;
+  /* text-align: right; */
   padding-right: 5px;
 `;

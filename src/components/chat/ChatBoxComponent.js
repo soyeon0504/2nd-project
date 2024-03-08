@@ -16,9 +16,13 @@ import Modal from "./Modal";
 import { postChat } from "../../api/chat/chat_api"; // 채팅 생성 API import
 import { getCookie } from "../../util/cookieUtil"; // 쿠키 유틸 함수 import
 import { Client } from "@stomp/stompjs"; // STOMP 클라이언트 추가
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
-  console.log("====== ChatBoxComponent ======", chatTextArr);
+  const { loginState } = useCustomLogin();
+  // console.log("=================", loginState.iuser);
+
+  // console.log("====== ChatBoxComponent ======", chatTextArr);
   const [inputMessage, setInputMessage] = useState(""); // 입력 메시지를 저장하는 상태
   const [chatMessages, setChatMessages] = useState([]); // 채팅 메시지를 저장하는 상태
   const [modalOpen, setModalOpen] = useState(false); // 모달 열림 상태를 관리하는 상태
@@ -49,13 +53,19 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
 
       // STOMP 클라이언트 설정 및 연결
       stomp.onConnect = () => {
-        console.log("WebSocket 연결이 열렸습니다.");
+        // console.log("==================== WebSocket 연결이 열렸습니다.");
+        // console.log(
+        //   "==================== iChat 값이 궁금해 : ",
+        //   selectedProfile,
+        // );
 
         // 구독 대상 설정
-        const subscriptionDestination = selectedProfile.iuser
+        // const subscriptionDestination = selectedProfile.iuser
+        const subscriptionDestination = loginState.iuser
           ? `/exchange/chat.exchange/room.${selectedProfile.otherPersonIuser}`
-          : `/exchange/chat.exchange/room.${selectedProfile.iuser}`;
+          : `/exchange/chat.exchange/room.${selectedProfile.ichat}`;
 
+        console.log("==== subscriptionDestination : ", subscriptionDestination);
         // 메시지 수신 처리
         stomp.subscribe(subscriptionDestination, frame => {
           try {
@@ -78,10 +88,34 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
     }
   };
 
+  // 스크롤을 맨 아래로 이동하는 함수
+  const scrollToBottom = () => {
+    // console.log(chatContainerRef.current);
+    // console.log(chatContainerRef.current.scrollTop);
+    // console.log(chatContainerRef.current.scrollHeight);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.offsetHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+  // 스크롤 젤 아래로
+  const chatBoxRef = useRef(null);
+
+  useEffect(() => {
+    // chatBoxRef.current가 존재하고 스크롤을 조작할 수 있는 엘리먼트인지 확인
+    if (chatBoxRef.current) {
+      // 스크롤을 항상 아래로 이동
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
+
   // useEffect를 사용하여 컴포넌트가 마운트될 때 WebSocket 연결
   useEffect(() => {
     connectToChat();
-
+    scrollToBottom();
     // 컴포넌트 언마운트 시 WebSocket 연결 해제
     return () => {
       if (stompClient) {
@@ -94,26 +128,24 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
     // 메시지 전송
     if (stompClient && stompClient.connected && selectedProfile) {
       const { otherIuser, iuser } = selectedProfile;
-      const destination = `/pub/chat.message.${otherIuser}`;
+      // const destination = `/pub/chat.message.${otherIuser}`;
+      const destination = `/pub/chat.message.${selectedProfile.ichat}`;
+
+      const sendMSG = {
+        content: inputMessage,
+        // sender: selectedProfile.iuser,
+        sender: loginState.iuser,
+      };
+
+      console.log("리액트에서 보낸 데이터 형식 ", sendMSG);
 
       stompClient.publish({
         destination,
-        body: JSON.stringify({
-          content: inputMessage,
-          sender: selectedProfile.iuser,
-        }),
+        body: JSON.stringify(sendMSG),
       });
     }
 
     setInputMessage("");
-  };
-
-  // 스크롤을 맨 아래로 이동하는 함수
-  const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
   };
 
   // 입력 메시지 변경 핸들러
@@ -152,7 +184,7 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
     <ChatBoxWrapper>
       {selectedProfile ? (
         <ChatBoxContainer>
-          <ChatBoxContent ref={chatContainerRef}>
+          <ChatBoxContent>
             <img
               src={`/pic/${selectedProfile.otherPersonPic}`}
               alt="Profile"
@@ -172,25 +204,25 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
               <ProfileName>{selectedProfile.otherPersonNm}</ProfileName>
               <p>{selectedProfile.title}</p>
             </ProfileInfoContainer>
-            <ChatText>
+            <ChatText ref={chatContainerRef}>
               {modalOpen && <Modal onClose={toggleModal} />}
               <ChatBoxContent>
                 {/* 기존글 출력하기 */}
                 {chatTextArr.map((item, index) => (
                   <ChatMessageWrapper
                     key={index}
-                    style={{
-                      justifyContent:
-                        item.isender === selectedProfile.otherPersonIuser
-                          ? "flex-end"
-                          : "flex-start",
-                    }}
+                    style={
+                      item.isender == selectedProfile.otherPersonIuser
+                        ? { textAlign: "start" }
+                        : { textAlign: "end" }
+                    }
                   >
                     <ChatMessage
-                      style={{
-                        backgroundColor: item.isender ? "#a3d8f4" : "#f1f0f0",
-                        alignSelf: item.isender ? "flex-start" : "flex-end",
-                      }}
+                      style={
+                        item.isender == selectedProfile.otherPersonIuser
+                          ? { background: "#e6e6fa" }
+                          : { background: "#fafad2" }
+                      }
                     >
                       {item.senderNick} : {item.msg}
                     </ChatMessage>
@@ -200,21 +232,20 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
                 {chatMessages.map((message, index) => (
                   <ChatMessageWrapper
                     key={index}
-                    style={{
-                      justifyContent: message.isSender
-                        ? "flex-end"
-                        : "flex-start",
-                    }}
+                    style={
+                      message.isSender == selectedProfile.otherPersonIuser
+                        ? { textAlign: "start" }
+                        : { textAlign: "end" }
+                    }
                   >
                     <ChatMessage
-                      style={{
-                        backgroundColor: message.isSender
-                          ? "#a3d8f4"
-                          : "#f1f0f0",
-                        alignSelf: message.isSender ? "flex-end" : "flex-start",
-                      }}
+                      style={
+                        message.isender == selectedProfile.otherPersonIuser
+                          ? { background: "#e6e6fa" }
+                          : { background: "#fafad2" }
+                      }
                     >
-                      {message.msg}
+                      {message.text}
                     </ChatMessage>
                   </ChatMessageWrapper>
                 ))}
