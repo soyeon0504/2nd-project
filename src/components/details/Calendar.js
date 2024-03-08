@@ -98,7 +98,7 @@ const Calendar = ({ onDateSelect }) => {
             <ArrowRightOutlined style={{ fontSize: "18px" }} />
           </span>
         }
-        disabledDate={disabledDate} // 비활성화된 날짜 설정
+        // disabledDate={disabledDate} // 비활성화된 날짜 설정
         cellRender={dateCellRender} // 날짜 셀 렌더링
       />
     </div>

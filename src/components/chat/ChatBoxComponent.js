@@ -36,6 +36,8 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
     try {
       const stomp = new Client({
         brokerURL: "ws://192.168.0.144:5226/ws", // WebSocket 연결 주소
+        // brokerURL: `ws://${window.location.host}/ws`,
+        // brokerURL: "ws://192.168.0.65:8080/ws",
         connectHeaders: {
           Authorization: `Bearer ${authToken}`, // AccessToken 헤더에 추가
         },
@@ -129,12 +131,16 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
     if (stompClient && stompClient.connected && selectedProfile) {
       const { otherIuser, iuser } = selectedProfile;
       // const destination = `/pub/chat.message.${otherIuser}`;
-      const destination = `/pub/chat.message.${selectedProfile.ichat}`;
+      const destination = `/pub/chat.send.${selectedProfile.ichat}`;
 
       const sendMSG = {
-        content: inputMessage,
-        // sender: selectedProfile.iuser,
-        sender: loginState.iuser,
+        senderIuser: loginState.iuser,
+        receiveIuser: selectedProfile.otherPersonIuser,
+        message: inputMessage,
+        // /*
+        // content: inputMessage,
+        // sender: loginState.iuser,
+        // */
       };
 
       console.log("리액트에서 보낸 데이터 형식 ", sendMSG);
@@ -224,7 +230,7 @@ const ChatBoxComponent = ({ selectedProfile, chatTextArr }) => {
                           : { background: "#fafad2" }
                       }
                     >
-                      {item.senderNick} : {item.msg}
+                      {item.msg}
                     </ChatMessage>
                   </ChatMessageWrapper>
                 ))}

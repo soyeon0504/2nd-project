@@ -17,7 +17,7 @@ import {
 // ChatProfile 컴포넌트에서 API를 호출하기 위한 함수를 import
 import { getChatList, getChat } from "../../api/chat/chat_api";
 
-const ChatProfile = ({ onProfileSelect, setChatTextArrg }) => {
+const ChatProfile = ({ onProfileSelect, setChatTextArr }) => {
   const [chatList, setChatList] = useState([]);
 
   const [selectedProfile, setSelectedProfile] = useState(null);
@@ -30,7 +30,7 @@ const ChatProfile = ({ onProfileSelect, setChatTextArrg }) => {
         const response = await getChatList(page);
         setChatList(response.data);
       } catch (error) {
-        console.error("Error fetching chat list:", error);
+        console.error("Erroçr fetching chat list:", error);
       }
     }
 
