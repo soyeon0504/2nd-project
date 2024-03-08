@@ -65,6 +65,10 @@ const MyInterestList = ({activeBtn}) => {
     }
   };
 
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString();
+  };
+
   return (
     <MyListDiv>
       <MyListTop>
@@ -75,7 +79,7 @@ const MyInterestList = ({activeBtn}) => {
       {data && data.map((item, index) => (
         <React.Fragment key={index}>
             <MyListMid>
-              <Link to={`/details/${item.icategory.mainCategory}/${item.icategory.subCategory}/${item.iproduct}`}>
+              <Link to={`/details?mc=${item.icategory.mainCategory}&sc=${item.icategory.subCategory}&productId=${item.iproduct}`}>
                 <MyListMidImg>
                   <img src={`/pic/${item.pic}`}alt={item.title} />
                 </MyListMidImg>
@@ -84,7 +88,7 @@ const MyInterestList = ({activeBtn}) => {
                     <h2>{item.title}</h2>
                   </div>
                   <div>
-                    <p>{item.rentalPrice} 원</p>
+                    <p>{formatNumberWithCommas(item.rentalPrice)} 원</p>
                   </div>
                   <div>
                     <span>{item.contents}</span>

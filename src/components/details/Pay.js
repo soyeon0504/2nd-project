@@ -49,12 +49,12 @@ const Pay = ({
     setIsModalOpen(true);
     // 선택된 결제 방법에 따라 해당 결제 방법을 강조하기 위해 각각의 결제 방법 상태를 업데이트합니다.
     setKakaoPayClicked(method === "kakaoPay");
-    setCardClicked(method === "credit-card");
-    setTossPayClicked(method === "tossPay");
-    setPaycoClicked(method === "payco");
-    setBankTransferClicked(method === "bankTransfer");
-    setBankDepositClicked(method === "bankDeposit");
-    setPhoneClicked(method === "phone");
+    // setCardClicked(method === "credit-card");
+    // setTossPayClicked(method === "tossPay");
+    // setPaycoClicked(method === "payco");
+    // setBankTransferClicked(method === "bankTransfer");
+    // setBankDepositClicked(method === "bankDeposit");
+    // setPhoneClicked(method === "phone");
 
     // 카카오페이가 선택되면 바로 카카오페이 API를 호출하고, 받은 URL로 이동합니다.
     if (method === "kakaoPay") {
@@ -202,7 +202,7 @@ const Pay = ({
             {" "}
             <img src="/images/details/kakaopay.svg" alt="카카오페이" />
           </BtnCard>
-          <BtnPayList
+          {/* <BtnPayList
             clicked={cardClicked}
             onClick={() => handlePaymentMethodClick("credit-card")}
           >
@@ -237,7 +237,7 @@ const Pay = ({
             onClick={() => handlePaymentMethodClick("phone")}
           >
             휴대폰
-          </BtnPayList>
+          </BtnPayList> */}
 
           <BtnCancel onClick={onClose}>취소하기</BtnCancel>
           <BtnPay onClick={handlePayment}>결제하기</BtnPay>
