@@ -90,11 +90,17 @@ const category = [
   },
 ];
 const SEARCH_OPTIONS = [
-  
-  "닉네임", "카테고리"];
+  {
+    id: 1,
+    title: "닉네임"
+  },
+  {
+    id: 2,
+    title: "카테고리"
+  }
+  ];
 
 const SEARCH_OPTIONS_TEXT = [
-  "검색어를 입력해주세요",
   "닉네임을 입력해주세요",
   "카테고리를 입력해주세요",
 ];
@@ -127,16 +133,29 @@ const AdminBoardPage = () => {
       sortType
       );
   };
-
+  
+  const typeChange = type => {
+    switch (type) {
+      case "닉네임":
+        return 1;
+      case "카테고리":
+        return 2;
+    }
+  }
 
   const handleSearchOptionChange = e => setSelectedSearchOption(e.target.value);
 
   const handleSearchKeywordChange = e => setInputValue(e.target.value);
 
   const handleSearchSubmit = () => {
-    getAllProducts(1, successFn, errorFn, selectedSearchOption, inputValue);
-    setSearchKeyword(inputValue);
-    setPage(1);
+    if (selectedSearchOption > 0 && selectedSearchOption <= SEARCH_OPTIONS.length) {
+      const searchType = typeChange(SEARCH_OPTIONS[selectedSearchOption - 1].title);
+      getAllProducts(1, successFn, errorFn, searchType, inputValue);
+      setSearchKeyword(inputValue);
+      setPage(1);
+    } else {
+      console.error("Invalid selected search option");
+    }
   };
   
   // 게시글 삭제
@@ -164,7 +183,7 @@ const AdminBoardPage = () => {
   const getSortedData = newSortType => {
     setSortType(newSortType); // 정렬 상태 변경
     getAllProducts(
-      1, // 첫 페이지부터 데이터를 가져옴
+      1,
       successFn,
       errorFn,
       selectedSearchOption,
@@ -192,9 +211,9 @@ const AdminBoardPage = () => {
             onChange={handleSearchOptionChange}
             value={selectedSearchOption}
           >
-            {SEARCH_OPTIONS.map((option, index) => (
-              <option key={option} value={index}>
-                {option}
+            {SEARCH_OPTIONS.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.title}
               </option>
             ))}
           </select>
@@ -203,7 +222,6 @@ const AdminBoardPage = () => {
             placeholder={SEARCH_OPTIONS_TEXT[selectedSearchOption]}
             value={inputValue}
             onChange={handleSearchKeywordChange}
-            // disabled={selectedSearchOption === 0}
           />
           <button onClick={handleSearchSubmit} type="submit">
             <img src="/images/admin/bt_search.svg" />
